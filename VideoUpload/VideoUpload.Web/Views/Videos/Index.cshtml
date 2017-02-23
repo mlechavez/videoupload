@@ -1,0 +1,38 @@
+﻿@model IEnumerable<VideoUpload.Web.Models.VideoViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Videos</h2>
+
+<p>
+    @Html.ActionLink("Upload a video", "Upload")
+</p>
+<table class="table table-condensed table-hover">
+    <tr>        
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>        
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { videoID = item.VideoID }) |
+            @Html.ActionLink("Details", "Details", new { videoID = item.VideoID }) |
+            @Html.ActionLink("Send", "Send", new { v = item.VideoID })
+        </td>
+    </tr>
+}
+</table>

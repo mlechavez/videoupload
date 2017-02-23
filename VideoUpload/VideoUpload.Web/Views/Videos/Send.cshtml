@@ -1,0 +1,31 @@
+﻿@model VideoUpload.Web.Models.VideoViewModel
+
+@{
+    ViewBag.Title = "Send";
+}
+
+<h2>Send link to email</h2>
+
+<div class="well">
+    <p>
+        Title: @Model.Title <br />
+        Description: @Model.Description
+    </p>
+</div>
+
+@using (Html.BeginForm("Send", "Videos", FormMethod.Post))
+{
+    <input type="hidden" name="v" value="@Model.VideoID" />
+    <div class="form-group">
+        <label for="email">Enter email address:</label>
+        <input type="email" name="email" class="form-control input-sm" required />
+    </div>
+    <div class="form-group">
+        <label for="subject">Subject:</label>
+        <input type="text" name="subject" class="form-control input-sm" required />
+    </div>    
+    <div class="form-group">
+        <input type="submit" class="btn btn-success" />
+    </div>
+}
+

@@ -1,0 +1,37 @@
+﻿@model VideoUpload.Web.Models.VideoViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="table-responsive">
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+    <video width="500" height="500" controls autoplay class="well center-block">
+        <source src="@Url.Action("VideoResult", new { fileName = Model.VideoFileName })" type="video/mp4" />
+    </video>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Edit", "Edit", new { videoID = Model.VideoID }) |
+    @Html.ActionLink("Send", "Send", new { v = Model.VideoID })
+</p>

@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/bundles/css")
+
+</head>
+<body>
+    <header>
+        
+    </header>
+    <div class="container">
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/bundles/scripts")
+    @RenderSection("Script", required: false)
+</body>
+</html>

@@ -1,0 +1,28 @@
+﻿@model VideoUpload.Web.Models.VideoViewModel
+
+@{
+    ViewBag.Title = "Upload";
+}
+
+<h2>Upload a video</h2>
+
+<form method="post" enctype="multipart/form-data" action="@Url.Action("Upload", "Videos")">
+    @Html.HiddenFor(x=>x.VideoID)
+    <div class="form-group">
+        @Html.LabelFor(x=>x.Title)
+        @Html.TextBoxFor(x => x.Title, new { @class = "form-control input-sm" })
+        @Html.ValidationMessageFor(x=>x.Title, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x=>x.Description)
+        @Html.TextAreaFor(x => x.Description, new { @class = "form-control input-sm" })
+        @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.TextBoxFor(x=>x.Videos, new { type="file", multiple = "multiple", @class = "btn btn-primary btn-sm" })
+        @Html.ValidationMessageFor(x=>x.Videos, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-sm" value="Upload"/>
+    </div>
+</form>

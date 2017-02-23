@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoUpload.Web", "VideoUpload.Web\VideoUpload.Web.csproj", "{A9262B29-F63E-4361-9AB1-2744608CC105}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoUpload.Core", "VideoUpload.Core\VideoUpload.Core.csproj", "{0A9674DB-D19A-4FAC-B97F-B717A691F85B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoUpload.EF", "VideoUpload.EF\VideoUpload.EF.csproj", "{7EDF1E2A-A3A2-48B2-8462-AC8F6C90C93F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9262B29-F63E-4361-9AB1-2744608CC105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9262B29-F63E-4361-9AB1-2744608CC105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9262B29-F63E-4361-9AB1-2744608CC105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9262B29-F63E-4361-9AB1-2744608CC105}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A9674DB-D19A-4FAC-B97F-B717A691F85B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A9674DB-D19A-4FAC-B97F-B717A691F85B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A9674DB-D19A-4FAC-B97F-B717A691F85B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A9674DB-D19A-4FAC-B97F-B717A691F85B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EDF1E2A-A3A2-48B2-8462-AC8F6C90C93F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EDF1E2A-A3A2-48B2-8462-AC8F6C90C93F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EDF1E2A-A3A2-48B2-8462-AC8F6C90C93F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EDF1E2A-A3A2-48B2-8462-AC8F6C90C93F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
