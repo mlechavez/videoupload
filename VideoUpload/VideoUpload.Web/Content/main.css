@@ -1,0 +1,15 @@
+﻿body {
+    
+}
+input, select, textarea {
+    max-width: 300px;
+}
+/*#video-container {
+    position:relative;
+}
+
+#video-container .video-player {
+    width:100%;
+    height:500px;
+}*/
+

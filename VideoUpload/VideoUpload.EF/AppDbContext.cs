@@ -15,11 +15,14 @@ namespace VideoUpload.EF
         {
         }
 
-        public DbSet<Video> Videos { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<PostAttachment> Attachments { get; set; }
+        public DbSet<History> Histories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new VideoConfigurations());
+            modelBuilder.Configurations.Add(new PostConfigurations());
+            modelBuilder.Configurations.Add(new PostAttachmentConfiguration());
         }
     }
 }

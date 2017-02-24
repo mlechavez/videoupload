@@ -1,38 +1,56 @@
-﻿@model IEnumerable<VideoUpload.Web.Models.VideoViewModel>
+﻿@model IEnumerable<VideoUpload.Web.Models.PostViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "List of videos";  
 }
 
 <h2>List of Videos</h2>
 
 <p>
-    @Html.ActionLink("Upload a video", "Upload")
+    @Html.ActionLink("Upload a video", "Upload", null, new { @class = "btn btn-success btn-xs" })
 </p>
-<table class="table table-condensed table-hover">
-    <tr>        
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>        
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { videoID = item.VideoID }) |
-            @Html.ActionLink("Details", "Details", new { videoID = item.VideoID }) |
-            @Html.ActionLink("Send", "Send", new { v = item.VideoID })
-        </td>
-    </tr>
+@if (Model.Count() != 0)
+{
+    <div class="table-responsive">
+        <table class="table table-condensed table-hover">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Owner)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Owner)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { postID = item.PostID }) |
+                        @Html.ActionLink("Details", "Details", new { postID = item.PostID, fileName = item.Attachments.First().FileName })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
 }
-</table>
+else
+{
+    <div class="alert alert-info">
+        <h3>No post to be displayed.</h3>
+    </div>
+}

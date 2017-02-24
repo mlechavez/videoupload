@@ -1,37 +1,41 @@
-﻿@model VideoUpload.Web.Models.VideoViewModel
+﻿@model VideoUpload.Web.Models.PostViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Details";    
 }
 
 <h2>Details</h2>
-
-<div class="table-responsive">
-    <hr />
-    <dl class="dl-horizontal">
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
-    <video width="500" height="500" controls autoplay class="well center-block">
-        <source src="@Url.Action("VideoResult", new { fileName = Model.VideoFileName })" type="video/mp4" />
-    </video>
+<hr />
+<div class="row">
+    <div class="col-sm-6 col-xs-12 well">
+        <p><b>@Html.DisplayNameFor(model => model.Title)</b> <text>:</text> @Html.DisplayFor(model => model.Title)</p>
+        <p><b>@Html.DisplayNameFor(model => model.Description)</b> <text>:</text> <br /> @Html.DisplayFor(model => model.Description)</p>
+        <p><b>@Html.DisplayNameFor(model => model.Owner)</b> <text>:</text> @Html.DisplayFor(model => model.Owner)</p>  
+        <p>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info btn-xs" }) |
+            @Html.ActionLink("Edit", "Edit Post", new { postID = Model.PostID }, new { @class = "btn btn-info btn-xs" })
+        </p>  
+    </div>
+    <div class="col-sm-6 col-xs-12">  
+        <h5 >List of attachments</h5>              
+        <ul class="list-group">                  
+            @foreach (var item in Model.Attachments)
+            {
+                <li class="list-group-item"><a href="@Url.Action("Details", new { postID = item.PostID, fileName = item.FileName })">@item.AttachmentNo</a></li>
+            }
+        </ul>
+        @Html.ActionLink("Send to customer", "Send", new { p = Model.PostID, v = ViewBag.FileName }, new { @class = "btn btn-success " })
+    </div>                                          
 </div>
-<p>
-    @Html.ActionLink("Back to List", "Index") |
-    @Html.ActionLink("Edit", "Edit", new { videoID = Model.VideoID }) |
-    @Html.ActionLink("Send", "Send", new { v = Model.VideoID })
-</p>
+            
+<div class="row">
+    <div class="col-sm-12">
+        <h5>Playing @ViewBag.AttachmentNo</h5>
+        <div class="embed-responsive embed-responsive-16by9">                           
+        <video class="embed-responsive-item" controls autoplay>
+            <source src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType" />
+        </video>          
+        </div>
+    </div>
+    
+</div>

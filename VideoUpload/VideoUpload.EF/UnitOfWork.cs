@@ -14,15 +14,33 @@ namespace VideoUpload.EF
     {
         #region Private Fields
         private readonly AppDbContext _context;
-        private IVideoRepository _videos;
+        private IPostRepository _posts;
+        private IPostAttachmentRepository _attachments;
+        private IHistoryRepository _histories;
         #endregion
-        public IVideoRepository Videos
+        public IPostRepository Posts
         {
             get
             {
-                return _videos ?? (_videos = new VideoRepository(_context));
+                return _posts ?? (_posts = new PostRepository(_context));
+            }
+        }      
+        public IPostAttachmentRepository Attachments
+        {
+            get
+            {
+                return _attachments ?? (_attachments = new PostAttachmentRepository(_context));
             }
         }
+
+        public IHistoryRepository Histories
+        {
+            get
+            {
+                return _histories ?? (_histories = new HistoryRepository(_context));
+            }
+        }
+
         public UnitOfWork(string nameOrConnectionString)
         {
             _context = new AppDbContext(nameOrConnectionString);
@@ -30,7 +48,8 @@ namespace VideoUpload.EF
 
         public void Dispose()
         {
-            _videos = null;
+            _posts = null;
+            _attachments = null;
             _context.Dispose();
         }
 

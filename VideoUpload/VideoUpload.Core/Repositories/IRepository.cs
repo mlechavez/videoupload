@@ -11,6 +11,7 @@ namespace VideoUpload.Core.Repositories
         List<T> GetAll();
         T GetById(object id);
         void Add(T entity);
-        void Remove(T entity);           
+        void Remove(T entity);       
+            
     }
 }

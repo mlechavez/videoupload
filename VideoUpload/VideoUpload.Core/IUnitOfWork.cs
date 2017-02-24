@@ -10,7 +10,9 @@ namespace VideoUpload.Core
 {
     public interface IUnitOfWork : IDisposable
     {               
-        IVideoRepository Videos { get; }
+        IPostRepository Posts { get; }
+        IPostAttachmentRepository Attachments { get; }
+        IHistoryRepository Histories { get; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

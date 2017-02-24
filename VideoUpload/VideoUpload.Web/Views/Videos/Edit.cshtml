@@ -1,7 +1,7 @@
-﻿@model VideoUpload.Web.Models.VideoViewModel
+﻿@model VideoUpload.Web.Models.PostViewModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit you posts";
 }
 
 <h2>Edit</h2>
@@ -16,7 +16,8 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">            
             <div class="col-md-10">
-                @Html.HiddenFor(model => model.VideoID)                
+                @Html.HiddenFor(model => model.PostID)                
+                @Html.HiddenFor(model => model.Owner)
             </div>
         </div>
 
@@ -45,5 +46,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Return to list of posts", "Index")
 </div>

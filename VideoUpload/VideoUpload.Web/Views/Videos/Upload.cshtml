@@ -1,4 +1,4 @@
-﻿@model VideoUpload.Web.Models.VideoViewModel
+﻿@model VideoUpload.Web.Models.CreatePostViewModel
 
 @{
     ViewBag.Title = "Upload";
@@ -6,21 +6,26 @@
 
 <h2>Upload a video</h2>
 
-<form method="post" enctype="multipart/form-data" action="@Url.Action("Upload", "Videos")">
-    @Html.HiddenFor(x=>x.VideoID)
+<form method="post" enctype="multipart/form-data" action="@Url.Action("Upload", "Videos")">  
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(x=>x.Title)
-        @Html.TextBoxFor(x => x.Title, new { @class = "form-control input-sm" })
+        @Html.TextBoxFor(x => x.Title, new { @class = "form-control", required = "required" })
         @Html.ValidationMessageFor(x=>x.Title, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
         @Html.LabelFor(x=>x.Description)
-        @Html.TextAreaFor(x => x.Description, new { @class = "form-control input-sm" })
+        @Html.TextAreaFor(x => x.Description, new { @class = "form-control", required = "required" })
         @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
-        @Html.TextBoxFor(x=>x.Videos, new { type="file", multiple = "multiple", @class = "btn btn-primary btn-sm" })
-        @Html.ValidationMessageFor(x=>x.Videos, "", new { @class = "text-danger" })
+        @Html.LabelFor(x=>x.Owner)
+        @Html.TextBoxFor(x=>x.Owner, new { @class = "form-control", required = "required" })
+        @Html.ValidationMessageFor(x=>x.Owner, "" , new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.TextBoxFor(x=>x.Attachments, new { type="file", multiple = "multiple", @class = "btn btn-primary btn-sm", required = "required" })
+        @Html.ValidationMessageFor(x=>x.Attachments, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
         <input type="submit" class="btn btn-sm" value="Upload"/>

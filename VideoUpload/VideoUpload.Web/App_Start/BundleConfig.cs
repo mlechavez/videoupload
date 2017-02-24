@@ -12,7 +12,9 @@ namespace VideoUpload.Web
         {
             bundles.Add(
                 new StyleBundle("~/bundles/css")
-                .Include("~/Content/bootstrap.min.css"));
+                .Include(
+                    "~/Content/bootstrap.min.css",
+                    "~/Content/main.css"));
 
             bundles.Add(
                 new ScriptBundle("~/bundles/scripts")
