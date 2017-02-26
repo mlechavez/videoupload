@@ -1,9 +1,12 @@
-﻿using System;
+﻿using NReco.VideoConverter;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using VideoUpload.Core.Entities;
 using VideoUpload.EF;
@@ -175,12 +178,10 @@ namespace VideoUpload.Web.Controllers
             };            
             return View(viewModel);
         }
-
         public ActionResult VideoResult(string fileName)
         {
             return new CustomResult(fileName);
         }
-
         public ActionResult Download(string fileName)
         {
             return new DownloadResult(fileName);
@@ -213,7 +214,6 @@ namespace VideoUpload.Web.Controllers
             };
             return View(viewModel);
         }
-
         [HttpPost]
         public  ActionResult Send(string email, string subject,int p, string v)
         {
@@ -262,6 +262,42 @@ namespace VideoUpload.Web.Controllers
                 Attachments = attachments
             };
             return View(viewModel);
+        }
+
+        public ActionResult ConvertAndUpload()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ConvertAndUpload(HttpPostedFileBase file)
+        {
+            
+            var filename = Path.GetFileName(file.FileName);            
+            var fileUrl = Path.Combine(Server.MapPath("~/Uploads"), filename);
+
+            var outputPath = Server.MapPath("~/Uploads/");
+            //file.SaveAs(fileUrl);
+
+
+            var settings = new ConvertSettings();
+            settings.SetVideoFrameSize(640, 480);
+            settings.AudioCodec = "aac";
+            settings.VideoCodec = "h264";
+            settings.VideoFrameRate = 60;
+
+            //var sr = new StreamReader(file.InputStream);
+            //var result = sr.ReadToEnd();
+            //sr.Close();
+            var ffMpeg = new FFMpegConverter();
+
+            var testResult = ffMpeg.ConvertLiveMedia(file.InputStream,null, outputPath + "output.mp4", Format.mp4, settings);
+            testResult.Start();
+            
+            //var path = Path.GetFullPath(fileUrl);
+
+            //var outputPath = Server.MapPath("~/Uploads/");                                          
+
+            return View();
         }
     }
 }

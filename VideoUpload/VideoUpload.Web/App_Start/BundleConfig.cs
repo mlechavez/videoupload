@@ -14,6 +14,7 @@ namespace VideoUpload.Web
                 new StyleBundle("~/bundles/css")
                 .Include(
                     "~/Content/bootstrap.min.css",
+                    "~/Content/font-awesome.min.css",
                     "~/Content/main.css"));
 
             bundles.Add(

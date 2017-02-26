@@ -29,6 +29,7 @@ namespace VideoUpload.Web.Models
 
             var file = new FileInfo(videoFilePath);
             //Check the file exist,  it will be written into the response 
+            
             if (file.Exists)
             {
                 var stream = file.OpenRead();

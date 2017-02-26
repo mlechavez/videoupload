@@ -7,35 +7,35 @@
 <h2>Details</h2>
 <hr />
 <div class="row">
-    <div class="col-sm-6 col-xs-12 well">
+    <div class="col-sm-12 col-xs-12 well">
         <p><b>@Html.DisplayNameFor(model => model.Title)</b> <text>:</text> @Html.DisplayFor(model => model.Title)</p>
         <p><b>@Html.DisplayNameFor(model => model.Description)</b> <text>:</text> <br /> @Html.DisplayFor(model => model.Description)</p>
         <p><b>@Html.DisplayNameFor(model => model.Owner)</b> <text>:</text> @Html.DisplayFor(model => model.Owner)</p>  
         <p>
             @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info btn-xs" }) |
-            @Html.ActionLink("Edit", "Edit Post", new { postID = Model.PostID }, new { @class = "btn btn-info btn-xs" })
+            @Html.ActionLink("Edit", "Edit Post", new { postID = Model.PostID }, new { @class = "btn btn-info btn-xs" }) |
+            @Html.ActionLink("Send to customer", "Send", new { p = Model.PostID, v = ViewBag.FileName }, new { @class = "btn btn-success btn-xs " })
         </p>  
     </div>
-    <div class="col-sm-6 col-xs-12">  
+    <!--<div class="col-sm-6 col-xs-12">  
         <h5 >List of attachments</h5>              
         <ul class="list-group">                  
             @foreach (var item in Model.Attachments)
             {
                 <li class="list-group-item">
                     <a href="@Url.Action("Details", new { postID = item.PostID, fileName = item.FileName })">@item.AttachmentNo</a>
-                    @Html.ActionLink("Download", "Download", new { fileName = item.FileName }, new { @class = "btn btn-success btn-xs pull-right" })
+                    @*@Html.ActionLink("Download", "Download", new { fileName = item.FileName }, new { @class = "btn btn-success btn-xs pull-right" })*@
                 </li>
             }
-        </ul>
-        @Html.ActionLink("Send to customer", "Send", new { p = Model.PostID, v = ViewBag.FileName }, new { @class = "btn btn-success " })
-    </div>                                          
+        </ul>        
+    </div>-->
 </div>
             
 <div class="row">
     <div class="col-sm-12">
         <h5>Playing @ViewBag.AttachmentNo</h5>
         <div class="embed-responsive embed-responsive-16by9">                           
-        <video class="embed-responsive-item" controls autoplay>
+        <video class="embed-responsive-item" controls="true" autoplay src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })">
             <source src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType" />
         </video>          
         </div>

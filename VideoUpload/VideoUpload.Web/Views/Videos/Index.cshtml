@@ -40,8 +40,13 @@
                         @Html.DisplayFor(modelItem => item.Owner)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { postID = item.PostID }) |
-                        @Html.ActionLink("Details", "Details", new { postID = item.PostID, fileName = item.Attachments.FirstOrDefault().FileName })
+                        <a href="@Url.Action("Edit", new { postID = item.PostID })" class="btn btn-warning btn-xs">
+                            <i class="fa fa-pencil-square-o"></i> Edit
+                        </a> |
+                        <a href="@Url.Action("Details", new { postID = item.PostID, fileName = item.Attachments.FirstOrDefault().FileName })"
+                            class="btn btn-warning btn-xs">
+                            <i class="fa fa-info"></i> Details
+                        </a>                        
                     </td>
                 </tr>
             }
