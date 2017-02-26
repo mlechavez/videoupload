@@ -37,6 +37,7 @@ namespace VideoUpload.Web.Controllers
                     Attachments = attachments
                 });
             });
+            
             return View(viewModel);
         }
 
@@ -130,7 +131,6 @@ namespace VideoUpload.Web.Controllers
                         
             return View(viewModel);
         }
-
         [HttpPost]
         public async Task<ActionResult> Edit(PostViewModel viewModel)
         {
@@ -147,7 +147,7 @@ namespace VideoUpload.Web.Controllers
             }
             return View(viewModel);
         }
-        public ActionResult Details(int postID, string fileName)
+        public async Task<ActionResult> Details(int postID, string fileName)
         {            
             var post = _uow.Posts.GetById(postID);
 
@@ -176,11 +176,15 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
 
-        public ActionResult VideoResult(string fileName)
+        public async Task<ActionResult> VideoResult(string fileName)
         {
-            return new CustomResult(fileName);
+            return await new CustomResult(fileName);
         }
 
+        public ActionResult Download(string fileName)
+        {
+            return new DownloadResult(fileName);
+        }
         public ActionResult Send(int p, string v)
         {
             var post = _uow.Posts.GetById(p);
@@ -225,7 +229,7 @@ namespace VideoUpload.Web.Controllers
             using (var client = new SmtpClient("78.100.48.220", 25))
             {
                 client.Credentials = new System.Net.NetworkCredential("kyocera.km3060@boraq-porsche.com.qa", "kyocera123");
-                //client.EnableSsl = true;
+                client.EnableSsl = false;
                 client.Send(mail);
             }
             return RedirectToAction("index");

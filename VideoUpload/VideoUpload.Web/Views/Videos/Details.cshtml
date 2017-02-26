@@ -21,7 +21,10 @@
         <ul class="list-group">                  
             @foreach (var item in Model.Attachments)
             {
-                <li class="list-group-item"><a href="@Url.Action("Details", new { postID = item.PostID, fileName = item.FileName })">@item.AttachmentNo</a></li>
+                <li class="list-group-item">
+                    <a href="@Url.Action("Details", new { postID = item.PostID, fileName = item.FileName })">@item.AttachmentNo</a>
+                    @Html.ActionLink("Download", "Download", new { fileName = item.FileName }, new { @class = "btn btn-success btn-xs pull-right" })
+                </li>
             }
         </ul>
         @Html.ActionLink("Send to customer", "Send", new { p = Model.PostID, v = ViewBag.FileName }, new { @class = "btn btn-success " })

@@ -171,6 +171,8 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\Profile1.pubxml" />
+    <None Include="Properties\PublishProfiles\SomeeProfile.pubxml" />
     <None Include="scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -189,6 +191,7 @@
     <Compile Include="Models\AttachmentViewModel.cs" />
     <Compile Include="Models\CreatePostViewModel.cs" />
     <Compile Include="Models\CustomResult.cs" />
+    <Compile Include="Models\DownloadResult.cs" />
     <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

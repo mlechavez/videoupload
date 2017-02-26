@@ -41,7 +41,7 @@
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { postID = item.PostID }) |
-                        @Html.ActionLink("Details", "Details", new { postID = item.PostID, fileName = item.Attachments.First().FileName })
+                        @Html.ActionLink("Details", "Details", new { postID = item.PostID, fileName = item.Attachments.FirstOrDefault().FileName })
                     </td>
                 </tr>
             }
