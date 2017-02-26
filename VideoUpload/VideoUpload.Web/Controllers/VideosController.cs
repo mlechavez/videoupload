@@ -147,7 +147,7 @@ namespace VideoUpload.Web.Controllers
             }
             return View(viewModel);
         }
-        public async Task<ActionResult> Details(int postID, string fileName)
+        public ActionResult Details(int postID, string fileName)
         {            
             var post = _uow.Posts.GetById(postID);
 
@@ -176,9 +176,9 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
 
-        public async Task<ActionResult> VideoResult(string fileName)
+        public ActionResult VideoResult(string fileName)
         {
-            return await new CustomResult(fileName);
+            return new CustomResult(fileName);
         }
 
         public ActionResult Download(string fileName)
