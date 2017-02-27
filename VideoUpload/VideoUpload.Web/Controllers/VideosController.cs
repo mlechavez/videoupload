@@ -293,7 +293,12 @@ namespace VideoUpload.Web.Controllers
         [HttpPost]
         public ActionResult ConvertAndUpload(HttpPostedFileBase file)
         {
-            
+            using (var binaryReader = new BinaryReader(file.InputStream))
+            {
+                byte[] array = binaryReader.ReadBytes(file.ContentLength);
+                var fMpeg = new FFMpegConverter();                
+            }
+
             var filename = Path.GetFileName(file.FileName);            
             var fileUrl = Path.Combine(Server.MapPath("~/Uploads"), filename);
 
