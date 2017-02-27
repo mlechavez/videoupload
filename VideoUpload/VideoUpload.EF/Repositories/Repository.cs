@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using VideoUpload.Core.Repositories;
 
@@ -31,10 +32,29 @@ namespace VideoUpload.EF.Repositories
         {
             return Set.ToList();
         }
+        public Task<List<T>> GetAllAsync()
+        {
+            return Set.ToListAsync();
+        }
+
+        public Task<List<T>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return Set.ToListAsync(cancellationToken);
+        }
 
         public T GetById(object id)
         {
             return Set.Find(id);
+        }
+
+        public Task<T> GetByIdAsync(object id)
+        {
+            return Set.FindAsync(id);
+        }
+
+        public Task<T> GetByIdAsync(object id, CancellationToken cancellationToken)
+        {
+            return Set.FindAsync(id, cancellationToken);
         }
 
         public void Remove(T entity)

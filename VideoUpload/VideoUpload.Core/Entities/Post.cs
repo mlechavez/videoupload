@@ -15,6 +15,8 @@ namespace VideoUpload.Core.Entities
         public string Description { get; set; }        
         public string Owner { get; set; }
         public DateTime DateCreated { get; set; }
+        public string EditedBy { get; set; }
+        public DateTime? DateEdited { get; set; }
 
         public virtual ICollection<PostAttachment> Attachments
         {

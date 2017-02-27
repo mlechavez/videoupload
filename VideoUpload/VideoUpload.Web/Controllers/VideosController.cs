@@ -23,13 +23,21 @@ namespace VideoUpload.Web.Controllers
             _uow = unitOfWork;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var posts = _uow.Posts.GetAll();
+            var posts = await _uow.Posts.GetAllAsync();
+
             var viewModel = new List<PostViewModel>();
             posts.ForEach(x => 
             {
                 var attachments = x.Attachments.OrderBy(y => y.AttachmentNo).ToList();
+
+                var attachment = attachments.FirstOrDefault();
+                
+                if (attachment == null)
+                {
+                    attachments = null;
+                }                                
                                 
                 viewModel.Add(new PostViewModel
                 {
@@ -37,7 +45,9 @@ namespace VideoUpload.Web.Controllers
                     Title = x.Title,
                     Description = x.Description,
                     Owner = x.Owner,
-                    Attachments = attachments
+                    Attachments = attachments,
+                    EditedBy = x.EditedBy,
+                    DateEdited = x.DateEdited
                 });
             });
             
@@ -115,13 +125,14 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Edit(int postID)
+        public async Task<ActionResult> Edit(int postID)
         {            
-            var post = _uow.Posts.GetById(postID);
+            var post = await _uow.Posts.GetByIdAsync(postID);
 
             if (post == null)
             {
-                return HttpNotFound();
+                //ViewBag.Message = "Messag goes here";
+                return View("_Error");
             }
             
             var viewModel = new PostViewModel
@@ -139,7 +150,7 @@ namespace VideoUpload.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var post = _uow.Posts.GetById(viewModel.PostID);
+                var post = await _uow.Posts.GetByIdAsync(viewModel.PostID);
 
                 post.Title = viewModel.Title;
                 post.Description = viewModel.Description;
@@ -150,13 +161,13 @@ namespace VideoUpload.Web.Controllers
             }
             return View(viewModel);
         }
-        public ActionResult Details(int postID, string fileName)
+        public async Task<ActionResult> Details(int postID, string fileName)
         {            
-            var post = _uow.Posts.GetById(postID);
+            var post = await _uow.Posts.GetByIdAsync(postID);
 
             if (post == null)
             {
-                return HttpNotFound();
+                return View("_Error");
             }
 
             var attachment = post.Attachments.FirstOrDefault(x => x.FileName == fileName);
@@ -186,9 +197,9 @@ namespace VideoUpload.Web.Controllers
         {
             return new DownloadResult(fileName);
         }
-        public ActionResult Send(int p, string v)
+        public async Task<ActionResult> Send(int p, string v)
         {
-            var post = _uow.Posts.GetById(p);
+            var post = await _uow.Posts.GetByIdAsync(p);
 
             if (post == null)
             {

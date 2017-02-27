@@ -10,6 +10,8 @@ namespace VideoUpload.Web
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.UseCdn = true;
+
             bundles.Add(
                 new StyleBundle("~/bundles/css")
                 .Include(
@@ -17,9 +19,14 @@ namespace VideoUpload.Web
                     "~/Content/font-awesome.min.css",
                     "~/Content/main.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/gfont", "https://fonts.googleapis.com/css?family=Raleway:200,300,500"));
+
+
             bundles.Add(
                 new ScriptBundle("~/bundles/scripts")
                 .Include("~/Content/jquery-{version}.min.js"));
+
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

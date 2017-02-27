@@ -4,6 +4,9 @@
     ViewBag.Title = "Upload";
 }
 
+<p class="pull-right">
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info btn-xs" })
+</p>
 <h2>Upload a video</h2>
 
 <form method="post" enctype="multipart/form-data" action="@Url.Action("Upload", "Videos")">  
@@ -28,6 +31,6 @@
         @Html.ValidationMessageFor(x=>x.Attachments, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-sm" value="Upload"/> | @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info btn-xs" })
+        <input type="submit" class="btn btn-sm" value="Upload"/>
     </div>
 </form>

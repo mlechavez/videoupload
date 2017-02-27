@@ -4,7 +4,12 @@
     ViewBag.Title = "Edit you posts";
 }
 
-<h2>Edit</h2>
+<p class="pull-right">
+    @Html.ActionLink("Back to list of posts", "Index", null, new { @class = "btn btn-info btn-xs" })
+</p>
+
+
+<h2>Edit your post</h2>
 
 @using (Html.BeginForm())
 {
@@ -45,6 +50,4 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Return to list of posts", "Index")
-</div>
+

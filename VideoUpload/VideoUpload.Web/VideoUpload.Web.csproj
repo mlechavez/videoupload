@@ -164,6 +164,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\st16-front.JPG" />
+    <Content Include="Content\Images\st16-prototype.jpg" />
     <Content Include="Content\main.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -224,6 +226,8 @@
     <Content Include="Views\Videos\Watch.cshtml" />
     <Content Include="Views\Videos\Send.cshtml" />
     <Content Include="Views\Videos\ConvertAndUpload.cshtml" />
+    <Content Include="Views\Shared\_Error.cshtml" />
+    <Content Include="Views\Shared\_ErrorWatch.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

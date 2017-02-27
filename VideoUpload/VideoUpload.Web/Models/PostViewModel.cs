@@ -21,6 +21,10 @@ namespace VideoUpload.Web.Models
         [Required]
         public string Owner { get; set; }       
         public DateTime DateCreated { get; set; }
+        public string EditedBy { get; set; }
+        public DateTime? DateEdited { get; set; }
+
+
         public ICollection<PostAttachment> Attachments { get; set; }
     }
 }

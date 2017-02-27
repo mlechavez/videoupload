@@ -53,6 +53,10 @@
     <Compile Include="Configurations\HistoryConfiguration.cs" />
     <Compile Include="Configurations\PostAttachmentConfiguration.cs" />
     <Compile Include="Configurations\PostConfigurations.cs" />
+    <Compile Include="Migrations\201702271222060_modifyPostsTable.cs" />
+    <Compile Include="Migrations\201702271222060_modifyPostsTable.Designer.cs">
+      <DependentUpon>201702271222060_modifyPostsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\HistoryRepository.cs" />
@@ -70,6 +74,11 @@
       <Project>{0A9674DB-D19A-4FAC-B97F-B717A691F85B}</Project>
       <Name>VideoUpload.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201702271222060_modifyPostsTable.resx">
+      <DependentUpon>201702271222060_modifyPostsTable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

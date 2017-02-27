@@ -24,7 +24,10 @@ namespace VideoUpload.EF.Configurations
 
             Property(x => x.Description)
                 .IsMaxLength()
-                .IsRequired();                            
+                .IsRequired();
+
+            Property(x => x.DateEdited)
+                .IsOptional();
         }
     }
 }
