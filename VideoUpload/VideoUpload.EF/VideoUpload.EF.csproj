@@ -38,6 +38,14 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -53,9 +61,9 @@
     <Compile Include="Configurations\HistoryConfiguration.cs" />
     <Compile Include="Configurations\PostAttachmentConfiguration.cs" />
     <Compile Include="Configurations\PostConfigurations.cs" />
-    <Compile Include="Migrations\201702271222060_modifyPostsTable.cs" />
-    <Compile Include="Migrations\201702271222060_modifyPostsTable.Designer.cs">
-      <DependentUpon>201702271222060_modifyPostsTable.cs</DependentUpon>
+    <Compile Include="Migrations\201702271922229_InitialCreate.cs" />
+    <Compile Include="Migrations\201702271922229_InitialCreate.Designer.cs">
+      <DependentUpon>201702271922229_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,9 +84,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702271222060_modifyPostsTable.resx">
-      <DependentUpon>201702271222060_modifyPostsTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702271922229_InitialCreate.resx">
+      <DependentUpon>201702271922229_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\PagedList.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
