@@ -1,7 +1,7 @@
 ﻿@model VideoUpload.Web.Models.PostViewModel
 
 @{
-    ViewBag.Title = "Send";
+    ViewBag.Title = "Send link";
 }
 
 <h2>Send a link to customer</h2>
@@ -12,24 +12,24 @@
         <b>Description:</b> @Model.Description
     </p>
     <p>
-        @Html.ActionLink("Back to details", "Details", new { postID = Model.PostID, fileName = ViewBag.FileName }, new { @class = "btn btn-info btn-xs " })
+        @Html.ActionLink("Back to details", "details", new { postID = Model.PostID, fileName = ViewBag.FileName }, new { @class = "btn btn-info btn-xs " })
     </p>
 </div>
 <div class="col-sm-12">
-    @using (Html.BeginForm("Send", "Videos", FormMethod.Post))
-    {
-        <input type="hidden" name="p" value="@Model.PostID" />
-        <input type="hidden" name="v" value="@ViewBag.FileName" />
-        <div class="form-group">
-            <label for="email">Enter email address:</label>
-            <input type="email" name="email" class="form-control" autofocus required />
-        </div>
-        <div class="form-group">
-            <label for="subject">Subject:</label>
-            <input type="text" name="subject" class="form-control" required />
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-success" />
-        </div>
-    }
+@using (Html.BeginForm("send", "videos", FormMethod.Post))
+{
+    <input type="hidden" name="p" value="@Model.PostID" />
+    <input type="hidden" name="v" value="@ViewBag.FileName" />
+    <div class="form-group">
+        <label for="email">Enter email address:</label>
+        <input type="email" name="email" class="form-control" autofocus required />
+    </div>
+    <div class="form-group">
+        <label for="subject">Subject:</label>
+        <input type="text" name="subject" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-success" />
+    </div>
+}
 </div>

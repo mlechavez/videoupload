@@ -1,4 +1,5 @@
 ﻿using NReco.VideoConverter;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,7 +24,7 @@ namespace VideoUpload.Web.Controllers
             _uow = unitOfWork;
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page)
         {
             var posts = await _uow.Posts.GetAllAsync();
 
@@ -50,8 +51,9 @@ namespace VideoUpload.Web.Controllers
                     DateEdited = x.DateEdited
                 });
             });
+            viewModel = viewModel.OrderBy(x => x.DateCreated).ToList();
             
-            return View(viewModel);
+            return View(viewModel.ToPagedList(page ?? 1, 20));
         }
 
         public ActionResult Upload()
@@ -203,7 +205,7 @@ namespace VideoUpload.Web.Controllers
 
             if (post == null)
             {
-                return HttpNotFound();
+                return View("_Error");
             }
 
             var attachment = post.Attachments.FirstOrDefault(x => x.FileName == v);
@@ -228,6 +230,10 @@ namespace VideoUpload.Web.Controllers
         [HttpPost]
         public  ActionResult Send(string email, string subject,int p, string v)
         {
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(subject))
+            {
+                return View("_Error");
+            }
             var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("Watch", new { p = p,  v = v });
 
             var mail = new MailMessage();
@@ -237,7 +243,11 @@ namespace VideoUpload.Web.Controllers
             mail.Body = url;
             mail.IsBodyHtml = true;
 
-            using (var client = new SmtpClient("78.100.48.220", 25))
+            var host = "78.100.48.220";
+            var port = 25;
+
+
+            using (var client = new SmtpClient("192.168.5.10", port))
             {
                 client.Credentials = new System.Net.NetworkCredential("kyocera.km3060@boraq-porsche.com.qa", "kyocera123");
                 client.EnableSsl = false;
@@ -279,6 +289,7 @@ namespace VideoUpload.Web.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult ConvertAndUpload(HttpPostedFileBase file)
         {
