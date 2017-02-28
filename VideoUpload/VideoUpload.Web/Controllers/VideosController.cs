@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
@@ -116,13 +118,23 @@ namespace VideoUpload.Web.Controllers
 
                         item.SaveAs(fileUrl);
 
-                        //add the attachment to post entity
-                        post.Attachments.Add(attachment);                                          
+                        var file = new FileInfo(fileUrl);
+
+                        if (file.Exists)
+                        {
+                            //add the attachment to post entity
+                            post.Attachments.Add(attachment);
+                        }                        
                     }                
-                }               
-                _uow.Posts.Add(post);
-                await _uow.SaveChangesAsync();
-                return RedirectToAction("index");
+                }
+                var attached = post.Attachments.FirstOrDefault();
+                if (attached != null)
+                {
+                    _uow.Posts.Add(post);
+                    await _uow.SaveChangesAsync();
+                    return RedirectToAction("index");
+                }
+                ModelState.AddModelError("", "Attached has not been succesfully uploaded");                
             }
             return View(viewModel);
         }
@@ -325,6 +337,48 @@ namespace VideoUpload.Web.Controllers
             //var outputPath = Server.MapPath("~/Uploads/");                                          
 
             return View();
+        }
+
+        public ActionResult Upload2()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Upload2(string id)
+        {
+            Thread.Sleep(10000);
+            try
+            {
+                foreach (string item in Request.Files)
+                {
+                    var fileContent = Request.Files[item];
+
+                    if (fileContent != null && fileContent.ContentLength > 0)
+                    {
+                        var stream = fileContent.InputStream;
+                        var fileName = Path.GetFileName(fileContent.FileName);                        
+                        var path = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+                        using (var fileStream = System.IO.File.Create(path))                            
+                        {
+                            stream.CopyTo(fileStream);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Upload failed");
+            }
+            return Json("Upload succesfully");
+        }
+
+        public ActionResult Example()
+        {
+            Thread.Sleep(10000);
+            string status = "Task Completed Successfully";
+            return Json(status);
         }
     }
 }

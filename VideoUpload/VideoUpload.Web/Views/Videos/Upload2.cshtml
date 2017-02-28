@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Upload2";
+}
+
+<h2>Upload2</h2>
+<input type="hidden" id="urlContent" data-url="@Url.Action("upload2")" />
+<input type="hidden" id="urlContent1" data-url="@Url.Action("example")" />
+<input type="file" name="uploadfile" id="txtUploadFile" /><br/>
+<button type="button" id="btnUpload">Upload</button>
+<div class="progress hidden" id="prg">
+    <div class="progress-bar progress-bar-info"></div>
+</div>
+<div id="result"></div>
+
+
+@section Script
+{
+<script>
+    //var files;
+    $('#btnStart').on('click', function () {
+        var url = $('#urlContent1').data('url');
+
+        $('#result').empty();
+        $('#prg .progress-bar')
+            .css('width', '50%')
+            .addClass('progress-bar-striped active')
+            .html('50%');
+
+        $.ajax({
+            type: "post",
+            url: url,
+            data: {},
+            success: function (data) {
+                $('#prg .progress-bar')
+            .css('width', '100%')
+            .removeClass('active')
+            .html('100%');
+            }
+        });
+    });
+
+    $('#txtUploadFile').on('change', function (e) {
+         files = e.target.files;        
+    });
+
+    $('#btnUpload').on('click', function () {
+        var files = $('#txtUploadFile')[0].files[0];
+
+        if (files.length > 0) {
+            $('#prg').removeClass('hidden');
+            $('#result').empty();
+
+            $('#prg .progress-bar')
+                .css('width', '50%')
+                .addClass('progress-bar-striped active')
+                .html('50%');
+
+            var data = new FormData();
+
+            //for multiple files
+            for (var i = 0; i < files.length; i++) {
+                data.append("file" + i, files[i]);
+            }
+
+            var url = $('#urlContent').data('url');
+
+            $.ajax({
+                type: "post",
+                url: url,
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (result) {
+                    $('#prg .progress-bar')
+                    .css('width', '100%')
+                    .removeClass('active')
+                    .html('100%');
+                    $('#result').html(result);
+                },
+                error: function (xhr, status, p3, p4) {
+                    var err = "Error " + " " + status + " " + p3 + " " + p4;
+                    if (xhr.responseText && xhr.responseText[0] == "{")
+                        err = JSON.parse(xhr.responseText).Message;
+                    console.log(err);
+                }
+            });
+        } else {
+            alert("your browser doesn't support HTML 5 file upload");
+        }
+    });
+</script>
+}
+
+

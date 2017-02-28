@@ -24,7 +24,7 @@ namespace VideoUpload.Web
 
             bundles.Add(
                 new ScriptBundle("~/bundles/scripts")
-                .Include("~/Content/jquery-{version}.min.js"));
+                .Include("~/scripts/jquery-{version}.min.js"));
 
             BundleTable.EnableOptimizations = true;
         }
