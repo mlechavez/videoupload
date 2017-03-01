@@ -5,11 +5,11 @@
 }
 
 <p class="pull-right">
-    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info btn-xs" })
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info btn-xs", id="anchorBackToList" })
 </p>
 <h2>Upload a video</h2>
 
-<form method="post" enctype="multipart/form-data" action="@Url.Action("Upload", "Videos")">  
+<form id = "frmUpload" method="post" enctype="multipart/form-data" action="@Url.Action("Upload", "Videos")">  
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(x=>x.Title)
@@ -31,6 +31,77 @@
         @Html.ValidationMessageFor(x=>x.Attachments, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-sm" value="Upload"/>
+        <button id="btnSubmit" type="submit" class="btn btn-sm">
+            Upload
+        </button>
     </div>
 </form>
+<div class="progress hidden">
+    <div class="progress-bar"></div>    
+</div>
+<p id="result"></p>
+
+@section Script{
+    <script>
+        $('#frmUpload1').on('submit', function (e) {
+            e.preventDefault();
+            var form = $(this);
+
+            var files = $('#Attachments').get(0).files;
+
+            var formData = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                formData.append("Attachments", files[i]);
+            }
+
+            $("input[type='text'").each(function (index, value) {
+                formData.append($(value).attr('name'), $(value).val());
+            });
+
+            formData.append('Description', $('#Description').val());
+
+            $('#result').empty();
+            $('.progress').removeClass('hidden');
+            $('.progress-bar')
+                .css('width', '50%')
+                .addClass('progress-bar-striped active')
+                .html('50%');
+            $('#result').html('Uploading is in progress. Uploading time may vary depending on the size of the file.');
+
+            $('#btnSubmit').html(
+                "<i class='fa fa-spin'></i>Loading..."
+            ).addClass('disabled');
+
+            $.ajax({
+                type: "post",
+                url: form.attr('action'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function (data) {
+                    $('.progress-bar')
+                        .css('width', '100%')
+                        .removeClass('active')
+                        .html('100%');
+
+                    $('#result').html(data.message);
+                    $('#btnSubmit').removeClass('disabled').html('Upload');
+
+                    
+                    $('.progress').fadeOut('5000', function () {
+                        $('#result').html('Redirecting to list...');
+                        $('#anchorBackToList')[0].click();
+                    })
+                },
+                error: function (xhr, status, p3, p4) {
+                    var err = "Error " + " " + status + " " + p3 + " " + p4;
+                    if (xhr.responseText && xhr.responseText[0] == "{")
+                        err = JSON.parse(xhr.responseText).Message;
+                    console.log(err);
+                }
+            });
+        });
+    </script>    
+}

@@ -96,13 +96,14 @@ namespace VideoUpload.Web.Controllers
                     if (item != null)
                     {
                         countOfAttachments++;
-                        if (!contentTypeArray.Contains(item.ContentType))
-                        {
-                            ModelState.AddModelError("", "Please upload mp4 format for the video.");
-                            return View(viewModel);
-                        }
-                        //var fileName = Path.GetFileName(item.FileName);
+                        //if (!contentTypeArray.Contains(item.ContentType))
+                        //{
+                        //    ModelState.AddModelError("", "Please upload mp4 format for the video.");
+                        //    return View(viewModel);
+                        //}
+                        
                         var ext = Path.GetExtension(item.FileName);
+                        var path = Server.MapPath("~/Uploads");
 
                         //create new entity for each attachment
                         var attachment = new PostAttachment();
@@ -114,16 +115,42 @@ namespace VideoUpload.Web.Controllers
                         attachment.DateCreated = viewModel.DateCreated;
                         attachment.AttachmentNo = $"Attachment {countOfAttachments.ToString()}";
 
-                        var fileUrl = Path.Combine(Server.MapPath("~/Uploads"), attachment.FileName);
+                        var fileUrlToConvert = Path.Combine(path, Path.GetFileName(item.FileName));
+                        //var fileUrlToConvert = Path.Combine(path, attachment.FileName);
 
-                        item.SaveAs(fileUrl);
+                        using (var fileStream = System.IO.File.Create(fileUrlToConvert))
+                        {
+                            var stream = item.InputStream;
+                            stream.CopyTo(fileStream);
+                        }
 
-                        var file = new FileInfo(fileUrl);
+                        var settings = new ConvertSettings();
+                        settings.SetVideoFrameSize(640, 480);
+                        settings.AudioCodec = "aac";
+                        settings.VideoCodec = "h264";
+                        settings.VideoFrameRate = 30;
+
+                        var ffMpeg = new FFMpegConverter();
+                        ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;
+
+                        try
+                        {
+                            ffMpeg.ConvertMedia(fileUrlToConvert, null, path + "/" + attachment.FileName, Format.mp4, settings);
+                        }
+                        catch (Exception ex)
+                        {
+                            return Content(ex.Message);
+
+                        }
+
+                        //ffMpeg.ConvertMedia(fileUrlToConvert,)
+                        var file = new FileInfo(fileUrlToConvert);
 
                         if (file.Exists)
                         {
                             //add the attachment to post entity
                             post.Attachments.Add(attachment);
+                            file.Delete();
                         }                        
                     }                
                 }
@@ -132,10 +159,12 @@ namespace VideoUpload.Web.Controllers
                 {
                     _uow.Posts.Add(post);
                     await _uow.SaveChangesAsync();
+                    //return Json(new { message = "Uploaded successfully" });
                     return RedirectToAction("index");
                 }
                 ModelState.AddModelError("", "Attached has not been succesfully uploaded");                
             }
+            //return Json(new { message = "Something went wrong. Please try again" });
             return View(viewModel);
         }
 
@@ -154,7 +183,7 @@ namespace VideoUpload.Web.Controllers
                 PostID = post.PostID,
                 Title = post.Title,
                 Description = post.Description,
-                Owner = post.Owner                              
+                Owner = post.Owner                                           
             };
                         
             return View(viewModel);
@@ -258,8 +287,7 @@ namespace VideoUpload.Web.Controllers
             var host = "78.100.48.220";
             var port = 25;
 
-
-            using (var client = new SmtpClient("192.168.5.10", port))
+            using (var client = new SmtpClient(host, port))
             {
                 client.Credentials = new System.Net.NetworkCredential("kyocera.km3060@boraq-porsche.com.qa", "kyocera123");
                 client.EnableSsl = false;
@@ -304,15 +332,17 @@ namespace VideoUpload.Web.Controllers
 
         [HttpPost]
         public ActionResult ConvertAndUpload(HttpPostedFileBase file)
-        {
-            using (var binaryReader = new BinaryReader(file.InputStream))
-            {
-                byte[] array = binaryReader.ReadBytes(file.ContentLength);
-                var fMpeg = new FFMpegConverter();                
-            }
+        {         
 
             var filename = Path.GetFileName(file.FileName);            
             var fileUrl = Path.Combine(Server.MapPath("~/Uploads"), filename);
+
+
+            using (var fileStream = System.IO.File.Create(fileUrl))
+            {
+                var stream = file.InputStream;
+                stream.CopyTo(fileStream);
+            }
 
             var outputPath = Server.MapPath("~/Uploads/");
             //file.SaveAs(fileUrl);
@@ -322,30 +352,23 @@ namespace VideoUpload.Web.Controllers
             settings.SetVideoFrameSize(640, 480);
             settings.AudioCodec = "aac";
             settings.VideoCodec = "h264";
-            settings.VideoFrameRate = 60;
-
-            //var sr = new StreamReader(file.InputStream);
-            //var result = sr.ReadToEnd();
-            //sr.Close();
+            settings.VideoFrameRate = 30;
+          
             var ffMpeg = new FFMpegConverter();
 
-            var testResult = ffMpeg.ConvertLiveMedia(file.InputStream,null, outputPath + "output.mp4", Format.mp4, settings);
-            testResult.Start();
-            
-            //var path = Path.GetFullPath(fileUrl);
-
-            //var outputPath = Server.MapPath("~/Uploads/");                                          
-
+            ffMpeg.ConvertMedia(fileUrl, null, outputPath+"output.mp4", Format.mp4, settings);
+                      
             return View();
         }
 
         public ActionResult Upload2()
         {
-            return View();
+            var viewModel = new CreatePostViewModel();
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Upload2(string id)
+        public ActionResult Upload2(CreatePostViewModel viewModel)
         {
             Thread.Sleep(10000);
             try
@@ -357,9 +380,9 @@ namespace VideoUpload.Web.Controllers
                     if (fileContent != null && fileContent.ContentLength > 0)
                     {
                         var stream = fileContent.InputStream;
-                        var fileName = Path.GetFileName(fileContent.FileName);                        
+                        var fileName = Path.GetFileName(fileContent.FileName);
                         var path = Path.Combine(Server.MapPath("~/Uploads"), fileName);
-                        using (var fileStream = System.IO.File.Create(path))                            
+                        using (var fileStream = System.IO.File.Create(path))
                         {
                             stream.CopyTo(fileStream);
                         }
