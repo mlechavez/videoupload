@@ -24,8 +24,6 @@
 
     </div>
     <div class="embed-responsive embed-responsive-16by9">
-        <video class="embed-responsive-item" controls="true" autoplay src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })">
-            <source src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType" />
-        </video>
+        <video class="embed-responsive-item" autoplay controls="true" src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType"></video>
     </div>
 </div>
