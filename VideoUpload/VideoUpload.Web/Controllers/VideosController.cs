@@ -161,13 +161,13 @@ namespace VideoUpload.Web.Controllers
                 {
                     _uow.Posts.Add(post);
                     await _uow.SaveChangesAsync();
-                    //return Json(new { message = "Uploaded successfully" });
-                    return RedirectToAction("index");
+                    return Json(new { message = "Uploaded successfully" });
+                    //return RedirectToAction("index");
                 }
                 ModelState.AddModelError("", "Attached has not been succesfully uploaded");                
             }
-            //return Json(new { message = "Something went wrong. Please try again" });
-            return View(viewModel);
+            return Json(new { message = "Something went wrong. Please try again" });
+            //return View(viewModel);
         }
 
         public async Task<ActionResult> Edit(int postID)
@@ -237,7 +237,7 @@ namespace VideoUpload.Web.Controllers
         public ActionResult VideoResult(string fileName)
         {
             var file = _uow.Attachments.GetByFileName(fileName);
-
+            
             //return new CustomResult(fileName);
             return File(file.FileUrl, file.MIMEType, file.FileName);
         }
