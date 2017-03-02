@@ -26,6 +26,7 @@ namespace VideoUpload.Web.Models
             var videoFilePath = HostingEnvironment.MapPath("~/Uploads/" + _fileName);
             //The header information 
             context.HttpContext.Response.AddHeader("Content-Disposition", "attachment; filename="+_fileName);
+            context.HttpContext.Response.AddHeader("Content-Type", "video/mp4");
 
             var file = new FileInfo(videoFilePath);
             //Check the file exist,  it will be written into the response 

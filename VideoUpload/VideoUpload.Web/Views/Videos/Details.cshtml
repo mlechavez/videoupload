@@ -24,6 +24,9 @@
 
     </div>
     <div class="embed-responsive embed-responsive-16by9">
-        <video class="embed-responsive-item" autoplay controls src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType"></video>
+        <video class="embed-responsive-item" autoplay controls>
+            <source src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType" />
+            Your browser does not support playing this video. Please upgrade your browser.s
+        </video>
     </div>
 </div>

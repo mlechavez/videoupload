@@ -12,6 +12,7 @@ namespace VideoUpload.Core.Entities
         public string FileName { get; set; }
         public string MIMEType { get; set; }
         public int FileSize { get; set; }
+        public string FileUrl { get; set; }
         public int? PostID { get; set; }
         public string AttachmentNo { get; set; }
         public DateTime? DateCreated { get; set; }

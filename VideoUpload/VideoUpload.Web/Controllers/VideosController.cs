@@ -103,6 +103,7 @@ namespace VideoUpload.Web.Controllers
                         //}
                         
                         var ext = Path.GetExtension(item.FileName);
+                        
                         var path = Server.MapPath("~/Uploads");
 
                         //create new entity for each attachment
@@ -112,11 +113,12 @@ namespace VideoUpload.Web.Controllers
                         attachment.FileName = attachment.PostAttachmentID + ext;
                         attachment.MIMEType = item.ContentType;
                         attachment.FileSize = item.ContentLength;
+                        attachment.FileUrl = path + "/" + attachment.FileName;
                         attachment.DateCreated = viewModel.DateCreated;
                         attachment.AttachmentNo = $"Attachment {countOfAttachments.ToString()}";
 
-                        var fileUrlToConvert = Path.Combine(path, Path.GetFileName(item.FileName));
-                        //var fileUrlToConvert = Path.Combine(path, attachment.FileName);
+                        //var fileUrlToConvert = Path.Combine(path, Path.GetFileName(item.FileName));
+                        var fileUrlToConvert = Path.Combine(path, attachment.FileName);
 
                         using (var fileStream = System.IO.File.Create(fileUrlToConvert))
                         {
@@ -124,24 +126,24 @@ namespace VideoUpload.Web.Controllers
                             stream.CopyTo(fileStream);
                         }
 
-                        var settings = new ConvertSettings();
-                        settings.SetVideoFrameSize(640, 480);
-                        settings.AudioCodec = "aac";
-                        settings.VideoCodec = "h264";
-                        settings.VideoFrameRate = 30;
+                        //var settings = new ConvertSettings();
+                        //settings.SetVideoFrameSize(640, 480);
+                        //settings.AudioCodec = "aac";
+                        //settings.VideoCodec = "h264";
+                        //settings.VideoFrameRate = 30;
 
-                        var ffMpeg = new FFMpegConverter();
-                        ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;
+                        //var ffMpeg = new FFMpegConverter();
+                        //ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;
 
-                        try
-                        {
-                            ffMpeg.ConvertMedia(fileUrlToConvert, null, path + "/" + attachment.FileName, Format.mp4, settings);
-                        }
-                        catch (Exception ex)
-                        {
-                            return Content(ex.Message);
+                        //try
+                        //{
+                        //    ffMpeg.ConvertMedia(fileUrlToConvert, null, path + "/" + attachment.FileName, Format.mp4, settings);
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    return Content(ex.Message);
 
-                        }
+                        //}
 
                         //ffMpeg.ConvertMedia(fileUrlToConvert,)
                         var file = new FileInfo(fileUrlToConvert);
@@ -150,7 +152,7 @@ namespace VideoUpload.Web.Controllers
                         {
                             //add the attachment to post entity
                             post.Attachments.Add(attachment);
-                            file.Delete();
+                            //file.Delete();
                         }                        
                     }                
                 }
@@ -234,7 +236,10 @@ namespace VideoUpload.Web.Controllers
         }
         public ActionResult VideoResult(string fileName)
         {
-            return new CustomResult(fileName);
+            var file = _uow.Attachments.GetByFileName(fileName);
+
+            //return new CustomResult(fileName);
+            return File(file.FileUrl, file.MIMEType, file.FileName);
         }
         public ActionResult Download(string fileName)
         {

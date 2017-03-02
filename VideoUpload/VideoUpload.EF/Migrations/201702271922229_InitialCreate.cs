@@ -15,6 +15,7 @@ namespace VideoUpload.EF.Migrations
                         FileName = c.String(),
                         MIMEType = c.String(),
                         FileSize = c.Int(nullable: false),
+                        FileUrl = c.String(),
                         PostID = c.Int(),
                         AttachmentNo = c.String(),
                         DateCreated = c.DateTime(),
