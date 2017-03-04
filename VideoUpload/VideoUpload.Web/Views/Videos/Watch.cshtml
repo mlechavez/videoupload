@@ -15,9 +15,9 @@
 
     </div>
     <div class="embed-responsive embed-responsive-16by9">
-        <video class="embed-responsive-item" preload="metadata" autoplay controls>
+        <video class="embed-responsive-item" preload="metadata" autoplay controls poster="@Url.Content("~/Content/Images/porsche-logo.png")">
             <source src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType" />
             Your browser does not support playing this video. Please upgrade your browser.
-        </video>
+        </video>  
     </div>
 </div>

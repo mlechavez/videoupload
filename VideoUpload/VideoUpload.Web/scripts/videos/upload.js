@@ -50,15 +50,19 @@ $('#appModal').on('show.bs.modal', function () {
 });
 
 function progressHandler(event) {
-    var percent = (event.loaded / event.total) * 100;
+    var percent = Math.floor((event.loaded / event.total) * 100);
+    var widthSize = percent.toString() + "%";
     var appModal = $('#appModal');
-
+    console.log("Loaded: " + event.loaded);
+    console.log("Total: " + event.total);
+    console.log("Percent: " + percent)
+    console.log("Width Size: " + widthSize);
     progressBar = appModal.find('.progress-bar');
 
     progressBar
-        .css('width', percent)
+        .css('width', widthSize)
         .addClass('progress-bar-striped active')
-        .html(percent);
+        .html(widthSize);
 
     $('#btnSubmit').html(
         "<i class='fa fa-spin'></i>Loading..."

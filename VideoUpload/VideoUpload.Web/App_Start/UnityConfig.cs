@@ -16,7 +16,7 @@ namespace VideoUpload.Web
 
             // e.g. container.RegisterType<ITestService, TestService>();
 
-            container.RegisterType<UnitOfWork>(new InjectionConstructor("LocalAppDbContext"));
+            container.RegisterType<UnitOfWork>(new InjectionConstructor("AppDbContext"));
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
