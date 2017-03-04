@@ -172,6 +172,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\porsche-logo-8-768x432.jpg" />
+    <Content Include="Content\Images\porsche-logo.png" />
     <Content Include="Content\Images\st16-front.JPG" />
     <Content Include="Content\Images\st16-prototype.jpg" />
     <Content Include="Content\main.css" />
@@ -205,6 +207,7 @@
     <Content Include="scripts\jquery-3.1.1.min.js" />
     <Content Include="scripts\jquery-3.1.1.slim.js" />
     <Content Include="scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="scripts\videos\upload.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +245,7 @@
     <Content Include="scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Videos\Upload2.cshtml" />
+    <Content Include="Views\Shared\_Modal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

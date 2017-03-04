@@ -130,9 +130,10 @@ namespace VideoUpload.Web.Controllers
                         //settings.SetVideoFrameSize(640, 480);
                         //settings.AudioCodec = "aac";
                         //settings.VideoCodec = "h264";
-                        //settings.VideoFrameRate = 30;
+                        //settings.VideoFrameRate = 30;                                        
 
                         //var ffMpeg = new FFMpegConverter();
+                        //ffMpeg.conver
                         //ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;
 
                         //try
@@ -142,10 +143,8 @@ namespace VideoUpload.Web.Controllers
                         //catch (Exception ex)
                         //{
                         //    return Content(ex.Message);
-
                         //}
-
-                        //ffMpeg.ConvertMedia(fileUrlToConvert,)
+                     
                         var file = new FileInfo(fileUrlToConvert);
 
                         if (file.Exists)
@@ -237,9 +236,9 @@ namespace VideoUpload.Web.Controllers
         public ActionResult VideoResult(string fileName)
         {
             var file = _uow.Attachments.GetByFileName(fileName);
-            
-            //return new CustomResult(fileName);
-            return File(file.FileUrl, file.MIMEType, file.FileName);
+
+            return new CustomResult(fileName);
+            //return File(file.FileUrl, file.MIMEType, file.FileName);
         }
         public ActionResult Download(string fileName)
         {

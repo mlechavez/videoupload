@@ -11,13 +11,12 @@ input, select, textarea {
     margin-top:20px;
     position:relative;    
     height: 200px;
-    color: #a30f0f;
+    color: red;    
 }
 #main-header h1 {
     display: inline-block;
     margin-top:0;
-    margin-bottom:0;    
-    
+    margin-bottom:0;          
 }
 #main-header h4 {
     margin-top:0;
