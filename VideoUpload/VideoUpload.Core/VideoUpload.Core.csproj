@@ -43,12 +43,15 @@
     <Compile Include="Entities\History.cs" />
     <Compile Include="Entities\PostAttachment.cs" />
     <Compile Include="Entities\Post.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\UserClaim.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IHistoryRepository.cs" />
     <Compile Include="Repositories\IPostAttachmentRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IPostRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

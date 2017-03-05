@@ -3,17 +3,17 @@
 @{
     ViewBag.Title = "Send link";
 }
+<p class="pull-right">
+    @Html.ActionLink("Back to details", "details", new { postID = Model.PostID, fileName = ViewBag.FileName }, new { @class = "btn btn-info btn-xs " })
+</p>
 
 <h2>Send a link to customer</h2>
 
 <div class="col-sm-12 well">
     <p>
-        <b>Title:</b> @Model.Title <br />
+        <b>Plate Number:</b> @Model.PlateNumber<br />
         <b>Description:</b> @Model.Description
-    </p>
-    <p>
-        @Html.ActionLink("Back to details", "details", new { postID = Model.PostID, fileName = ViewBag.FileName }, new { @class = "btn btn-info btn-xs " })
-    </p>
+    </p>    
 </div>
 <div class="col-sm-12">
 @using (Html.BeginForm("send", "videos", FormMethod.Post))
@@ -29,7 +29,7 @@
         <input type="text" name="subject" class="form-control" required />
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-success" />
+        <input type="submit" class="btn btn-success" value="Send" />
     </div>
 }
 </div>

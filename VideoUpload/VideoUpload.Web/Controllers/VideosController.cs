@@ -1,4 +1,5 @@
-﻿using NReco.VideoConverter;
+﻿using Microsoft.AspNet.Identity;
+using NReco.VideoConverter;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,6 @@ namespace VideoUpload.Web.Controllers
         {
             _uow = unitOfWork;
         }
-
         public async Task<ActionResult> Index(int? page)
         {
             var posts = await _uow.Posts.GetAllAsync();
@@ -45,23 +45,24 @@ namespace VideoUpload.Web.Controllers
                 viewModel.Add(new PostViewModel
                 {
                     PostID = x.PostID,
-                    Title = x.Title,
+                    PlateNumber = x.PlateNumber,
                     Description = x.Description,
-                    Owner = x.Owner,
+                    UploadedBy = x.User.UserName,
                     Attachments = attachments,
+                    DateUploaded = x.DateUploaded,
                     EditedBy = x.EditedBy,
                     DateEdited = x.DateEdited
                 });
             });
-            viewModel = viewModel.OrderBy(x => x.DateCreated).ToList();
+            viewModel = viewModel.OrderByDescending(x => x.DateUploaded).ToList();
             
             return View(viewModel.ToPagedList(page ?? 1, 20));
         }
 
         public ActionResult Upload()
         {
-            var post = new CreatePostViewModel();
-            return View(post);
+            var post = new CreatePostViewModel();            
+            return View(post);            
         }
 
         [HttpPost]
@@ -85,25 +86,31 @@ namespace VideoUpload.Web.Controllers
 
                 var post = new Post
                 {
-                    Title = viewModel.Title,
+                    PlateNumber = viewModel.PlateNumber,
                     Description = viewModel.Description,
-                    Owner = viewModel.Owner,
-                    DateCreated = viewModel.DateCreated
+                    UserID = User.Identity.GetUserId(),
+                    DateUploaded = viewModel.DateUploaded
                 };
 
                 foreach (var item in viewModel.Attachments)
                 {
                     if (item != null)
                     {
+                        if (!contentTypeArray.Contains(item.ContentType))
+                        {
+                            ModelState.AddModelError("", "video file must be an mp4");
+
+                            return View(viewModel);
+                        }
                         countOfAttachments++;
                         //if (!contentTypeArray.Contains(item.ContentType))
                         //{
                         //    ModelState.AddModelError("", "Please upload mp4 format for the video.");
                         //    return View(viewModel);
                         //}
-                        
+
                         var ext = Path.GetExtension(item.FileName);
-                        
+
                         var path = Server.MapPath("~/Uploads");
 
                         //create new entity for each attachment
@@ -114,7 +121,7 @@ namespace VideoUpload.Web.Controllers
                         attachment.MIMEType = item.ContentType;
                         attachment.FileSize = item.ContentLength;
                         attachment.FileUrl = path + "/" + attachment.FileName;
-                        attachment.DateCreated = viewModel.DateCreated;
+                        attachment.DateCreated = viewModel.DateUploaded;
                         attachment.AttachmentNo = $"Attachment {countOfAttachments.ToString()}";
 
                         //var fileUrlToConvert = Path.Combine(path, Path.GetFileName(item.FileName));
@@ -144,7 +151,7 @@ namespace VideoUpload.Web.Controllers
                         //{
                         //    return Content(ex.Message);
                         //}
-                     
+
                         var file = new FileInfo(fileUrlToConvert);
 
                         if (file.Exists)
@@ -152,7 +159,7 @@ namespace VideoUpload.Web.Controllers
                             //add the attachment to post entity
                             post.Attachments.Add(attachment);
                             //file.Delete();
-                        }                        
+                        }
                     }                
                 }
                 var attached = post.Attachments.FirstOrDefault();
@@ -182,9 +189,8 @@ namespace VideoUpload.Web.Controllers
             var viewModel = new PostViewModel
             {
                 PostID = post.PostID,
-                Title = post.Title,
-                Description = post.Description,
-                Owner = post.Owner                                           
+                PlateNumber = post.PlateNumber,
+                Description = post.Description              
             };
                         
             return View(viewModel);
@@ -196,10 +202,9 @@ namespace VideoUpload.Web.Controllers
             {
                 var post = await _uow.Posts.GetByIdAsync(viewModel.PostID);
 
-                post.Title = viewModel.Title;
+                post.PlateNumber = viewModel.PlateNumber;
                 post.Description = viewModel.Description;
-                post.Owner = viewModel.Owner;
-
+                
                 await _uow.SaveChangesAsync();
                 return RedirectToAction("index");
             }
@@ -226,9 +231,9 @@ namespace VideoUpload.Web.Controllers
             var viewModel = new PostViewModel
             {
                 PostID = post.PostID,
-                Title = post.Title,
+                PlateNumber = post.PlateNumber,
                 Description = post.Description,
-                Owner = post.Owner,
+                UploadedBy = post.User.UserName,
                 Attachments = attachments
             };            
             return View(viewModel);
@@ -265,9 +270,9 @@ namespace VideoUpload.Web.Controllers
             var viewModel = new PostViewModel
             {
                 PostID = post.PostID,
-                Title = post.Title,
+                PlateNumber = post.PlateNumber,
                 Description = post.Description,
-                Owner = post.Owner,
+                UploadedBy = post.User.UserName,
                 Attachments = attachments
             };
             return View(viewModel);
@@ -321,91 +326,11 @@ namespace VideoUpload.Web.Controllers
             var viewModel = new PostViewModel
             {
                 PostID = post.PostID,
-                Title = post.Title,
-                Description = post.Description,
-                Owner = post.Owner,
+                PlateNumber = post.PlateNumber,
+                Description = post.Description,             
                 Attachments = attachments
             };
             return View(viewModel);
-        }
-
-        public ActionResult ConvertAndUpload()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult ConvertAndUpload(HttpPostedFileBase file)
-        {         
-
-            var filename = Path.GetFileName(file.FileName);            
-            var fileUrl = Path.Combine(Server.MapPath("~/Uploads"), filename);
-
-
-            using (var fileStream = System.IO.File.Create(fileUrl))
-            {
-                var stream = file.InputStream;
-                stream.CopyTo(fileStream);
-            }
-
-            var outputPath = Server.MapPath("~/Uploads/");
-            //file.SaveAs(fileUrl);
-
-
-            var settings = new ConvertSettings();
-            settings.SetVideoFrameSize(640, 480);
-            settings.AudioCodec = "aac";
-            settings.VideoCodec = "h264";
-            settings.VideoFrameRate = 30;
-          
-            var ffMpeg = new FFMpegConverter();
-
-            ffMpeg.ConvertMedia(fileUrl, null, outputPath+"output.mp4", Format.mp4, settings);
-                      
-            return View();
-        }
-
-        public ActionResult Upload2()
-        {
-            var viewModel = new CreatePostViewModel();
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        public ActionResult Upload2(CreatePostViewModel viewModel)
-        {
-            Thread.Sleep(10000);
-            try
-            {
-                foreach (string item in Request.Files)
-                {
-                    var fileContent = Request.Files[item];
-
-                    if (fileContent != null && fileContent.ContentLength > 0)
-                    {
-                        var stream = fileContent.InputStream;
-                        var fileName = Path.GetFileName(fileContent.FileName);
-                        var path = Path.Combine(Server.MapPath("~/Uploads"), fileName);
-                        using (var fileStream = System.IO.File.Create(path))
-                        {
-                            stream.CopyTo(fileStream);
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Upload failed");
-            }
-            return Json("Upload succesfully");
-        }
-
-        public ActionResult Example()
-        {
-            Thread.Sleep(10000);
-            string status = "Task Completed Successfully";
-            return Json(status);
         }
     }
 }

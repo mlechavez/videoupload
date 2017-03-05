@@ -18,17 +18,19 @@
     <div class="table-responsive">
         <table class="table table-condensed table-hover">
             <tr>
-                <th>Title</th>
+                <th>Plate number</th>
                 <th>Description</th>
-                <th>Owner</th>
+                <th>Uploaded by</th>
+                <th>Date Uploaded</th>
                 <th></th>
             </tr>
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PlateNumber)</td>
                     <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Owner)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UploadedBy)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DateUploaded)</td>
                     <td>
                         <a href="@Url.Action("edit", new { postID = item.PostID })" class="btn btn-warning btn-xs"><i class="fa fa-pencil-square-o"></i> Edit</a> |
                         @if (item.Attachments == null)

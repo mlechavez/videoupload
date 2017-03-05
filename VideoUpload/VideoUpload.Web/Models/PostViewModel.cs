@@ -15,12 +15,12 @@ namespace VideoUpload.Web.Models
         } 
         public int PostID { get; set; }    
         [Required]
-        public string Title { get; set; }
+        public string PlateNumber { get; set; }
         [Required]
-        public string Description { get; set; }
+        public string Description { get; set; }               
+        public DateTime DateUploaded { get; set; }
         [Required]
-        public string Owner { get; set; }       
-        public DateTime DateCreated { get; set; }
+        public string UploadedBy { get; set; }
         public string EditedBy { get; set; }
         public DateTime? DateEdited { get; set; }
 

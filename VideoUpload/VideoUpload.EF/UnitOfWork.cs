@@ -14,6 +14,7 @@ namespace VideoUpload.EF
     {
         #region Private Fields
         private readonly AppDbContext _context;
+        private IUserRepository _users;
         private IPostRepository _posts;
         private IPostAttachmentRepository _attachments;
         private IHistoryRepository _histories;
@@ -38,6 +39,14 @@ namespace VideoUpload.EF
             get
             {
                 return _histories ?? (_histories = new HistoryRepository(_context));
+            }
+        }
+
+        public IUserRepository Users
+        {
+            get
+            {
+                return _users ?? (_users = new UserRepository(_context));
             }
         }
 

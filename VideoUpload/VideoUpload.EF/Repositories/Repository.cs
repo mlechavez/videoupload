@@ -61,5 +61,17 @@ namespace VideoUpload.EF.Repositories
         {
             Set.Remove(entity);
         }
+
+        public void Update(T entity)
+        {
+            var entry = _context.Entry(entity);
+
+            if (entry.State == EntityState.Detached)
+            {
+                Set.Attach(entity);
+                entry = _context.Entry(entity);
+            }
+            entry.State = EntityState.Modified;
+        }
     }
 }

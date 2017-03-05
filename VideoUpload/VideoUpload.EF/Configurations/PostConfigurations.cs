@@ -19,7 +19,7 @@ namespace VideoUpload.EF.Configurations
                 .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
                 .IsRequired();
 
-            Property(x => x.Title)
+            Property(x => x.PlateNumber)
                 .IsRequired();
 
             Property(x => x.Description)

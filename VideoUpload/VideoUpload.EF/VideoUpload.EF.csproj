@@ -61,9 +61,15 @@
     <Compile Include="Configurations\HistoryConfiguration.cs" />
     <Compile Include="Configurations\PostAttachmentConfiguration.cs" />
     <Compile Include="Configurations\PostConfigurations.cs" />
+    <Compile Include="Configurations\UserClaimConfiguration.cs" />
+    <Compile Include="Configurations\UserConfiguration.cs" />
     <Compile Include="Migrations\201702271922229_InitialCreate.cs" />
     <Compile Include="Migrations\201702271922229_InitialCreate.Designer.cs">
       <DependentUpon>201702271922229_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703042001583_InitialCreate1.cs" />
+    <Compile Include="Migrations\201703042001583_InitialCreate1.Designer.cs">
+      <DependentUpon>201703042001583_InitialCreate1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +77,7 @@
     <Compile Include="Repositories\PostAttachmentRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\PostRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -87,9 +94,9 @@
     <EmbeddedResource Include="Migrations\201702271922229_InitialCreate.resx">
       <DependentUpon>201702271922229_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\PagedList.css" />
+    <EmbeddedResource Include="Migrations\201703042001583_InitialCreate1.resx">
+      <DependentUpon>201703042001583_InitialCreate1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

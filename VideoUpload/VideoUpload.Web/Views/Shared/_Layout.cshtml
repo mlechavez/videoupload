@@ -4,21 +4,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PCD - After Sales | @ViewBag.Title</title>
+    <Title>PCD - After Sales | @ViewBag.Title</Title>
     @Styles.Render("~/bundles/css")
     @Styles.Render("~/bundles/gfont")
 </head>
 <body>
-    <header id="main-header" class="container">
-        <img src="~/Content/Images/porsche-logo-header.jpg" alt="Street 16 Service Center" />        
-        <h1>Porsche Center Doha</h1>
-        <h4>After Sales</h4>        
-    </header>
+    
+        <img id="main-image" class="img-responsive" src="~/Content/Images/porsche-logo-header.jpg" alt="Porsche" />               
+    
     <div id="main-content" class="container">
         @RenderBody()        
     </div>
     <footer id="main-footer">
-        &copy; @DateTime.Now.Year Alboraq automobiles co w.l.l. All rights reserved.
+        Al Boraq automobiles Co. W.l.l.
     </footer>
     @Scripts.Render("~/bundles/scripts")
     @RenderSection("Script", required: false)

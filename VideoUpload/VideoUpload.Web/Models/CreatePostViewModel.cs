@@ -10,17 +10,15 @@ namespace VideoUpload.Web.Models
     {
         public CreatePostViewModel()
         {           
-            DateCreated = DateTime.Now;
+            DateUploaded = DateTime.Now;
             Attachments = new List<HttpPostedFileBase>();
         }
         public int PostID { get; set; }
         [Required]
-        public string Title { get; set; }
+        public string PlateNumber { get; set; }
         [Required]
-        public string Description { get; set; }
-        [Required]
-        public string Owner { get; set; }
-        public DateTime DateCreated { get; set; }
+        public string Description { get; set; }      
+        public DateTime DateUploaded { get; set; }
         public List<HttpPostedFileBase> Attachments { get; set; }
     }
 }

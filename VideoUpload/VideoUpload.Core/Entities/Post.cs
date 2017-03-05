@@ -9,19 +9,26 @@ namespace VideoUpload.Core.Entities
     public class Post
     {
         private ICollection<PostAttachment> _attachments;
+        private User _user;
 
         public int PostID { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }        
-        public string Owner { get; set; }
-        public DateTime DateCreated { get; set; }
+        public string PlateNumber { get; set; }
+        public string Description { get; set; }                
+        public DateTime DateUploaded { get; set; }
         public string EditedBy { get; set; }
         public DateTime? DateEdited { get; set; }
+        public string UserID { get; set; }
+        public bool IsApproved { get; set; }
 
         public virtual ICollection<PostAttachment> Attachments
         {
             get { return _attachments ?? (_attachments = new List<PostAttachment>()); }
             set { _attachments = value; }
+        }
+        public virtual User User
+        {
+            get { return _user; }
+            set { _user = value; }
         }
     }
 }
