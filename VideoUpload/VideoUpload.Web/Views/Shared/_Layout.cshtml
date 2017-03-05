@@ -25,12 +25,16 @@
                     <a href="@Url.Action("index","videos")" class="navbar-brand">PCD</a>
                 </div>
                 <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="@Url.Action("index","videos")">List of videos</a></li>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 @User.Identity.Name <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("list","users", new { Area = "manage" })">Manage users</a></li>
                                 <li><a href="@Url.Action("Signout","Account")">Sign out</a></li>
                             </ul>
                         </li>

@@ -8,21 +8,21 @@ using VideoUpload.Web.Models.Identity;
 
 namespace VideoUpload.Web
 {
-    public static class UnityConfig
-    {
-        public static void RegisterComponents()
-        {
+	public static class UnityConfig
+	{
+		public static void RegisterComponents()
+		{
 			var container = new UnityContainer();
 
-            // register all your components with the container here
-            // it is NOT necessary to register your controllers
+			// register all your components with the container here
+			// it is NOT necessary to register your controllers
 
-            // e.g. container.RegisterType<ITestService, TestService>();
+			// e.g. container.RegisterType<ITestService, TestService>();
 
-            container.RegisterType<IUnitOfWork, UnitOfWork>(new InjectionConstructor("LocalAppDbContext"));
-            container.RegisterType<IUserStore<IdentityUser, string>, UserStore>(new TransientLifetimeManager());
-                        
-            DependencyResolver.SetResolver(new UnityDependencyResolver(container));
-        }
-    }
+			container.RegisterType<IUnitOfWork, UnitOfWork>(new InjectionConstructor("AppDbContext"));
+			container.RegisterType<IUserStore<IdentityUser, string>, UserStore>(new TransientLifetimeManager());
+						
+			DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+		}
+	}
 }
