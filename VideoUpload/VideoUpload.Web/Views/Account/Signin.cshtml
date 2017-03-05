@@ -1,0 +1,24 @@
+﻿@model VideoUpload.Web.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Signin";
+}
+
+<h2>Sign in</h2>
+@using (Html.BeginForm("Signin", "Account", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.ReturnUrl);
+    <div class="form-group">
+        @Html.LabelFor(x=>x.Username)
+        @Html.TextBoxFor(x=>x.Username, new { @class = "form-control input-sm" })
+        @Html.ValidationMessageFor(x=>x.Username, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Password)
+        @Html.TextBoxFor(x => x.Password, new { @class = "form-control input-sm" })
+        @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Sign in</button>
+    </div>
+}

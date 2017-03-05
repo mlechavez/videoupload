@@ -11,15 +11,28 @@ namespace VideoUpload.Web.Models.Identity
 {
     public class UserStore : IUserStore<IdentityUser, string>, IUserClaimStore<IdentityUser, string>,
         IUserEmailStore<IdentityUser, string>, IUserPasswordStore<IdentityUser, string>, 
-        IUserSecurityStampStore<IdentityUser, string>
+        IUserSecurityStampStore<IdentityUser, string>, IQueryableUserStore<IdentityUser, string>
     {
         private readonly IUnitOfWork _unitOfWork;
+
+        public IQueryable<IdentityUser> Users
+        {
+            get
+            {
+                return _unitOfWork.Users.GetAll()
+                        .Select(x => GetIdentityUser(x))
+                        .AsQueryable();
+            }
+        }
+
         public UserStore(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
         private User GetUser(IdentityUser identityUser)
         {
+            if (identityUser == null) return null;
+
             var user = new User();
             populateUser(user, identityUser);
             return user;            
@@ -29,16 +42,21 @@ namespace VideoUpload.Web.Models.Identity
         {
             user.UserID = identityUser.Id;
             user.UserName = identityUser.UserName;
+            user.PasswordHash = identityUser.PasswordHash;
+            user.SecurityStamp = identityUser.SecurityStamp;
             user.FirstName = identityUser.FirstName;
             user.LastName = identityUser.LastName;
             user.JobTitle = identityUser.JobTitle;
             user.EmployeeNo = identityUser.EmployeeNo;            
             user.Email = identityUser.Email;
             user.EmailPass = identityUser.EmailPass;
+            user.EmailConfirmed = identityUser.EmailConfirmed;
+            user.IsActive = identityUser.IsActive;
         }
 
         private IdentityUser GetIdentityUser(User user)
         {
+            if (user == null) return null;
             var identityUser = new IdentityUser();
             populateIdentityUser(identityUser, user);
             return identityUser;
@@ -48,12 +66,16 @@ namespace VideoUpload.Web.Models.Identity
         {
             identityUser.Id = user.UserID;
             identityUser.UserName = user.UserName;
+            identityUser.PasswordHash = user.PasswordHash;
+            identityUser.SecurityStamp = user.SecurityStamp;
             identityUser.FirstName = user.FirstName;
             identityUser.LastName = user.LastName;
             identityUser.JobTitle = user.JobTitle;
             identityUser.EmployeeNo = user.EmployeeNo;
             identityUser.Email = user.Email;
             identityUser.EmailPass = user.EmailPass;
+            identityUser.EmailConfirmed = user.EmailConfirmed;
+            identityUser.IsActive = user.IsActive;
         }
         #region IUserStore      
         public Task CreateAsync(IdentityUser user)

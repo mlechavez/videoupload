@@ -1,0 +1,58 @@
+﻿@model VideoUpload.Web.Models.CreateUserViewModel
+
+@{
+    ViewBag.Title = "New user";
+}
+<p class="pull-right">
+    <a href="@Url.Action("list")" class="btn btn-success btn-xs">Back to list</a>
+</p>
+<h2>New user</h2>
+
+@using (Html.BeginForm("New", "Users", FormMethod.Post))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(x => x.UserName)
+        @Html.TextBoxFor(x=>x.UserName, new { @class = "form-control input-sm", required = "required", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(x=>x.UserName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Password)
+        @Html.PasswordFor(x => x.Password, new { @class = "form-control input-sm", required = "required"})
+        @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.FirstName)
+        @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control input-sm", required = "required" })
+        @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.LastName)
+        @Html.TextBoxFor(x=>x.LastName, new { @class = "form-control input-sm", required = "required"})
+        @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Designation)
+        @Html.TextBoxFor(x => x.Designation, new { @class = "form-control input-sm" })
+        @Html.ValidationMessageFor(x => x.Designation, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.EmployeeNo)
+        @Html.TextBoxFor(x => x.EmployeeNo, new { @class = "form-control input-sm" })
+        @Html.ValidationMessageFor(x => x.EmployeeNo, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Email)
+        @Html.TextBoxFor(x => x.Email, new { @class = "form-control input-sm", required = "required", type = "email" })
+        @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.EmailPass)
+        @Html.PasswordFor(x => x.EmailPass, new { @class = "form-control input-sm", required = "required"})
+        @Html.ValidationMessageFor(x => x.EmailPass, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Add new</button>
+    </div>    
+}
+

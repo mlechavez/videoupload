@@ -1,0 +1,47 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<VideoUpload.Web.Models.Identity.IdentityUser>
+
+@{
+    ViewBag.Title = "User list";
+}
+
+<div>
+    <p class="pull-right">
+        <a href="@Url.Action("new", "users", new { Area = "manage" })" class="btn btn-success btn-xs">
+            Add new user
+        </a>
+    </p>
+</div>
+
+<h2>Manage your users</h2>
+
+<table class="table table-condensed table-hover">
+    <thead>
+        <tr>
+            <th>Actions</th>
+            <th>Username</th>
+            <th>First name</th>
+            <th>Last name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("Edit")" class="btn btn-primary btn-xs">
+                        <i class="fa fa-pencil"></i> Edit
+                    </a>
+                    <a href="#" class="btn btn-primary btn-xs">
+                        <i class="fa fa-pencil-square"></i> Claims
+                    </a>
+                </td>
+                <td>@user.UserName</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+            </tr>
+        }
+    </tbody>
+</table>

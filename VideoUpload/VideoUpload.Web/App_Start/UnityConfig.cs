@@ -2,6 +2,9 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using Unity.Mvc5;
 using VideoUpload.EF;
+using VideoUpload.Core;
+using Microsoft.AspNet.Identity;
+using VideoUpload.Web.Models.Identity;
 
 namespace VideoUpload.Web
 {
@@ -16,8 +19,9 @@ namespace VideoUpload.Web
 
             // e.g. container.RegisterType<ITestService, TestService>();
 
-            container.RegisterType<UnitOfWork>(new InjectionConstructor("LocalAppDbContext"));
-            
+            container.RegisterType<IUnitOfWork, UnitOfWork>(new InjectionConstructor("LocalAppDbContext"));
+            container.RegisterType<IUserStore<IdentityUser, string>, UserStore>(new TransientLifetimeManager());
+                        
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }
