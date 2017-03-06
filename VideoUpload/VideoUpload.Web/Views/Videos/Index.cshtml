@@ -7,9 +7,12 @@
     ViewBag.Title = "List of videos";
 }
 
-<p class="pull-right">
-    @Html.ActionLink("Upload a video", "upload", "videos", null, new { @class = "btn btn-success btn-xs" })
-</p>
+<div class="col-xs-12">
+    <p class="pull-right">
+        @Html.ActionLink("Upload a video", "upload", "videos", null, new { @class = "btn btn-success btn-xs" })
+    </p>
+</div>
+
 
 <h2>List of videos</h2>
 
@@ -54,6 +57,6 @@
 else
 {
     <div class="alert alert-info">
-        <h3>No post to be displayed.</h3>
+        <h4 class="text-center">No post to be displayed.</h4>
     </div>
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,13 +36,19 @@ namespace VideoUpload.Web.Controllers
                 {
                     if (await _mgr.CheckPasswordAsync(user, viewModel.Password))
                     {
-                        var ci = await _mgr.CreateIdentityAsync(user, "Cookie");
-                        var ctx = Request.GetOwinContext();
-                        var authMgr = ctx.Authentication;
-                        authMgr.SignIn(ci);
-                        return RedirectToAction("index", "videos");
+                        if (user.IsActive)
+                        {
+                            var ci = await _mgr.CreateIdentityAsync(user, "Cookie");
+                            var ctx = Request.GetOwinContext();
+                            var authMgr = ctx.Authentication;
+                            authMgr.SignIn(ci);
+
+                            return Redirect(GetReturnUrl(viewModel.ReturnUrl));
+                        }
+                        ModelState.AddModelError("", "You account has not activated yet. Contact your admin");
                     }
                 }
+                ModelState.AddModelError("", "username or password is incorrect!");
             }
             return View(viewModel);
         }
@@ -53,6 +60,75 @@ namespace VideoUpload.Web.Controllers
             authMgr.SignOut("Cookie");
 
             return RedirectToAction("index", "videos");
-        }        
+        }                
+
+        public ActionResult PasswordReset()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PasswordReset(string email)
+        {            
+            if (string.IsNullOrEmpty(email))
+            {
+                ViewBag.Message = "Email is required";
+            }
+            var user = await _mgr.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                ViewBag.Message = "We cannot find your email to your records. Please try again";
+            }
+
+            var key = await _mgr.GeneratePasswordResetTokenAsync(user.Id);
+
+            var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("ConfirmPasswordReset", "Account", new { key = key, id = user.Id });
+
+            await _mgr.CustomSendEmailAsync(user.Id, "Reset Password Request", "Click here to reset your password: " + url, user.Email, user.EmailPass);
+
+            return View("_PasswordResetRequestSentSuccess");
+        }
+
+        public ActionResult ConfirmPasswordReset(string key, string id)
+        {
+            var viewModel = new ConfirmPasswordViewModel
+            {
+                Key = key,
+                Id = id
+            };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ConfirmPasswordReset(ConfirmPasswordViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _mgr.ResetPasswordAsync(viewModel.Id, viewModel.Key, viewModel.NewPassword);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("index","videos");
+                }
+                AddErrors(result);
+            }            
+            return View(viewModel);
+        }
+
+        private string GetReturnUrl(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return returnUrl;
+            }
+            return Url.RouteUrl(returnUrl);
+        }
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
     }
 }

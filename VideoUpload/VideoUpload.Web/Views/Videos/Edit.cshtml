@@ -1,13 +1,14 @@
 ﻿@model VideoUpload.Web.Models.PostViewModel
 
 @{
-    ViewBag.Title = "Edit you posts";
+    ViewBag.Title = "Edit your posts";
 }
 
-<p class="pull-right">
-    @Html.ActionLink("Back to list of posts", "index", null, new { @class = "btn btn-info btn-xs" })
-</p>
-
+<div class="col-xs-12">
+    <p class="pull-right">
+        @Html.ActionLink("Back to list of posts", "index", null, new { @class = "btn btn-info btn-xs" })
+    </p>
+</div>
 
 <h2>Edit your post</h2>
 
@@ -15,8 +16,7 @@
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        
+    <div class="form-horizontal">        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">            
@@ -43,7 +43,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default btn-warning" />
             </div>
         </div>
     </div>

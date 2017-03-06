@@ -9,9 +9,7 @@
     @Styles.Render("~/bundles/css")
     @Styles.Render("~/bundles/gfont")
 </head>
-<body>
-
-    @*<img id="main-image" class="img-responsive" src="~/Content/Images/porsche-logo-header.jpg" alt="Porsche" />*@
+<body>    
     <div class="navbar navbar-inverse" role="navigation">
         @if (User.Identity.IsAuthenticated)
         {
@@ -22,11 +20,15 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="@Url.Action("index","videos")" class="navbar-brand">PCD</a>
+                    <a href="@Url.Action("index","videos", new { Area = "" })" class="navbar-brand"><i class="fa fa-home"></i></a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="@Url.Action("index","videos")">List of videos</a></li>
+                        <li>
+                            <a href="@Url.Action("index","videos", new { Area = "" })">
+                                <i class="fa fa-video-camera"></i> List of videos 
+                            </a>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -34,8 +36,16 @@
                                 @User.Identity.Name <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("list","users", new { Area = "manage" })">Manage users</a></li>
-                                <li><a href="@Url.Action("Signout","Account")">Sign out</a></li>
+                                <li>
+                                    <a href="@Url.Action("list","users", new { Area = "manage" })">
+                                        <i class="fa fa-cog fa-fw"></i> Manage users
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Signout","Account", new { Area = "" })">
+                                        <i class="fa fa-sign-out fa-fw"></i> Sign out
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

@@ -56,6 +56,7 @@ namespace VideoUpload.Web.Controllers
                 if (result.Succeeded)
                 {
                     result = await _mgr.SetEmailAsync(identityUser.Id, viewModel.Email);
+
                     if (result.Succeeded)
                     {
                         return RedirectToAction("list");
@@ -67,6 +68,11 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
         
+        public ActionResult PasswordReset()
+        {
+            //_mgr.GeneratePasswordResetToken()
+            return View();
+        }
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)

@@ -4,14 +4,15 @@
     ViewBag.Title = "Details";    
 }
 
-<p class="pull-right">
-    @Html.ActionLink("Back to List", "index", null, new { @class = "btn btn-info btn-xs" }) |
-    @Html.ActionLink("Edit post", "edit", new { postID = Model.PostID }, new { @class = "btn btn-info btn-xs" }) |
-    @Html.ActionLink("Send to customer", "send", new { p = Model.PostID, v = ViewBag.FileName }, new { @class = "btn btn-success btn-xs " })
-</p>
+<div class="col-xs-12">
+    <p class="pull-right">
+        @Html.ActionLink("Back to List", "index", null, new { @class = "btn btn-info btn-xs" }) |
+        @Html.ActionLink("Edit post", "edit", new { postID = Model.PostID }, new { @class = "btn btn-info btn-xs" }) |
+        @Html.ActionLink("Send to customer", "send", new { p = Model.PostID, v = ViewBag.FileName }, new { @class = "btn btn-success btn-xs " })
+    </p>
+</div>
 
 <h2>Details</h2>
-<hr />
 
 <div class="panel panel-danger">
     <div class="panel-heading">

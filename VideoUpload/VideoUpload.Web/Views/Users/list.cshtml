@@ -7,11 +7,9 @@
     ViewBag.Title = "User list";
 }
 
-<div>
+<div class="col-xs-12">
     <p class="pull-right">
-        <a href="@Url.Action("new", "users", new { Area = "manage" })" class="btn btn-success btn-xs">
-            Add new user
-        </a>
+        <a href="@Url.Action("new", "users", new { Area = "manage" })" class="btn btn-success btn-xs">Add new user</a>
     </p>
 </div>
 
@@ -32,10 +30,10 @@
             <tr>
                 <td>
                     <a href="@Url.Action("Edit")" class="btn btn-primary btn-xs">
-                        <i class="fa fa-pencil"></i> Edit
+                        Edit &nbsp; <i class="fa fa-pencil"></i>
                     </a>
                     <a href="#" class="btn btn-primary btn-xs">
-                        <i class="fa fa-pencil-square"></i> Claims
+                        Claims &nbsp; <i class="fa fa-pencil-square"></i>
                     </a>
                 </td>
                 <td>@user.UserName</td>

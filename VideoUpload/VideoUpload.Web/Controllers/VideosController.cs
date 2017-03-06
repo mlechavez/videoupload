@@ -15,16 +15,20 @@ using System.Web.Mvc;
 using VideoUpload.Core.Entities;
 using VideoUpload.EF;
 using VideoUpload.Web.Models;
+using VideoUpload.Web.Models.Identity;
 
 namespace VideoUpload.Web.Controllers
-{
+{    
+
     public class VideosController : Controller
     {
         private readonly UnitOfWork _uow;
+        private readonly UserManager _mgr;
 
-        public VideosController(UnitOfWork unitOfWork)
+        public VideosController(UnitOfWork unitOfWork, UserManager mgr)
         {
             _uow = unitOfWork;
+            _mgr = mgr;
         }
         public async Task<ActionResult> Index(int? page)
         {
@@ -238,6 +242,7 @@ namespace VideoUpload.Web.Controllers
             };            
             return View(viewModel);
         }
+        [AllowAnonymous]
         public ActionResult VideoResult(string fileName)
         {
             var file = _uow.Attachments.GetByFileName(fileName);
@@ -278,7 +283,7 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public  ActionResult Send(string email, string subject,int p, string v)
+        public  async Task<ActionResult> Send(string email, string subject,int p, string v)
         {
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(subject))
             {
@@ -286,25 +291,16 @@ namespace VideoUpload.Web.Controllers
             }
             var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("Watch", new { p = p,  v = v });
 
-            var mail = new MailMessage();
-            mail.From = new MailAddress("kyocera.km3060@boraq-porsche.com.qa");
-            mail.To.Add(email);
-            mail.Subject = subject;
-            mail.Body = url;
-            mail.IsBodyHtml = true;
+            var id = User.Identity.GetUserId();
 
-            var host = "78.100.48.220";
-            var port = 25;
+            var user = _mgr.FindById(id);
 
-            using (var client = new SmtpClient(host, port))
-            {
-                client.Credentials = new System.Net.NetworkCredential("kyocera.km3060@boraq-porsche.com.qa", "kyocera123");
-                client.EnableSsl = false;
-                client.Send(mail);
-            }
+            await _mgr.CustomSendEmailAsync(user.Id, subject, "Watch the link for your car: " + url, email, user.EmailPass);
+            
             return RedirectToAction("index");
         }
 
+        [AllowAnonymous]
         public ActionResult Watch(int p, string v)
         {
             var post = _uow.Posts.GetById(p);

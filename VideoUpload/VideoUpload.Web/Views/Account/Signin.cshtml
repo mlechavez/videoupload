@@ -8,6 +8,7 @@
 @using (Html.BeginForm("Signin", "Account", FormMethod.Post))
 {
     @Html.HiddenFor(x => x.ReturnUrl);
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(x=>x.Username)
         @Html.TextBoxFor(x=>x.Username, new { @class = "form-control input-sm" })
@@ -20,5 +21,6 @@
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Sign in</button>
+        Forgot password? click <a href="@Url.Action("passwordreset")">here.</a>
     </div>
 }

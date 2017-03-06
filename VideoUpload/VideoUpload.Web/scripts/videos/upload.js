@@ -52,11 +52,7 @@ $('#appModal').on('show.bs.modal', function () {
 function progressHandler(event) {
     var percent = Math.floor((event.loaded / event.total) * 100);
     var widthSize = percent.toString() + "%";
-    var appModal = $('#appModal');
-    console.log("Loaded: " + event.loaded);
-    console.log("Total: " + event.total);
-    console.log("Percent: " + percent)
-    console.log("Width Size: " + widthSize);
+    var appModal = $('#appModal');    
     progressBar = appModal.find('.progress-bar');
 
     progressBar

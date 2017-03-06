@@ -15,6 +15,7 @@ namespace VideoUpload.Web.Models
         } 
         public int PostID { get; set; }    
         [Required]
+        [Display(Name = "Plate number")]
         public string PlateNumber { get; set; }
         [Required]
         public string Description { get; set; }               
