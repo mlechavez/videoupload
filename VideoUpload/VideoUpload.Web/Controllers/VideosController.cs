@@ -14,13 +14,14 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using VideoUpload.Core.Entities;
 using VideoUpload.EF;
+using VideoUpload.Web.Common;
 using VideoUpload.Web.Models;
 using VideoUpload.Web.Models.Identity;
 
 namespace VideoUpload.Web.Controllers
 {    
 
-    public class VideosController : Controller
+    public class VideosController : ClaimsUserController
     {
         private readonly UnitOfWork _uow;
         private readonly UserManager _mgr;
@@ -30,6 +31,7 @@ namespace VideoUpload.Web.Controllers
             _uow = unitOfWork;
             _mgr = mgr;
         }
+
         public async Task<ActionResult> Index(int? page)
         {
             var posts = await _uow.Posts.GetAllAsync();
@@ -199,6 +201,7 @@ namespace VideoUpload.Web.Controllers
                         
             return View(viewModel);
         }
+
         [HttpPost]
         public async Task<ActionResult> Edit(PostViewModel viewModel)
         {
@@ -214,6 +217,7 @@ namespace VideoUpload.Web.Controllers
             }
             return View(viewModel);
         }
+
         public async Task<ActionResult> Details(int postID, string fileName)
         {            
             var post = await _uow.Posts.GetByIdAsync(postID);
@@ -242,6 +246,7 @@ namespace VideoUpload.Web.Controllers
             };            
             return View(viewModel);
         }
+
         [AllowAnonymous]
         public ActionResult VideoResult(string fileName)
         {
@@ -250,10 +255,12 @@ namespace VideoUpload.Web.Controllers
             return new CustomResult(fileName);
             //return File(file.FileUrl, file.MIMEType, file.FileName);
         }
+
         public ActionResult Download(string fileName)
         {
             return new DownloadResult(fileName);
         }
+
         public async Task<ActionResult> Send(int p, string v)
         {
             var post = await _uow.Posts.GetByIdAsync(p);
@@ -282,6 +289,7 @@ namespace VideoUpload.Web.Controllers
             };
             return View(viewModel);
         }
+
         [HttpPost]
         public  async Task<ActionResult> Send(string email, string subject,int p, string v)
         {
@@ -293,9 +301,7 @@ namespace VideoUpload.Web.Controllers
 
             var id = User.Identity.GetUserId();
 
-            var user = _mgr.FindById(id);
-
-            await _mgr.CustomSendEmailAsync(user.Id, subject, "Watch the link for your car: " + url, email, user.EmailPass);
+            await _mgr.CustomSendEmailAsync(id, subject, "Watch the link for your car: " + url, email, AppUserClaim.EmailPass);
             
             return RedirectToAction("index");
         }

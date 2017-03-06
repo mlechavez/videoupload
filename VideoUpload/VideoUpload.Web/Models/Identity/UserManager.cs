@@ -23,7 +23,7 @@ namespace VideoUpload.Web.Models.Identity
                 RequiredLength = 6
             };
             ClaimsIdentityFactory = new AppClaimsIdentityFactory();
-            CustomEmailService = new CustomEmailService();
+            CustomEmailService = new CustomEmailService();            
 
             var dataProtectionProvider = Startup.DataProtectionProvider;
             if (dataProtectionProvider != null)
@@ -44,6 +44,7 @@ namespace VideoUpload.Web.Models.Identity
                 identityMessage.Body = body;
                 identityMessage.To = to;
                 identityMessage.Credential = credential;
+
                 await CustomEmailService.SendAsync(identityMessage);                
             }
         }
@@ -58,7 +59,7 @@ namespace VideoUpload.Web.Models.Identity
             id.AddClaim(new Claim("lastname", user.LastName));
             id.AddClaim(new Claim("email", user.Email));
             id.AddClaim(new Claim("emailpass", user.EmailPass));
-
+            
             return id;
         }
     }

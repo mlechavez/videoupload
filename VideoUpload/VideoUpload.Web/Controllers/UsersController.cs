@@ -51,8 +51,9 @@ namespace VideoUpload.Web.Controllers
                     EmailPass = viewModel.EmailPass,
                     IsActive = true                    
                 };
-                var result = await _mgr.CreateAsync(identityUser, viewModel.Password);
+                var result = await _mgr.CreateAsync(identityUser, viewModel.Password);                
 
+                
                 if (result.Succeeded)
                 {
                     result = await _mgr.SetEmailAsync(identityUser.Id, viewModel.Email);

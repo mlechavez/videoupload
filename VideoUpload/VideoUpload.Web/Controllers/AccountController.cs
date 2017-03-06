@@ -39,6 +39,7 @@ namespace VideoUpload.Web.Controllers
                         if (user.IsActive)
                         {
                             var ci = await _mgr.CreateIdentityAsync(user, "Cookie");
+                            
                             var ctx = Request.GetOwinContext();
                             var authMgr = ctx.Authentication;
                             authMgr.SignIn(ci);
@@ -123,6 +124,7 @@ namespace VideoUpload.Web.Controllers
             }
             return Url.RouteUrl(returnUrl);
         }
+
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
