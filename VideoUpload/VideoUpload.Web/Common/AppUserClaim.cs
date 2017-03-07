@@ -30,9 +30,11 @@ namespace VideoUpload.Web.Common
             get { return FindFirst("emailpass").Value; }
         }
 
-        public List<Claim> Access
-        {
-            get { return FindAll("approval").ToList(); }            
-        }
+        //public List<Claim> Access
+        //{
+        //    get { return FindAll("approval").ToList(); }            
+        //}
+
+
     }
 }

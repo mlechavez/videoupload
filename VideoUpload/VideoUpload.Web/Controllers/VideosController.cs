@@ -196,7 +196,8 @@ namespace VideoUpload.Web.Controllers
             {
                 PostID = post.PostID,
                 PlateNumber = post.PlateNumber,
-                Description = post.Description              
+                Description = post.Description,
+                UploadedBy = post.User.UserName
             };
                         
             return View(viewModel);
