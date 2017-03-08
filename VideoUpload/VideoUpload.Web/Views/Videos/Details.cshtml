@@ -1,29 +1,46 @@
 ﻿@model VideoUpload.Web.Models.PostViewModel
-
 @{
-    ViewBag.Title = "Details";    
+    ViewBag.Title = "Details";
 }
 
-<div class="col-xs-12">
-    <p class="pull-right">
-        @Html.ActionLink("Back to List", "index", null, new { @class = "btn btn-info btn-xs" }) |
-        @Html.ActionLink("Edit post", "edit", new { postID = Model.PostID }, new { @class = "btn btn-info btn-xs" }) 
-        @if (Model.IsApproved)
+<div class="btn-group btn-group-xs" role="group">
+    @Html.ActionLink("Back to list", "index", null, new { @class = "btn btn-info" })
+    @Html.ActionLink("Edit post", "edit", new { postID = Model.PostID }, new { @class = "btn btn-info" })
+    @if (Model.IsApproved)
+    {
+        <div class="btn-group btn-group-xs">
+            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Sending options <span class="caret"></span></button>
+
+            <ul class="dropdown-menu">
+                <li>
+                    @Html.ActionLink("Send email", "send", new { p = Model.PostID, v = ViewBag.FileName, sendingType = "email" })
+                </li>
+                <li>
+                    @Html.ActionLink("Send sms", "send", new { p = Model.PostID, v = ViewBag.FileName, sendingType = "sms" })
+                </li>
+            </ul>
+        </div>
+    }
+    @if (CurrentUser.Approval.Any(x => x.Value == "CanApproveVideo"))
+    {
+        if (!Model.IsApproved)
         {
-            <text>|</text>
-            @Html.ActionLink("Send email", "send", new { p = Model.PostID, v = ViewBag.FileName, sendingType = "email" }, new { @class = "btn btn-success btn-xs " })
-            <text>|</text>
-            @Html.ActionLink("Send sms", "send", new { p = Model.PostID, v = ViewBag.FileName, sendingType = "sms" }, new { @class = "btn btn-success btn-xs " })
-        }        
-    </p>
+            <div class="btn-group btn-group-xs">
+                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true">Approve</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false">Disapprove</a></li>
+                </ul>
+            </div>
+        }
+    }
 </div>
 
 <h2>Details</h2>
-
 <div class="panel panel-danger">
     <div class="panel-heading">
         <b>Plate number:</b> @Html.DisplayFor(model => model.PlateNumber)
-        <span class="pull-right"><b>Owner:</b> @Html.DisplayFor(model => model.UploadedBy)</span>
+        <p class="pull-right"><b>Owner:</b> @Html.DisplayFor(model => model.UploadedBy)</p>
     </div>
     <div class="panel-body">
         <p><b>Description:</b><br /> @Html.DisplayFor(model => model.Description)</p>
@@ -32,6 +49,12 @@
         <video class="embed-responsive-item" preload="metadata" autoplay controls poster="@Url.Content("~/Content/Images/porsche-logo.png")">
             <source src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType" />
             Your browser does not support playing this video. Please upgrade your browser.
-        </video>    
-    </div>    
+        </video>
+    </div>
 </div>
+
+@Html.Partial("_Modal")
+
+@section Script {
+    <script src="~/scripts/videos/details.js"></script>
+}

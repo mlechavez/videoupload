@@ -18,7 +18,9 @@ namespace VideoUpload.Core.Entities
         public string EditedBy { get; set; }
         public DateTime? DateEdited { get; set; }
         public string UserID { get; set; }
+        public bool HasApproval { get; set; }
         public bool IsApproved { get; set; }
+        public DateTime? DateApproved { get; set; }
 
         public virtual ICollection<PostAttachment> Attachments
         {

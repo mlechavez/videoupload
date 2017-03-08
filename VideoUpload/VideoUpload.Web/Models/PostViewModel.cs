@@ -24,7 +24,9 @@ namespace VideoUpload.Web.Models
         public string UploadedBy { get; set; }
         public string EditedBy { get; set; }
         public DateTime? DateEdited { get; set; }
+        public bool HasApproval { get; set; }
         public bool IsApproved { get; set; }
+        public DateTime? DateApproved { get; set; }
 
         public ICollection<PostAttachment> Attachments { get; set; }
     }

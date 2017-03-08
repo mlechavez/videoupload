@@ -33,7 +33,7 @@
                     <td>@Html.DisplayFor(modelItem => item.PlateNumber)</td>
                     <td>@Html.DisplayFor(modelItem => item.Description)</td>
                     <td>@Html.DisplayFor(modelItem => item.UploadedBy)</td>
-                    <td>@item.DateUploaded.ToUniversalTime()</td>
+                    <td>@Html.DisplayFor(modelItem => item.DateUploaded)</td>
                     <td>
                         <a href="@Url.Action("edit", new { postID = item.PostID })" class="btn btn-warning btn-xs"><i class="fa fa-pencil-square-o"></i> Edit</a> |
                         @if (item.Attachments == null)
@@ -46,6 +46,24 @@
                                 <i class="fa fa-info"></i> Details
                             </a>
                         }
+
+                        @if (!item.HasApproval)
+                        {
+                            <text>|</text>
+                            <span class="label label-danger">For approval.</span>
+                        }
+                        else
+                        {
+                            if (item.IsApproved)
+                            {
+                                <text>|</text>
+                                <span class="label label-success">Approved.</span>
+                            }
+                            else
+                            {
+                                <text>|</text>
+                                <span class="label label-danger">Disapproved.</span>
+                            }}
                     </td>
                 </tr>
             }

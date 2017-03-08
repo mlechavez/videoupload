@@ -29,6 +29,7 @@
 
 });
 
+
 $('#appModal').on('show.bs.modal', function () {
     var self = $(this),
         title = self.find('.modal-title'),
@@ -49,6 +50,21 @@ $('#appModal').on('show.bs.modal', function () {
     body.append(progress);
 });
 
+$('#appModal .modal-content').on('click', '#btnUploadExit', function () {
+    var appModal = $('#appModal');
+    $('#PlateNumber').val("");
+    $('#Description').val('');
+    $('#Attachments').val('');
+
+    appModal.modal('hide');   
+});
+
+$('#appModal').on('hidden.bs.modal', function () {
+    var modal = $(this);
+    modal.find('.modal-body').empty();
+    modal.find('.modal-footer').remove();
+});
+
 function progressHandler(event) {
     var percent = Math.floor((event.loaded / event.total) * 100);
     var widthSize = percent.toString() + "%";
@@ -64,12 +80,14 @@ function progressHandler(event) {
         "<i class='fa fa-spin'></i>Loading..."
     ).addClass('disabled');
 }
+
 function completeHandler() {
 
     var appModal = $('#appModal'),
         title = appModal.find('.modal-title'),
         progressBar = appModal.find('.progress-bar'),
-        btnClose = appModal.find('.close');
+        btnClose = appModal.find('.close'),
+        content = appModal.find('.modal-content');
 
     title.html('Uploaded succesfully');
     btnClose.removeClass('hidden');
@@ -77,6 +95,14 @@ function completeHandler() {
         .css('width', '100%')
         .removeClass('active')
         .html('100%');
+
     $('#btnSubmit').removeClass('disabled').html('Upload');
 
+    var footer = $('<div></div>').addClass('modal-footer');
+    var btnOk = $('<button></button>')
+                .addClass('btn btn-success pull-right')
+                .attr('id', 'btnUploadExit')
+                .html('Close');
+    footer.append(btnOk);
+    content.append(footer);    
 }

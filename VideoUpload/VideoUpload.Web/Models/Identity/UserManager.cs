@@ -84,7 +84,7 @@ namespace VideoUpload.Web.Models.Identity
             id.AddClaim(new Claim("emailpass", user.EmailPass));
 
             var claims = await manager.GetClaimsAsync(user.Id);
-            
+                        
             foreach (var claim in claims)
             {
                 id.AddClaim(claim);

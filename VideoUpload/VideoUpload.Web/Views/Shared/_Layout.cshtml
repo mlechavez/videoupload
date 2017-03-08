@@ -36,11 +36,14 @@
                                 @User.Identity.Name <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li>
-                                    <a href="@Url.Action("list","users", new { Area = "manage" })">
-                                        <i class="fa fa-cog fa-fw"></i> Manage users
-                                    </a>
-                                </li>
+                                @if (CurrentUser.ManageUser.Any(x => x.Value == "CanRead"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("list","users", new { Area = "manage" })">
+                                            <i class="fa fa-cog fa-fw"></i> Manage users
+                                        </a>
+                                    </li>
+                                }                                
                                 <li>
                                     <a href="@Url.Action("Signout","Account", new { Area = "" })">
                                         <i class="fa fa-sign-out fa-fw"></i> Sign out

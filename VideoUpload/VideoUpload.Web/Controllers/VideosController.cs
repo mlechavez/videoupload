@@ -21,7 +21,7 @@ using VideoUpload.Web.Models.Identity;
 namespace VideoUpload.Web.Controllers
 {    
 
-    public class VideosController : ClaimsUserController
+    public class VideosController : AppController
     {
         private readonly UnitOfWork _uow;
         private readonly UserManager _mgr;
@@ -32,6 +32,7 @@ namespace VideoUpload.Web.Controllers
             _mgr = mgr;
         }
 
+        
         public async Task<ActionResult> Index(int? page)
         {
             var posts = await _uow.Posts.GetAllAsync();
@@ -63,7 +64,7 @@ namespace VideoUpload.Web.Controllers
             viewModel = viewModel.OrderByDescending(x => x.DateUploaded).ToList();            
             return View(viewModel.ToPagedList(page ?? 1, 20));
         }
-
+        
         public ActionResult Upload()
         {
             var post = new CreatePostViewModel();            
@@ -304,7 +305,7 @@ namespace VideoUpload.Web.Controllers
                 {
                     return View("_Error");
                 }
-                await _mgr.CustomSendEmailAsync(id, subject, "Watch the link for your car: " + url, email, AppUserClaim.EmailPass);
+                await _mgr.CustomSendEmailAsync(id, subject, "Watch the link for your car: " + url, email, CurrentUser.EmailPass);
             }
             else
             {
@@ -340,6 +341,11 @@ namespace VideoUpload.Web.Controllers
                 Attachments = attachments
             };
             return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult Approval(bool isapproved)
+        {
+            return Json(new { success = true });
         }
     }
 }
