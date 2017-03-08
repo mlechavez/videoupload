@@ -12,5 +12,6 @@ namespace VideoUpload.Core.Entities
         public string Recipient { get; set; }
         public DateTime DateSent { get; set; }
         public string Sender { get; set; }
+        public string Type { get; set; }
     }
 }

@@ -60,8 +60,7 @@ namespace VideoUpload.Web.Controllers
                     DateEdited = x.DateEdited
                 });
             });
-            viewModel = viewModel.OrderByDescending(x => x.DateUploaded).ToList();
-            
+            viewModel = viewModel.OrderByDescending(x => x.DateUploaded).ToList();            
             return View(viewModel.ToPagedList(page ?? 1, 20));
         }
 
@@ -227,7 +226,7 @@ namespace VideoUpload.Web.Controllers
             {
                 return View("_Error");
             }
-
+            
             var attachment = post.Attachments.FirstOrDefault(x => x.FileName == fileName);
             
             ViewBag.FileName = attachment.FileName;
@@ -243,7 +242,8 @@ namespace VideoUpload.Web.Controllers
                 PlateNumber = post.PlateNumber,
                 Description = post.Description,
                 UploadedBy = post.User.UserName,
-                Attachments = attachments
+                Attachments = attachments,
+                IsApproved = post.IsApproved                
             };            
             return View(viewModel);
         }
@@ -262,7 +262,7 @@ namespace VideoUpload.Web.Controllers
             return new DownloadResult(fileName);
         }
 
-        public async Task<ActionResult> Send(int p, string v)
+        public async Task<ActionResult> Send(int p, string v, string sendingType)
         {
             var post = await _uow.Posts.GetByIdAsync(p);
 
@@ -288,24 +288,30 @@ namespace VideoUpload.Web.Controllers
                 UploadedBy = post.User.UserName,
                 Attachments = attachments
             };
+            ViewBag.SendingType = sendingType;
             return View(viewModel);
         }
 
         [HttpPost]
-        public  async Task<ActionResult> Send(string email, string subject,int p, string v)
+        public  async Task<ActionResult> Send(string sendingType, string email, string subject,int p, string v, string mobile)
         {
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(subject))
-            {
-                return View("_Error");
-            }
-            var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("Watch", new { p = p,  v = v });
-
+            var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("Watch", new { p = p, v = v });
             var id = User.Identity.GetUserId();
 
-            await _mgr.CustomSendEmailAsync(id, subject, "Watch the link for your car: " + url, email, AppUserClaim.EmailPass);
-            
+            if (sendingType == "email")
+            {
+                if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(subject))
+                {
+                    return View("_Error");
+                }
+                await _mgr.CustomSendEmailAsync(id, subject, "Watch the link for your car: " + url, email, AppUserClaim.EmailPass);
+            }
+            else
+            {
+                await _mgr.CustomSendSmsAsync(id, mobile, subject + " " + url);
+            }            
             return RedirectToAction("index");
-        }
+        }        
 
         [AllowAnonymous]
         public ActionResult Watch(int p, string v)

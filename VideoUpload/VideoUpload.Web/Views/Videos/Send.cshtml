@@ -7,7 +7,7 @@
     @Html.ActionLink("Back to details", "details", new { postID = Model.PostID, fileName = ViewBag.FileName }, new { @class = "btn btn-info btn-xs " })
 </p>
 
-<h2>Send a link to customer</h2>
+<h2>Send a link to customer via @ViewBag.SendingType</h2>
 
 <div class="col-sm-12 well">
     <p>
@@ -20,14 +20,29 @@
 {
     <input type="hidden" name="p" value="@Model.PostID" />
     <input type="hidden" name="v" value="@ViewBag.FileName" />
-    <div class="form-group">
-        <label for="email">Enter email address:</label>
-        <input type="email" name="email" class="form-control" autofocus required />
-    </div>
-    <div class="form-group">
-        <label for="subject">Subject:</label>
-        <input type="text" name="subject" class="form-control" required />
-    </div>
+    <input type="hidden" name="sendingType" value="@ViewBag.SendingType" />
+    if (ViewBag.SendingType == "email")
+    {
+        <div class="form-group">
+            <label for="email">Enter email address:</label>
+            <input type="email" name="email" class="form-control" autofocus required />
+        </div>
+        <div class="form-group">
+            <label for="subject">Subject:</label>
+            <input type="text" name="subject" class="form-control" required />
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <label for="mobile">phone number: (include the country code e.g +974)</label>
+            <input type="text" name="mobile" class="form-control" autofocus required />
+        </div>
+        <div class="form-group">
+            <label for="subject">Message:</label>
+            <input type="text" name="subject" class="form-control" required />
+        </div>
+    }
     <div class="form-group">
         <input type="submit" class="btn btn-success" value="Send" />
     </div>

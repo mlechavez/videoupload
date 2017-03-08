@@ -7,8 +7,14 @@
 <div class="col-xs-12">
     <p class="pull-right">
         @Html.ActionLink("Back to List", "index", null, new { @class = "btn btn-info btn-xs" }) |
-        @Html.ActionLink("Edit post", "edit", new { postID = Model.PostID }, new { @class = "btn btn-info btn-xs" }) |
-        @Html.ActionLink("Send to customer", "send", new { p = Model.PostID, v = ViewBag.FileName }, new { @class = "btn btn-success btn-xs " })
+        @Html.ActionLink("Edit post", "edit", new { postID = Model.PostID }, new { @class = "btn btn-info btn-xs" }) 
+        @if (Model.IsApproved)
+        {
+            <text>|</text>
+            @Html.ActionLink("Send email", "send", new { p = Model.PostID, v = ViewBag.FileName, sendingType = "email" }, new { @class = "btn btn-success btn-xs " })
+            <text>|</text>
+            @Html.ActionLink("Send sms", "send", new { p = Model.PostID, v = ViewBag.FileName, sendingType = "sms" }, new { @class = "btn btn-success btn-xs " })
+        }        
     </p>
 </div>
 

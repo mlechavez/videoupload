@@ -19,6 +19,7 @@ namespace VideoUpload.EF
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostAttachment> Attachments { get; set; }
         public DbSet<History> Histories { get; set; }
+        public DbSet<Activity> Activities { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -26,6 +27,7 @@ namespace VideoUpload.EF
             modelBuilder.Configurations.Add(new UserClaimConfiguration());
             modelBuilder.Configurations.Add(new PostConfigurations());
             modelBuilder.Configurations.Add(new PostAttachmentConfiguration());
+            modelBuilder.Configurations.Add(new ActivityConfiguration());
         }
     }
 }

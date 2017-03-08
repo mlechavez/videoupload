@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 
 using VideoUpload.Web.Models.Identity;
 using VideoUpload.Core.Entities;
+using VideoUpload.EF;
 
 [assembly: OwinStartup(typeof(VideoUpload.Web.Startup))]
 namespace VideoUpload.Web
@@ -25,7 +26,8 @@ namespace VideoUpload.Web
             });
 
             var mgr = DependencyResolver.Current.GetService(typeof(UserManager)) as UserManager;
-
+            var store = DependencyResolver.Current.GetService(typeof(UnitOfWork)) as UnitOfWork;
+            
             var user = mgr.FindByName("admin");
 
             if (user == null)
@@ -46,7 +48,8 @@ namespace VideoUpload.Web
                 var result = mgr.Create(u, "Lester@Dev");
                 if (result.Succeeded)
                 {                    
-                    result = mgr.SetEmail(u.Id, u.Email);                    
+                    result = mgr.SetEmail(u.Id, u.Email);
+                                        
                 }                
             }
         }

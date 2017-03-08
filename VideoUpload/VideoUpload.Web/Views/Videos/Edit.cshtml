@@ -21,7 +21,8 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">            
             <div class="col-md-10">
-                @Html.HiddenFor(model => model.PostID)                
+                @Html.HiddenFor(model => model.PostID)   
+                @Html.HiddenFor(model => model.UploadedBy)             
             </div>
         </div>
 
