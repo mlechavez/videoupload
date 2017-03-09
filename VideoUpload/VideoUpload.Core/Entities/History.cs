@@ -10,7 +10,7 @@ namespace VideoUpload.Core.Entities
     {
         public int HistoryID { get; set; }
         public string Recipient { get; set; }
-        public DateTimeOffset DateSent { get; set; }
+        public DateTime DateSent { get; set; }
         public string Sender { get; set; }
         public string Type { get; set; }
     }

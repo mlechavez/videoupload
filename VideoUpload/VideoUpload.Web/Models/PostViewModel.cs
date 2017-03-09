@@ -19,14 +19,14 @@ namespace VideoUpload.Web.Models
         public string PlateNumber { get; set; }
         [Required]
         public string Description { get; set; }               
-        public DateTimeOffset DateUploaded { get; set; }
+        public DateTime DateUploaded { get; set; }
         [Required]
         public string UploadedBy { get; set; }
         public string EditedBy { get; set; }
-        public DateTimeOffset? DateEdited { get; set; }
+        public DateTime? DateEdited { get; set; }
         public bool HasApproval { get; set; }
         public bool IsApproved { get; set; }
-        public DateTimeOffset? DateApproved { get; set; }
+        public DateTime? DateApproved { get; set; }
 
         public ICollection<PostAttachment> Attachments { get; set; }
     }

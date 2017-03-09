@@ -361,7 +361,7 @@ namespace VideoUpload.Web.Controllers
             {
                 post.HasApproval = isapproved;
                 post.IsApproved = isapproved;
-                post.DateApproved = DateTimeOffset.Now;
+                post.DateApproved = DateTime.UtcNow;
                 _uow.Posts.Update(post);
                 _uow.SaveChanges();
 

@@ -68,6 +68,10 @@
     <Compile Include="Migrations\201703091259566_InitialCreate.Designer.cs">
       <DependentUpon>201703091259566_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703091503312_RevisedDateTime.cs" />
+    <Compile Include="Migrations\201703091503312_RevisedDateTime.Designer.cs">
+      <DependentUpon>201703091503312_RevisedDateTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ActivityRepository.cs" />
@@ -91,6 +95,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703091259566_InitialCreate.resx">
       <DependentUpon>201703091259566_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703091503312_RevisedDateTime.resx">
+      <DependentUpon>201703091503312_RevisedDateTime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

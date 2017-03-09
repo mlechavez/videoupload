@@ -1,5 +1,6 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
+@using VideoUpload.Web.Common;
 
 @model IPagedList<VideoUpload.Web.Models.PostViewModel>
 
@@ -33,7 +34,7 @@
                     <td>@Html.DisplayFor(modelItem => item.PlateNumber)</td>
                     <td>@Html.DisplayFor(modelItem => item.Description)</td>
                     <td>@Html.DisplayFor(modelItem => item.UploadedBy)</td>
-                    <td>@Html.DisplayFor(modelItem => item.DateUploaded.ToLocalTime())</td>
+                    <td>@Html.DisplayFor(modelItem => item.DateUploaded.ToClientTime())</td>
                     <td>
                         <a href="@Url.Action("edit", new { postID = item.PostID })" class="btn btn-warning btn-xs"><i class="fa fa-pencil-square-o"></i> Edit</a> |
                         @if (item.Attachments == null)

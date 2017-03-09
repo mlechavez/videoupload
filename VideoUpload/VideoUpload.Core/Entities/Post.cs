@@ -14,13 +14,13 @@ namespace VideoUpload.Core.Entities
         public int PostID { get; set; }
         public string PlateNumber { get; set; }
         public string Description { get; set; }                
-        public DateTimeOffset DateUploaded { get; set; }
+        public DateTime DateUploaded { get; set; }
         public string EditedBy { get; set; }
-        public DateTimeOffset? DateEdited { get; set; }
+        public DateTime? DateEdited { get; set; }
         public string UserID { get; set; }
         public bool HasApproval { get; set; }
         public bool IsApproved { get; set; }
-        public DateTimeOffset? DateApproved { get; set; }
+        public DateTime? DateApproved { get; set; }
 
         public virtual ICollection<PostAttachment> Attachments
         {
