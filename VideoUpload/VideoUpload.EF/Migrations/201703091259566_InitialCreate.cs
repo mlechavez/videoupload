@@ -8,6 +8,17 @@ namespace VideoUpload.EF.Migrations
         public override void Up()
         {
             CreateTable(
+                "dbo.Activities",
+                c => new
+                    {
+                        ActivityID = c.Int(nullable: false, identity: true),
+                        Type = c.String(),
+                        Value = c.String(),
+                        Description = c.String(),
+                    })
+                .PrimaryKey(t => t.ActivityID);
+            
+            CreateTable(
                 "dbo.Attachments",
                 c => new
                     {
@@ -18,7 +29,7 @@ namespace VideoUpload.EF.Migrations
                         FileUrl = c.String(),
                         PostID = c.Int(),
                         AttachmentNo = c.String(),
-                        DateCreated = c.DateTime(),
+                        DateCreated = c.DateTimeOffset(precision: 7),
                     })
                 .PrimaryKey(t => t.PostAttachmentID)
                 .ForeignKey("dbo.Posts", t => t.PostID)
@@ -31,11 +42,13 @@ namespace VideoUpload.EF.Migrations
                         PostID = c.Int(nullable: false, identity: true),
                         PlateNumber = c.String(nullable: false),
                         Description = c.String(nullable: false),
-                        DateUploaded = c.DateTime(nullable: false),
+                        DateUploaded = c.DateTimeOffset(nullable: false, precision: 7),
                         EditedBy = c.String(),
-                        DateEdited = c.DateTime(),
+                        DateEdited = c.DateTimeOffset(precision: 7),
                         UserID = c.String(maxLength: 128),
+                        HasApproval = c.Boolean(nullable: false),
                         IsApproved = c.Boolean(nullable: false),
+                        DateApproved = c.DateTimeOffset(precision: 7),
                     })
                 .PrimaryKey(t => t.PostID)
                 .ForeignKey("dbo.Users", t => t.UserID)
@@ -79,8 +92,9 @@ namespace VideoUpload.EF.Migrations
                     {
                         HistoryID = c.Int(nullable: false, identity: true),
                         Recipient = c.String(),
-                        DateSent = c.DateTime(nullable: false),
+                        DateSent = c.DateTimeOffset(nullable: false, precision: 7),
                         Sender = c.String(),
+                        Type = c.String(),
                     })
                 .PrimaryKey(t => t.HistoryID);
             
@@ -99,6 +113,7 @@ namespace VideoUpload.EF.Migrations
             DropTable("dbo.Users");
             DropTable("dbo.Posts");
             DropTable("dbo.Attachments");
+            DropTable("dbo.Activities");
         }
     }
 }

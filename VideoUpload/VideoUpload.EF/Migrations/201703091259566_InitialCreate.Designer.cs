@@ -13,7 +13,7 @@ namespace VideoUpload.EF.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201703050753083_InitialCreate"; }
+            get { return "201703091259566_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

@@ -64,9 +64,9 @@
     <Compile Include="Configurations\PostConfigurations.cs" />
     <Compile Include="Configurations\UserClaimConfiguration.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
-    <Compile Include="Migrations\201703050753083_InitialCreate.cs" />
-    <Compile Include="Migrations\201703050753083_InitialCreate.Designer.cs">
-      <DependentUpon>201703050753083_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201703091259566_InitialCreate.cs" />
+    <Compile Include="Migrations\201703091259566_InitialCreate.Designer.cs">
+      <DependentUpon>201703091259566_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,8 +89,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703050753083_InitialCreate.resx">
-      <DependentUpon>201703050753083_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703091259566_InitialCreate.resx">
+      <DependentUpon>201703091259566_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
