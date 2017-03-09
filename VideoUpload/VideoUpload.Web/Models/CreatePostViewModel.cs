@@ -10,7 +10,7 @@ namespace VideoUpload.Web.Models
     {
         public CreatePostViewModel()
         {           
-            DateUploaded = DateTime.Now;
+            DateUploaded = DateTimeOffset.Now;
             Attachments = new List<HttpPostedFileBase>();
         }
         public int PostID { get; set; }
@@ -18,7 +18,7 @@ namespace VideoUpload.Web.Models
         public string PlateNumber { get; set; }
         [Required]
         public string Description { get; set; }      
-        public DateTime DateUploaded { get; set; }
+        public DateTimeOffset DateUploaded { get; set; }
         public List<HttpPostedFileBase> Attachments { get; set; }
     }
 }

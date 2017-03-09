@@ -15,7 +15,7 @@ namespace VideoUpload.Core.Entities
         public string FileUrl { get; set; }
         public int? PostID { get; set; }
         public string AttachmentNo { get; set; }
-        public DateTime? DateCreated { get; set; }
+        public DateTimeOffset? DateCreated { get; set; }
 
         public virtual Post Post { get; set; }
     }

@@ -31,7 +31,6 @@ namespace VideoUpload.Web.Controllers
             _uow = unitOfWork;
             _mgr = mgr;
         }
-
         
         public async Task<ActionResult> Index(int? page)
         {
@@ -58,7 +57,9 @@ namespace VideoUpload.Web.Controllers
                     Attachments = attachments,
                     DateUploaded = x.DateUploaded,
                     EditedBy = x.EditedBy,
-                    DateEdited = x.DateEdited
+                    DateEdited = x.DateEdited,
+                    HasApproval = x.HasApproval,
+                    IsApproved = x.IsApproved
                 });
             });
             viewModel = viewModel.OrderByDescending(x => x.DateUploaded).ToList();            
@@ -244,6 +245,7 @@ namespace VideoUpload.Web.Controllers
                 Description = post.Description,
                 UploadedBy = post.User.UserName,
                 Attachments = attachments,
+                HasApproval = post.HasApproval,
                 IsApproved = post.IsApproved                
             };            
             return View(viewModel);
@@ -343,9 +345,38 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public ActionResult Approval(bool isapproved)
+        public async Task<ActionResult> Approval(bool isapproved, string postID)
         {
-            return Json(new { success = true });
+            var _postID = int.Parse(postID);
+            var post = await _uow.Posts.GetByIdAsync(_postID);
+
+
+            if (post == null)
+            {
+                return Json(new { success = false, message = "We could not retrieve the post. Please contact IT" });
+            }
+            var user = await _mgr.FindByIdAsync(post.UserID);
+
+            if (isapproved)
+            {
+                post.HasApproval = isapproved;
+                post.IsApproved = isapproved;
+                post.DateApproved = DateTimeOffset.Now;
+                _uow.Posts.Update(post);
+                _uow.SaveChanges();
+
+                //await _mgr.CustomSendEmailAsync(user.Id, "Video approval", "Your video has been approved you can now send the video to customer", user.Email, "");
+
+                return Json(new { success = true, message = "You've successfully approved the video. He/she will receive an email notification" });
+            }
+            post.HasApproval = true;
+            post.IsApproved = isapproved;
+            _uow.Posts.Update(post);
+            _uow.SaveChanges();
+
+            //await _mgr.CustomSendEmailAsync(user.Id, "Video approval", "Your video has been disapproved.", user.Email, "");
+
+            return Json(new { success = true, message = "You've successfully disapproved the video. He/she will receive an email notification" });            
         }
     }
 }

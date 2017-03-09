@@ -17,6 +17,6 @@ namespace VideoUpload.Web.Models
         public string MIMEType { get; set; }
         public int FileSize { get; set; }
         public string PostID { get; set; }
-        public DateTime? DateCreated { get; set; }
+        public DateTimeOffset? DateCreated { get; set; }
     }
 }

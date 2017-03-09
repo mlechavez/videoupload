@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Details";
 }
+@Html.Partial("_Modal")
 
 <div class="btn-group btn-group-xs" role="group">
     @Html.ActionLink("Back to list", "index", null, new { @class = "btn btn-info" })
@@ -23,16 +24,19 @@
     }
     @if (CurrentUser.Approval.Any(x => x.Value == "CanApproveVideo"))
     {
-        if (!Model.IsApproved)
-        {
-            <div class="btn-group btn-group-xs">
-                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true">Approve</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false">Disapprove</a></li>
-                </ul>
-            </div>
-        }
+        <div class="btn-group btn-group-xs">
+            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                @if (!Model.IsApproved)
+                {
+                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Approve</a></li>
+                }
+                else
+                {
+                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Disapprove</a></li>
+                }                
+            </ul>
+        </div>
     }
 </div>
 
@@ -46,14 +50,14 @@
         <p><b>Description:</b><br /> @Html.DisplayFor(model => model.Description)</p>
     </div>
     <div class="embed-responsive embed-responsive-16by9">
-        <video class="embed-responsive-item" preload="metadata" autoplay controls poster="@Url.Content("~/Content/Images/porsche-logo.png")">
+        <video id="vPlayer" class="embed-responsive-item" preload="metadata" autoplay controls poster="@Url.Content("~/Content/Images/porsche-logo.png")">
             <source src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType" />
             Your browser does not support playing this video. Please upgrade your browser.
         </video>
     </div>
 </div>
 
-@Html.Partial("_Modal")
+
 
 @section Script {
     <script src="~/scripts/videos/details.js"></script>
