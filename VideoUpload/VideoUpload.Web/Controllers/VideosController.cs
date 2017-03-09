@@ -301,18 +301,28 @@ namespace VideoUpload.Web.Controllers
             var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("Watch", new { p = p, v = v });
             var id = User.Identity.GetUserId();
 
+            var history = new History();
+            history.Sender = id;
+            history.DateSent = DateTime.UtcNow;
+
             if (sendingType == "email")
             {
                 if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(subject))
                 {
                     return View("_Error");
                 }
-                await _mgr.CustomSendEmailAsync(id, subject, "Watch the link for your car: " + url, email, CurrentUser.EmailPass);
+                history.Type = sendingType;
+                history.Recipient = email;
+                await _mgr.CustomSendEmailAsync(id, subject, "Watch the link for your car: " + url, email, CurrentUser.EmailPass);                                
             }
             else
             {
+                history.Type = sendingType;
+                history.Recipient = mobile;
                 await _mgr.CustomSendSmsAsync(id, mobile, subject + " " + url);
-            }            
+            }
+            _uow.Histories.Add(history);
+            await _uow.SaveChangesAsync();
             return RedirectToAction("index");
         }        
 
