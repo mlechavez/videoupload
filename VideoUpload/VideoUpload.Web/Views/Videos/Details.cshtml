@@ -14,10 +14,10 @@
 
             <ul class="dropdown-menu">
                 <li>
-                    @Html.ActionLink("Send email", "send", new { p = Model.PostID, v = ViewBag.FileName, sendingType = "email" })
+                    @Html.ActionLink("Send email", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "email" })
                 </li>
                 <li>
-                    @Html.ActionLink("Send sms", "send", new { p = Model.PostID, v = ViewBag.FileName, sendingType = "sms" })
+                    @Html.ActionLink("Send sms", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "sms" })
                 </li>
             </ul>
         </div>
@@ -27,13 +27,21 @@
         <div class="btn-group btn-group-xs">
             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
             <ul class="dropdown-menu">
-                @if (!Model.IsApproved)
+                @if (!Model.HasApproval)
                 {
                     <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Approve</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Disapprove</a></li>
                 }
                 else
                 {
-                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Disapprove</a></li>
+                    if (!Model.IsApproved)
+                    {
+                        <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Approve</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Disapprove</a></li>
+                    }
                 }                
             </ul>
         </div>

@@ -1,4 +1,4 @@
-﻿@model VideoUpload.Web.Models.CreateUserViewModel
+﻿@model VideoUpload.Web.Models.UserViewModels.CreateUserViewModel
 
 @{
     ViewBag.Title = "New user";
@@ -8,7 +8,7 @@
 </p>
 <h2>New user</h2>
 
-@using (Html.BeginForm("New", "Users", FormMethod.Post))
+@using (Html.BeginForm("new", "users", FormMethod.Post))
 {
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">

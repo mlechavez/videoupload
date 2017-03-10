@@ -20,8 +20,7 @@ function setTimeZoneCookie() {
             $.cookie(test, null);
 
             //create a new cookie
-            $.cookie(timeZone_cookie, new Date().getTimezoneOffset());
-
+            $.cookie(timeZone_cookie, new Date().getTimezoneOffset());            
             location.reload();
         }
     } else {
@@ -30,7 +29,8 @@ function setTimeZoneCookie() {
 
         if (storedCookie !== currentCookie) {
             $.cookie(timeZone_cookie, new Date().getTimezoneOffset());
+            
             location.reload();
-        }
+        }       
     }
 }

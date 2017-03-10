@@ -39,13 +39,13 @@
                                 @if (CurrentUser.ManageUser.Any(x => x.Value == "CanRead"))
                                 {
                                     <li>
-                                        <a href="@Url.Action("list","users", new { Area = "manage" })">
+                                        <a href="@Url.Action("list","users", new { Area = "" })">
                                             <i class="fa fa-cog fa-fw"></i> Manage users
                                         </a>
                                     </li>
                                 }                                
                                 <li>
-                                    <a href="@Url.Action("Signout","Account", new { Area = "" })">
+                                    <a href="@Url.Action("signout","account", new { Area = "" })">
                                         <i class="fa fa-sign-out fa-fw"></i> Sign out
                                     </a>
                                 </li>
@@ -64,5 +64,6 @@
     </footer>
     @Scripts.Render("~/bundles/scripts")
     @RenderSection("Script", required: false)
+   
 </body>
 </html>

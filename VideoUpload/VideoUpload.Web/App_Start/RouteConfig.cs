@@ -18,7 +18,8 @@ namespace VideoUpload.Web
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Videos", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Videos", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "VideoUpload.Web.Controllers" }
             );
         }
     }

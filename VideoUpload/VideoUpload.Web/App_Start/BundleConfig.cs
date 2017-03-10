@@ -21,11 +21,11 @@ namespace VideoUpload.Web
 
             bundles.Add(new StyleBundle("~/bundles/gfont", "https://fonts.googleapis.com/css?family=Raleway:200,300,500"));
 
-
             bundles.Add(
                 new ScriptBundle("~/bundles/scripts")
                 .Include(
                     "~/scripts/jquery-{version}.min.js",
+                    "~/scripts/jquery.cookie-1.4.1.min.js",                    
                     "~/scripts/bootstrap.min.js"));
 
             BundleTable.EnableOptimizations = true;

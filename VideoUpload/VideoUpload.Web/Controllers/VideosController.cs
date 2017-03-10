@@ -1,16 +1,10 @@
 ﻿using Microsoft.AspNet.Identity;
-using NReco.VideoConverter;
 using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Hosting;
 using System.Web.Mvc;
 using VideoUpload.Core.Entities;
 using VideoUpload.EF;
@@ -19,8 +13,8 @@ using VideoUpload.Web.Models;
 using VideoUpload.Web.Models.Identity;
 
 namespace VideoUpload.Web.Controllers
-{    
-
+{
+    [RoutePrefix("videos")]
     public class VideosController : AppController
     {
         private readonly UnitOfWork _uow;
@@ -31,7 +25,7 @@ namespace VideoUpload.Web.Controllers
             _uow = unitOfWork;
             _mgr = mgr;
         }
-        
+                
         public async Task<ActionResult> Index(int? page)
         {
             var posts = await _uow.Posts.GetAllAsync();
@@ -66,6 +60,7 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel.ToPagedList(page ?? 1, 20));
         }
         
+        [Route("upload")]
         public ActionResult Upload()
         {
             var post = new CreatePostViewModel();            
@@ -73,6 +68,7 @@ namespace VideoUpload.Web.Controllers
         }
 
         [HttpPost]
+        [Route("upload")]
         public async Task<ActionResult> Upload(CreatePostViewModel viewModel)
         {           
             if (ModelState.IsValid)
@@ -183,15 +179,14 @@ namespace VideoUpload.Web.Controllers
             //return View(viewModel);
         }
 
+        [Route("{postID}/edit")]
         public async Task<ActionResult> Edit(int postID)
-        {            
+        {
+            if (postID < 0) return View("_ResourceNotFound");
+                     
             var post = await _uow.Posts.GetByIdAsync(postID);
 
-            if (post == null)
-            {
-                //ViewBag.Message = "Messag goes here";
-                return View("_Error");
-            }
+            if (post == null) return View("_ResourceNotFound");            
             
             var viewModel = new PostViewModel
             {
@@ -205,6 +200,7 @@ namespace VideoUpload.Web.Controllers
         }
 
         [HttpPost]
+        [Route("{postID}/edit")]
         public async Task<ActionResult> Edit(PostViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -220,13 +216,14 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
 
-        public async Task<ActionResult> Details(int postID, string fileName)
+        [Route("{postID}/{plateNumber}/{fileName}/details")]
+        public async Task<ActionResult> Details(int postID, string plateNumber, string fileName)
         {            
             var post = await _uow.Posts.GetByIdAsync(postID);
 
             if (post == null)
             {
-                return View("_Error");
+                return View("_ResourceNotFound");
             }
             
             var attachment = post.Attachments.FirstOrDefault(x => x.FileName == fileName);
@@ -251,7 +248,7 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
 
-        [AllowAnonymous]
+        [AllowAnonymous]        
         public ActionResult VideoResult(string fileName)
         {
             var file = _uow.Attachments.GetByFileName(fileName);
@@ -259,11 +256,12 @@ namespace VideoUpload.Web.Controllers
             return new CustomResult(fileName);
             //return File(file.FileUrl, file.MIMEType, file.FileName);
         }
-
+       
         public ActionResult Download(string fileName)
         {
             return new DownloadResult(fileName);
         }
+
 
         public async Task<ActionResult> Send(int p, string v, string sendingType)
         {
@@ -271,7 +269,7 @@ namespace VideoUpload.Web.Controllers
 
             if (post == null)
             {
-                return View("_Error");
+                return View("_ResourceNotFound");
             }
 
             var attachment = post.Attachments.FirstOrDefault(x => x.FileName == v);
@@ -296,9 +294,9 @@ namespace VideoUpload.Web.Controllers
         }
 
         [HttpPost]
-        public  async Task<ActionResult> Send(string sendingType, string email, string subject,int p, string v, string mobile)
+        public  async Task<ActionResult> Send(string sendingType, string email, string subject,int p, string c, string v, string mobile)
         {
-            var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("Watch", new { p = p, v = v });
+            var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("watch", new { p = p, c = c, v = v });
             var id = User.Identity.GetUserId();
 
             var history = new History();
@@ -327,7 +325,8 @@ namespace VideoUpload.Web.Controllers
         }        
 
         [AllowAnonymous]
-        public ActionResult Watch(int p, string v)
+        [Route("{p}/{c}/{v}/watch")]
+        public ActionResult Watch(int p, string c, string v)
         {
             var post = _uow.Posts.GetById(p);
 

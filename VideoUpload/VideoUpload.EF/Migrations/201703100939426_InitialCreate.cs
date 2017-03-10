@@ -29,7 +29,7 @@ namespace VideoUpload.EF.Migrations
                         FileUrl = c.String(),
                         PostID = c.Int(),
                         AttachmentNo = c.String(),
-                        DateCreated = c.DateTimeOffset(precision: 7),
+                        DateCreated = c.DateTime(),
                     })
                 .PrimaryKey(t => t.PostAttachmentID)
                 .ForeignKey("dbo.Posts", t => t.PostID)
@@ -42,13 +42,13 @@ namespace VideoUpload.EF.Migrations
                         PostID = c.Int(nullable: false, identity: true),
                         PlateNumber = c.String(nullable: false),
                         Description = c.String(nullable: false),
-                        DateUploaded = c.DateTimeOffset(nullable: false, precision: 7),
+                        DateUploaded = c.DateTime(nullable: false),
                         EditedBy = c.String(),
-                        DateEdited = c.DateTimeOffset(precision: 7),
+                        DateEdited = c.DateTime(),
                         UserID = c.String(maxLength: 128),
                         HasApproval = c.Boolean(nullable: false),
                         IsApproved = c.Boolean(nullable: false),
-                        DateApproved = c.DateTimeOffset(precision: 7),
+                        DateApproved = c.DateTime(),
                     })
                 .PrimaryKey(t => t.PostID)
                 .ForeignKey("dbo.Users", t => t.UserID)
@@ -92,7 +92,7 @@ namespace VideoUpload.EF.Migrations
                     {
                         HistoryID = c.Int(nullable: false, identity: true),
                         Recipient = c.String(),
-                        DateSent = c.DateTimeOffset(nullable: false, precision: 7),
+                        DateSent = c.DateTime(nullable: false),
                         Sender = c.String(),
                         Type = c.String(),
                     })
