@@ -28,7 +28,7 @@ namespace VideoUpload.EF.Configurations
 
             Property(x => x.UserID)
                 .HasMaxLength(128)
-                .IsRequired();
+                .IsOptional();
         }
     }
 }

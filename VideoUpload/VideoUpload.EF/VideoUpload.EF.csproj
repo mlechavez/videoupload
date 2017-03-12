@@ -68,6 +68,10 @@
     <Compile Include="Migrations\201703100939426_InitialCreate.Designer.cs">
       <DependentUpon>201703100939426_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703112029470_UserClaimUserIdChangedToOptional.cs" />
+    <Compile Include="Migrations\201703112029470_UserClaimUserIdChangedToOptional.Designer.cs">
+      <DependentUpon>201703112029470_UserClaimUserIdChangedToOptional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ActivityRepository.cs" />
@@ -91,6 +95,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703100939426_InitialCreate.resx">
       <DependentUpon>201703100939426_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703112029470_UserClaimUserIdChangedToOptional.resx">
+      <DependentUpon>201703112029470_UserClaimUserIdChangedToOptional.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using VideoUpload.Web.Models.UserViewModels;
 using VideoUpload.Web.Models.Identity;
+using VideoUpload.Core;
+using System.Security.Claims;
 
 namespace VideoUpload.Web.Controllers
 {
@@ -16,9 +18,12 @@ namespace VideoUpload.Web.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager _mgr;
-        public UsersController(UserManager mgr)
+        private readonly IUnitOfWork _uow;
+
+        public UsersController(UserManager mgr, IUnitOfWork uow)
         {
             _mgr = mgr;
+            _uow = uow;
         }
 
         [Route]
@@ -86,12 +91,12 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
 
-        [Route("{userID}/{userName}/edit")]
-        public async Task<ActionResult> Edit(string userID)
+        [Route("{userName}/edit")]
+        public async Task<ActionResult> Edit(string userName)
         {          
-            if (string.IsNullOrWhiteSpace(userID)) return View("_ResourceNotFound");
+            if (string.IsNullOrWhiteSpace(userName)) return View("_ResourceNotFound");
 
-            var user = await _mgr.FindByIdAsync(userID);
+            var user = await _mgr.FindByNameAsync(userName);
 
             if (user == null) return View("_ResourceNotFound");
 
@@ -111,7 +116,7 @@ namespace VideoUpload.Web.Controllers
         }
 
         [HttpPost]
-        [Route("{userID}/{userName}/edit")]
+        [Route("{userName}/edit")]
         public async Task<ActionResult> Edit(UserViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -128,7 +133,7 @@ namespace VideoUpload.Web.Controllers
                 user.Email = viewModel.Email;
                 user.EmailPass = viewModel.EmailPass;
                 user.IsActive = viewModel.IsActive;
-
+                
                 var result = await _mgr.UpdateAsync(user);
                 if (result.Succeeded)
                 {
@@ -139,7 +144,59 @@ namespace VideoUpload.Web.Controllers
             }
             return View(viewModel);
         }
-               
+
+        [ActionName("add-claims")]
+        [Route("{userID}/{userName}/add-claims")]        
+        public async Task<ActionResult> AddClaims(string userID, string userName)
+        {
+            var activities = await _uow.Activities.GetAllAsync();
+            var userClaims = await _mgr.GetClaimsAsync(userID);
+            var viewModel = new UserActivityViewModel
+            {
+                UserName = userName,
+                Activities = activities,
+                UserClaims = userClaims.ToList()
+            };
+            return View(viewModel);
+        }
+        [ActionName("add-claims")]
+        [Route("{userID}/{userName}/add-claims")]
+        [HttpPost]
+        public async Task<ActionResult> AddClaims(FormCollection formColletion)
+        {
+            var fcUserID = formColletion["UserID"];
+            var fcManageUser = formColletion["ManageUser"];
+            var fcVideoSection = formColletion["Video"];
+            var fcApproval = formColletion["Approval"];
+
+            var userClaims = await _mgr.GetClaimsAsync(fcUserID);
+            var manageUserClaims = userClaims.Where(x => x.Type == "ManageUser").ToList();
+            if (fcManageUser != null)
+            {
+                //make it as array of string
+                string[] manageUser  = fcManageUser.Split(',');
+                //filter the claims to ManageUser
+                               
+                    foreach (var selected in manageUser)
+                    {
+                        if (manageUserClaims.Any(x=>x.Value == selected))
+                        {
+                            //var currentClaim = manageUserClaims.
+                            //await _mgr.RemoveClaimAsync(fcUserID)
+                        }
+                    }                                                                                 
+            }
+            else
+            {
+                foreach (var claim in manageUserClaims)
+                {
+                    await _mgr.RemoveClaimAsync(fcUserID, claim);
+                }
+            }
+
+            return RedirectToAction("list");
+        }
+
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)

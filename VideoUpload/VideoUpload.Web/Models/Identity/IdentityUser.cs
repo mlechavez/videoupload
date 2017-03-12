@@ -3,11 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using VideoUpload.Core.Entities;
 
 namespace VideoUpload.Web.Models.Identity
 {
     public class IdentityUser : IUser<string>
     {
+        private ICollection<UserClaim> _userClaims;
+        private ICollection<Post> _posts;
         public IdentityUser()
         {
             Id = Guid.NewGuid().ToString();
@@ -29,5 +32,17 @@ namespace VideoUpload.Web.Models.Identity
         public string PasswordHash { get; set; }
         public string SecurityStamp { get; set; }
         public string EmailPass { get; set; }
+
+        public virtual ICollection<UserClaim> UserClaims
+        {
+            get { return _userClaims ?? (_userClaims = new List<UserClaim>()); }
+            set { _userClaims = value; }
+        }
+
+        public virtual ICollection<Post> Posts
+        {
+            get { return _posts ?? (_posts = new List<Post>()); }
+            set { _posts = value; }
+        }
     }
 }

@@ -1,0 +1,69 @@
+﻿@model VideoUpload.Web.Models.UserViewModels.UserActivityViewModel
+
+@{
+    ViewBag.Title = "Add user to claim";
+}
+
+<h2>@Model.UserName<text>&acute; s</text> activities</h2>
+<hr />
+<h4>Manage User</h4>
+@using (Html.BeginForm("add-claims","users", FormMethod.Post))
+{
+    @Html.HiddenFor(x=>x.UserID)
+foreach (var activity in Model.Activities)
+{   
+    if (activity.Type == "ManageUser")
+    {        
+        <label class="checkbox-inline">
+            @if (Model.UserClaims.Any(x=>x.Type == activity.Type && x.Value == activity.Value))
+            {
+                <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Value
+            }
+            else
+            {
+                <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Value
+            }
+            @*<input type="hidden" name="@activity.Type" value="@activity.Value" /> @activity.Value*@
+        </label>
+    }    
+}
+<h4>Video Section</h4>
+foreach (var activity in Model.Activities)
+{
+    if (activity.Type == "Video")
+    {
+        <label class="checkbox-inline">
+            @if (Model.UserClaims.Any(x => x.Type == activity.Type && x.Value == activity.Value))
+            {
+                <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Value
+            }
+            else
+            {
+                <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Value
+            }
+            @*<input type="hidden" name="@activity.Type" value="@activity.Value" /> @activity.Value*@
+        </label>
+    }
+}
+<h4>Approval</h4>
+foreach (var activity in Model.Activities)
+{
+    if (activity.Type == "Approval")
+    {
+        <label class="checkbox-inline">
+            @if (Model.UserClaims.Any(x => x.Type == activity.Type && x.Value == activity.Value))
+            {
+                <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Value
+            }
+            else
+            {
+                <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Value
+            }
+            @*<input type="hidden" name="@activity.Type" value="@activity.Value" /> @activity.Value*@
+        </label>
+    }
+}
+<hr />
+    <button type="submit" class="btn btn-warning">Save</button>
+
+}

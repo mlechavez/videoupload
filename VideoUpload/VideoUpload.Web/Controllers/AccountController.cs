@@ -47,6 +47,7 @@ namespace VideoUpload.Web.Controllers
                             return Redirect(GetReturnUrl(viewModel.ReturnUrl));
                         }
                         ModelState.AddModelError("", "You account has not activated yet. Contact your admin");
+                        return View(viewModel);
                     }
                 }
                 ModelState.AddModelError("", "username or password is incorrect!");

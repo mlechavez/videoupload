@@ -119,7 +119,9 @@ namespace VideoUpload.Web.Models.Identity
 
             using (var client = new SmtpClient("78.100.48.220", 25))
             {
+                //client.UseDefaultCredentials = false;
                 client.Credentials = new System.Net.NetworkCredential("kyocera.km3060@boraq-porsche.com.qa", "kyocera123");
+                //client.Credentials = new System.Net.NetworkCredential(message.Destination.Trim(), message.Credential.Trim());               
                 await client.SendMailAsync(email);
             }
         }

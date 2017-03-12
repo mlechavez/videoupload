@@ -4,7 +4,7 @@
     ViewBag.Title = "Send link";
 }
 <p class="pull-right">
-    @Html.ActionLink("Back to details", "details", new { postID = Model.PostID, fileName = ViewBag.FileName }, new { @class = "btn btn-info btn-xs " })
+    @Html.ActionLink("Back to details", "details", new { postID = Model.PostID, plateNumber = Model.PlateNumber, fileName = ViewBag.FileName }, new { @class = "btn btn-info btn-xs " })
 </p>
 
 <h2>Send a link to customer via @ViewBag.SendingType</h2>

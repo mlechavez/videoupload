@@ -288,6 +288,7 @@
     <Compile Include="Models\Identity\UserStore.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\PostViewModel.cs" />
+    <Compile Include="Models\UserViewModels\UserActivityViewModel.cs" />
     <Compile Include="Models\UserViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -319,6 +320,7 @@
     <Content Include="Views\Account\ConfirmPasswordReset.cshtml" />
     <Content Include="Views\Shared\_ResourceNotFound.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Add-Claims.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

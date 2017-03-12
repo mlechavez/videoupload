@@ -25,7 +25,7 @@ namespace VideoUpload.Web.Common
 
         public static string CleanUrl(this HtmlHelper htmlHelper, string actionName)
         {
-            var cleanActionName = actionName.ToLower().Replace(" ", "-");
+            var cleanActionName = actionName.ToLower().Replace("_", "-");
             cleanActionName = Regex.Replace(cleanActionName, @"[^a-zA-Z0-9\/+ -]", "");
             return cleanActionName;
         }
