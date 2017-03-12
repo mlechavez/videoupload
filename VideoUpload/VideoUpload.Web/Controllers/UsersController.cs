@@ -162,39 +162,99 @@ namespace VideoUpload.Web.Controllers
         [ActionName("add-claims")]
         [Route("{userID}/{userName}/add-claims")]
         [HttpPost]
-        public async Task<ActionResult> AddClaims(FormCollection formColletion)
+        public async Task<ActionResult> AddClaims(FormCollection formCollection)
         {
-            var fcUserID = formColletion["UserID"];
-            var fcManageUser = formColletion["ManageUser"];
-            var fcVideoSection = formColletion["Video"];
-            var fcApproval = formColletion["Approval"];
+            var userID = formCollection["UserID"];
+            var frmManageUser = formCollection["ManageUser"];
+            var frmVideo = formCollection["Video"];
+            var frmApproval = formCollection["Approval"];
 
-            var userClaims = await _mgr.GetClaimsAsync(fcUserID);
+            var userClaims = await _mgr.GetClaimsAsync(userID);
+
             var manageUserClaims = userClaims.Where(x => x.Type == "ManageUser").ToList();
-            if (fcManageUser != null)
+            var videoUserClaims = userClaims.Where(x => x.Type == "Video").ToList();
+            var approvalUserClaims = userClaims.Where(x => x.Type == "Approval").ToList();
+
+            AddRemoveClaims(userID, manageUserClaims, frmManageUser, "ManageUser");
+            AddRemoveClaims(userID, videoUserClaims, frmVideo, "Video");
+            AddRemoveClaims(userID, approvalUserClaims, frmApproval, "Approval");           
+
+            return RedirectToAction("list");
+        }
+
+        private void AddRemoveClaims(string userID, List<Claim> userClaims, string selectedClaims, string type)
+        {
+            if (selectedClaims == null)
             {
-                //make it as array of string
-                string[] manageUser  = fcManageUser.Split(',');
-                //filter the claims to ManageUser
-                               
-                    foreach (var selected in manageUser)
+                if (userClaims.Count > 0)
+                {
+                    userClaims.ForEach(x =>
                     {
-                        if (manageUserClaims.Any(x=>x.Value == selected))
-                        {
-                            //var currentClaim = manageUserClaims.
-                            //await _mgr.RemoveClaimAsync(fcUserID)
-                        }
-                    }                                                                                 
+                        _mgr.RemoveClaim(userID, x);
+                       
+                    });
+                }
             }
             else
             {
-                foreach (var claim in manageUserClaims)
+                var arraySelectedClaims = selectedClaims.Split(',');
+
+                if (userClaims.Count == 0)
                 {
-                    await _mgr.RemoveClaimAsync(fcUserID, claim);
+                    Array.ForEach(arraySelectedClaims, x =>
+                    {
+                        _mgr.AddClaim(userID, new Claim(type, x));
+                    });
+                }
+                else
+                {
+                    if (userClaims.Count > arraySelectedClaims.Count())
+                    {
+                        Array.ForEach(arraySelectedClaims, x =>
+                        {
+                            if (!userClaims.Exists(y => y.Value == x))
+                            {
+                                _mgr.AddClaim(userID, new Claim(type, x));
+                            }
+                        });
+                    }
+                    else if (userClaims.Count < arraySelectedClaims.Count())
+                    {
+                        Array.ForEach(arraySelectedClaims, x =>
+                        {
+                            if (!userClaims.Exists(y => y.Value == x))
+                            {
+                                var currentClaim = userClaims.FirstOrDefault(c => c.Value == x);
+                                _mgr.RemoveClaim(userID, currentClaim);                                
+                            }
+                        });
+                    }
+                    else
+                    {
+                        var existingClaims = new List<string>();
+                        Array.ForEach(arraySelectedClaims, x =>
+                        {
+                            if (!userClaims.Exists(y => y.Value == x))
+                            {
+                                _mgr.AddClaim(userID, new Claim(type, x));
+                            }
+                            existingClaims.Add(x);
+                        });
+                        Array.ForEach(userClaims.ToArray(), r =>
+                        {
+                            if (!existingClaims.Exists(q => q == r.Value))
+                            {
+                                _mgr.RemoveClaim(userID, r);                               
+                            }
+                        });
+                    }
                 }
             }
+        }
 
-            return RedirectToAction("list");
+        private void RemoveManually()
+        {
+            //_uow.UserClaims.
         }
 
         private void AddErrors(IdentityResult result)

@@ -17,6 +17,7 @@ namespace VideoUpload.Web.Models.Identity
     {
         public UserManager(IUserStore<IdentityUser, string> store) : base(store)
         {
+            
             UserValidator = new UserValidator<IdentityUser, string>(this)
             {
                 AllowOnlyAlphanumericUserNames = false,
@@ -69,6 +70,17 @@ namespace VideoUpload.Web.Models.Identity
                 await CustomSmsService.SendAsync(identityMesaage);
             }
         }
+
+        //public async override Task<IdentityResult> RemoveClaimAsync(string userId, Claim claim)
+        //{
+        //    IdentityResult identityResult;
+        //    var store = Store as IUserClaimStore<IdentityUser, string>;
+        //    var user = await store.FindByIdAsync(userId);
+        //    var result = store.RemoveClaimAsync(user, claim);
+        //    return Task.FromResult(result);
+            
+        //}
+
     }
 
     #region ClaimsIdentityFactory

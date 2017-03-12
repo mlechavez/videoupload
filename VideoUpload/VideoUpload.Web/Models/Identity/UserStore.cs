@@ -52,10 +52,7 @@ namespace VideoUpload.Web.Models.Identity
             user.EmailPass = identityUser.EmailPass;
             user.EmailConfirmed = identityUser.EmailConfirmed;
             user.IsActive = identityUser.IsActive;
-            foreach (var claim in user.UserClaims)
-            {
-                user.UserClaims.Add(claim);
-            }
+            user.UserClaims = identityUser.UserClaims;            
         }
 
         private IdentityUser GetIdentityUser(User user)
@@ -80,11 +77,9 @@ namespace VideoUpload.Web.Models.Identity
             identityUser.EmailPass = user.EmailPass;
             identityUser.EmailConfirmed = user.EmailConfirmed;
             identityUser.IsActive = user.IsActive;
-            foreach (var claim in user.UserClaims)
-            {
-                identityUser.UserClaims.Add(claim);
-            }
+            identityUser.UserClaims = user.UserClaims;        
         }
+
         #region IUserStore      
         public Task CreateAsync(IdentityUser user)
         {
@@ -124,7 +119,7 @@ namespace VideoUpload.Web.Models.Identity
         {
             if (user == null) throw new ArgumentNullException("user");
 
-            var u = _unitOfWork.Users.GetById(user.Id);            
+            var u = _unitOfWork.Users.GetById(user.Id);
             if (u == null) throw new ArgumentException("IdentityUser does not correspond to a user entity", "user");
             
             populateUser(u, user);
@@ -132,7 +127,6 @@ namespace VideoUpload.Web.Models.Identity
             return _unitOfWork.SaveChangesAsync();
         }
         #endregion
-
         #region IUserEmailStore        
         public Task SetEmailAsync(IdentityUser user, string email)
         {
@@ -216,7 +210,7 @@ namespace VideoUpload.Web.Models.Identity
 
             var c = new UserClaim { ClaimType = claim.Type, ClaimValue = claim.Value, User = u };
             u.UserClaims.Add(c);
-            //_unitOfWork.Users.Update(u);
+            _unitOfWork.Users.Update(u);
             return _unitOfWork.SaveChangesAsync();
         }
 
@@ -231,7 +225,7 @@ namespace VideoUpload.Web.Models.Identity
             var c = u.UserClaims.FirstOrDefault(x => x.ClaimType == claim.Type && x.ClaimValue == claim.Value);
 
             u.UserClaims.Remove(c);
-            //_unitOfWork.Users.Update(u);
+            _unitOfWork.Users.Update(u);
             return _unitOfWork.SaveChangesAsync();
         }
         #endregion

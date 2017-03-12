@@ -14,6 +14,7 @@ namespace VideoUpload.Core
         IPostAttachmentRepository Attachments { get; }
         IHistoryRepository Histories { get; }
         IUserRepository Users { get; }
+        IUserClaimRepository UserClaims { get; }
         IActivityRepository Activities { get; }
 
         int SaveChanges();

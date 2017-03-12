@@ -53,6 +53,7 @@
     <Compile Include="Repositories\IPostAttachmentRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IPostRepository.cs" />
+    <Compile Include="Repositories\IUserClaimRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

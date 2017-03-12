@@ -79,6 +79,7 @@
     <Compile Include="Repositories\PostAttachmentRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\PostRepository.cs" />
+    <Compile Include="Repositories\UserClaimRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Diagnostics;
 using VideoUpload.Core.Entities;
 using VideoUpload.EF.Configurations;
 
@@ -13,6 +14,7 @@ namespace VideoUpload.EF
         public AppDbContext(string nameOrconnectionString)
             :base(nameOrconnectionString)
         {
+            this.Database.Log = (message) => Debug.Write(message);
         }
         public DbSet<User> Users { get; set; }
         public DbSet<UserClaim> UserClaims { get; set; }

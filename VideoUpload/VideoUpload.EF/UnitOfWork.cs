@@ -19,6 +19,7 @@ namespace VideoUpload.EF
         private IPostAttachmentRepository _attachments;
         private IHistoryRepository _histories;
         private IActivityRepository _activities;
+        private IUserClaimRepository _userClaims;
         #endregion
         public IPostRepository Posts
         {
@@ -58,6 +59,14 @@ namespace VideoUpload.EF
                 return _activities ?? (_activities = new ActivityRepository(_context));
             }
         }
+        public IUserClaimRepository UserClaims
+        {
+            get
+            {
+                return _userClaims ?? (_userClaims= new UserClaimRepository(_context));
+            }
+        }
+
         public UnitOfWork(string nameOrConnectionString)
         {
             _context = new AppDbContext(nameOrConnectionString);
