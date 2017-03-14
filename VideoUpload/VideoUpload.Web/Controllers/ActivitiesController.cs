@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using VideoUpload.Core;
@@ -16,10 +17,12 @@ namespace VideoUpload.Web.Controllers
             _uow = uow;
         }
         // GET: Activities
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var activities = _uow.Activities.GetAll();
+            var activities = await _uow.Activities.GetAllAsync();
             return View();
         }
+
+        public ActionResult
     }
 }
