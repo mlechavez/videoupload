@@ -28,6 +28,11 @@ namespace VideoUpload.EF.Repositories
             Set.Add(entity);
         }
 
+        public void AddRange(IEnumerable<T> entities)
+        {
+            Set.AddRange(entities);
+        }
+
         public List<T> GetAll()
         {
             return Set.ToList();
@@ -60,6 +65,11 @@ namespace VideoUpload.EF.Repositories
         public void Remove(T entity)
         {
             Set.Remove(entity);
+        }
+
+        public void RemoveRange(IEnumerable<T> entities)
+        {
+            Set.RemoveRange(entities);
         }
 
         public void Update(T entity)

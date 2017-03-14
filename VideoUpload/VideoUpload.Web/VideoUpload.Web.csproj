@@ -269,9 +269,10 @@
     <Compile Include="Common\AppUser.cs" />
     <Compile Include="Common\AppViewPage.cs" />
     <Compile Include="Common\AppController.cs" />
-    <Compile Include="Common\CustomActionFilter.cs" />
+    <Compile Include="Common\AccessActionFilter.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VideosController.cs" />
     <Compile Include="Global.asax.cs">
@@ -320,7 +321,8 @@
     <Content Include="Views\Account\ConfirmPasswordReset.cshtml" />
     <Content Include="Views\Shared\_ResourceNotFound.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Add-Claims.cshtml" />
+    <Content Include="Views\Users\Manage-Claims.cshtml" />
+    <Content Include="Views\Shared\_UnAuthorized.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -331,6 +333,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
+    <Folder Include="Views\Activities\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VideoUpload.Core\VideoUpload.Core.csproj">

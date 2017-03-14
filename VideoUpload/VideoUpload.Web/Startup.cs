@@ -33,16 +33,21 @@ namespace VideoUpload.Web
             var activities = unitOfWork.Activities.GetAll();
 
             if (activities.Count == 0)
-            {    
-                
+            {                
                 activities.Add(new Activity { Type = "ManageUser", Value = "CanCreate" });
                 activities.Add(new Activity { Type = "ManageUser", Value = "CanRead" });
                 activities.Add(new Activity { Type = "ManageUser", Value = "CanUpdate" });
                 activities.Add(new Activity { Type = "ManageUser", Value = "CanDelete" });
+                activities.Add(new Activity { Type = "ManageUser", Value = "CanManageClaims" });
+                activities.Add(new Activity { Type = "Activities", Value = "CanCreate" });
+                activities.Add(new Activity { Type = "Activities", Value = "CanRead" });
+                activities.Add(new Activity { Type = "Activities", Value = "CanUpdate" });
+                activities.Add(new Activity { Type = "Activities", Value = "CanDelete" });
                 activities.Add(new Activity { Type = "Video", Value = "CanCreate" });
                 activities.Add(new Activity { Type = "Video", Value = "CanRead" });
                 activities.Add(new Activity { Type = "Video", Value = "CanUpdate" });
                 activities.Add(new Activity { Type = "Video", Value = "CanDelete" });
+                activities.Add(new Activity { Type = "Video", Value = "CanSend" });                
                 activities.Add(new Activity { Type = "Approval", Value = "CanApproveVideo" });
 
                 activities.ForEach(x => 
@@ -50,8 +55,7 @@ namespace VideoUpload.Web
                     unitOfWork.Activities.Add(x);
                 });
                 unitOfWork.SaveChanges();
-            }
-            
+            }            
             
             var user = mgr.FindByName("admin");
 

@@ -10,6 +10,7 @@ using VideoUpload.Web.Models.UserViewModels;
 using VideoUpload.Web.Models.Identity;
 using VideoUpload.Core;
 using System.Security.Claims;
+using VideoUpload.Web.Common;
 
 namespace VideoUpload.Web.Controllers
 {
@@ -27,6 +28,7 @@ namespace VideoUpload.Web.Controllers
         }
 
         [Route]
+        [AccessActionFilter(Type = "ManageUser", Value = "CanRead")]
         public ActionResult List(int? page)
         {
             var users = _mgr.Users.ToList();
@@ -52,13 +54,15 @@ namespace VideoUpload.Web.Controllers
         }
 
         [Route("new")]
+        [AccessActionFilter(Type = "ManageUser", Value = "CanCreate")]
         public ActionResult New()
         {
             return View();
         }
 
         [HttpPost]
-        [Route("new")]                
+        [Route("new")]
+        [AccessActionFilter(Type = "ManageUser", Value = "CanCreate")]
         public async Task<ActionResult> New(CreateUserViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -92,6 +96,7 @@ namespace VideoUpload.Web.Controllers
         }
 
         [Route("{userName}/edit")]
+        [AccessActionFilter(Type = "ManageUser", Value = "CanUpdate")]
         public async Task<ActionResult> Edit(string userName)
         {          
             if (string.IsNullOrWhiteSpace(userName)) return View("_ResourceNotFound");
@@ -117,6 +122,7 @@ namespace VideoUpload.Web.Controllers
 
         [HttpPost]
         [Route("{userName}/edit")]
+        [AccessActionFilter(Type = "ManageUser", Value = "CanUpdate")]
         public async Task<ActionResult> Edit(UserViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -145,9 +151,10 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
 
-        [ActionName("add-claims")]
-        [Route("{userID}/{userName}/add-claims")]        
-        public async Task<ActionResult> AddClaims(string userID, string userName)
+        [ActionName("manage-claims")]
+        [Route("{userID}/{userName}/manage-claims")]
+        [AccessActionFilter(Type = "ManageUser", Value = "CanManageClaims")]
+        public async Task<ActionResult> ManageClaims(string userID, string userName)
         {
             var activities = await _uow.Activities.GetAllAsync();
             var userClaims = await _mgr.GetClaimsAsync(userID);
@@ -159,10 +166,11 @@ namespace VideoUpload.Web.Controllers
             };
             return View(viewModel);
         }
-        [ActionName("add-claims")]
-        [Route("{userID}/{userName}/add-claims")]
+        [ActionName("manage-claims")]
+        [Route("{userID}/{userName}/manage-claims")]
         [HttpPost]
-        public async Task<ActionResult> AddClaims(FormCollection formCollection)
+        [AccessActionFilter(Type = "ManageUser", Value = "CanManageClaims")]
+        public async Task<ActionResult> ManageClaims(FormCollection formCollection)
         {
             var userID = formCollection["UserID"];
             var frmManageUser = formCollection["ManageUser"];
@@ -177,8 +185,10 @@ namespace VideoUpload.Web.Controllers
 
             AddRemoveClaims(userID, manageUserClaims, frmManageUser, "ManageUser");
             AddRemoveClaims(userID, videoUserClaims, frmVideo, "Video");
-            AddRemoveClaims(userID, approvalUserClaims, frmApproval, "Approval");           
+            AddRemoveClaims(userID, approvalUserClaims, frmApproval, "Approval");
 
+            //due to an updateAsync inside the RemoveClaimsAsync.. I have to delete manually the null userid userClaims
+            RemoveUserClaimsManually();
             return RedirectToAction("list");
         }
 
@@ -210,11 +220,11 @@ namespace VideoUpload.Web.Controllers
                 {
                     if (userClaims.Count > arraySelectedClaims.Count())
                     {
-                        Array.ForEach(arraySelectedClaims, x =>
+                        userClaims.ForEach(x => 
                         {
-                            if (!userClaims.Exists(y => y.Value == x))
+                            if (!arraySelectedClaims.Contains(x.Value))
                             {
-                                _mgr.AddClaim(userID, new Claim(type, x));
+                                _mgr.RemoveClaim(userID, x);
                             }
                         });
                     }
@@ -224,8 +234,8 @@ namespace VideoUpload.Web.Controllers
                         {
                             if (!userClaims.Exists(y => y.Value == x))
                             {
-                                var currentClaim = userClaims.FirstOrDefault(c => c.Value == x);
-                                _mgr.RemoveClaim(userID, currentClaim);                                
+                                //var currentClaim = userClaims.FirstOrDefault(c => c.Value == x);
+                                _mgr.AddClaim(userID, new Claim(type, x));                                
                             }
                         });
                     }
@@ -252,9 +262,14 @@ namespace VideoUpload.Web.Controllers
             }
         }
 
-        private void RemoveManually()
+        private void RemoveUserClaimsManually()
         {
-            //_uow.UserClaims.
+            var userClaims = _uow.UserClaims.GetAllNullUserID();
+            if (userClaims.Count > 0)
+            {
+                _uow.UserClaims.RemoveRange(userClaims);
+                _uow.SaveChanges();
+            }            
         }
 
         private void AddErrors(IdentityResult result)

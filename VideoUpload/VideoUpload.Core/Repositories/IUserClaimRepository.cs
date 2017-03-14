@@ -9,6 +9,6 @@ namespace VideoUpload.Core.Repositories
 {
     public interface IUserClaimRepository : IRepository<UserClaim>
     {
-        List<UserClaim> RemoveNullUserID();
+        List<UserClaim> GetAllNullUserID();
     }
 }

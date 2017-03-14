@@ -18,7 +18,9 @@ namespace VideoUpload.Core.Repositories
         Task<T> GetByIdAsync(object id);
         Task<T> GetByIdAsync(object id, CancellationToken cancellationToken);
         void Add(T entity);
+        void AddRange(IEnumerable<T> entities);
         void Remove(T entity);
+        void RemoveRange(IEnumerable<T> entities);
         void Update(T entity);             
     }
 }

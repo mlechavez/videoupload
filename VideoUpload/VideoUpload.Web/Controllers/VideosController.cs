@@ -26,6 +26,7 @@ namespace VideoUpload.Web.Controllers
             _mgr = mgr;
         }
                 
+        [AccessActionFilter(Type= "Video", Value ="CanRead")]
         public async Task<ActionResult> Index(int? page)
         {
             var posts = await _uow.Posts.GetAllAsync();
@@ -61,6 +62,7 @@ namespace VideoUpload.Web.Controllers
         }
         
         [Route("upload")]
+        [AccessActionFilter(Type = "Video", Value = "CanCreate")]
         public ActionResult Upload()
         {
             var post = new CreatePostViewModel();            
@@ -69,6 +71,7 @@ namespace VideoUpload.Web.Controllers
 
         [HttpPost]
         [Route("upload")]
+        [AccessActionFilter(Type = "Video", Value = "CanCreate")]
         public async Task<ActionResult> Upload(CreatePostViewModel viewModel)
         {           
             if (ModelState.IsValid)
@@ -180,6 +183,7 @@ namespace VideoUpload.Web.Controllers
         }
 
         [Route("{postID}/edit")]
+        [AccessActionFilter(Type = "Video", Value = "CanUpdate")]
         public async Task<ActionResult> Edit(int postID)
         {
             if (postID < 0) return View("_ResourceNotFound");
@@ -201,6 +205,7 @@ namespace VideoUpload.Web.Controllers
 
         [HttpPost]
         [Route("{postID}/edit")]
+        [AccessActionFilter(Type = "Video", Value = "CanUpdate")]
         public async Task<ActionResult> Edit(PostViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -262,7 +267,7 @@ namespace VideoUpload.Web.Controllers
             return new DownloadResult(fileName);
         }
 
-
+        [AccessActionFilter(Type = "Video", Value = "CanSend")]
         public async Task<ActionResult> Send(int p, string v, string sendingType)
         {
             var post = await _uow.Posts.GetByIdAsync(p);
@@ -294,6 +299,7 @@ namespace VideoUpload.Web.Controllers
         }
 
         [HttpPost]
+        [AccessActionFilter(Type = "Video", Value = "CanSendEmail")]
         public  async Task<ActionResult> Send(string sendingType, string email, string subject,int p, string c, string v, string mobile)
         {
             var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("watch", new { p = p, c = c, v = v });
@@ -354,6 +360,7 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
         [HttpPost]
+        [AccessActionFilter(Type = "Approval", Value = "CanApproveVideo")]
         public async Task<ActionResult> Approval(bool isapproved, string postID)
         {
             var _postID = int.Parse(postID);

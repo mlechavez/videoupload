@@ -33,8 +33,8 @@
                     <a href="@Url.Action("edit", new { userName = user.UserName })" class="btn btn-primary btn-xs">
                         Edit &nbsp; <i class="fa fa-pencil"></i>
                     </a>
-                    <a href="@Url.Action("add-claims", new { userID = user.UserID, userName = user.UserName })" class="btn btn-primary btn-xs">
-                        Add Claims &nbsp; <i class="fa fa-pencil-square"></i>
+                    <a href="@Url.Action("manage-claims", new { userID = user.UserID, userName = user.UserName })" class="btn btn-primary btn-xs">
+                        Manage Activities &nbsp; <i class="fa fa-pencil-square"></i>
                     </a>
                 </td>
                 <td>@user.UserName</td>

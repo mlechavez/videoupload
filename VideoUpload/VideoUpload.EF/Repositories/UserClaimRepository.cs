@@ -15,9 +15,9 @@ namespace VideoUpload.EF.Repositories
         {
         }
 
-        public List<UserClaim> RemoveNullUserID()
+        public List<UserClaim> GetAllNullUserID()
         {
-            throw new NotImplementedException();
+            return Set.Where(x => x.UserID == null).ToList(); 
         }
     }
 }
