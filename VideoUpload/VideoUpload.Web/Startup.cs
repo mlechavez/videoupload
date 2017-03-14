@@ -10,6 +10,7 @@ using VideoUpload.Core.Entities;
 using VideoUpload.EF;
 using System.Collections.Generic;
 using System.Security.Claims;
+using VideoUpload.Core;
 
 [assembly: OwinStartup(typeof(VideoUpload.Web.Startup))]
 namespace VideoUpload.Web
@@ -28,27 +29,27 @@ namespace VideoUpload.Web
             });
 
             var mgr = DependencyResolver.Current.GetService(typeof(UserManager)) as UserManager;
-            var unitOfWork = DependencyResolver.Current.GetService(typeof(UnitOfWork)) as UnitOfWork;
+            var unitOfWork = DependencyResolver.Current.GetService(typeof(IUnitOfWork)) as UnitOfWork;
 
             var activities = unitOfWork.Activities.GetAll();
 
             if (activities.Count == 0)
             {                
-                activities.Add(new Activity { Type = "ManageUser", Value = "CanCreate" });
-                activities.Add(new Activity { Type = "ManageUser", Value = "CanRead" });
-                activities.Add(new Activity { Type = "ManageUser", Value = "CanUpdate" });
-                activities.Add(new Activity { Type = "ManageUser", Value = "CanDelete" });
-                activities.Add(new Activity { Type = "ManageUser", Value = "CanManageClaims" });
-                activities.Add(new Activity { Type = "Activities", Value = "CanCreate" });
-                activities.Add(new Activity { Type = "Activities", Value = "CanRead" });
-                activities.Add(new Activity { Type = "Activities", Value = "CanUpdate" });
-                activities.Add(new Activity { Type = "Activities", Value = "CanDelete" });
-                activities.Add(new Activity { Type = "Video", Value = "CanCreate" });
-                activities.Add(new Activity { Type = "Video", Value = "CanRead" });
-                activities.Add(new Activity { Type = "Video", Value = "CanUpdate" });
-                activities.Add(new Activity { Type = "Video", Value = "CanDelete" });
-                activities.Add(new Activity { Type = "Video", Value = "CanSend" });                
-                activities.Add(new Activity { Type = "Approval", Value = "CanApproveVideo" });
+                activities.Add(new Activity { Type = "ManageUser", Value = "CanCreate", Description = "Can create a user." });
+                activities.Add(new Activity { Type = "ManageUser", Value = "CanRead", Description = "Can view user list" });
+                activities.Add(new Activity { Type = "ManageUser", Value = "CanUpdate", Description = "Can update a user" });
+                activities.Add(new Activity { Type = "ManageUser", Value = "CanDelete", Description = "Can delete a user" });
+                activities.Add(new Activity { Type = "ManageUser", Value = "CanManageClaims", Description = "Can manage the access of users"});
+                activities.Add(new Activity { Type = "Activities", Value = "CanCreate", Description = "Can create activity" });
+                activities.Add(new Activity { Type = "Activities", Value = "CanRead", Description = "Can view activity list" });
+                activities.Add(new Activity { Type = "Activities", Value = "CanUpdate", Description = "Can update activity" });
+                activities.Add(new Activity { Type = "Activities", Value = "CanDelete", Description = "Can delete activity" });
+                activities.Add(new Activity { Type = "Video", Value = "CanCreate", Description = "Can create a post and upload a video" });
+                activities.Add(new Activity { Type = "Video", Value = "CanRead", Description = "Can view list of posts and its details" });
+                activities.Add(new Activity { Type = "Video", Value = "CanUpdate", Description = "Can update a post" });
+                activities.Add(new Activity { Type = "Video", Value = "CanDelete", Description = "Can delete a post" });
+                activities.Add(new Activity { Type = "Video", Value = "CanSend", Description = "Can send email or sms" });                
+                activities.Add(new Activity { Type = "Approval", Value = "CanApproveVideo", Description = "Can approve video to be sent to customer" });
 
                 activities.ForEach(x => 
                 {

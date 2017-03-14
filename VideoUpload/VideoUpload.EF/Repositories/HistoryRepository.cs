@@ -11,7 +11,7 @@ namespace VideoUpload.EF.Repositories
 {
     internal class HistoryRepository : Repository<History>, IHistoryRepository
     {
-        public HistoryRepository(DbContext context) : base(context)
+        public HistoryRepository(AppDbContext context) : base(context)
         {
         }
     }

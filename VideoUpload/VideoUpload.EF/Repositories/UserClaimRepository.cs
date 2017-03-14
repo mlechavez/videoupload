@@ -11,7 +11,7 @@ namespace VideoUpload.EF.Repositories
 {
     internal class UserClaimRepository : Repository<UserClaim>, IUserClaimRepository
     {
-        public UserClaimRepository(DbContext context) : base(context)
+        public UserClaimRepository(AppDbContext context) : base(context)
         {
         }
 

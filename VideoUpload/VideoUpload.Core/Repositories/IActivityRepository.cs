@@ -9,5 +9,6 @@ namespace VideoUpload.Core.Repositories
 {
     public interface IActivityRepository : IRepository<Activity>
     {
+        Activity GetByTypeAndValue(string type, string value);
     }
 }

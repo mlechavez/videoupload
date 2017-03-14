@@ -3,7 +3,7 @@ namespace VideoUpload.EF.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class initialCreate : DbMigration
     {
         public override void Up()
         {
@@ -80,10 +80,10 @@ namespace VideoUpload.EF.Migrations
                         ClaimID = c.Int(nullable: false, identity: true),
                         ClaimType = c.String(),
                         ClaimValue = c.String(),
-                        UserID = c.String(nullable: false, maxLength: 128),
+                        UserID = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.ClaimID)
-                .ForeignKey("dbo.Users", t => t.UserID, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.UserID)
                 .Index(t => t.UserID);
             
             CreateTable(
@@ -91,7 +91,7 @@ namespace VideoUpload.EF.Migrations
                 c => new
                     {
                         HistoryID = c.Int(nullable: false, identity: true),
-                        Recipient = c.String(),
+                        Recipient = c.String(nullable: false),
                         DateSent = c.DateTime(nullable: false),
                         Sender = c.String(),
                         Type = c.String(),

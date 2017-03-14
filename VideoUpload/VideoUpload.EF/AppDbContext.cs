@@ -14,7 +14,7 @@ namespace VideoUpload.EF
         public AppDbContext(string nameOrconnectionString)
             :base(nameOrconnectionString)
         {
-            this.Database.Log = (message) => Debug.Write(message);
+            //this.Database.Log = (message) => Debug.Write(message);
         }
         public DbSet<User> Users { get; set; }
         public DbSet<UserClaim> UserClaims { get; set; }
@@ -30,6 +30,7 @@ namespace VideoUpload.EF
             modelBuilder.Configurations.Add(new PostConfigurations());
             modelBuilder.Configurations.Add(new PostAttachmentConfiguration());
             modelBuilder.Configurations.Add(new ActivityConfiguration());
+            modelBuilder.Configurations.Add(new HistoryConfiguration());
         }
     }
 }

@@ -7,13 +7,13 @@ namespace VideoUpload.EF.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class UserClaimUserIdChangedToOptional : IMigrationMetadata
+    public sealed partial class initialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UserClaimUserIdChangedToOptional));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201703112029470_UserClaimUserIdChangedToOptional"; }
+            get { return "201703141412553_initialCreate"; }
         }
         
         string IMigrationMetadata.Source

@@ -11,7 +11,7 @@ namespace VideoUpload.EF.Repositories
 {
     internal class PostRepository : Repository<Post>, IPostRepository
     {
-        public PostRepository(DbContext context) : base(context)
+        public PostRepository(AppDbContext context) : base(context)
         {
         }        
     }

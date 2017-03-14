@@ -18,7 +18,7 @@ namespace VideoUpload.EF.Repositories
         {
             get { return _set ?? (_set = _context.Set<T>());  }
         }
-        public Repository(DbContext context)
+        public Repository(AppDbContext context)
         {
             _context = context;
             

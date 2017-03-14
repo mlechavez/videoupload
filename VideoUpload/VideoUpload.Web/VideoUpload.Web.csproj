@@ -278,6 +278,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ActivityViewModels\ActivityViewModel.cs" />
+    <Compile Include="Models\ActivityViewModels\CreateActivityViewModel.cs" />
     <Compile Include="Models\AttachmentViewModel.cs" />
     <Compile Include="Models\ConfirmPasswordViewModel.cs" />
     <Compile Include="Models\CreatePostViewModel.cs" />
@@ -323,6 +325,7 @@
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Manage-Claims.cshtml" />
     <Content Include="Views\Shared\_UnAuthorized.cshtml" />
+    <Content Include="Views\Activities\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -333,7 +336,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
-    <Folder Include="Views\Activities\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VideoUpload.Core\VideoUpload.Core.csproj">

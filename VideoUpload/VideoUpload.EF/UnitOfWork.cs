@@ -11,7 +11,7 @@ using VideoUpload.EF.Repositories;
 namespace VideoUpload.EF
 {
     public class UnitOfWork : IUnitOfWork
-    {
+    {        
         #region Private Fields
         private readonly AppDbContext _context;
         private IUserRepository _users;
@@ -21,6 +21,11 @@ namespace VideoUpload.EF
         private IActivityRepository _activities;
         private IUserClaimRepository _userClaims;
         #endregion
+
+        public UnitOfWork(AppDbContext context)
+        {
+            _context = context;
+        }
         public IPostRepository Posts
         {
             get
@@ -74,9 +79,14 @@ namespace VideoUpload.EF
 
         public void Dispose()
         {
+            _users = null;
+            _userClaims = null;
+            _histories = null;
+            _activities = null;           
             _posts = null;
-            _attachments = null;
+            _attachments = null;            
             _context.Dispose();
+            
         }
 
         public int SaveChanges()

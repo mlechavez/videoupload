@@ -1,0 +1,24 @@
+﻿@using VideoUpload.Web.Common;
+
+@model IEnumerable<VideoUpload.Web.Models.ActivityViewModels.ActivityViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-xs-12">
+    <p class="pull-right">
+        <a href="@Url.Action("new")" class="btn btn-xs btn-success">New access</a>
+    </p>
+</div>
+<h2>List of access</h2>
+<hr />
+
+<ul class="list-group">
+    @foreach (var activity in Model)
+    {
+        <li class="list-group-item">
+            <a href="@Url.Action("edit",new { activityID = activity.ActivityID, description = Html.CleanUrl(activity.Description) })">@activity.Description</a>            
+        </li>
+    }
+</ul>
