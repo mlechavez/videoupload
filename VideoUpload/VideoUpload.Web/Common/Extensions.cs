@@ -23,9 +23,15 @@ namespace VideoUpload.Web.Common
             return dt.ToLocalTime().ToString();
         }
 
-        public static string CleanUrl(this HtmlHelper htmlHelper, string actionName)
+        public static string HyphenUrl(this HtmlHelper htmlHelper, string actionName)
         {
             var cleanActionName = actionName.ToLower().Replace(" ", "-");
+            cleanActionName = Regex.Replace(cleanActionName, @"[^a-zA-Z0-9\/+ -]", "");
+            return cleanActionName;
+        }
+        public static string SpaceUrl(this HtmlHelper htmlHelper, string actionName)
+        {
+            var cleanActionName = actionName.ToLower().Replace("-", " ");
             cleanActionName = Regex.Replace(cleanActionName, @"[^a-zA-Z0-9\/+ -]", "");
             return cleanActionName;
         }

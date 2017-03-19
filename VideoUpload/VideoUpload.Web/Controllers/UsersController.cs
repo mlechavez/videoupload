@@ -11,6 +11,7 @@ using VideoUpload.Web.Models.Identity;
 using VideoUpload.Core;
 using System.Security.Claims;
 using VideoUpload.Web.Common;
+using VideoUpload.Core.Entities;
 
 namespace VideoUpload.Web.Controllers
 {
@@ -86,6 +87,20 @@ namespace VideoUpload.Web.Controllers
 
                     if (result.Succeeded)
                     {
+                        var defaultActivities = _uow.Activities.GetAllByType("Video");
+                        defaultActivities.ForEach(activity => 
+                        {
+                            //exclude the delete access
+                            if (activity.Value != "CanDelete")
+                            {
+                                result = _mgr.AddClaim(identityUser.Id, new Claim(activity.Type, activity.Value));
+                                if (!result.Succeeded)
+                                {
+                                    AddErrors(result);
+                                    return;
+                                }                                
+                            }                            
+                        });
                         return RedirectToAction("list");
                     }
                     AddErrors(result);

@@ -1,0 +1,28 @@
+﻿/// <reference path="../jquery-3.1.1.js" />
+
+var vPlayer = $('#vPlayer').get(0);
+
+
+if (vPlayer.play()) {
+    var postID = $('#postUrl').data('id');
+    var url = $('#postUrl').data('url');
+    var userName = $('#postUrl').data('userName');
+    var currentLink = window.location.href;
+    currentLink = currentLink.replace("watch", "details");    
+
+    $.ajax({
+        type: 'post',
+        url: url,
+        dataType: 'json',
+        contentType: 'application/json',
+        data: { 
+            id: postID,
+            userName: userName,
+            details: currentLink
+        },
+        success: function (data) {
+
+        }
+    });
+
+}

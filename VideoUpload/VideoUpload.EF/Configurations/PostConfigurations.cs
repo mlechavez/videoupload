@@ -28,6 +28,9 @@ namespace VideoUpload.EF.Configurations
 
             Property(x => x.DateEdited)
                 .IsOptional();
+
+            Property(x => x.DatePlayedVideo)
+                .IsOptional();
         }
     }
 }

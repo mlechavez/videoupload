@@ -173,6 +173,10 @@ namespace VideoUpload.Web.Controllers
                 {
                     _uow.Posts.Add(post);
                     await _uow.SaveChangesAsync();
+
+                    //ALERT THE SERVICE MANAGER
+                    //await _mgr.CustomSendEmailAsync(User.Identity.GetUserId(), "Video upload", User.Identity.Name + " has uploaded a new video", );
+
                     return Json(new { message = "Uploaded successfully" });
                     //return RedirectToAction("index");
                 }
@@ -299,7 +303,7 @@ namespace VideoUpload.Web.Controllers
         }
 
         [HttpPost]
-        [AccessActionFilter(Type = "Video", Value = "CanSendEmail")]
+        [AccessActionFilter(Type = "Video", Value = "CanSend")]
         public  async Task<ActionResult> Send(string sendingType, string email, string subject,int p, string c, string v, string mobile)
         {
             var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("watch", new { p = p, c = c, v = v });
@@ -354,11 +358,12 @@ namespace VideoUpload.Web.Controllers
             {
                 PostID = post.PostID,
                 PlateNumber = post.PlateNumber,
-                Description = post.Description,             
+                Description = post.Description,
                 Attachments = attachments
             };
             return View(viewModel);
         }
+
         [HttpPost]
         [AccessActionFilter(Type = "Approval", Value = "CanApproveVideo")]
         public async Task<ActionResult> Approval(bool isapproved, string postID)
@@ -393,6 +398,30 @@ namespace VideoUpload.Web.Controllers
             //await _mgr.CustomSendEmailAsync(user.Id, "Video approval", "Your video has been disapproved.", user.Email, "");
 
             return Json(new { success = true, message = "You've successfully disapproved the video. He/she will receive an email notification" });            
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> VideoHasPlayed(int postID, string userName, string details)
+        {
+            var post = _uow.Posts.GetById(postID);
+            var user = await _mgr.FindByNameAsync(userName);
+
+            var success = false;            
+
+            if (post != null)
+            {
+                if (!post.HasPlayedVideo && post.DatePlayedVideo == null && user != null)
+                {
+                    post.HasPlayedVideo = true;
+                    post.DatePlayedVideo = DateTime.UtcNow;
+                    _uow.Posts.Update(post);
+                    await _uow.SaveChangesAsync();
+
+                    //alert the SA 
+                    //await _mgr.CustomSendEmailAsync(user.Id, "Your video has been viewed.", "Your video has been viewed. See the details: " + details, user.Email, user.EmailPass);
+                }
+            }                        
+            return Json(new { success = success  });
         }
     }
 }

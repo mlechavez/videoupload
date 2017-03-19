@@ -1,0 +1,34 @@
+﻿@using VideoUpload.Web.Common;
+
+@model VideoUpload.Web.Models.ActivityViewModels.ActivityViewModel
+
+@{
+    ViewBag.Title = "Edit system access";
+}
+<div class="col-xs-12">
+    <p class="pull-right">
+        <a href="@Url.Action("list")" class="btn btn-xs btn-info">Back to list</a>
+    </p>
+</div>
+<h2>Edit <span class="text-success">@Model.Description</span></h2>
+<hr />
+@using (Html.BeginForm("edit","activities",FormMethod.Post))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(x=>x.Type)
+        @Html.TextBoxFor(x=>x.Type, new { @class = "form-control input-sm", @readonly = "readonly" })
+        @Html.ValidationMessageFor(x=>x.Type, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Value)
+        @Html.TextBoxFor(x => x.Value, new { @class = "form-control input-sm", @readonly = "readonly" })
+        @Html.ValidationMessageFor(x => x.Value, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Description)
+        <input type="text" id="Description" name="Description" class="form-control input-sm" required value="@Html.SpaceUrl(Model.Description)" autofocus />
+        @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+    </div>
+    <button class="btn btn-warning">Save</button>
+}

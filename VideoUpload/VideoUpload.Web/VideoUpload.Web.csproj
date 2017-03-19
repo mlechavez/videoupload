@@ -259,6 +259,7 @@
     <Content Include="scripts\videos\details.js" />
     <Content Include="scripts\videos\timeZoneCooke.js" />
     <Content Include="scripts\videos\upload.js" />
+    <Content Include="scripts\videos\watch.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -326,6 +327,8 @@
     <Content Include="Views\Users\Manage-Claims.cshtml" />
     <Content Include="Views\Shared\_UnAuthorized.cshtml" />
     <Content Include="Views\Activities\List.cshtml" />
+    <Content Include="Views\Activities\New.cshtml" />
+    <Content Include="Views\Activities\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

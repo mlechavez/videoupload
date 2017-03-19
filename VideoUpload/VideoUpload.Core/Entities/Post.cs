@@ -21,6 +21,8 @@ namespace VideoUpload.Core.Entities
         public bool HasApproval { get; set; }
         public bool IsApproved { get; set; }
         public DateTime? DateApproved { get; set; }
+        public bool HasPlayedVideo { get; set; }
+        public DateTime? DatePlayedVideo { get; set; }
 
         public virtual ICollection<PostAttachment> Attachments
         {

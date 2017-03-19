@@ -14,9 +14,14 @@
 
     </div>
     <div class="embed-responsive embed-responsive-16by9">
-        <video class="embed-responsive-item" preload="metadata" autoplay controls poster="@Url.Content("~/Content/Images/porsche-logo.png")">
+        <video id="vPlayer" class="embed-responsive-item" preload="metadata" autoplay controls poster="@Url.Content("~/Content/Images/porsche-logo.png")">
             <source src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType" />
             Your browser does not support playing this video. Please upgrade your browser.
         </video>  
     </div>
 </div>
+<div id="postUrl" data-url="@Url.Action("VideoHasPlayed")" data-id="@Model.PostID" data-userName="@Model.UploadedBy"></div>
+
+@section Script {    
+<script src="~/scripts/videos/watch.js"></script>
+}

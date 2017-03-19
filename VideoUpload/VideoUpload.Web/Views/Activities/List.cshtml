@@ -18,7 +18,7 @@
     @foreach (var activity in Model)
     {
         <li class="list-group-item">
-            <a href="@Url.Action("edit",new { activityID = activity.ActivityID, description = Html.CleanUrl(activity.Description) })">@activity.Description</a>            
+            <a href="@Url.Action("edit",new { activityID = activity.ActivityID, description = Html.HyphenUrl(activity.Description) })">@activity.Description</a>            
         </li>
     }
 </ul>

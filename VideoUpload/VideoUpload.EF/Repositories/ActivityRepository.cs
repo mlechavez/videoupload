@@ -15,6 +15,11 @@ namespace VideoUpload.EF.Repositories
         {
         }
 
+        public List<Activity> GetAllByType(string type)
+        {
+            return Set.Where(x => x.Type == type).ToList();
+        }
+
         public Activity GetByTypeAndValue(string type, string value)
         {
             return Set.FirstOrDefault(x => x.Type == type && x.Value == value);

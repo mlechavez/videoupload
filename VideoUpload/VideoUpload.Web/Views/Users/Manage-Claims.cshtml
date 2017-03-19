@@ -4,7 +4,7 @@
     ViewBag.Title = "Add user to claim";
 }
 
-<h2>@Model.UserName<text>&acute; s</text> activities</h2>
+<h2>@Model.UserName<text>&acute;s</text> activities</h2>
 <hr />
 <h4>Manage User</h4>
 @using (Html.BeginForm("manage-claims","users", FormMethod.Post))
@@ -17,11 +17,11 @@ foreach (var activity in Model.Activities)
         <label class="checkbox-inline">
             @if (Model.UserClaims.Any(x=>x.Type == activity.Type && x.Value == activity.Value))
             {
-                <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Value
+                <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Description
             }
             else
             {
-                <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Value
+                <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Description
             }
             @*<input type="hidden" name="@activity.Type" value="@activity.Value" /> @activity.Value*@
         </label>
@@ -36,11 +36,11 @@ foreach (var activity in Model.Activities)
         <label class="checkbox-inline">
             @if (Model.UserClaims.Any(x => x.Type == activity.Type && x.Value == activity.Value))
             {
-                <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Value
+                <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Description
             }
             else
             {
-                <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Value
+                <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Description
             }
             @*<input type="hidden" name="@activity.Type" value="@activity.Value" /> @activity.Value*@
         </label>
@@ -54,11 +54,11 @@ foreach (var activity in Model.Activities)
         <label class="checkbox-inline">
             @if (Model.UserClaims.Any(x => x.Type == activity.Type && x.Value == activity.Value))
             {
-                <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Value
+                <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Description
             }
             else
             {
-                <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Value
+                <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Description
             }
             @*<input type="hidden" name="@activity.Type" value="@activity.Value" /> @activity.Value*@
         </label>
