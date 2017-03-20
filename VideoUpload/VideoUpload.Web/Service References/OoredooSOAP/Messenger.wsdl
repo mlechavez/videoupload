@@ -1,0 +1,2543 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:s0="http://pmmsoapmessenger.com/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" name="Messenger" targetNamespace="http://pmmsoapmessenger.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://pmmsoapmessenger.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://microsoft.com/wsdl/types/" />
+      <xs:complexType name="SoapUser">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="CustomerID" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Language" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Password" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="SendingDetails">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Originator" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="SmsText" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="MessageType" type="s0:MessageType" />
+          <xs:element minOccurs="0" maxOccurs="1" name="DefDate" type="xs:string" />
+          <xs:element xmlns:q1="http://microsoft.com/wsdl/types/" minOccurs="1" maxOccurs="1" name="DistributionListID" type="q1:guid" />
+          <xs:element minOccurs="1" maxOccurs="1" name="DistributionListOffset" type="xs:int" />
+          <xs:element minOccurs="1" maxOccurs="1" name="DistributionListCount" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="MessageType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Latin" />
+          <xs:enumeration value="ArabicWithArabicNumbers" />
+          <xs:enumeration value="ArabicWithLatinNumbers" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="SendSmsToDistributionList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+            <xs:element minOccurs="0" maxOccurs="1" name="sendingDetails" type="s0:SendingDetails" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="SendResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:CommonResult">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="1" name="RejectedNumbers" type="s0:ArrayOfString" />
+              <xs:element minOccurs="0" maxOccurs="1" name="TransactionID" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="1" name="NetPoints" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfString">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CommonResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Result" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CheckSmsCostResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:CommonResult">
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="1" name="Cost" type="xs:decimal" />
+              <xs:element minOccurs="0" maxOccurs="1" name="RejectedNumbers" type="s0:ArrayOfString" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="SendMMSResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:SendResult">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="1" name="MMWLTransactionID" type="xs:string" />
+              <xs:element minOccurs="1" maxOccurs="1" name="CustomerID" type="xs:int" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="SmsStatus">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:CommonResult">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="1" name="Statistics">
+                <xs:complexType mixed="true">
+                  <xs:sequence>
+                    <xs:any />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="0" maxOccurs="1" name="Details">
+                <xs:complexType mixed="true">
+                  <xs:sequence>
+                    <xs:any />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="0" maxOccurs="1" name="NetPoints" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="AuthResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:CommonResult">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="1" name="NetPoints" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="1" name="Originators" type="s0:ArrayOfString" />
+              <xs:element minOccurs="1" maxOccurs="1" name="CustomerID" type="xs:int" />
+              <xs:element minOccurs="0" maxOccurs="1" name="CreditSMS" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="1" name="CreditMMS" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="TubeAuthenticateCustomerUserResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:CommonResult">
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="1" name="IsDBTimeout" type="xs:boolean" />
+              <xs:element minOccurs="0" maxOccurs="1" name="CustomerUserData" type="s0:TubeCustomerUserData" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="TubeCustomerUserData">
+        <xs:sequence>
+          <xs:element xmlns:q2="http://microsoft.com/wsdl/types/" minOccurs="1" maxOccurs="1" name="CustomerUUID" type="q2:guid" />
+          <xs:element xmlns:q3="http://microsoft.com/wsdl/types/" minOccurs="1" maxOccurs="1" name="CustomerUserUUID" type="q3:guid" />
+          <xs:element minOccurs="1" maxOccurs="1" name="CustomerPriority" type="xs:unsignedByte" />
+          <xs:element minOccurs="1" maxOccurs="1" name="CustomerUserPriority" type="xs:unsignedByte" />
+          <xs:element xmlns:q4="http://microsoft.com/wsdl/types/" minOccurs="1" maxOccurs="1" name="DefaultProviderID" type="q4:guid" />
+          <xs:element minOccurs="1" maxOccurs="1" name="MPS" nillable="true" type="xs:int" />
+          <xs:element minOccurs="1" maxOccurs="1" name="MessageValidity" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AdZoneLocationsApiResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:CommonResult">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="1" name="Locations" type="s0:ArrayOfAdZoneLocationApiData" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfAdZoneLocationApiData">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="AdZoneLocationApiData" nillable="true" type="s0:AdZoneLocationApiData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AdZoneLocationApiData">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="ID" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Description" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AdZoneSendApiResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:CommonResult">
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="1" name="AdZoneCampaignID" type="xs:int" />
+              <xs:element minOccurs="1" maxOccurs="1" name="SpentCredits" type="xs:decimal" />
+              <xs:element minOccurs="1" maxOccurs="1" name="NumberOfPartsPerMessage" type="xs:int" />
+              <xs:element minOccurs="1" maxOccurs="1" name="TotalNumberOfParts" type="xs:int" />
+              <xs:element xmlns:q5="http://microsoft.com/wsdl/types/" minOccurs="1" maxOccurs="1" name="ClientTransactionID" type="q5:guid" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:element name="SendSmsToDistributionListResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="SendSmsToDistributionListResult" type="s0:SendResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_SendSmsToDistributionList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="customerID" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userPassword" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="originator" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="smsText" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="messageType" type="s0:MessageType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="defDate" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="distributionListId" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="distributionListOffset" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="distributionListCount" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_SendSmsToDistributionListResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="HTTP_SendSmsToDistributionListResult" type="s0:SendResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="SearchCriteria">
+        <xs:sequence>
+          <xs:element xmlns:q6="http://microsoft.com/wsdl/types/" minOccurs="1" maxOccurs="1" name="ID" type="q6:guid" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Category" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="FindDistributionLists">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+            <xs:element minOccurs="0" maxOccurs="1" name="searchCriteria" type="s0:SearchCriteria" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="FindListsResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:MmwlApiResult">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="1" name="Lists" type="s0:ArrayOfDistributionListDescription" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfDistributionListDescription">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="DistributionListDescription" nillable="true" type="s0:DistributionListDescription" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DistributionListDescription">
+        <xs:sequence>
+          <xs:element xmlns:q7="http://microsoft.com/wsdl/types/" minOccurs="1" maxOccurs="1" name="ID" type="q7:guid" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Category" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="RecipientsCount" type="xs:int" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Version" type="xs:int" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Private" type="xs:boolean" />
+          <xs:element minOccurs="1" maxOccurs="1" name="Type" type="s0:DistributionListType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="DistributionListType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="DistributionList" />
+          <xs:enumeration value="SmartList" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="MmwlApiResult">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="ErrorCode" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Result" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CreateCustomerResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:MmwlApiResult">
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="1" name="CustomerID" type="xs:int" />
+              <xs:element minOccurs="0" maxOccurs="1" name="UserPassword" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="CreditResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:MmwlApiResult">
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="1" name="SMSCredit" type="xs:decimal" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="BothCreditResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:CreditResult">
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="1" name="MMSCredit" type="xs:decimal" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:element name="FindDistributionListsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="FindDistributionListsResult" type="s0:FindListsResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_FindDistributionLists">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="customerID" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userPassword" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="listId" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="listName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="listCategory" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_FindDistributionListsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="HTTP_FindDistributionListsResult" type="s0:FindListsResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendSms">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+            <xs:element minOccurs="0" maxOccurs="1" name="originator" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="smsText" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="recipientPhone" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="messageType" type="s0:MessageType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="defDate" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="blink" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="flash" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="Private" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendSmsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="SendSmsResult" type="s0:SendResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendSms2">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+            <xs:element minOccurs="0" maxOccurs="1" name="originator" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="smsText" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="recipientPhonesFile" type="xs:base64Binary" />
+            <xs:element minOccurs="1" maxOccurs="1" name="messageType" type="s0:MessageType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="defDate" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="flash" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendSms2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="SendSms2Result" type="s0:SendResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendSmsXml">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="xml" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendSmsXmlResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="SendSmsXmlResult" type="s0:SendResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="CheckSmsCostRequest">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="SmsText" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Recipiens" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="MsgType" type="s0:MessageType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="CheckSmsCost">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+            <xs:element minOccurs="0" maxOccurs="1" name="smsDetails" type="s0:CheckSmsCostRequest" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckSmsCostResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CheckSmsCostResult" type="s0:CheckSmsCostResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendSmsTransaction">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+            <xs:element minOccurs="0" maxOccurs="1" name="originator" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="smsText" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="recipientPhone" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="messageType" type="s0:MessageType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="defDate" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="blink" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="flash" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="Private" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="clientTransactionID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendSmsTransactionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="SendSmsTransactionResult" type="s0:SendResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_SendSms">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="customerID" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userPassword" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="originator" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="smsText" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="recipientPhone" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="messageType" type="s0:MessageType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="defDate" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="blink" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="flash" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="Private" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_SendSmsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="HTTP_SendSmsResult" type="s0:SendResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_SendSmsTransaction">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="customerID" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userPassword" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="originator" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="smsText" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="recipientPhone" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="messageType" type="s0:MessageType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="defDate" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="blink" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="flash" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="Private" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="clientTransactionID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_SendSmsTransactionResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="HTTP_SendSmsTransactionResult" type="s0:SendResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendMMS">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="mm7Data" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendMMSResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="SendMMSResult" type="s0:SendMMSResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendBinarySms">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+            <xs:element minOccurs="0" maxOccurs="1" name="originator" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="binaryBody" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="recipientPhone" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="defDate" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="data_coding" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="esm_class" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="PID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendBinarySmsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="SendBinarySmsResult" type="s0:SendResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_SendBinarySms">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="customerID" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userPassword" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="originator" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="binaryBody" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="recipientPhone" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="defDate" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="data_coding" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="esm_class" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="PID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_SendBinarySmsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="HTTP_SendBinarySmsResult" type="s0:SendResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_GetSmsStatus">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="customerID" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userPassword" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="transactionID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="detailed" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_GetSmsStatusResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="HTTP_GetSmsStatusResult" type="s0:SmsStatus" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetSmsStatus">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+            <xs:element minOccurs="0" maxOccurs="1" name="transactionID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="detailed" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetSmsStatusResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetSmsStatusResult" type="s0:SmsStatus" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_Authenticate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="customerID" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userPassword" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_AuthenticateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="HTTP_AuthenticateResult" type="s0:AuthResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Authenticate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AuthenticateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="AuthenticateResult" type="s0:AuthResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendServiceSms">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="customerID" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userPassword" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="originator" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="serviceName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="serviceUrl" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="recipientPhone" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="messageType" type="s0:MessageType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="defDate" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="blink" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="flash" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="Private" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendServiceSmsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="SendServiceSmsResult" type="s0:SendResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="KeepAlive">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="KeepAliveResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="KeepAliveResult" type="s0:CommonResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_KeepAlive">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="customerID" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userPassword" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_KeepAliveResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="HTTP_KeepAliveResult" type="s0:CommonResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_InboxProcessing">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="customerID" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userPassword" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="operation" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="messageId" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="HTTP_InboxProcessingResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="HTTP_InboxProcessingResult">
+              <xs:complexType mixed="true">
+                <xs:sequence>
+                  <xs:any />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="InboxProcessing">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+            <xs:element minOccurs="0" maxOccurs="1" name="operation" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="messageId" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="InboxProcessingResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="InboxProcessingResult">
+              <xs:complexType mixed="true">
+                <xs:sequence>
+                  <xs:any />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="ServiceTypes">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Unknown" />
+          <xs:enumeration value="MM_CLIENT" />
+          <xs:enumeration value="MM_WEB" />
+          <xs:enumeration value="AUTORESPOND" />
+          <xs:enumeration value="FORWARD" />
+          <xs:enumeration value="SOAPSERVICE" />
+          <xs:enumeration value="SMS2GROUP" />
+          <xs:enumeration value="MMS2GROUP" />
+          <xs:enumeration value="SvcMon" />
+          <xs:enumeration value="OLEMM" />
+          <xs:enumeration value="PKG_EXPIRATION" />
+          <xs:enumeration value="LITEAPI_SOAP" />
+          <xs:enumeration value="CHANGE_EDITION" />
+          <xs:enumeration value="SUBSCRIPTION" />
+          <xs:enumeration value="OEMM" />
+          <xs:enumeration value="OUTLOOKMM" />
+          <xs:enumeration value="FIREFOXMM" />
+          <xs:enumeration value="LOTUSMM" />
+          <xs:enumeration value="IEMM" />
+          <xs:enumeration value="SMS_COMMAND_PROCESSING" />
+          <xs:enumeration value="MM_WAP" />
+          <xs:enumeration value="MSN_CLIENT" />
+          <xs:enumeration value="EmailToSMS" />
+          <xs:enumeration value="CHANGE_ORIGINATOR" />
+          <xs:enumeration value="MM_FB" />
+          <xs:enumeration value="MMSInbox_AutoRespond" />
+          <xs:enumeration value="MMSInbox_Forward" />
+          <xs:enumeration value="SmsTest" />
+          <xs:enumeration value="System_Replies" />
+          <xs:enumeration value="CLI_Win32" />
+          <xs:enumeration value="CLI_Linux" />
+          <xs:enumeration value="CLI_Darwin" />
+          <xs:enumeration value="CLI_Generic" />
+          <xs:enumeration value="ADMIN_UI" />
+          <xs:enumeration value="MMWL_API_SOAP" />
+          <xs:enumeration value="PURCHASING_BY_CREDIT_CARD" />
+          <xs:enumeration value="PURCHASING_BY_SMS_COMMAND" />
+          <xs:enumeration value="TABS" />
+          <xs:enumeration value="WELCOME_PACKAGE" />
+          <xs:enumeration value="PURCHASING_BY_WEB" />
+          <xs:enumeration value="IGS" />
+          <xs:enumeration value="Monthly_Recurring_Refill" />
+          <xs:enumeration value="MMSC" />
+          <xs:enumeration value="SMPP_RECEIVER" />
+          <xs:enumeration value="SMPP_TRANSCEIVER" />
+          <xs:enumeration value="SMPP_TRANSMITTER" />
+          <xs:enumeration value="FTP" />
+          <xs:enumeration value="INBOX_AUTOMATOR" />
+          <xs:enumeration value="EmailToMMS" />
+          <xs:enumeration value="AUTOSUBSCRIPTION" />
+          <xs:enumeration value="Rewards" />
+          <xs:enumeration value="SMS2GROUP_API" />
+          <xs:enumeration value="AdZone_Refill" />
+          <xs:enumeration value="MM_Mobile" />
+          <xs:enumeration value="DotDialog" />
+          <xs:enumeration value="CHROMEMM" />
+          <xs:enumeration value="PowerAds" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="TubeAuthenticateCustomerUser">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+            <xs:element minOccurs="1" maxOccurs="1" name="serviceType" type="s0:ServiceTypes" />
+            <xs:element minOccurs="0" maxOccurs="1" name="userIP" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="TubeAuthenticateCustomerUserResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="TubeAuthenticateCustomerUserResult" type="s0:TubeAuthenticateCustomerUserResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Diag">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="DiagResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DiagResult" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAdZoneLocations">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAdZoneLocationsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetAdZoneLocationsResult" type="s0:AdZoneLocationsApiResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="AdZoneCampaignApiDataSMS">
+        <xs:complexContent mixed="false">
+          <xs:extension base="s0:AdZoneCampaignApiDataBase">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="1" name="SmsText" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="AdZoneCampaignApiDataBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Originator" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="TargetRecipientsLimit" type="xs:int" />
+          <xs:element minOccurs="1" maxOccurs="1" name="LocationID" type="xs:int" />
+          <xs:element minOccurs="1" maxOccurs="1" name="StartDate" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="1" maxOccurs="1" name="EndDate" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" maxOccurs="1" name="SendingDays" type="s0:ArrayOfDayOfWeek" />
+          <xs:element minOccurs="0" maxOccurs="1" name="SendingHours" type="xs:base64Binary" />
+          <xs:element xmlns:q8="http://microsoft.com/wsdl/types/" minOccurs="1" maxOccurs="1" name="ClientTransactionID" type="q8:guid" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfDayOfWeek">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="DayOfWeek" type="s0:DayOfWeek" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="DayOfWeek">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Sunday" />
+          <xs:enumeration value="Monday" />
+          <xs:enumeration value="Tuesday" />
+          <xs:enumeration value="Wednesday" />
+          <xs:enumeration value="Thursday" />
+          <xs:enumeration value="Friday" />
+          <xs:enumeration value="Saturday" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="SendAdZoneSms">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+            <xs:element minOccurs="0" maxOccurs="1" name="smsCampaign" type="s0:AdZoneCampaignApiDataSMS" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendAdZoneSmsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="SendAdZoneSmsResult" type="s0:AdZoneSendApiResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="StopAdZoneCampaign">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="user" type="s0:SoapUser" />
+            <xs:element minOccurs="1" maxOccurs="1" name="campaignId" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="StopAdZoneCampaignResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="StopAdZoneCampaignResult" type="s0:CommonResult" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendResult" nillable="true" type="s0:SendResult" />
+      <xs:element name="FindListsResult" nillable="true" type="s0:FindListsResult" />
+      <xs:element name="SendMMSResult" nillable="true" type="s0:SendMMSResult" />
+      <xs:element name="SmsStatus" nillable="true" type="s0:SmsStatus" />
+      <xs:element name="AuthResult" nillable="true" type="s0:AuthResult" />
+      <xs:element name="CommonResult" nillable="true" type="s0:CommonResult" />
+      <xs:element name="XmlNode" nillable="true">
+        <xs:complexType mixed="true">
+          <xs:sequence>
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="string" nillable="true" type="xs:string" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://microsoft.com/wsdl/types/" elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+    <xs:schema xmlns:tns="http://pmmsoapmessenger.com/AbstractTypes" targetNamespace="http://pmmsoapmessenger.com/AbstractTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xs:simpleType name="MessageType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Latin" />
+          <xs:enumeration value="ArabicWithArabicNumbers" />
+          <xs:enumeration value="ArabicWithLatinNumbers" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </types>
+  <message name="SendSmsToDistributionListSoapIn">
+    <part name="parameters" element="s0:SendSmsToDistributionList" />
+  </message>
+  <message name="SendSmsToDistributionListSoapOut">
+    <part name="parameters" element="s0:SendSmsToDistributionListResponse" />
+  </message>
+  <message name="HTTP_SendSmsToDistributionListSoapIn">
+    <part name="parameters" element="s0:HTTP_SendSmsToDistributionList" />
+  </message>
+  <message name="HTTP_SendSmsToDistributionListSoapOut">
+    <part name="parameters" element="s0:HTTP_SendSmsToDistributionListResponse" />
+  </message>
+  <message name="FindDistributionListsSoapIn">
+    <part name="parameters" element="s0:FindDistributionLists" />
+  </message>
+  <message name="FindDistributionListsSoapOut">
+    <part name="parameters" element="s0:FindDistributionListsResponse" />
+  </message>
+  <message name="HTTP_FindDistributionListsSoapIn">
+    <part name="parameters" element="s0:HTTP_FindDistributionLists" />
+  </message>
+  <message name="HTTP_FindDistributionListsSoapOut">
+    <part name="parameters" element="s0:HTTP_FindDistributionListsResponse" />
+  </message>
+  <message name="SendSmsSoapIn">
+    <part name="parameters" element="s0:SendSms" />
+  </message>
+  <message name="SendSmsSoapOut">
+    <part name="parameters" element="s0:SendSmsResponse" />
+  </message>
+  <message name="SendSms2SoapIn">
+    <part name="parameters" element="s0:SendSms2" />
+  </message>
+  <message name="SendSms2SoapOut">
+    <part name="parameters" element="s0:SendSms2Response" />
+  </message>
+  <message name="SendSmsXmlSoapIn">
+    <part name="parameters" element="s0:SendSmsXml" />
+  </message>
+  <message name="SendSmsXmlSoapOut">
+    <part name="parameters" element="s0:SendSmsXmlResponse" />
+  </message>
+  <message name="CheckSmsCostSoapIn">
+    <part name="parameters" element="s0:CheckSmsCost" />
+  </message>
+  <message name="CheckSmsCostSoapOut">
+    <part name="parameters" element="s0:CheckSmsCostResponse" />
+  </message>
+  <message name="SendSmsTransactionSoapIn">
+    <part name="parameters" element="s0:SendSmsTransaction" />
+  </message>
+  <message name="SendSmsTransactionSoapOut">
+    <part name="parameters" element="s0:SendSmsTransactionResponse" />
+  </message>
+  <message name="HTTP_SendSmsSoapIn">
+    <part name="parameters" element="s0:HTTP_SendSms" />
+  </message>
+  <message name="HTTP_SendSmsSoapOut">
+    <part name="parameters" element="s0:HTTP_SendSmsResponse" />
+  </message>
+  <message name="HTTP_SendSmsTransactionSoapIn">
+    <part name="parameters" element="s0:HTTP_SendSmsTransaction" />
+  </message>
+  <message name="HTTP_SendSmsTransactionSoapOut">
+    <part name="parameters" element="s0:HTTP_SendSmsTransactionResponse" />
+  </message>
+  <message name="SendMMSSoapIn">
+    <part name="parameters" element="s0:SendMMS" />
+  </message>
+  <message name="SendMMSSoapOut">
+    <part name="parameters" element="s0:SendMMSResponse" />
+  </message>
+  <message name="SendBinarySmsSoapIn">
+    <part name="parameters" element="s0:SendBinarySms" />
+  </message>
+  <message name="SendBinarySmsSoapOut">
+    <part name="parameters" element="s0:SendBinarySmsResponse" />
+  </message>
+  <message name="HTTP_SendBinarySmsSoapIn">
+    <part name="parameters" element="s0:HTTP_SendBinarySms" />
+  </message>
+  <message name="HTTP_SendBinarySmsSoapOut">
+    <part name="parameters" element="s0:HTTP_SendBinarySmsResponse" />
+  </message>
+  <message name="HTTP_GetSmsStatusSoapIn">
+    <part name="parameters" element="s0:HTTP_GetSmsStatus" />
+  </message>
+  <message name="HTTP_GetSmsStatusSoapOut">
+    <part name="parameters" element="s0:HTTP_GetSmsStatusResponse" />
+  </message>
+  <message name="GetSmsStatusSoapIn">
+    <part name="parameters" element="s0:GetSmsStatus" />
+  </message>
+  <message name="GetSmsStatusSoapOut">
+    <part name="parameters" element="s0:GetSmsStatusResponse" />
+  </message>
+  <message name="HTTP_AuthenticateSoapIn">
+    <part name="parameters" element="s0:HTTP_Authenticate" />
+  </message>
+  <message name="HTTP_AuthenticateSoapOut">
+    <part name="parameters" element="s0:HTTP_AuthenticateResponse" />
+  </message>
+  <message name="AuthenticateSoapIn">
+    <part name="parameters" element="s0:Authenticate" />
+  </message>
+  <message name="AuthenticateSoapOut">
+    <part name="parameters" element="s0:AuthenticateResponse" />
+  </message>
+  <message name="SendServiceSmsSoapIn">
+    <part name="parameters" element="s0:SendServiceSms" />
+  </message>
+  <message name="SendServiceSmsSoapOut">
+    <part name="parameters" element="s0:SendServiceSmsResponse" />
+  </message>
+  <message name="KeepAliveSoapIn">
+    <part name="parameters" element="s0:KeepAlive" />
+  </message>
+  <message name="KeepAliveSoapOut">
+    <part name="parameters" element="s0:KeepAliveResponse" />
+  </message>
+  <message name="HTTP_KeepAliveSoapIn">
+    <part name="parameters" element="s0:HTTP_KeepAlive" />
+  </message>
+  <message name="HTTP_KeepAliveSoapOut">
+    <part name="parameters" element="s0:HTTP_KeepAliveResponse" />
+  </message>
+  <message name="HTTP_InboxProcessingSoapIn">
+    <part name="parameters" element="s0:HTTP_InboxProcessing" />
+  </message>
+  <message name="HTTP_InboxProcessingSoapOut">
+    <part name="parameters" element="s0:HTTP_InboxProcessingResponse" />
+  </message>
+  <message name="InboxProcessingSoapIn">
+    <part name="parameters" element="s0:InboxProcessing" />
+  </message>
+  <message name="InboxProcessingSoapOut">
+    <part name="parameters" element="s0:InboxProcessingResponse" />
+  </message>
+  <message name="TubeAuthenticateCustomerUserSoapIn">
+    <part name="parameters" element="s0:TubeAuthenticateCustomerUser" />
+  </message>
+  <message name="TubeAuthenticateCustomerUserSoapOut">
+    <part name="parameters" element="s0:TubeAuthenticateCustomerUserResponse" />
+  </message>
+  <message name="DiagSoapIn">
+    <part name="parameters" element="s0:Diag" />
+  </message>
+  <message name="DiagSoapOut">
+    <part name="parameters" element="s0:DiagResponse" />
+  </message>
+  <message name="GetAdZoneLocationsSoapIn">
+    <part name="parameters" element="s0:GetAdZoneLocations" />
+  </message>
+  <message name="GetAdZoneLocationsSoapOut">
+    <part name="parameters" element="s0:GetAdZoneLocationsResponse" />
+  </message>
+  <message name="SendAdZoneSmsSoapIn">
+    <part name="parameters" element="s0:SendAdZoneSms" />
+  </message>
+  <message name="SendAdZoneSmsSoapOut">
+    <part name="parameters" element="s0:SendAdZoneSmsResponse" />
+  </message>
+  <message name="StopAdZoneCampaignSoapIn">
+    <part name="parameters" element="s0:StopAdZoneCampaign" />
+  </message>
+  <message name="StopAdZoneCampaignSoapOut">
+    <part name="parameters" element="s0:StopAdZoneCampaignResponse" />
+  </message>
+  <message name="HTTP_SendSmsToDistributionListHttpGetIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="originator" type="s:string" />
+    <part name="smsText" type="s:string" />
+    <part xmlns:q1="http://pmmsoapmessenger.com/AbstractTypes" name="messageType" type="q1:MessageType" />
+    <part name="defDate" type="s:string" />
+    <part name="distributionListId" type="s:string" />
+    <part name="distributionListOffset" type="s:int" />
+    <part name="distributionListCount" type="s:int" />
+  </message>
+  <message name="HTTP_SendSmsToDistributionListHttpGetOut">
+    <part name="Body" element="s0:SendResult" />
+  </message>
+  <message name="HTTP_FindDistributionListsHttpGetIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="listId" type="s:string" />
+    <part name="listName" type="s:string" />
+    <part name="listCategory" type="s:string" />
+  </message>
+  <message name="HTTP_FindDistributionListsHttpGetOut">
+    <part name="Body" element="s0:FindListsResult" />
+  </message>
+  <message name="SendSmsXmlHttpGetIn">
+    <part name="xml" type="s:string" />
+  </message>
+  <message name="SendSmsXmlHttpGetOut">
+    <part name="Body" element="s0:SendResult" />
+  </message>
+  <message name="HTTP_SendSmsHttpGetIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="originator" type="s:string" />
+    <part name="smsText" type="s:string" />
+    <part name="recipientPhone" type="s:string" />
+    <part xmlns:q2="http://pmmsoapmessenger.com/AbstractTypes" name="messageType" type="q2:MessageType" />
+    <part name="defDate" type="s:string" />
+    <part name="blink" type="s:boolean" />
+    <part name="flash" type="s:boolean" />
+    <part name="Private" type="s:boolean" />
+  </message>
+  <message name="HTTP_SendSmsHttpGetOut">
+    <part name="Body" element="s0:SendResult" />
+  </message>
+  <message name="HTTP_SendSmsTransactionHttpGetIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="originator" type="s:string" />
+    <part name="smsText" type="s:string" />
+    <part name="recipientPhone" type="s:string" />
+    <part xmlns:q3="http://pmmsoapmessenger.com/AbstractTypes" name="messageType" type="q3:MessageType" />
+    <part name="defDate" type="s:string" />
+    <part name="blink" type="s:boolean" />
+    <part name="flash" type="s:boolean" />
+    <part name="Private" type="s:boolean" />
+    <part name="clientTransactionID" type="s:string" />
+  </message>
+  <message name="HTTP_SendSmsTransactionHttpGetOut">
+    <part name="Body" element="s0:SendResult" />
+  </message>
+  <message name="SendMMSHttpGetIn">
+    <part name="mm7Data" type="s:base64Binary" />
+  </message>
+  <message name="SendMMSHttpGetOut">
+    <part name="Body" element="s0:SendMMSResult" />
+  </message>
+  <message name="HTTP_SendBinarySmsHttpGetIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="originator" type="s:string" />
+    <part name="binaryBody" type="s:string" />
+    <part name="recipientPhone" type="s:string" />
+    <part name="defDate" type="s:string" />
+    <part name="data_coding" type="s:string" />
+    <part name="esm_class" type="s:string" />
+    <part name="PID" type="s:string" />
+  </message>
+  <message name="HTTP_SendBinarySmsHttpGetOut">
+    <part name="Body" element="s0:SendResult" />
+  </message>
+  <message name="HTTP_GetSmsStatusHttpGetIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="transactionID" type="s:string" />
+    <part name="detailed" type="s:boolean" />
+  </message>
+  <message name="HTTP_GetSmsStatusHttpGetOut">
+    <part name="Body" element="s0:SmsStatus" />
+  </message>
+  <message name="HTTP_AuthenticateHttpGetIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+  </message>
+  <message name="HTTP_AuthenticateHttpGetOut">
+    <part name="Body" element="s0:AuthResult" />
+  </message>
+  <message name="SendServiceSmsHttpGetIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="originator" type="s:string" />
+    <part name="serviceName" type="s:string" />
+    <part name="serviceUrl" type="s:string" />
+    <part name="recipientPhone" type="s:string" />
+    <part xmlns:q4="http://pmmsoapmessenger.com/AbstractTypes" name="messageType" type="q4:MessageType" />
+    <part name="defDate" type="s:string" />
+    <part name="blink" type="s:boolean" />
+    <part name="flash" type="s:boolean" />
+    <part name="Private" type="s:boolean" />
+  </message>
+  <message name="SendServiceSmsHttpGetOut">
+    <part name="Body" element="s0:SendResult" />
+  </message>
+  <message name="HTTP_KeepAliveHttpGetIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+  </message>
+  <message name="HTTP_KeepAliveHttpGetOut">
+    <part name="Body" element="s0:CommonResult" />
+  </message>
+  <message name="HTTP_InboxProcessingHttpGetIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="operation" type="s:string" />
+    <part name="messageId" type="s:string" />
+  </message>
+  <message name="HTTP_InboxProcessingHttpGetOut">
+    <part name="Body" element="s0:XmlNode" />
+  </message>
+  <message name="DiagHttpGetIn" />
+  <message name="DiagHttpGetOut">
+    <part name="Body" element="s0:string" />
+  </message>
+  <message name="HTTP_SendSmsToDistributionListHttpPostIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="originator" type="s:string" />
+    <part name="smsText" type="s:string" />
+    <part xmlns:q5="http://pmmsoapmessenger.com/AbstractTypes" name="messageType" type="q5:MessageType" />
+    <part name="defDate" type="s:string" />
+    <part name="distributionListId" type="s:string" />
+    <part name="distributionListOffset" type="s:int" />
+    <part name="distributionListCount" type="s:int" />
+  </message>
+  <message name="HTTP_SendSmsToDistributionListHttpPostOut">
+    <part name="Body" element="s0:SendResult" />
+  </message>
+  <message name="HTTP_FindDistributionListsHttpPostIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="listId" type="s:string" />
+    <part name="listName" type="s:string" />
+    <part name="listCategory" type="s:string" />
+  </message>
+  <message name="HTTP_FindDistributionListsHttpPostOut">
+    <part name="Body" element="s0:FindListsResult" />
+  </message>
+  <message name="SendSmsXmlHttpPostIn">
+    <part name="xml" type="s:string" />
+  </message>
+  <message name="SendSmsXmlHttpPostOut">
+    <part name="Body" element="s0:SendResult" />
+  </message>
+  <message name="HTTP_SendSmsHttpPostIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="originator" type="s:string" />
+    <part name="smsText" type="s:string" />
+    <part name="recipientPhone" type="s:string" />
+    <part xmlns:q6="http://pmmsoapmessenger.com/AbstractTypes" name="messageType" type="q6:MessageType" />
+    <part name="defDate" type="s:string" />
+    <part name="blink" type="s:boolean" />
+    <part name="flash" type="s:boolean" />
+    <part name="Private" type="s:boolean" />
+  </message>
+  <message name="HTTP_SendSmsHttpPostOut">
+    <part name="Body" element="s0:SendResult" />
+  </message>
+  <message name="HTTP_SendSmsTransactionHttpPostIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="originator" type="s:string" />
+    <part name="smsText" type="s:string" />
+    <part name="recipientPhone" type="s:string" />
+    <part xmlns:q7="http://pmmsoapmessenger.com/AbstractTypes" name="messageType" type="q7:MessageType" />
+    <part name="defDate" type="s:string" />
+    <part name="blink" type="s:boolean" />
+    <part name="flash" type="s:boolean" />
+    <part name="Private" type="s:boolean" />
+    <part name="clientTransactionID" type="s:string" />
+  </message>
+  <message name="HTTP_SendSmsTransactionHttpPostOut">
+    <part name="Body" element="s0:SendResult" />
+  </message>
+  <message name="SendMMSHttpPostIn">
+    <part name="mm7Data" type="s:base64Binary" />
+  </message>
+  <message name="SendMMSHttpPostOut">
+    <part name="Body" element="s0:SendMMSResult" />
+  </message>
+  <message name="HTTP_SendBinarySmsHttpPostIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="originator" type="s:string" />
+    <part name="binaryBody" type="s:string" />
+    <part name="recipientPhone" type="s:string" />
+    <part name="defDate" type="s:string" />
+    <part name="data_coding" type="s:string" />
+    <part name="esm_class" type="s:string" />
+    <part name="PID" type="s:string" />
+  </message>
+  <message name="HTTP_SendBinarySmsHttpPostOut">
+    <part name="Body" element="s0:SendResult" />
+  </message>
+  <message name="HTTP_GetSmsStatusHttpPostIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="transactionID" type="s:string" />
+    <part name="detailed" type="s:boolean" />
+  </message>
+  <message name="HTTP_GetSmsStatusHttpPostOut">
+    <part name="Body" element="s0:SmsStatus" />
+  </message>
+  <message name="HTTP_AuthenticateHttpPostIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+  </message>
+  <message name="HTTP_AuthenticateHttpPostOut">
+    <part name="Body" element="s0:AuthResult" />
+  </message>
+  <message name="SendServiceSmsHttpPostIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="originator" type="s:string" />
+    <part name="serviceName" type="s:string" />
+    <part name="serviceUrl" type="s:string" />
+    <part name="recipientPhone" type="s:string" />
+    <part xmlns:q8="http://pmmsoapmessenger.com/AbstractTypes" name="messageType" type="q8:MessageType" />
+    <part name="defDate" type="s:string" />
+    <part name="blink" type="s:boolean" />
+    <part name="flash" type="s:boolean" />
+    <part name="Private" type="s:boolean" />
+  </message>
+  <message name="SendServiceSmsHttpPostOut">
+    <part name="Body" element="s0:SendResult" />
+  </message>
+  <message name="HTTP_KeepAliveHttpPostIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+  </message>
+  <message name="HTTP_KeepAliveHttpPostOut">
+    <part name="Body" element="s0:CommonResult" />
+  </message>
+  <message name="HTTP_InboxProcessingHttpPostIn">
+    <part name="customerID" type="s:int" />
+    <part name="userName" type="s:string" />
+    <part name="userPassword" type="s:string" />
+    <part name="operation" type="s:string" />
+    <part name="messageId" type="s:string" />
+  </message>
+  <message name="HTTP_InboxProcessingHttpPostOut">
+    <part name="Body" element="s0:XmlNode" />
+  </message>
+  <message name="DiagHttpPostIn" />
+  <message name="DiagHttpPostOut">
+    <part name="Body" element="s0:string" />
+  </message>
+  <portType name="MessengerSoap">
+    <operation name="SendSmsToDistributionList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:SendSmsToDistributionListSoapIn" />
+      <output message="s0:SendSmsToDistributionListSoapOut" />
+    </operation>
+    <operation name="HTTP_SendSmsToDistributionList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:HTTP_SendSmsToDistributionListSoapIn" />
+      <output message="s0:HTTP_SendSmsToDistributionListSoapOut" />
+    </operation>
+    <operation name="FindDistributionLists">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Finds distibution lists with search criteria specified.</wsdl:documentation>
+      <input message="s0:FindDistributionListsSoapIn" />
+      <output message="s0:FindDistributionListsSoapOut" />
+    </operation>
+    <operation name="HTTP_FindDistributionLists">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Finds distibution lists with search criteria specified.</wsdl:documentation>
+      <input message="s0:HTTP_FindDistributionListsSoapIn" />
+      <output message="s0:HTTP_FindDistributionListsSoapOut" />
+    </operation>
+    <operation name="SendSms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:SendSmsSoapIn" />
+      <output message="s0:SendSmsSoapOut" />
+    </operation>
+    <operation name="SendSms2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:SendSms2SoapIn" />
+      <output message="s0:SendSms2SoapOut" />
+    </operation>
+    <operation name="SendSmsXml">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified xml with all details.</wsdl:documentation>
+      <input message="s0:SendSmsXmlSoapIn" />
+      <output message="s0:SendSmsXmlSoapOut" />
+    </operation>
+    <operation name="CheckSmsCost">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Checks SMS cost using specified parameters.</wsdl:documentation>
+      <input message="s0:CheckSmsCostSoapIn" />
+      <output message="s0:CheckSmsCostSoapOut" />
+    </operation>
+    <operation name="SendSmsTransaction">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:SendSmsTransactionSoapIn" />
+      <output message="s0:SendSmsTransactionSoapOut" />
+    </operation>
+    <operation name="HTTP_SendSms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:HTTP_SendSmsSoapIn" />
+      <output message="s0:HTTP_SendSmsSoapOut" />
+    </operation>
+    <operation name="HTTP_SendSmsTransaction">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:HTTP_SendSmsTransactionSoapIn" />
+      <output message="s0:HTTP_SendSmsTransactionSoapOut" />
+    </operation>
+    <operation name="SendMMS">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends MMS using specified parameters.</wsdl:documentation>
+      <input message="s0:SendMMSSoapIn" />
+      <output message="s0:SendMMSSoapOut" />
+    </operation>
+    <operation name="SendBinarySms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends binary SMS using specified parameters. 
+        data_coding parameter supports next 3 values for decoding: 0 - GSM 03.38, 3 - Latin1, 8 - UCS2.
+        If data_coding value is supported then BMS decodes the message and sends it as regular SMS.
+        All other data codings will be hadled as binary and the binary data will be sends to SMSC as is.
+        Parameter esm_class is ignored if the specified data_coding is supported.</wsdl:documentation>
+      <input message="s0:SendBinarySmsSoapIn" />
+      <output message="s0:SendBinarySmsSoapOut" />
+    </operation>
+    <operation name="HTTP_SendBinarySms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends binary SMS using specified parameters. 
+        data_coding parameter supports next 3 values for decoding: 0 - GSM 03.38, 3 - Latin1, 8 - UCS2.
+        If data_coding value is supported then BMS decodes the message and sends it as regular SMS.
+        All other data codings will be hadled as binary and the binary data will be sends to SMSC as is.
+        Parameter esm_class is ignored if the specified data_coding is supported.</wsdl:documentation>
+      <input message="s0:HTTP_SendBinarySmsSoapIn" />
+      <output message="s0:HTTP_SendBinarySmsSoapOut" />
+    </operation>
+    <operation name="HTTP_GetSmsStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns status of specified transaction.</wsdl:documentation>
+      <input message="s0:HTTP_GetSmsStatusSoapIn" />
+      <output message="s0:HTTP_GetSmsStatusSoapOut" />
+    </operation>
+    <operation name="GetSmsStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns status of specified transaction.</wsdl:documentation>
+      <input message="s0:GetSmsStatusSoapIn" />
+      <output message="s0:GetSmsStatusSoapOut" />
+    </operation>
+    <operation name="HTTP_Authenticate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Authenticate the specified user</wsdl:documentation>
+      <input message="s0:HTTP_AuthenticateSoapIn" />
+      <output message="s0:HTTP_AuthenticateSoapOut" />
+    </operation>
+    <operation name="Authenticate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Authenticate the specified user</wsdl:documentation>
+      <input message="s0:AuthenticateSoapIn" />
+      <output message="s0:AuthenticateSoapOut" />
+    </operation>
+    <operation name="SendServiceSms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends service sms to recipient.</wsdl:documentation>
+      <input message="s0:SendServiceSmsSoapIn" />
+      <output message="s0:SendServiceSmsSoapOut" />
+    </operation>
+    <operation name="KeepAlive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends keep alive signal to server</wsdl:documentation>
+      <input message="s0:KeepAliveSoapIn" />
+      <output message="s0:KeepAliveSoapOut" />
+    </operation>
+    <operation name="HTTP_KeepAlive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends keep alive signal to server</wsdl:documentation>
+      <input message="s0:HTTP_KeepAliveSoapIn" />
+      <output message="s0:HTTP_KeepAliveSoapOut" />
+    </operation>
+    <operation name="HTTP_InboxProcessing">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Operate with Inbox</wsdl:documentation>
+      <input message="s0:HTTP_InboxProcessingSoapIn" />
+      <output message="s0:HTTP_InboxProcessingSoapOut" />
+    </operation>
+    <operation name="InboxProcessing">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Operate with Inbox</wsdl:documentation>
+      <input message="s0:InboxProcessingSoapIn" />
+      <output message="s0:InboxProcessingSoapOut" />
+    </operation>
+    <operation name="TubeAuthenticateCustomerUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">The method authenticates a customer user who binds to Funnel.</wsdl:documentation>
+      <input message="s0:TubeAuthenticateCustomerUserSoapIn" />
+      <output message="s0:TubeAuthenticateCustomerUserSoapOut" />
+    </operation>
+    <operation name="Diag">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">For internal use only. Diagnostic function for api. Returns OK if everything is fine else returns Error: the error message.</wsdl:documentation>
+      <input message="s0:DiagSoapIn" />
+      <output message="s0:DiagSoapOut" />
+    </operation>
+    <operation name="GetAdZoneLocations">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the list of active AdZone Locations.</wsdl:documentation>
+      <input message="s0:GetAdZoneLocationsSoapIn" />
+      <output message="s0:GetAdZoneLocationsSoapOut" />
+    </operation>
+    <operation name="SendAdZoneSms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Initiates an AdZone SMS campaign using the specified parameters.</wsdl:documentation>
+      <input message="s0:SendAdZoneSmsSoapIn" />
+      <output message="s0:SendAdZoneSmsSoapOut" />
+    </operation>
+    <operation name="StopAdZoneCampaign">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stops the specified AdZone Campaign.</wsdl:documentation>
+      <input message="s0:StopAdZoneCampaignSoapIn" />
+      <output message="s0:StopAdZoneCampaignSoapOut" />
+    </operation>
+  </portType>
+  <portType name="MessengerSoap12">
+    <operation name="SendSmsToDistributionList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:SendSmsToDistributionListSoapIn" />
+      <output message="s0:SendSmsToDistributionListSoapOut" />
+    </operation>
+    <operation name="HTTP_SendSmsToDistributionList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:HTTP_SendSmsToDistributionListSoapIn" />
+      <output message="s0:HTTP_SendSmsToDistributionListSoapOut" />
+    </operation>
+    <operation name="FindDistributionLists">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Finds distibution lists with search criteria specified.</wsdl:documentation>
+      <input message="s0:FindDistributionListsSoapIn" />
+      <output message="s0:FindDistributionListsSoapOut" />
+    </operation>
+    <operation name="HTTP_FindDistributionLists">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Finds distibution lists with search criteria specified.</wsdl:documentation>
+      <input message="s0:HTTP_FindDistributionListsSoapIn" />
+      <output message="s0:HTTP_FindDistributionListsSoapOut" />
+    </operation>
+    <operation name="SendSms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:SendSmsSoapIn" />
+      <output message="s0:SendSmsSoapOut" />
+    </operation>
+    <operation name="SendSms2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:SendSms2SoapIn" />
+      <output message="s0:SendSms2SoapOut" />
+    </operation>
+    <operation name="SendSmsXml">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified xml with all details.</wsdl:documentation>
+      <input message="s0:SendSmsXmlSoapIn" />
+      <output message="s0:SendSmsXmlSoapOut" />
+    </operation>
+    <operation name="CheckSmsCost">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Checks SMS cost using specified parameters.</wsdl:documentation>
+      <input message="s0:CheckSmsCostSoapIn" />
+      <output message="s0:CheckSmsCostSoapOut" />
+    </operation>
+    <operation name="SendSmsTransaction">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:SendSmsTransactionSoapIn" />
+      <output message="s0:SendSmsTransactionSoapOut" />
+    </operation>
+    <operation name="HTTP_SendSms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:HTTP_SendSmsSoapIn" />
+      <output message="s0:HTTP_SendSmsSoapOut" />
+    </operation>
+    <operation name="HTTP_SendSmsTransaction">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:HTTP_SendSmsTransactionSoapIn" />
+      <output message="s0:HTTP_SendSmsTransactionSoapOut" />
+    </operation>
+    <operation name="SendMMS">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends MMS using specified parameters.</wsdl:documentation>
+      <input message="s0:SendMMSSoapIn" />
+      <output message="s0:SendMMSSoapOut" />
+    </operation>
+    <operation name="SendBinarySms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends binary SMS using specified parameters. 
+        data_coding parameter supports next 3 values for decoding: 0 - GSM 03.38, 3 - Latin1, 8 - UCS2.
+        If data_coding value is supported then BMS decodes the message and sends it as regular SMS.
+        All other data codings will be hadled as binary and the binary data will be sends to SMSC as is.
+        Parameter esm_class is ignored if the specified data_coding is supported.</wsdl:documentation>
+      <input message="s0:SendBinarySmsSoapIn" />
+      <output message="s0:SendBinarySmsSoapOut" />
+    </operation>
+    <operation name="HTTP_SendBinarySms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends binary SMS using specified parameters. 
+        data_coding parameter supports next 3 values for decoding: 0 - GSM 03.38, 3 - Latin1, 8 - UCS2.
+        If data_coding value is supported then BMS decodes the message and sends it as regular SMS.
+        All other data codings will be hadled as binary and the binary data will be sends to SMSC as is.
+        Parameter esm_class is ignored if the specified data_coding is supported.</wsdl:documentation>
+      <input message="s0:HTTP_SendBinarySmsSoapIn" />
+      <output message="s0:HTTP_SendBinarySmsSoapOut" />
+    </operation>
+    <operation name="HTTP_GetSmsStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns status of specified transaction.</wsdl:documentation>
+      <input message="s0:HTTP_GetSmsStatusSoapIn" />
+      <output message="s0:HTTP_GetSmsStatusSoapOut" />
+    </operation>
+    <operation name="GetSmsStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns status of specified transaction.</wsdl:documentation>
+      <input message="s0:GetSmsStatusSoapIn" />
+      <output message="s0:GetSmsStatusSoapOut" />
+    </operation>
+    <operation name="HTTP_Authenticate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Authenticate the specified user</wsdl:documentation>
+      <input message="s0:HTTP_AuthenticateSoapIn" />
+      <output message="s0:HTTP_AuthenticateSoapOut" />
+    </operation>
+    <operation name="Authenticate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Authenticate the specified user</wsdl:documentation>
+      <input message="s0:AuthenticateSoapIn" />
+      <output message="s0:AuthenticateSoapOut" />
+    </operation>
+    <operation name="SendServiceSms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends service sms to recipient.</wsdl:documentation>
+      <input message="s0:SendServiceSmsSoapIn" />
+      <output message="s0:SendServiceSmsSoapOut" />
+    </operation>
+    <operation name="KeepAlive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends keep alive signal to server</wsdl:documentation>
+      <input message="s0:KeepAliveSoapIn" />
+      <output message="s0:KeepAliveSoapOut" />
+    </operation>
+    <operation name="HTTP_KeepAlive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends keep alive signal to server</wsdl:documentation>
+      <input message="s0:HTTP_KeepAliveSoapIn" />
+      <output message="s0:HTTP_KeepAliveSoapOut" />
+    </operation>
+    <operation name="HTTP_InboxProcessing">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Operate with Inbox</wsdl:documentation>
+      <input message="s0:HTTP_InboxProcessingSoapIn" />
+      <output message="s0:HTTP_InboxProcessingSoapOut" />
+    </operation>
+    <operation name="InboxProcessing">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Operate with Inbox</wsdl:documentation>
+      <input message="s0:InboxProcessingSoapIn" />
+      <output message="s0:InboxProcessingSoapOut" />
+    </operation>
+    <operation name="TubeAuthenticateCustomerUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">The method authenticates a customer user who binds to Funnel.</wsdl:documentation>
+      <input message="s0:TubeAuthenticateCustomerUserSoapIn" />
+      <output message="s0:TubeAuthenticateCustomerUserSoapOut" />
+    </operation>
+    <operation name="Diag">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">For internal use only. Diagnostic function for api. Returns OK if everything is fine else returns Error: the error message.</wsdl:documentation>
+      <input message="s0:DiagSoapIn" />
+      <output message="s0:DiagSoapOut" />
+    </operation>
+    <operation name="GetAdZoneLocations">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the list of active AdZone Locations.</wsdl:documentation>
+      <input message="s0:GetAdZoneLocationsSoapIn" />
+      <output message="s0:GetAdZoneLocationsSoapOut" />
+    </operation>
+    <operation name="SendAdZoneSms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Initiates an AdZone SMS campaign using the specified parameters.</wsdl:documentation>
+      <input message="s0:SendAdZoneSmsSoapIn" />
+      <output message="s0:SendAdZoneSmsSoapOut" />
+    </operation>
+    <operation name="StopAdZoneCampaign">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stops the specified AdZone Campaign.</wsdl:documentation>
+      <input message="s0:StopAdZoneCampaignSoapIn" />
+      <output message="s0:StopAdZoneCampaignSoapOut" />
+    </operation>
+  </portType>
+  <portType name="MessengerHttpGet">
+    <operation name="HTTP_SendSmsToDistributionList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:HTTP_SendSmsToDistributionListHttpGetIn" />
+      <output message="s0:HTTP_SendSmsToDistributionListHttpGetOut" />
+    </operation>
+    <operation name="HTTP_FindDistributionLists">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Finds distibution lists with search criteria specified.</wsdl:documentation>
+      <input message="s0:HTTP_FindDistributionListsHttpGetIn" />
+      <output message="s0:HTTP_FindDistributionListsHttpGetOut" />
+    </operation>
+    <operation name="SendSmsXml">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified xml with all details.</wsdl:documentation>
+      <input message="s0:SendSmsXmlHttpGetIn" />
+      <output message="s0:SendSmsXmlHttpGetOut" />
+    </operation>
+    <operation name="HTTP_SendSms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:HTTP_SendSmsHttpGetIn" />
+      <output message="s0:HTTP_SendSmsHttpGetOut" />
+    </operation>
+    <operation name="HTTP_SendSmsTransaction">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:HTTP_SendSmsTransactionHttpGetIn" />
+      <output message="s0:HTTP_SendSmsTransactionHttpGetOut" />
+    </operation>
+    <operation name="SendMMS">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends MMS using specified parameters.</wsdl:documentation>
+      <input message="s0:SendMMSHttpGetIn" />
+      <output message="s0:SendMMSHttpGetOut" />
+    </operation>
+    <operation name="HTTP_SendBinarySms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends binary SMS using specified parameters. 
+        data_coding parameter supports next 3 values for decoding: 0 - GSM 03.38, 3 - Latin1, 8 - UCS2.
+        If data_coding value is supported then BMS decodes the message and sends it as regular SMS.
+        All other data codings will be hadled as binary and the binary data will be sends to SMSC as is.
+        Parameter esm_class is ignored if the specified data_coding is supported.</wsdl:documentation>
+      <input message="s0:HTTP_SendBinarySmsHttpGetIn" />
+      <output message="s0:HTTP_SendBinarySmsHttpGetOut" />
+    </operation>
+    <operation name="HTTP_GetSmsStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns status of specified transaction.</wsdl:documentation>
+      <input message="s0:HTTP_GetSmsStatusHttpGetIn" />
+      <output message="s0:HTTP_GetSmsStatusHttpGetOut" />
+    </operation>
+    <operation name="HTTP_Authenticate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Authenticate the specified user</wsdl:documentation>
+      <input message="s0:HTTP_AuthenticateHttpGetIn" />
+      <output message="s0:HTTP_AuthenticateHttpGetOut" />
+    </operation>
+    <operation name="SendServiceSms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends service sms to recipient.</wsdl:documentation>
+      <input message="s0:SendServiceSmsHttpGetIn" />
+      <output message="s0:SendServiceSmsHttpGetOut" />
+    </operation>
+    <operation name="HTTP_KeepAlive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends keep alive signal to server</wsdl:documentation>
+      <input message="s0:HTTP_KeepAliveHttpGetIn" />
+      <output message="s0:HTTP_KeepAliveHttpGetOut" />
+    </operation>
+    <operation name="HTTP_InboxProcessing">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Operate with Inbox</wsdl:documentation>
+      <input message="s0:HTTP_InboxProcessingHttpGetIn" />
+      <output message="s0:HTTP_InboxProcessingHttpGetOut" />
+    </operation>
+    <operation name="Diag">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">For internal use only. Diagnostic function for api. Returns OK if everything is fine else returns Error: the error message.</wsdl:documentation>
+      <input message="s0:DiagHttpGetIn" />
+      <output message="s0:DiagHttpGetOut" />
+    </operation>
+  </portType>
+  <portType name="MessengerHttpPost">
+    <operation name="HTTP_SendSmsToDistributionList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:HTTP_SendSmsToDistributionListHttpPostIn" />
+      <output message="s0:HTTP_SendSmsToDistributionListHttpPostOut" />
+    </operation>
+    <operation name="HTTP_FindDistributionLists">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Finds distibution lists with search criteria specified.</wsdl:documentation>
+      <input message="s0:HTTP_FindDistributionListsHttpPostIn" />
+      <output message="s0:HTTP_FindDistributionListsHttpPostOut" />
+    </operation>
+    <operation name="SendSmsXml">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified xml with all details.</wsdl:documentation>
+      <input message="s0:SendSmsXmlHttpPostIn" />
+      <output message="s0:SendSmsXmlHttpPostOut" />
+    </operation>
+    <operation name="HTTP_SendSms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:HTTP_SendSmsHttpPostIn" />
+      <output message="s0:HTTP_SendSmsHttpPostOut" />
+    </operation>
+    <operation name="HTTP_SendSmsTransaction">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends SMS using specified parameters.</wsdl:documentation>
+      <input message="s0:HTTP_SendSmsTransactionHttpPostIn" />
+      <output message="s0:HTTP_SendSmsTransactionHttpPostOut" />
+    </operation>
+    <operation name="SendMMS">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends MMS using specified parameters.</wsdl:documentation>
+      <input message="s0:SendMMSHttpPostIn" />
+      <output message="s0:SendMMSHttpPostOut" />
+    </operation>
+    <operation name="HTTP_SendBinarySms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends binary SMS using specified parameters. 
+        data_coding parameter supports next 3 values for decoding: 0 - GSM 03.38, 3 - Latin1, 8 - UCS2.
+        If data_coding value is supported then BMS decodes the message and sends it as regular SMS.
+        All other data codings will be hadled as binary and the binary data will be sends to SMSC as is.
+        Parameter esm_class is ignored if the specified data_coding is supported.</wsdl:documentation>
+      <input message="s0:HTTP_SendBinarySmsHttpPostIn" />
+      <output message="s0:HTTP_SendBinarySmsHttpPostOut" />
+    </operation>
+    <operation name="HTTP_GetSmsStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns status of specified transaction.</wsdl:documentation>
+      <input message="s0:HTTP_GetSmsStatusHttpPostIn" />
+      <output message="s0:HTTP_GetSmsStatusHttpPostOut" />
+    </operation>
+    <operation name="HTTP_Authenticate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Authenticate the specified user</wsdl:documentation>
+      <input message="s0:HTTP_AuthenticateHttpPostIn" />
+      <output message="s0:HTTP_AuthenticateHttpPostOut" />
+    </operation>
+    <operation name="SendServiceSms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends service sms to recipient.</wsdl:documentation>
+      <input message="s0:SendServiceSmsHttpPostIn" />
+      <output message="s0:SendServiceSmsHttpPostOut" />
+    </operation>
+    <operation name="HTTP_KeepAlive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends keep alive signal to server</wsdl:documentation>
+      <input message="s0:HTTP_KeepAliveHttpPostIn" />
+      <output message="s0:HTTP_KeepAliveHttpPostOut" />
+    </operation>
+    <operation name="HTTP_InboxProcessing">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Operate with Inbox</wsdl:documentation>
+      <input message="s0:HTTP_InboxProcessingHttpPostIn" />
+      <output message="s0:HTTP_InboxProcessingHttpPostOut" />
+    </operation>
+    <operation name="Diag">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">For internal use only. Diagnostic function for api. Returns OK if everything is fine else returns Error: the error message.</wsdl:documentation>
+      <input message="s0:DiagHttpPostIn" />
+      <output message="s0:DiagHttpPostOut" />
+    </operation>
+  </portType>
+  <binding name="MessengerSoap" type="s0:MessengerSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="SendSmsToDistributionList">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/SendSmsToDistributionList" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendSmsToDistributionList">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/HTTP_SendSmsToDistributionList" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="FindDistributionLists">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/FindDistributionLists" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_FindDistributionLists">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/HTTP_FindDistributionLists" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendSms">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/SendSms" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendSms2">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/SendSms2" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendSmsXml">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/SendSmsXml" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="CheckSmsCost">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/CheckSmsCost" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendSmsTransaction">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/SendSmsTransaction" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendSms">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/HTTP_SendSms" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendSmsTransaction">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/HTTP_SendSmsTransaction" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendMMS">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/SendMMS" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendBinarySms">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/SendBinarySms" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendBinarySms">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/HTTP_SendBinarySms" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_GetSmsStatus">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/HTTP_GetSmsStatus" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetSmsStatus">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/GetSmsStatus" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_Authenticate">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/HTTP_Authenticate" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Authenticate">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/Authenticate" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendServiceSms">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/SendServiceSms" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="KeepAlive">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/KeepAlive" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_KeepAlive">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/HTTP_KeepAlive" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_InboxProcessing">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/HTTP_InboxProcessing" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="InboxProcessing">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/InboxProcessing" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="TubeAuthenticateCustomerUser">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/TubeAuthenticateCustomerUser" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Diag">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/Diag" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetAdZoneLocations">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/GetAdZoneLocations" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendAdZoneSms">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/SendAdZoneSms" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="StopAdZoneCampaign">
+      <soap:operation soapAction="http://pmmsoapmessenger.com/StopAdZoneCampaign" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="MessengerSoap12" type="s0:MessengerSoap12">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="SendSmsToDistributionList">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/SendSmsToDistributionList" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendSmsToDistributionList">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/HTTP_SendSmsToDistributionList" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="FindDistributionLists">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/FindDistributionLists" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_FindDistributionLists">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/HTTP_FindDistributionLists" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendSms">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/SendSms" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendSms2">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/SendSms2" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendSmsXml">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/SendSmsXml" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="CheckSmsCost">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/CheckSmsCost" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendSmsTransaction">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/SendSmsTransaction" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendSms">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/HTTP_SendSms" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendSmsTransaction">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/HTTP_SendSmsTransaction" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendMMS">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/SendMMS" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendBinarySms">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/SendBinarySms" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendBinarySms">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/HTTP_SendBinarySms" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_GetSmsStatus">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/HTTP_GetSmsStatus" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetSmsStatus">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/GetSmsStatus" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_Authenticate">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/HTTP_Authenticate" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Authenticate">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/Authenticate" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendServiceSms">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/SendServiceSms" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="KeepAlive">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/KeepAlive" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_KeepAlive">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/HTTP_KeepAlive" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="HTTP_InboxProcessing">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/HTTP_InboxProcessing" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="InboxProcessing">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/InboxProcessing" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="TubeAuthenticateCustomerUser">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/TubeAuthenticateCustomerUser" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Diag">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/Diag" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetAdZoneLocations">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/GetAdZoneLocations" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="SendAdZoneSms">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/SendAdZoneSms" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="StopAdZoneCampaign">
+      <soap12:operation soapAction="http://pmmsoapmessenger.com/StopAdZoneCampaign" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="MessengerHttpGet" type="s0:MessengerHttpGet">
+    <http:binding verb="GET" />
+    <operation name="HTTP_SendSmsToDistributionList">
+      <http:operation location="/HTTP_SendSmsToDistributionList" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_FindDistributionLists">
+      <http:operation location="/HTTP_FindDistributionLists" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="SendSmsXml">
+      <http:operation location="/SendSmsXml" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendSms">
+      <http:operation location="/HTTP_SendSms" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendSmsTransaction">
+      <http:operation location="/HTTP_SendSmsTransaction" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="SendMMS">
+      <http:operation location="/SendMMS" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendBinarySms">
+      <http:operation location="/HTTP_SendBinarySms" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_GetSmsStatus">
+      <http:operation location="/HTTP_GetSmsStatus" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_Authenticate">
+      <http:operation location="/HTTP_Authenticate" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="SendServiceSms">
+      <http:operation location="/SendServiceSms" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_KeepAlive">
+      <http:operation location="/HTTP_KeepAlive" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_InboxProcessing">
+      <http:operation location="/HTTP_InboxProcessing" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="Diag">
+      <http:operation location="/Diag" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="MessengerHttpPost" type="s0:MessengerHttpPost">
+    <http:binding verb="POST" />
+    <operation name="HTTP_SendSmsToDistributionList">
+      <http:operation location="/HTTP_SendSmsToDistributionList" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_FindDistributionLists">
+      <http:operation location="/HTTP_FindDistributionLists" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="SendSmsXml">
+      <http:operation location="/SendSmsXml" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendSms">
+      <http:operation location="/HTTP_SendSms" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendSmsTransaction">
+      <http:operation location="/HTTP_SendSmsTransaction" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="SendMMS">
+      <http:operation location="/SendMMS" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_SendBinarySms">
+      <http:operation location="/HTTP_SendBinarySms" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_GetSmsStatus">
+      <http:operation location="/HTTP_GetSmsStatus" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_Authenticate">
+      <http:operation location="/HTTP_Authenticate" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="SendServiceSms">
+      <http:operation location="/SendServiceSms" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_KeepAlive">
+      <http:operation location="/HTTP_KeepAlive" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="HTTP_InboxProcessing">
+      <http:operation location="/HTTP_InboxProcessing" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="Diag">
+      <http:operation location="/Diag" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+  </binding>
+  <service name="Messenger">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web service represents functions for sending SMS</wsdl:documentation>
+    <port name="MessengerSoap" binding="s0:MessengerSoap">
+      <soap:address location="https://messaging.ooredoo.qa/bms/Soap/Messenger.asmx" />
+    </port>
+    <port name="MessengerSoap12" binding="s0:MessengerSoap12">
+      <soap12:address location="https://messaging.ooredoo.qa/bms/Soap/Messenger.asmx" />
+    </port>
+    <port name="MessengerHttpGet" binding="s0:MessengerHttpGet">
+      <http:address location="https://messaging.ooredoo.qa/bms/Soap/Messenger.asmx" />
+    </port>
+    <port name="MessengerHttpPost" binding="s0:MessengerHttpPost">
+      <http:address location="https://messaging.ooredoo.qa/bms/Soap/Messenger.asmx" />
+    </port>
+  </service>
+</definitions>

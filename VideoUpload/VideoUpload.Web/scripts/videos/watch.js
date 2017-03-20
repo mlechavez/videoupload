@@ -1,9 +1,10 @@
 ﻿/// <reference path="../jquery-3.1.1.js" />
 
+var hasPlayed = $('#postUrl').data('hasPlayed');
 var vPlayer = $('#vPlayer').get(0);
 
-
-if (vPlayer.play()) {
+if (!hasPlayed) {
+    if (vPlayer.play()) {
     var postID = $('#postUrl').data('id');
     var url = $('#postUrl').data('url');
     var userName = $('#postUrl').data('userName');
@@ -24,5 +25,5 @@ if (vPlayer.play()) {
 
         }
     });
-
+    }
 }

@@ -4,17 +4,14 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System;
 using System.Net.Mail;
-using Twilio.Clients;
 using System.Configuration;
-using System.Diagnostics;
-using Twilio;
-using Twilio.Rest.Api.V2010.Account;
-using Twilio.Types;
+using VideoUpload.Web.OoredooSOAP;
 
 namespace VideoUpload.Web.Models.Identity
 {
     public class UserManager : UserManager<IdentityUser, string>
     {
+        
         public UserManager(IUserStore<IdentityUser, string> store) : base(store)
         {
             
@@ -30,8 +27,9 @@ namespace VideoUpload.Web.Models.Identity
                 RequiredLength = 6
             };
             ClaimsIdentityFactory = new AppClaimsIdentityFactory();
-            CustomEmailService = new CustomEmailService();
-            CustomSmsService = new CustomSmsService();        
+            OoredooMessageService = new OoredooSmsService();
+            
+            //CustomSmsService = new CustomSmsService();        
 
             var dataProtectionProvider = Startup.DataProtectionProvider;
             if (dataProtectionProvider != null)
@@ -39,9 +37,8 @@ namespace VideoUpload.Web.Models.Identity
                 UserTokenProvider = new DataProtectorTokenProvider<IdentityUser>(dataProtectionProvider.Create("ASP.Net Identity"));
             }      
         }
-        public IEmailIdentityMessage CustomEmailService { get; set; }
-        public ISmsIdentityMessage CustomSmsService { get; set; }
-
+        public IEmailIdentityMessage CustomEmailService { get; set; }        
+        public IOoredooMessageService OoredooMessageService { get; set; }
         public async Task CustomSendEmailAsync(string userId, string subject, string body, string to, string credential)
         {
             if (CustomEmailService != null)
@@ -58,28 +55,18 @@ namespace VideoUpload.Web.Models.Identity
             }
         }
 
-        public async Task CustomSendSmsAsync(string userId, string to, string body)
+        public async Task OoredooSendSmsAsync(string mobile, string message)
         {
-            if (CustomSmsService != null)
+            if (OoredooMessageService != null)
             {
-                var identityMesaage = new SmsIdentityMessage();
-                identityMesaage.To = to;
-                //identityMesaage.Destination = from;
-                identityMesaage.Body = body;
-
-                await CustomSmsService.SendAsync(identityMesaage);
+                var ooredooMessage = new OoredooMessage
+                {
+                    Body = message,
+                    Destination = mobile
+                };
+                await OoredooMessageService.SendAsync(ooredooMessage);
             }
         }
-
-        //public async override Task<IdentityResult> RemoveClaimAsync(string userId, Claim claim)
-        //{
-        //    IdentityResult identityResult;
-        //    var store = Store as IUserClaimStore<IdentityUser, string>;
-        //    var user = await store.FindByIdAsync(userId);
-        //    var result = store.RemoveClaimAsync(user, claim);
-        //    return Task.FromResult(result);
-            
-        //}
 
     }
 
@@ -138,39 +125,50 @@ namespace VideoUpload.Web.Models.Identity
             }
         }
     }
-   
+
     #endregion
 
-    #region SmsService
-    public interface ISmsIdentityMessage
+    #region OoredooSmsService
+    public interface IOoredooMessageService
     {
-        Task SendAsync(SmsIdentityMessage message);
+        Task SendAsync(OoredooMessage message);
     }
-    public class SmsIdentityMessage : IdentityMessage
+    public class OoredooMessage
     {
-        public virtual string To { get; set; }
-        public virtual string Credential { get; set; }
+        public virtual string Body { get; set; }
+        public virtual string Destination { get; set; }
     }
-    public class CustomSmsService : ISmsIdentityMessage
+    public class OoredooSmsService : IOoredooMessageService
     {
-        public async Task SendAsync(SmsIdentityMessage message)
+        public async Task SendAsync(OoredooMessage message)
         {
-            var accountID = ConfigurationManager.AppSettings["SMSAccountIdentification"];
-            var authToken = ConfigurationManager.AppSettings["SMSAccountPassword"];
-            var myNumber = ConfigurationManager.AppSettings["SMSAccountFrom"];
+            var customerID = Convert.ToInt32(ConfigurationManager.AppSettings["SmsCustomerID"]);
+            var username = ConfigurationManager.AppSettings["SmsUsername"];
+            var password = ConfigurationManager.AppSettings["SmsPassword"];
+            string defDate = DateTime.UtcNow.AddHours(3).ToString("yyyyMMddhhmmss");
 
-            TwilioClient.Init(accountID, authToken);
+            MessengerSoapClient messenger = new MessengerSoapClient("MessengerSoap");
 
-            var result = await MessageResource.CreateAsync(
-                to: new PhoneNumber(message.To),
-                from: new PhoneNumber(myNumber),
-                body: message.Body);
+            SoapUser user = new SoapUser
+            {
+                CustomerID = customerID,
+                Name = username,
+                Password = password
+            };
+            AuthResult authResult = new AuthResult();
 
-            //Status is one of Queued, Sending, Sent, Failed or null if the number is not valid
-            Trace.TraceInformation(result.Sid);
-            //Twilio doesn't currently have an async API, so return success.            
-            //Twilio End
+            if (authResult.Result == "OK")
+            {
+                var status =
+                    await messenger.SendSmsAsync(
+                    user,
+                    authResult.Originators[0],
+                    message.Body,
+                    message.Destination,
+                    MessageType.Latin,
+                    defDate, false, false, false);
+            }
         }
     }
-    #endregion
+    #endregion    
 }

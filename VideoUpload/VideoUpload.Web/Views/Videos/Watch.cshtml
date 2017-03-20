@@ -20,7 +20,8 @@
         </video>  
     </div>
 </div>
-<div id="postUrl" data-url="@Url.Action("VideoHasPlayed")" data-id="@Model.PostID" data-userName="@Model.UploadedBy"></div>
+<div id="postUrl" class="hidden" data-url="@Url.Action("VideoHasPlayed")" data-id="@Model.PostID" 
+     data-userName="@Model.UploadedBy" data-hasPlayed="@Model.HasPlayedVideo" data-datePlayedVideo></div>
 
 @section Script {    
 <script src="~/scripts/videos/watch.js"></script>

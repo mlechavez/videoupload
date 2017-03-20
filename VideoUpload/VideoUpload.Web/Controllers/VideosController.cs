@@ -327,7 +327,7 @@ namespace VideoUpload.Web.Controllers
             {
                 history.Type = sendingType;
                 history.Recipient = mobile;
-                await _mgr.CustomSendSmsAsync(id, mobile, subject + " " + url);
+                await _mgr.OoredooSendSmsAsync(mobile, subject + " " + url);
             }
             _uow.Histories.Add(history);
             await _uow.SaveChangesAsync();
@@ -359,7 +359,9 @@ namespace VideoUpload.Web.Controllers
                 PostID = post.PostID,
                 PlateNumber = post.PlateNumber,
                 Description = post.Description,
-                Attachments = attachments
+                Attachments = attachments,
+                HasPlayedVideo = post.HasPlayedVideo,
+                DatePlayedVideo = post.DatePlayedVideo
             };
             return View(viewModel);
         }
@@ -423,5 +425,7 @@ namespace VideoUpload.Web.Controllers
             }                        
             return Json(new { success = success  });
         }
+
+
     }
 }

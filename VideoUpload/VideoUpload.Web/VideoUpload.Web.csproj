@@ -157,6 +157,8 @@
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.2\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -177,10 +179,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Twilio, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Twilio.5.0.2\lib\net451\Twilio.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Unity.Mvc5, Version=1.2.3.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Mvc5.1.2.3\lib\net45\Unity.Mvc5.dll</HintPath>
       <Private>True</Private>
@@ -241,6 +239,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterASPProfile.pubxml" />
     <None Include="Properties\PublishProfiles\SomeeProfile.pubxml" />
@@ -260,6 +259,13 @@
     <Content Include="scripts\videos\timeZoneCooke.js" />
     <Content Include="scripts\videos\upload.js" />
     <Content Include="scripts\videos\watch.js" />
+    <None Include="Service References\OoredooSOAP\Messenger.disco" />
+    <None Include="Service References\OoredooSOAP\configuration91.svcinfo" />
+    <None Include="Service References\OoredooSOAP\configuration.svcinfo" />
+    <None Include="Service References\OoredooSOAP\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +301,11 @@
     <Compile Include="Models\UserViewModels\UserActivityViewModel.cs" />
     <Compile Include="Models\UserViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\OoredooSOAP\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -329,6 +340,43 @@
     <Content Include="Views\Activities\List.cshtml" />
     <Content Include="Views\Activities\New.cshtml" />
     <Content Include="Views\Activities\Edit.cshtml" />
+    <None Include="Service References\OoredooSOAP\Messenger.wsdl" />
+    <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.AdZoneLocationsApiResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.AdZoneSendApiResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.AuthResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.CheckSmsCostResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.CommonResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.FindListsResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.SendMMSResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.SendMMSResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.SendResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.SendSms2Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.SmsStatus.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.TubeAuthenticateCustomerUserResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -352,6 +400,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\OoredooSOAP\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
