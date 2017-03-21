@@ -266,7 +266,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -278,6 +280,7 @@
     <Compile Include="Common\AppController.cs" />
     <Compile Include="Common\AccessActionFilter.cs" />
     <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\RequireSSLFilter.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />

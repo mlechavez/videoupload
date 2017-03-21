@@ -155,14 +155,14 @@ namespace VideoUpload.Web.Models.Identity
                 Name = username,
                 Password = password
             };
-            AuthResult authResult = new AuthResult();
+            AuthResult authData = messenger.Authenticate(user);
 
-            if (authResult.Result == "OK")
+            if (authData.Result == "OK")
             {
                 var status =
                     await messenger.SendSmsAsync(
                     user,
-                    authResult.Originators[0],
+                    authData.Originators[0],
                     message.Body,
                     message.Destination,
                     MessageType.Latin,

@@ -9,53 +9,59 @@
     @Styles.Render("~/bundles/css")
     @Styles.Render("~/bundles/gfont")
 </head>
-<body>    
-    <div class="navbar navbar-inverse" role="navigation">
+<body>
+    <div id="main-header" class="container">
+        <h1>Porsche Center Doha</h1>
+        <h5>Al Boraq Automobiles Co. W.l.l</h5>
         @if (User.Identity.IsAuthenticated)
         {
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a href="@Url.Action("index","videos", new { Area = "" })" class="navbar-brand"><i class="fa fa-home"></i></a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a href="@Url.Action("index","videos", new { Area = "" })">
-                                <i class="fa fa-video-camera"></i> List of videos 
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                @User.Identity.Name <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                @if (CurrentUser.ManageUser.Any(x => x.Value == "CanRead"))
-                                {
-                                    <li>
-                                        <a href="@Url.Action("list","users", new { Area = "" })">
-                                            <i class="fa fa-cog fa-fw"></i> Manage users
-                                        </a>
-                                    </li>
-                                }                                
+            <div class="navbar navbar-inverse" role="navigation">
+           
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a href="@Url.Action("index","videos", new { Area = "" })" class="navbar-brand"><i class="fa fa-home"></i></a>
+                        </div>
+                        <div class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav">
                                 <li>
-                                    <a href="@Url.Action("signout","account", new { Area = "" })">
-                                        <i class="fa fa-sign-out fa-fw"></i> Sign out
+                                    <a href="@Url.Action("index","videos", new { Area = "" })">
+                                        <i class="fa fa-video-camera"></i> List of videos
                                     </a>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
-                </div>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        @User.Identity.Name <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        @if (CurrentUser.ManageUser.Any(x => x.Value == "CanRead"))
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("list","users", new { Area = "" })">
+                                                    <i class="fa fa-cog fa-fw"></i> Manage users
+                                                </a>
+                                            </li>
+                                        }
+                                        <li>
+                                            <a href="@Url.Action("signout","account", new { Area = "" })">
+                                                <i class="fa fa-sign-out fa-fw"></i> Sign out
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>           
             </div>
-        }        
+        }
     </div>
+    
     <div id="main-content" class="container">
         @RenderBody()
     </div>
@@ -64,6 +70,6 @@
     </footer>
     @Scripts.Render("~/bundles/scripts")
     @RenderSection("Script", required: false)
-   
+
 </body>
 </html>
