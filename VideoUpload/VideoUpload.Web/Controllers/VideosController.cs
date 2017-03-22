@@ -73,7 +73,7 @@ namespace VideoUpload.Web.Controllers
 
             if (!string.IsNullOrWhiteSpace(q))
             {
-                posts = posts.Where(query => query.PlateNumber.Contains(q) && query.Description.Contains(q)).ToList();
+                posts = posts.Where(query => query.PlateNumber.Contains(q) || query.Description.Contains(q)).ToList();
             }
             var viewModel = new List<PostViewModel>();
 
