@@ -421,6 +421,7 @@ namespace VideoUpload.Web.Controllers
 
                     //alert the SA 
                     //await _mgr.CustomSendEmailAsync(user.Id, "Your video has been viewed.", "Your video has been viewed. See the details: " + details, user.Email, user.EmailPass);
+                    await _mgr.OoredooSendSmsAsync("97470064955", $"Your video with plate number {post.PlateNumber} has been played. You can now contact the customer");
                 }
             }                        
             return Json(new { success = success  });
