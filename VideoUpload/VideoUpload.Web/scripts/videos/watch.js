@@ -15,9 +15,9 @@ if (!hasPlayed) {
         type: 'post',
         url: url,
         dataType: 'json',
-        contentType: 'application/json',
+        contentType: 'application/json; charset=utf-8',
         data: JSON.stringify({ 
-            id: postID,
+            postID: postID,
             userName: userName,
             details: currentLink
         }),

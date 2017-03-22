@@ -41,7 +41,7 @@ namespace VideoUpload.Web.Controllers
                 if (attachment == null)
                 {
                     attachments = null;
-                }                                
+                }
                                 
                 viewModel.Add(new PostViewModel
                 {
