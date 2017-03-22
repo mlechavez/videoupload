@@ -305,7 +305,7 @@ namespace VideoUpload.Web.Controllers
         [HttpPost]
         [AccessActionFilter(Type = "Video", Value = "CanSend")]
         public  async Task<ActionResult> Send(string sendingType, string email, string subject,int p, string c, string v, string mobile)
-        {
+        {                        
             var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("watch", new { p = p, c = c, v = v });
             var id = User.Identity.GetUserId();
 
