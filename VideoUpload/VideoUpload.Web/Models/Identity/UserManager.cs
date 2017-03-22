@@ -28,8 +28,8 @@ namespace VideoUpload.Web.Models.Identity
             };
             ClaimsIdentityFactory = new AppClaimsIdentityFactory();
             OoredooMessageService = new OoredooSmsService();
+            CustomEmailService = new CustomEmailService();
             
-            //CustomSmsService = new CustomSmsService();        
 
             var dataProtectionProvider = Startup.DataProtectionProvider;
             if (dataProtectionProvider != null)
@@ -115,18 +115,17 @@ namespace VideoUpload.Web.Models.Identity
         public async Task SendAsync(EmailIdentityMessage message)
         {
             var email = new MailMessage();
-            //email.From = new MailAddress(message.Destination);
-            email.From = new MailAddress("kyocera.km3060@boraq-porsche.com.qa");
+            email.From = new MailAddress(message.Destination);
+            //email.From = new MailAddress("kyocera.km3060@boraq-porsche.com.qa");
             email.To.Add(message.To);
             email.Subject = message.Subject;
             email.Body = message.Body;
             email.IsBodyHtml = true;
             //78.100.48.220
             using (var client = new SmtpClient("78.100.48.220", 25))
-            {
-                //client.UseDefaultCredentials = false;
-                client.Credentials = new System.Net.NetworkCredential("kyocera.km3060@boraq-porsche.com.qa", "kyocera123");
-                //client.Credentials = new System.Net.NetworkCredential(message.Destination.Trim(), message.Credential.Trim());               
+            {               
+                //client.Credentials = new System.Net.NetworkCredential("kyocera.km3060@boraq-porsche.com.qa", "kyocera123");
+                client.Credentials = new System.Net.NetworkCredential(message.Destination.Trim(), message.Credential.Trim());               
                 await client.SendMailAsync(email);
             }
         }

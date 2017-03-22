@@ -380,6 +380,7 @@
     <Content Include="Service References\OoredooSOAP\VideoUpload.Web.OoredooSOAP.TubeAuthenticateCustomerUserResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="Views\Videos\Search.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

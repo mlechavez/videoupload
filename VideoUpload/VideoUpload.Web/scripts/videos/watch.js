@@ -1,13 +1,14 @@
 ﻿/// <reference path="../jquery-3.1.1.js" />
 
-var hasPlayed = $('#postUrl').data('hasPlayed');
+var hasPlayed = $('#postUrl').data('hasplayed');
+
 var vPlayer = $('#vPlayer').get(0);
 
 if (!hasPlayed) {
     if (vPlayer.play()) {
     var postID = $('#postUrl').data('id');
     var url = $('#postUrl').data('url');
-    var userName = $('#postUrl').data('userName');
+    var uploader = $('#postUrl').data('uploader');
     var currentLink = window.location.href;
     currentLink = currentLink.replace("watch", "details");    
 
@@ -18,7 +19,7 @@ if (!hasPlayed) {
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify({ 
             postID: postID,
-            userName: userName,
+            userName: uploader,
             details: currentLink
         }),
         success: function (data) {

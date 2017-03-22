@@ -66,6 +66,48 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel.ToPagedList(page ?? 1, 20));
         }
         
+        [Route("search")]
+        public async Task<ActionResult> Search(string q)
+        {
+            var posts = await _uow.Posts.GetAllAsync();
+
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                posts = posts.Where(query => query.PlateNumber.Contains(q) && query.Description.Contains(q)).ToList();
+            }
+            var viewModel = new List<PostViewModel>();
+
+            posts.ForEach(x => 
+            {
+                var attachments = x.Attachments.OrderBy(y => y.AttachmentNo).ToList();
+
+                var attachment = attachments.FirstOrDefault();
+
+                if (attachment == null)
+                {
+                    attachments = null;
+                }
+
+                viewModel.Add(new PostViewModel
+                {
+                    PostID = x.PostID,
+                    PlateNumber = x.PlateNumber,
+                    Description = x.Description,
+                    UploadedBy = x.User.UserName,
+                    Attachments = attachments,
+                    DateUploaded = x.DateUploaded,
+                    EditedBy = x.EditedBy,
+                    DateEdited = x.DateEdited,
+                    HasApproval = x.HasApproval,
+                    IsApproved = x.IsApproved
+                });
+            });
+
+            return View(viewModel);
+        }
+
+
+
         [Route("upload")]
         [AccessActionFilter(Type = "Video", Value = "CanCreate")]
         public ActionResult Upload()
@@ -348,7 +390,7 @@ namespace VideoUpload.Web.Controllers
 
             if (post == null)
             {
-                return HttpNotFound();
+                return View("_ErrorWatch");
             }
 
             var attachment = post.Attachments.FirstOrDefault(x => x.FileName == v);
@@ -366,6 +408,7 @@ namespace VideoUpload.Web.Controllers
                 PlateNumber = post.PlateNumber,
                 Description = post.Description,
                 Attachments = attachments,
+                UploadedBy = post.User.UserName,
                 HasPlayedVideo = post.HasPlayedVideo,
                 DatePlayedVideo = post.DatePlayedVideo
             };
