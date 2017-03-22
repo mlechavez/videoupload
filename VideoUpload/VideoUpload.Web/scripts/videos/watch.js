@@ -16,11 +16,11 @@ if (!hasPlayed) {
         url: url,
         dataType: 'json',
         contentType: 'application/json',
-        data: { 
+        data: JSON.stringify({ 
             id: postID,
             userName: userName,
             details: currentLink
-        },
+        }),
         success: function (data) {
 
         }
