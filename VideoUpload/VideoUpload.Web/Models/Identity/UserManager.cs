@@ -39,6 +39,7 @@ namespace VideoUpload.Web.Models.Identity
         }
         public IEmailIdentityMessage CustomEmailService { get; set; }        
         public IOoredooMessageService OoredooMessageService { get; set; }
+        public string SmsStatusResult { get; set; }
         public async Task CustomSendEmailAsync(string userId, string subject, string body, string to, string credential)
         {
             if (CustomEmailService != null)
@@ -55,7 +56,7 @@ namespace VideoUpload.Web.Models.Identity
             }
         }
 
-        public async Task OoredooSendSmsAsync(string mobile, string message)
+        public async Task<string> OoredooSendSmsAsync(string mobile, string message)
         {
             if (OoredooMessageService != null)
             {
@@ -64,7 +65,12 @@ namespace VideoUpload.Web.Models.Identity
                     Body = message,
                     Destination = mobile
                 };
-                await OoredooMessageService.SendAsync(ooredooMessage);
+                var result = await OoredooMessageService.SendAsync(ooredooMessage);
+                return result;
+            }
+            else
+            {
+                throw new ArgumentException("MessageService is not available");
             }
         }
 
@@ -131,7 +137,7 @@ namespace VideoUpload.Web.Models.Identity
     #region OoredooSmsService
     public interface IOoredooMessageService
     {
-        Task SendAsync(OoredooMessage message);
+        Task<string> SendAsync(OoredooMessage message);
     }
     public class OoredooMessage
     {
@@ -140,7 +146,9 @@ namespace VideoUpload.Web.Models.Identity
     }
     public class OoredooSmsService : IOoredooMessageService
     {
-        public async Task SendAsync(OoredooMessage message)
+        public SmsStatus GetSmsStatus { get; private set; }
+
+        public async Task<string> SendAsync(OoredooMessage message)
         {
             var customerID = Convert.ToInt32(ConfigurationManager.AppSettings["SmsCustomerID"]);
             var username = ConfigurationManager.AppSettings["SmsUsername"];
@@ -159,7 +167,7 @@ namespace VideoUpload.Web.Models.Identity
 
             if (authData.Result == "OK")
             {
-                var status =
+                var sendResult =
                     await messenger.SendSmsAsync(
                     user,
                     authData.Originators[0],
@@ -167,7 +175,10 @@ namespace VideoUpload.Web.Models.Identity
                     message.Destination,
                     MessageType.Latin,
                     defDate, false, false, false);
+                SmsStatus smsStatus = await messenger.GetSmsStatusAsync(user, sendResult.TransactionID, true);
+                return smsStatus.Result;
             }
+            return authData.Result;
         }
     }
     #endregion    

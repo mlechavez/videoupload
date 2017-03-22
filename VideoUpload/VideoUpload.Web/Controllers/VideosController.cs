@@ -57,7 +57,12 @@ namespace VideoUpload.Web.Controllers
                     IsApproved = x.IsApproved
                 });
             });
-            viewModel = viewModel.OrderByDescending(x => x.DateUploaded).ToList();            
+            viewModel = viewModel.OrderByDescending(x => x.DateUploaded).ToList();
+
+            if (TempData["smsResult"] != null)
+            {
+                ViewBag.SmsResult = TempData["smsResult"].ToString();
+            }        
             return View(viewModel.ToPagedList(page ?? 1, 20));
         }
         
@@ -327,7 +332,8 @@ namespace VideoUpload.Web.Controllers
             {
                 history.Type = sendingType;
                 history.Recipient = mobile;
-                await _mgr.OoredooSendSmsAsync(mobile, subject + " " + url);
+                var result = await _mgr.OoredooSendSmsAsync(mobile, subject + " " + url);
+                TempData["smsResult"] = result;
             }
             _uow.Histories.Add(history);
             await _uow.SaveChangesAsync();

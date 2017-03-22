@@ -10,6 +10,9 @@
 #main-header h1 {
     color: #a30f0f;
 }
+#main-nav {
+    margin-bottom: 0;
+}
 .navbar {
     border:1px solid transparent;
     
