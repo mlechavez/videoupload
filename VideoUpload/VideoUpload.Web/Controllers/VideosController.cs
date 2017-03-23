@@ -185,8 +185,8 @@ namespace VideoUpload.Web.Controllers
                         //settings.VideoCodec = "h264";
                         //settings.VideoFrameRate = 30;                                        
 
-                        var ffMpeg = new FFMpegConverter();                                                
-                        ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;
+                        //var ffMpeg = new FFMpegConverter();                                                
+                        //ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;
 
                         //try
                         //{
@@ -201,7 +201,7 @@ namespace VideoUpload.Web.Controllers
 
                         if (file.Exists)
                         {
-                            ffMpeg.GetVideoThumbnail(fileUrlToConvert, thumbnailPath + "/" + attachment.ThumbnailFileName);
+                            //ffMpeg.GetVideoThumbnail(fileUrlToConvert, thumbnailPath + "/" + attachment.ThumbnailFileName);
                             //add the attachment to post entity
                             post.Attachments.Add(attachment);
                             //file.Delete();
