@@ -59,11 +59,7 @@ namespace VideoUpload.Web.Controllers
                 });
             });
             viewModel = viewModel.OrderByDescending(x => x.DateUploaded).ToList();
-
-            if (TempData["smsResult"] != null)
-            {
-                ViewBag.SmsResult = TempData["smsResult"].ToString();
-            }        
+                  
             return View(viewModel.ToPagedList(page ?? 1, 20));
         }
         
@@ -106,7 +102,6 @@ namespace VideoUpload.Web.Controllers
 
             return View(viewModel);
         }
-
 
 
         [Route("upload")]

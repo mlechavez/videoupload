@@ -71,8 +71,7 @@
             }
         </table>
         @Html.PagedListPager(Model, page => Url.Action("index", new { page }),
-            new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
-        <p>@ViewBag.SmsResult</p>
+            new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })        
     </div>
 }
 else

@@ -64,17 +64,9 @@
     <Compile Include="Configurations\PostConfigurations.cs" />
     <Compile Include="Configurations\UserClaimConfiguration.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
-    <Compile Include="Migrations\201703141412553_initialCreate.cs" />
-    <Compile Include="Migrations\201703141412553_initialCreate.Designer.cs">
-      <DependentUpon>201703141412553_initialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703191324283_SendingVideoAlertFields.cs" />
-    <Compile Include="Migrations\201703191324283_SendingVideoAlertFields.Designer.cs">
-      <DependentUpon>201703191324283_SendingVideoAlertFields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703231019186_thumbnailsfields.cs" />
-    <Compile Include="Migrations\201703231019186_thumbnailsfields.Designer.cs">
-      <DependentUpon>201703231019186_thumbnailsfields.cs</DependentUpon>
+    <Compile Include="Migrations\201703231449571_InitialCreate.cs" />
+    <Compile Include="Migrations\201703231449571_InitialCreate.Designer.cs">
+      <DependentUpon>201703231449571_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,14 +90,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703141412553_initialCreate.resx">
-      <DependentUpon>201703141412553_initialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703191324283_SendingVideoAlertFields.resx">
-      <DependentUpon>201703191324283_SendingVideoAlertFields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703231019186_thumbnailsfields.resx">
-      <DependentUpon>201703231019186_thumbnailsfields.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703231449571_InitialCreate.resx">
+      <DependentUpon>201703231449571_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
