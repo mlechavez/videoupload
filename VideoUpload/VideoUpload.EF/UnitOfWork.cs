@@ -85,8 +85,7 @@ namespace VideoUpload.EF
             _activities = null;           
             _posts = null;
             _attachments = null;            
-            _context.Dispose();
-            
+            _context.Dispose();            
         }
 
         public int SaveChanges()

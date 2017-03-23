@@ -8,7 +8,7 @@ namespace VideoUpload.EF
     public class AppDbContext : DbContext
     {
         public AppDbContext()
-            :base("name=LocalAppDbContext")
+            :base("name=AppDbContext")
         {
         }
         public AppDbContext(string nameOrconnectionString)

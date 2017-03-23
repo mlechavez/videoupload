@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using NReco.VideoConverter;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -155,17 +156,12 @@ namespace VideoUpload.Web.Controllers
 
                             return View(viewModel);
                         }
-                        countOfAttachments++;
-                        //if (!contentTypeArray.Contains(item.ContentType))
-                        //{
-                        //    ModelState.AddModelError("", "Please upload mp4 format for the video.");
-                        //    return View(viewModel);
-                        //}
+                        countOfAttachments++;                        
 
                         var ext = Path.GetExtension(item.FileName);
 
                         var path = Server.MapPath("~/Uploads");
-
+                        var thumbnailPath = Server.MapPath("~/Uploads/Thumbnails");
                         //create new entity for each attachment
                         var attachment = new PostAttachment();
 
@@ -176,9 +172,11 @@ namespace VideoUpload.Web.Controllers
                         attachment.FileUrl = path + "/" + attachment.FileName;
                         attachment.DateCreated = viewModel.DateUploaded;
                         attachment.AttachmentNo = $"Attachment {countOfAttachments.ToString()}";
+                        attachment.ThumbnailFileName = attachment.PostAttachmentID + ".jpeg";
+                        attachment.ThumbnailUrl = thumbnailPath + attachment.ThumbnailFileName;
 
                         //var fileUrlToConvert = Path.Combine(path, Path.GetFileName(item.FileName));
-                        var fileUrlToConvert = Path.Combine(path, attachment.FileName);
+                        var fileUrlToConvert = Path.Combine(path, attachment.FileName);                        
 
                         using (var fileStream = System.IO.File.Create(fileUrlToConvert))
                         {
@@ -192,9 +190,8 @@ namespace VideoUpload.Web.Controllers
                         //settings.VideoCodec = "h264";
                         //settings.VideoFrameRate = 30;                                        
 
-                        //var ffMpeg = new FFMpegConverter();
-                        //ffMpeg.conver
-                        //ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;
+                        var ffMpeg = new FFMpegConverter();                                                
+                        ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;
 
                         //try
                         //{
@@ -209,6 +206,7 @@ namespace VideoUpload.Web.Controllers
 
                         if (file.Exists)
                         {
+                            ffMpeg.GetVideoThumbnail(fileUrlToConvert, thumbnailPath + "/" + attachment.ThumbnailFileName);
                             //add the attachment to post entity
                             post.Attachments.Add(attachment);
                             //file.Delete();
