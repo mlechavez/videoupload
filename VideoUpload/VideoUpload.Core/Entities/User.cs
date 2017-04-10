@@ -8,8 +8,9 @@ namespace VideoUpload.Core.Entities
 {
     public class User
     {
-        private ICollection<UserClaim> _userClaims { get; set; }
-        private ICollection<Post> _posts { get; set; }
+        private ICollection<UserClaim> _userClaims;
+        private ICollection<Post> _posts;
+        private Branch _branch;
 
         public string UserID { get; set; }
         public string UserName { get; set; }
@@ -23,6 +24,8 @@ namespace VideoUpload.Core.Entities
         public string PasswordHash { get; set; }
         public string SecurityStamp { get; set; }
         public string EmailPass { get; set; }
+        public int? BranchID { get; set; }
+
 
         public virtual ICollection<UserClaim> UserClaims
         {
@@ -33,6 +36,12 @@ namespace VideoUpload.Core.Entities
         {
             get { return _posts ?? (_posts = new List<Post>()); }
             set { _posts = value; }
+        }
+
+        public virtual Branch Branch
+        {
+            get { return _branch; }
+            set { _branch = value; }
         }
     }
 }

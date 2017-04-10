@@ -20,6 +20,12 @@ namespace VideoUpload.EF
         private IHistoryRepository _histories;
         private IActivityRepository _activities;
         private IUserClaimRepository _userClaims;
+        private ICustomerRepository _customers;
+        private IJobcardRepository _jobcards;
+        private IHealthCheckRepository _healthChecks;
+        private IHealthCheckDetailsRepository _healthCheckDetails;
+        private IBranchRepository _branches;
+
         #endregion
 
         public UnitOfWork(AppDbContext context)
@@ -72,6 +78,46 @@ namespace VideoUpload.EF
             }
         }
 
+        public ICustomerRepository Customers
+        {
+            get
+            {
+                return _customers ?? (_customers = new CustomerRepository(_context));
+            }
+        }
+
+        public IJobcardRepository Jobcards
+        {
+            get
+            {
+                return _jobcards ?? (_jobcards = new JobcardRepository(_context));
+            }
+        }
+
+        public IHealthCheckRepository HealthChecks
+        {
+            get
+            {
+                return _healthChecks ?? (_healthChecks = new HealthCheckRepository(_context));
+            }
+        }
+
+        public IHealthCheckDetailsRepository HealthCheckDetails
+        {
+            get
+            {
+                return _healthCheckDetails ?? (_healthCheckDetails = new HealthCheckDetailsRepository(_context));
+            }
+        }
+
+        public IBranchRepository Branches
+        {
+            get
+            {
+                return _branches ?? (_branches = new BranchRepository(_context));
+            }
+        }
+
         public UnitOfWork(string nameOrConnectionString)
         {
             _context = new AppDbContext(nameOrConnectionString);
@@ -84,7 +130,12 @@ namespace VideoUpload.EF
             _histories = null;
             _activities = null;           
             _posts = null;
-            _attachments = null;            
+            _attachments = null;
+            _customers = null;
+            _jobcards = null;
+            _healthChecks = null;
+            _healthCheckDetails = null;
+            _branches = null;      
             _context.Dispose();            
         }
 

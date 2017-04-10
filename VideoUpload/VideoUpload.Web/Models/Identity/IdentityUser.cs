@@ -11,6 +11,7 @@ namespace VideoUpload.Web.Models.Identity
     {
         private ICollection<UserClaim> _userClaims;
         private ICollection<Post> _posts;
+        private Branch _branch;
         public IdentityUser()
         {
             Id = Guid.NewGuid().ToString();
@@ -32,6 +33,7 @@ namespace VideoUpload.Web.Models.Identity
         public string PasswordHash { get; set; }
         public string SecurityStamp { get; set; }
         public string EmailPass { get; set; }
+        public int? BranchID { get; set; }
 
         public virtual ICollection<UserClaim> UserClaims
         {
@@ -43,6 +45,11 @@ namespace VideoUpload.Web.Models.Identity
         {
             get { return _posts ?? (_posts = new List<Post>()); }
             set { _posts = value; }
+        }
+        public virtual Branch Branch
+        {
+            get { return _branch; }
+            set { _branch = value; }
         }
     }
 }

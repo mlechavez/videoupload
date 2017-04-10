@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,7 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Activity.cs" />
+    <Compile Include="Entities\Branch.cs" />
+    <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Entities\EnumList.cs" />
+    <Compile Include="Entities\HealthCheck.cs" />
+    <Compile Include="Entities\HealthCheckDetails.cs" />
     <Compile Include="Entities\History.cs" />
+    <Compile Include="Entities\Jobcard.cs" />
     <Compile Include="Entities\PostAttachment.cs" />
     <Compile Include="Entities\Post.cs" />
     <Compile Include="Entities\User.cs" />
@@ -49,7 +56,12 @@
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IActivityRepository.cs" />
+    <Compile Include="Repositories\IBranchRepository.cs" />
+    <Compile Include="Repositories\ICustomerRepository.cs" />
+    <Compile Include="Repositories\IHealthCheckDetailsRepository.cs" />
+    <Compile Include="Repositories\IHealthCheckRepository.cs" />
     <Compile Include="Repositories\IHistoryRepository.cs" />
+    <Compile Include="Repositories\IJobcardRepository.cs" />
     <Compile Include="Repositories\IPostAttachmentRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IPostRepository.cs" />

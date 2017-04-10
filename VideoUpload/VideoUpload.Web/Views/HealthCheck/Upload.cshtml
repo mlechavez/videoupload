@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Upload";
+}
+
+<h2>Upload your health check for your customer</h2>
+
+@using (Html.BeginForm("upload", "healthcheck", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="healthCheckCsv">Csv file</label>
+        <input type="file" name="csv" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Upload</button>
+    </div>
+}

@@ -10,6 +10,7 @@ namespace VideoUpload.Core.Entities
     {
         private ICollection<PostAttachment> _attachments;
         private User _user;
+        private Branch _branch;
 
         public int PostID { get; set; }
         public string PlateNumber { get; set; }
@@ -23,6 +24,7 @@ namespace VideoUpload.Core.Entities
         public DateTime? DateApproved { get; set; }
         public bool HasPlayedVideo { get; set; }
         public DateTime? DatePlayedVideo { get; set; }
+        public int? BranchID { get; set; }
 
         public virtual ICollection<PostAttachment> Attachments
         {
@@ -33,6 +35,12 @@ namespace VideoUpload.Core.Entities
         {
             get { return _user; }
             set { _user = value; }
+        }
+
+        public virtual Branch Branch
+        {
+            get { return _branch; }
+            set { _branch = value; }
         }
     }
 }

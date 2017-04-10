@@ -16,6 +16,11 @@ namespace VideoUpload.Core
         IUserRepository Users { get; }
         IUserClaimRepository UserClaims { get; }
         IActivityRepository Activities { get; }
+        ICustomerRepository Customers { get; }
+        IJobcardRepository Jobcards { get; }
+        IHealthCheckRepository HealthChecks { get; }
+        IHealthCheckDetailsRepository HealthCheckDetails { get; }
+        IBranchRepository Branches { get; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

@@ -22,6 +22,11 @@ namespace VideoUpload.EF
         public DbSet<PostAttachment> Attachments { get; set; }
         public DbSet<History> Histories { get; set; }
         public DbSet<Activity> Activities { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Jobcard> Jobcards { get; set; }
+        public DbSet<HealthCheck> HealthChecks { get; set; }
+        public DbSet<HealthCheckDetails> HealthCheckDetails { get; set; }
+        public DbSet<Branch> Branches { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -31,6 +36,11 @@ namespace VideoUpload.EF
             modelBuilder.Configurations.Add(new PostAttachmentConfiguration());
             modelBuilder.Configurations.Add(new ActivityConfiguration());
             modelBuilder.Configurations.Add(new HistoryConfiguration());
+            modelBuilder.Configurations.Add(new CustomerConfiguration());
+            modelBuilder.Configurations.Add(new JobcardConfiguration());
+            modelBuilder.Configurations.Add(new HealthCheckConfiguration());
+            modelBuilder.Configurations.Add(new HealthCheckDetailsConfiguration());
+            modelBuilder.Configurations.Add(new BranchConfiguration());
         }
     }
 }

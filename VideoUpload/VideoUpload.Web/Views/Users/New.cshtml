@@ -52,6 +52,10 @@
         @Html.ValidationMessageFor(x => x.EmailPass, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
+        @Html.LabelFor(x=>x.BranchID)
+        @Html.DropDownList("BranchID", null, "SELECT LOCATION", new { @class = "form-control input-sm", required = "required" })
+    </div>
+    <div class="form-group">
         <button type="submit" class="btn btn-warning">Add new</button>
     </div>    
 }

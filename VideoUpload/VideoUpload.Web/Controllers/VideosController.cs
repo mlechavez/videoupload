@@ -55,7 +55,8 @@ namespace VideoUpload.Web.Controllers
                     EditedBy = x.EditedBy,
                     DateEdited = x.DateEdited,
                     HasApproval = x.HasApproval,
-                    IsApproved = x.IsApproved
+                    IsApproved = x.IsApproved,
+                    BranchName = x.Branch.BranchName
                 });
             });
             viewModel = viewModel.OrderByDescending(x => x.DateUploaded).ToList();
@@ -138,7 +139,8 @@ namespace VideoUpload.Web.Controllers
                     PlateNumber = viewModel.PlateNumber,
                     Description = viewModel.Description,
                     UserID = User.Identity.GetUserId(),
-                    DateUploaded = viewModel.DateUploaded
+                    DateUploaded = viewModel.DateUploaded,
+                    BranchID = CurrentUser.BranchID
                 };
 
                 foreach (var item in viewModel.Attachments)

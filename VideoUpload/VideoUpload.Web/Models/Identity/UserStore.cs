@@ -52,7 +52,8 @@ namespace VideoUpload.Web.Models.Identity
             user.EmailPass = identityUser.EmailPass;
             user.EmailConfirmed = identityUser.EmailConfirmed;
             user.IsActive = identityUser.IsActive;
-            user.UserClaims = identityUser.UserClaims;            
+            user.UserClaims = identityUser.UserClaims;
+            user.BranchID = identityUser.BranchID;          
         }
 
         private IdentityUser GetIdentityUser(User user)
@@ -77,7 +78,8 @@ namespace VideoUpload.Web.Models.Identity
             identityUser.EmailPass = user.EmailPass;
             identityUser.EmailConfirmed = user.EmailConfirmed;
             identityUser.IsActive = user.IsActive;
-            identityUser.UserClaims = user.UserClaims;        
+            identityUser.UserClaims = user.UserClaims;
+            identityUser.BranchID = user.BranchID;     
         }
 
         #region IUserStore      

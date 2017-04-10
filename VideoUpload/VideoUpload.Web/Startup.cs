@@ -32,6 +32,7 @@ namespace VideoUpload.Web
             var unitOfWork = DependencyResolver.Current.GetService(typeof(IUnitOfWork)) as UnitOfWork;
 
             var activities = unitOfWork.Activities.GetAll();
+            var branches = unitOfWork.Branches.GetAll();
 
             if (activities.Count == 0)
             {                
@@ -54,10 +55,21 @@ namespace VideoUpload.Web
                 activities.ForEach(x => 
                 {
                     unitOfWork.Activities.Add(x);
-                });
-                unitOfWork.SaveChanges();
-            }            
-            
+                });                
+            }
+
+            if (branches.Count == 0)
+            {
+                branches.Add(new Branch { BranchName = "ST27" });
+                branches.Add(new Branch { BranchName = "ST16" });
+                branches.Add(new Branch { BranchName = "QSC" });
+
+                branches.ForEach(x => { unitOfWork.Branches.Add(x); });
+            }
+
+            unitOfWork.SaveChanges();
+
+
             var user = mgr.FindByName("admin");
 
             if (user == null)
@@ -73,7 +85,8 @@ namespace VideoUpload.Web
                     IsActive = true,
                     Email = "echavez.marklester@boraq-porsche.com.qa",
                     EmailConfirmed = true,
-                    EmailPass = "lester123"
+                    EmailPass = "lester123",
+                    BranchID = 2 // ST16
                 };
                 var result = mgr.Create(u, "Lester@Dev");
 

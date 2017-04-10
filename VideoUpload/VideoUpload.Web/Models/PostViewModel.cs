@@ -29,6 +29,7 @@ namespace VideoUpload.Web.Models
         public DateTime? DateApproved { get; set; }
         public bool HasPlayedVideo { get; set; }
         public DateTime? DatePlayedVideo { get; set; }
+        public string BranchName { get; set; }
 
         public ICollection<PostAttachment> Attachments { get; set; }
     }

@@ -40,5 +40,13 @@ namespace VideoUpload.Web.Common
             get { return FindAll("Approval").ToList(); }
         }
 
+        public int BranchID
+        {
+            get
+            {
+                var branchID = Convert.ToInt32(FindFirst("branchID").Value);
+                return branchID;
+            }
+        }
     }
 }

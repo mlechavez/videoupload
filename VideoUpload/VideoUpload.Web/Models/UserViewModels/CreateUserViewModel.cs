@@ -30,5 +30,8 @@ namespace VideoUpload.Web.Models.UserViewModels
         [Required]
         [Display(Name = "Email Password")]
         public string EmailPass { get; set; }
+        [Required]
+        [Display(Name = "Location")]
+        public int? BranchID { get; set; }
     }
 }

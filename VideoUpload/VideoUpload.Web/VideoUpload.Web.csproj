@@ -283,6 +283,7 @@
     <Compile Include="Common\RequireSSLFilter.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
+    <Compile Include="Controllers\HealthCheckController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VideosController.cs" />
     <Compile Include="Global.asax.cs">
@@ -293,6 +294,7 @@
     <Compile Include="Models\AttachmentViewModel.cs" />
     <Compile Include="Models\ConfirmPasswordViewModel.cs" />
     <Compile Include="Models\CreatePostViewModel.cs" />
+    <Compile Include="Models\HealthChecks\HcViewModel.cs" />
     <Compile Include="Models\UserViewModels\CreateUserViewModel.cs" />
     <Compile Include="Models\CustomResult.cs" />
     <Compile Include="Models\DownloadResult.cs" />
@@ -381,6 +383,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Views\Videos\Search.cshtml" />
+    <Content Include="Views\Shared\_Search.cshtml" />
+    <Content Include="Views\HealthCheck\Upload.cshtml" />
+    <Content Include="Views\HealthCheck\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

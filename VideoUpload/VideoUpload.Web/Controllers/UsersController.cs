@@ -58,6 +58,7 @@ namespace VideoUpload.Web.Controllers
         [AccessActionFilter(Type = "ManageUser", Value = "CanCreate")]
         public ActionResult New()
         {
+            ViewBag.BranchID = new SelectList(_uow.Branches.GetAll(), "BrancID", "BranchName");
             return View();
         }
 
@@ -77,7 +78,8 @@ namespace VideoUpload.Web.Controllers
                     EmployeeNo = viewModel.EmployeeNo,
                     Email = viewModel.Email,
                     EmailPass = viewModel.EmailPass,
-                    IsActive = true                    
+                    IsActive = true,
+                    BranchID = viewModel.BranchID
                 };
                 var result = await _mgr.CreateAsync(identityUser, viewModel.Password);                
                
