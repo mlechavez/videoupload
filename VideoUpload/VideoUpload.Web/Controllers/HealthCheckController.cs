@@ -7,12 +7,13 @@ using System.Web;
 using System.Web.Mvc;
 using VideoUpload.Core;
 using VideoUpload.Core.Entities;
+using VideoUpload.Web.Common;
 using VideoUpload.Web.Models.HealthChecks;
 
 namespace VideoUpload.Web.Controllers
 {
     [RoutePrefix("health-check")]
-    public class HealthCheckController : Controller
+    public class HealthCheckController : AppController
     {
         private readonly IUnitOfWork _uow;
 
@@ -25,12 +26,18 @@ namespace VideoUpload.Web.Controllers
             return View();
         }
 
-        public ActionResult Upload(HttpPostedFileBase file)
+        public ActionResult Upload()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase csv)
         {
             var isSuccess = false;
-            if (file != null && file.ContentLength > 0)
+            
+            if (csv != null && csv.ContentLength > 0)
             {
-                isSuccess = UploadCsvToDatabase(file.InputStream);
+                isSuccess = UploadCsvToDatabase(csv.InputStream);
             }
 
             if (isSuccess)
@@ -61,6 +68,7 @@ namespace VideoUpload.Web.Controllers
             var isGoodCondition = false;
             var isSuggestedToReplace = false;
             var isUrgentToReplace = false;
+            var comments = string.Empty;
 
             //We should not seperate the comma in a sentence
             Regex r = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
@@ -70,8 +78,7 @@ namespace VideoUpload.Web.Controllers
             line = sr.ReadLine();
             strArray = r.Split(line);
 
-            var jobcard = new Jobcard();            
-            var healthCheckDetails = new HealthCheckDetails();
+            var jobcard = new Jobcard();           
 
             while ((line = sr.ReadLine()) != null)
             {
@@ -99,36 +106,31 @@ namespace VideoUpload.Web.Controllers
                     isUrgentToReplace = true;
                 }
 
-                jobcard.JobcardNo = jobcardNo;
-                jobcard.CustomerName = customerName;
-                jobcard.ChassisNo = chassisNo;
-                jobcard.PlateNo = plateNo;
-                jobcard.Mileage = mileage;
+                comments = !string.IsNullOrWhiteSpace(strArray[9]) ? strArray[9].ToString() : string.Empty;                               
 
-                _uow.Jobcards.Add(jobcard);
-
-                healthCheckDetails.JobcardNo = jobcard.JobcardNo;
-                healthCheckDetails.HcCode = hcCode;
-                healthCheckDetails.IsGoodCondition = isGoodCondition;
-                healthCheckDetails.IsSuggestedToReplace = isSuggestedToReplace;
-                healthCheckDetails.IsUrgentToReplace = isUrgentToReplace;
-
-                _uow.HealthCheckDetails.Add(healthCheckDetails);
+                _uow.HealthCheckDetails.Add(new HealthCheckDetails
+                {
+                    JobcardNo = jobcardNo,
+                    HcCode = hcCode,
+                    IsGoodCondition = isGoodCondition,
+                    IsSuggestedToReplace = isSuggestedToReplace,
+                    IsUrgentToReplace = isUrgentToReplace,
+                    Comments = comments
+                });               
             }
-            
-            try
-            {                
-                _uow.SaveChanges();
-                return isSuccess = true;
-            }
-            catch (Exception ex)
-            {
-                return isSuccess;              
-            }   
-            finally
-            {
-                sr.Dispose();
-            }                     
+
+            jobcard.JobcardNo = jobcardNo;
+            jobcard.CustomerName = customerName;
+            jobcard.ChassisNo = chassisNo;
+            jobcard.PlateNo = plateNo;
+            jobcard.Mileage = mileage;
+            jobcard.BranchID = CurrentUser.BranchID; //inherit the AppController to get the CurrentUser Property
+            _uow.Jobcards.Add(jobcard);
+
+            _uow.SaveChanges();
+            sr.Dispose();
+            isSuccess = true;
+            return isSuccess;
         }
     }
 }

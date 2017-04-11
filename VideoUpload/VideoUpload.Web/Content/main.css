@@ -1,4 +1,9 @@
-﻿body {
+﻿/*
+==================================
+    DEFAULTS
+==================================
+*/
+body {
     font-family: 'Raleway', sans-serif;
     font-weight:500;    
     background: whitesmoke;
@@ -24,6 +29,12 @@ input, select, textarea {
     max-width: 300px;
 }
 
+
+/*
+==================================
+    MAIN-CONTENT
+==================================
+*/
 #main-image {   
     
     height:240px;
@@ -38,7 +49,11 @@ input, select, textarea {
     border-bottom:1px solid silver;
     border-radius: 0 0 15px 15px;
 }
-
+/*
+==================================
+    FOOTER
+==================================
+*/
 #main-footer {
     height:200px;
     text-align:center;
@@ -46,3 +61,26 @@ input, select, textarea {
     margin-top:20px;    
     padding:20px;
 }
+/*
+==================================
+    HEALTH CHECK
+==================================
+*/
+.hc-table {
+        font-size: 11px;
+        font-weight:600;       
+}
+.hc-hccode { width:1%; }
+.hc-description { width:25%; }
+.hc-stat { 
+    width: 3%;    
+    vertical-align: middle;
+}
+.hc-comments { width: 78%; }   
+.table .hc-stat-success { background-color: #1c710b !important;}    
+.table .hc-stat-warning { background-color: #ff6a00 !important;}    
+.table .hc-stat-danger { background-color: #b40e0e !important;}
+ 
+.hc-stat-check { color:#fff; }  
+.invi { visibility:collapse; }
+.hc-details { font-family: Verdana; }

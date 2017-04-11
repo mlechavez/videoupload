@@ -11,8 +11,10 @@
 </head>
 <body>
     <div id="main-header" class="container">
-        <h1>Porsche Center Doha</h1>
-        <h5>Al Boraq Automobiles Co. W.l.l</h5>
+        <div class="hidden-print">
+            <h1>Porsche Center Doha</h1>
+            <h5>Al Boraq Automobiles Co. W.l.l</h5>
+        </div>
         @if (User.Identity.IsAuthenticated)
         {
             <div id="main-nav" class="navbar navbar-inverse" role="navigation">

@@ -5,7 +5,7 @@
 
 <h2>Upload your health check for your customer</h2>
 
-@using (Html.BeginForm("upload", "healthcheck", FormMethod.Post))
+@using (Html.BeginForm("upload", "healthcheck", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="form-group">
         <label for="healthCheckCsv">Csv file</label>

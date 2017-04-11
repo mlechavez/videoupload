@@ -3,30 +3,32 @@
 @{
     ViewBag.Title = "Details";
 }
-<style>
-    .table {
-        font-size: 10px;        
-    }
-    .test { width:30%;}
-    .test2 { width:5%; padding:0; margin:0;}
-    .test3 {width:80%;}
-    .vin {margin-right: 20px;}
-</style>
-<span></span>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3>Health Check</h3>
-    </div>
-    <div class="panel-body">
-        <span class="pull-left"><b>Customer name:</b> Mark Lester Echavez</span> <span class="pull-right"><b>Jobcard:</b> R410000</span>
-        <div class="clearfix"></div>
-        <span class="pull-left vin"><b>VIN:</b>WP1ZZZ9PZCLA45258</span> <span class="pull-left"><b>Plate no:</b>663405</span> <span class="pull-right"><b>mileage:</b>19727</span>
+<div class="row">
 
+    <div class="hc-details">
+        <h3 class="text-center">Vehicle Health Check</h3>
+        <div class="col-md-4 col-sm-8 col-xs-12">
+            <p><b>Customer name:</b> Mark Lester Echavez</p>
+        </div>        
+        <div class="col-md-8 col-sm-4 col-xs-12">
+            <p><b>Jobcard:</b> R410000</p>
+        </div>
+        <div class="col-sm-4 col-xs-12">
+            <p><b>VIN:</b> WP1ZZZ9PZCLA45258</p>
+        </div>
+        <div class="col-sm-4 col-xs-12">
+            <p><b>Plate no:</b> 663405</p>
+        </div>
+        <div class="col-sm-4 col-xs-12">
+            <p><b>mileage:</b> 19727</p>
+        </div>
     </div>
+</div>
+
     @foreach (var hcGroup in Model.GroupedHealthChecks)
     {
-        <table class="table">
+        <table class="table table-condensed hc-table">
             <thead>
                 <tr>
                     <th></th>
@@ -40,30 +42,66 @@
             <tbody>
                 @foreach (var item in hcGroup)
                 {
-                    <tr>
-                        <td>@item.HcCode</td>
-                        <td class="test">@item.Description</td>
-                        <td class="bg-success text-center test2">
-                            <input type="radio" name="status" checked />
-                        </td>
-                        <td class="bg-warning text-center test2">
-                            <input type="radio" name="status" />
-                        </td>
-                        <td class="bg-danger text-center test2">
-                            <input type="radio" name="status" />
-                        </td>
+                    var hcDetails = Model.HealthCheckDetails.Find(x => x.HcCode == item.HcCode);
+                <tr>
+                    <td class="hc-hccode">@item.HcCode</td>
+                    <td class="hc-description">@item.Description</td>
+                    <td class="hc-stat hc-stat-success">
                         @{
-                            var comment = Model.HealthCheckDetails.Find(x => x.HcCode == item.HcCode);
-                            if (comment != null)
+                            if (hcDetails != null && hcDetails.IsGoodCondition)
                             {
-                                <td class="test3"></td>
+                                <i class="fa fa-check hc-stat-check" title="In good condition" data-toggle="tooltip" data-placement="top"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-check hc-stat-check invi" title="In good condition" data-toggle="tooltip" data-placement="top"></i>
                             }
                         }
-                    </tr>
-                }
+                    </td>
+
+                    <td class="hc-stat hc-stat-warning">
+                        @{
+                                if (hcDetails != null && hcDetails.IsSuggestedToReplace)
+                                {                                    
+                                    <i class="fa fa-check hc-stat-check" title="Suggested to be replaced" data-toggle="tooltip" data-placement="top"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-check hc-stat-check invi" title="Suggested to be replaced" data-toggle="tooltip" data-placement="top"></i>
+                                }
+                        }
+                    </td>
+                    <td class="hc-stat hc-stat-danger">
+                        @{
+                            if (hcDetails != null && hcDetails.IsUrgentToReplace)
+                            {
+                                <i class="fa fa-check hc-stat-check" title="Needs to be replaced" data-toggle="tooltip" data-placement="top"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-check hc-stat-check invi" title="Needs to be replaced" data-toggle="tooltip" data-placement="top"></i>
+                            }
+                        }
+                    </td>
+                    <td class="hc-comments">
+                        @{
+                            if (hcDetails != null)
+                            {
+                                <span>@hcDetails.Comments</span>
+                            }
+                        }
+                    </td>
+                </tr>
+                 }
             </tbody>
         </table>
+}
 
 
-    }
-</div>
+@section Script {
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}

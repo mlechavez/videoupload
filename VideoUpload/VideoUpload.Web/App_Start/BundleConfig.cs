@@ -17,7 +17,8 @@ namespace VideoUpload.Web
                 .Include(
                     "~/Content/bootstrap.min.css",
                     "~/Content/font-awesome.min.css",
-                    "~/Content/main.css"));
+                    "~/Content/main.css",
+                    "~/Content/print.css"));
 
             bundles.Add(new StyleBundle("~/bundles/gfont", "https://fonts.googleapis.com/css?family=Raleway:200,300,500"));
 

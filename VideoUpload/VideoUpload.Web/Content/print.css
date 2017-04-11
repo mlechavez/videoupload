@@ -1,0 +1,19 @@
+﻿@media print {   
+     body {
+         -webkit-print-color-adjust: exact;
+     }
+    #main-content { border: 0px; }
+    .hc-table, .hc-table th { font-weight:400; }
+    .hc-stat-success { 
+        background-color: #1c710b !important;       
+    }    
+    .hc-stat-warning { 
+        background-color: #ff6a00 !important;        
+    }    
+    .hc-stat-danger { 
+        background-color: #b40e0e !important;        
+    }      
+    .hc-stat-check {
+        color:#fff !important;
+    }
+}
