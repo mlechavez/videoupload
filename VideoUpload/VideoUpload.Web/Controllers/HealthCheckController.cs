@@ -45,14 +45,7 @@ namespace VideoUpload.Web.Controllers
 
             }
             return View();
-        }
-
-        public ActionResult Details(string jobcardNo)
-        {
-            var viewModel = new HcViewModel(_uow, jobcardNo);
-
-            return View(viewModel);
-        }
+        }        
 
         private bool UploadCsvToDatabase(Stream inputStream)
         {
@@ -132,5 +125,35 @@ namespace VideoUpload.Web.Controllers
             isSuccess = true;
             return isSuccess;
         }
+
+        public ActionResult Details(string jobcardNo)
+        {
+            var viewModel = new HcViewModel(_uow, jobcardNo);
+
+            return View(viewModel);
+        }
+
+        public ActionResult New()
+        {
+            var viewModel = new HcViewModel(_uow);            
+            return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult New(HcViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var jobcard = new Jobcard
+                {
+                    JobcardNo = viewModel.Jobcard.JobcardNo,
+                    CustomerName = viewModel.Jobcard.CustomerName,
+                    ChassisNo = viewModel.Jobcard.ChassisNo,
+                    PlateNo = viewModel.Jobcard.PlateNo,
+                    Mileage = viewModel.Jobcard.Mileage,
+                    BranchID = CurrentUser.BranchID
+                };                
+            }            
+            return View(viewModel);
+        }         
     }
 }

@@ -58,7 +58,7 @@ namespace VideoUpload.Web.Controllers
         [AccessActionFilter(Type = "ManageUser", Value = "CanCreate")]
         public ActionResult New()
         {
-            ViewBag.BranchID = new SelectList(_uow.Branches.GetAll(), "BrancID", "BranchName");
+            ViewBag.BranchID = new SelectList(_uow.Branches.GetAll(), "BranchID", "BranchName");
             return View();
         }
 

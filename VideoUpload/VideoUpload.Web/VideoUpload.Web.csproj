@@ -295,6 +295,7 @@
     <Compile Include="Models\AttachmentViewModel.cs" />
     <Compile Include="Models\ConfirmPasswordViewModel.cs" />
     <Compile Include="Models\CreatePostViewModel.cs" />
+    <Compile Include="Models\HealthChecks\CreateHcViewModel.cs" />
     <Compile Include="Models\HealthChecks\HcViewModel.cs" />
     <Compile Include="Models\UserViewModels\CreateUserViewModel.cs" />
     <Compile Include="Models\CustomResult.cs" />
@@ -387,6 +388,9 @@
     <Content Include="Views\Shared\_Search.cshtml" />
     <Content Include="Views\HealthCheck\Upload.cshtml" />
     <Content Include="Views\HealthCheck\Details.cshtml" />
+    <Content Include="Views\HealthCheck\New.cshtml" />
+    <Content Include="Views\HealthCheck\EditorTemplates\HealthCheckDetails.cshtml" />
+    <Content Include="Views\HealthCheck\DisplayTemplates\HealthCheckDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
