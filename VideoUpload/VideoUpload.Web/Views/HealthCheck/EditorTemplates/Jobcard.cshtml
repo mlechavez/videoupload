@@ -1,0 +1,22 @@
+﻿@model VideoUpload.Core.Entities.Jobcard
+
+<div class="row">
+    <div class="hc-details">
+        <h3 class="text-center">Vehicle Health Check</h3>
+        <div class="col-md-4 col-sm-8 col-xs-12">
+            <p><b>Customer name:</b> @Html.TextBoxFor(x => x.CustomerName)</p>
+        </div>
+        <div class="col-md-8 col-sm-4 col-xs-12">
+            <p><b>Jobcard:</b> @Html.TextBoxFor(x => x.JobcardNo)</p>
+        </div>
+        <div class="col-sm-4 col-xs-12">
+            <p><b>VIN:</b> @Html.TextBoxFor(x => x.ChassisNo)</p>
+        </div>
+        <div class="col-sm-4 col-xs-12">
+            <p><b>Plate no:</b> @Html.TextBoxFor(x => x.PlateNo)</p>
+        </div>
+        <div class="col-sm-4 col-xs-12">
+            <p><b>mileage:</b> @Html.TextBoxFor(x => x.Mileage)</p>
+        </div>
+    </div>
+</div>

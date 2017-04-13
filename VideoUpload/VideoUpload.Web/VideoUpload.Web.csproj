@@ -390,7 +390,8 @@
     <Content Include="Views\HealthCheck\Details.cshtml" />
     <Content Include="Views\HealthCheck\New.cshtml" />
     <Content Include="Views\HealthCheck\EditorTemplates\HealthCheckDetails.cshtml" />
-    <Content Include="Views\HealthCheck\DisplayTemplates\HealthCheckDetails.cshtml" />
+    <Content Include="Views\HealthCheck\EditorTemplates\Jobcard.cshtml" />
+    <Content Include="Views\HealthCheck\DisplayTemplates\Jobcard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

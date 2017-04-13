@@ -1,23 +1,27 @@
 ﻿@model VideoUpload.Core.Entities.HealthCheckDetails
 
+@{ 
+    string hcCode = ViewBag.HcCode;
+}
+
 <td class="hc-stat hc-stat-success">
     <div class="checkbox">
         <label>
-            <input checked type="radio" name="@ViewBag.HcCode" value="good" />
+            <input checked type="radio" name="@hcCode" value="good" />
         </label>
     </div>    
 </td>
 <td class="hc-stat hc-stat-warning">
     <div class="checkbox">
         <label>
-            <input checked type="radio" name="@ViewBag.HcCode" value="suggested" />
+            <input checked type="radio" name="@hcCode" value="suggested" />
         </label>
     </div>
 </td>
 <td class="hc-stat hc-stat-danger">
     <div class="checkbox">
         <label>
-            <input checked type="radio" name="@ViewBag.HcCode" value="urgent" />
+            <input checked type="radio" name="@hcCode" value="urgent" />
         </label>
     </div>
 </td>
