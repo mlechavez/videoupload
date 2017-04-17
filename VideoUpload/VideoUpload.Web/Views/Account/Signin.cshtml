@@ -5,7 +5,7 @@
 }
 
 <h2>Sign in</h2>
-@using (Html.BeginForm("Signin", "Account", FormMethod.Post))
+@using (Html.BeginForm("Signin", "Account", FormMethod.Post, new { @class = "form-defaults" }))
 {
     @Html.HiddenFor(x => x.ReturnUrl);
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })

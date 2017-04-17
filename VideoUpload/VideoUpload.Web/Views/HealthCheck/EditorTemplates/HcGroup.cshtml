@@ -1,0 +1,65 @@
+﻿@using VideoUpload.Core.Entities
+@model IEnumerable<IGrouping<string,HealthCheck>>
+
+@{
+    int counter = 0; // will increment per group
+}
+
+@foreach (var group in Model)
+{
+<table class="table table-condensed hc-table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>@group.Key</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th class="text-center">Comments</th>
+        </tr>
+    </thead>
+    <thead>
+        @for (int i = 0; i < group.Count(); i++)
+        {
+            <tr>
+                <td class="hc-hccode">
+                    <input type="hidden" name="HealthCheckDetails[@(i + counter)].HcCode" value="@group.ElementAt(i).HcCode" />
+                    @group.ElementAt(i).HcCode
+                </td>
+                <td class="hc-description">@group.ElementAt(i).Description</td>
+                <td class="hc-stat hc-stat-success">
+                    
+                        <label>
+                            <input type="radio" name="HealthCheckDetails[@(i + counter)].Status" value="good" checked />
+                        </label>
+                   
+                </td>
+                <td class="hc-stat hc-stat-warning">
+                   
+                        <label>
+                            <input type="radio" name="HealthCheckDetails[@(i + counter)].Status" value="suggested" />
+                        </label>
+                    
+                </td>
+                <td class="hc-stat hc-stat-danger">
+                   
+                        <label>
+                            <input type="radio" name="HealthCheckDetails[@(i + counter)].Status" value="urgent" />
+                        </label>
+                  
+                </td>
+                <td class="hc-comments">
+                    <div class="col-xs-12">
+                        <input type="text" name="HealthCheckDetails[@(i + counter)].Comments" class="form-control" />
+                    </div>                        
+                </td>
+            </tr>
+        }
+    </thead>
+</table>
+        counter += group.Count();
+
+    }
+
+
+

@@ -8,12 +8,18 @@ namespace VideoUpload.Core.Entities
 {
     public class HealthCheckDetails
     {
+        private HealthCheck _hc;
+
         public int HealCheckDetailsID { get; set; }
         public string HcCode { get; set; }
         public string JobcardNo { get; set; }
-        public bool IsGoodCondition { get; set; }
-        public bool IsSuggestedToReplace { get; set; }
-        public bool IsUrgentToReplace { get; set; }
+        public string Status { get; set; }       
         public string Comments { get; set; }
+
+        public virtual HealthCheck HealthCheck
+        {
+            get { return _hc; }
+            set { _hc = value; }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using VideoUpload.Core;
@@ -11,22 +12,32 @@ namespace VideoUpload.Web.Models.HealthChecks
     {
         
         public HcViewModel()
-        {
-            HealthCheckDetails = new List<HealthCheckDetails>();
+        {            
         }
         public HcViewModel(IUnitOfWork uow)
-        {
+        {            
+            HealthCheckDetails = new List<HealthCheckDetails>();
             GroupedHealthChecks = uow.HealthChecks.GetAllByHcGroup();
-            HealthCheckDetails = new List<HealthCheckDetails>();        
+
+            //GroupedHealthChecks.ForEach(hc =>
+            //{
+            //    hc.ToList().ForEach(hcDetails =>
+            //    {                    
+            //        HealthCheckDetails.Add(new HealthCheckDetails
+            //        {
+            //            HcCode = hcDetails.HcCode                        
+            //        });
+            //    });
+            //});
         }
         public HcViewModel(IUnitOfWork uow, string jobcardNo)
         {                       
-            GroupedHealthChecks = uow.HealthChecks.GetAllByHcGroup();
-            HealthCheckDetails = uow.HealthCheckDetails.GetAllByJobCardNo(jobcardNo);
+            GroupedHealthChecks = uow.HealthChecks.GetAllByHcGroup();            
         }
         
-        public Jobcard Jobcard { get; set; }        
-        public List<IGrouping<string,HealthCheck>> GroupedHealthChecks { get; set; }
-        public List<HealthCheckDetails> HealthCheckDetails { get; set; }
+        public Jobcard Jobcard { get; set; }   
+        [UIHint("HcGroup")]             
+        public List<IGrouping<string,HealthCheck>> GroupedHealthChecks { get; set; }        
+        public ICollection<HealthCheckDetails> HealthCheckDetails { get; set; }      
     }
 }

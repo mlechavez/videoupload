@@ -7,13 +7,13 @@ namespace VideoUpload.EF.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddedHealthChecks : IMigrationMetadata
+    public sealed partial class restructure4 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedHealthChecks));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(restructure4));
         
         string IMigrationMetadata.Id
         {
-            get { return "201704100833071_AddedHealthChecks"; }
+            get { return "201704161455581_restructure4"; }
         }
         
         string IMigrationMetadata.Source

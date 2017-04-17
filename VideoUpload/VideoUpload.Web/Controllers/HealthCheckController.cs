@@ -84,6 +84,7 @@ namespace VideoUpload.Web.Controllers
                 mileage = !string.IsNullOrWhiteSpace(strArray[4]) ? strArray[4].ToString() : string.Empty;
                 hcCode = !string.IsNullOrWhiteSpace(strArray[5]) ? strArray[5].ToString() : string.Empty;
 
+
                 if (strArray[6].ToString().ToLower() == "t")
                 {
                     isGoodCondition = true;
@@ -105,9 +106,10 @@ namespace VideoUpload.Web.Controllers
                 {
                     JobcardNo = jobcardNo,
                     HcCode = hcCode,
-                    IsGoodCondition = isGoodCondition,
-                    IsSuggestedToReplace = isSuggestedToReplace,
-                    IsUrgentToReplace = isUrgentToReplace,
+                    
+                    //IsGoodCondition = isGoodCondition,
+                    //IsSuggestedToReplace = isSuggestedToReplace,
+                    //IsUrgentToReplace = isUrgentToReplace,
                     Comments = comments
                 });               
             }
@@ -151,8 +153,8 @@ namespace VideoUpload.Web.Controllers
                     PlateNo = viewModel.Jobcard.PlateNo,
                     Mileage = viewModel.Jobcard.Mileage,
                     BranchID = CurrentUser.BranchID
-                };                
-            }            
+                };
+            }       
             return View(viewModel);
         }         
     }

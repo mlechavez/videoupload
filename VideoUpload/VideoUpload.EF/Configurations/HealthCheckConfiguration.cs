@@ -17,6 +17,9 @@ namespace VideoUpload.EF.Configurations
 
             Property(x => x.HcCode)
                 .IsRequired();
+
+            HasOptional(x => x.HealthCheckDetails)
+                .WithRequired(x => x.HealthCheck);                            
         }
     }
 }

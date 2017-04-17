@@ -12,7 +12,7 @@
 
 <h2>Edit your post</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("edit", "videos", FormMethod.Post, new { @class = "form-defaults" }))
 {
     @Html.AntiForgeryToken()
     

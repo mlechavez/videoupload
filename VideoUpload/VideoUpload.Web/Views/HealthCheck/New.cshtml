@@ -4,35 +4,11 @@
     ViewBag.Title = "Details";
 }
 
-@using (Html.BeginForm("new", "healthcheck", FormMethod.Post))
-{   
-    @Html.EditorFor(x=>x.Jobcard)
+<h2 class="text-center">Vehicle Health Check</h2>
 
-    foreach (var hcGroup in Model.GroupedHealthChecks)
-    {        
-        <table class="table table-condensed hc-table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>@hcGroup.Key</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th class="text-center">Comments</th>
-                </tr>
-            </thead>
-            <tbody>                
-                @foreach (var item in hcGroup)
-                {                   
-                    <tr>
-                        <td class="hc-hccode">@item.HcCode</td>
-                        <td class="hc-description">@item.Description</td>
-                        @Html.EditorFor(x => Model.HealthCheckDetails, new { HcCode = item.HcCode })                        
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    
+@using (Html.BeginForm("new", "healthcheck", FormMethod.Post))
+{    
+    @Html.EditorFor(x=>x.Jobcard)
+    @Html.EditorFor(x=>x.GroupedHealthChecks)    
     <input type="submit" class="btn btn-default" value="Save" />
 }

@@ -9,7 +9,7 @@
 </p>
 <h2>Upload a video</h2>
 
-<form id = "frmUpload" method="post" enctype="multipart/form-data" action="@Url.Action("Upload", "Videos")">  
+<form id = "frmUpload" method="post" enctype="multipart/form-data" action="@Url.Action("Upload", "Videos")" class="form-defaults">  
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         <label for="Title">Plate number</label>

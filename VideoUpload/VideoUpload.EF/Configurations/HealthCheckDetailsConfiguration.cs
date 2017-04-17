@@ -15,9 +15,7 @@ namespace VideoUpload.EF.Configurations
             ToTable("HealthCheckDetails");
             HasKey(x => x.HealCheckDetailsID);
 
-            Property(x => x.HealCheckDetailsID)
-                .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)
-                .IsRequired();
+                     
         }
     }
 }

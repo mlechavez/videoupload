@@ -16,4 +16,9 @@
     .hc-stat-check {
         color:#fff !important;
     }
+    .hc-jc label,
+    .hc-table {
+        font-weight:400;
+    }
+    
 }

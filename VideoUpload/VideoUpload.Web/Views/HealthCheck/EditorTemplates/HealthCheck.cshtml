@@ -1,0 +1,34 @@
+﻿@model VideoUpload.Core.Entities.HealthCheck
+
+<tr>
+    <td class="hc-hccode">@Model.HcCode</td>
+    <td class="hc-description">@Model.Description</td>
+    <td class="hc-stat hc-stat-success">        
+        <div class="checkbox">
+            <label>
+                <input type="hidden" name="HealthCheckDetails[@Model.HcCode].IsGoodCondition" value="true" />
+                <input checked type="radio" name="HealthCheckDetails[@Model.HcCode].IsGoodCondition" value="false" />
+            </label>
+        </div>
+    </td>
+    <td class="hc-stat hc-stat-warning">
+        <div class="checkbox">
+            <label>
+                <input type="hidden" name="HealthCheckDetails[@Model.HcCode].HcCode" value="true" />
+                <input type="radio" name="HealthCheckDetails[@Model.HcCode].HcCode" value="false" />
+            </label>
+        </div>
+    </td>
+    <td class="hc-stat hc-stat-danger">
+        <div class="checkbox">
+            <label>
+                <input type="hidden" name="HealthCheckDetails[@Model.HcCode].HcCode" value="true" />
+                <input type="radio" name="HealthCheckDetails[@Model.HcCode].HcCode" value="false" />
+            </label>
+        </div>
+    </td>
+    <td class="hc-comments">
+        <input type="text" name="HealthCheckDetails[@Model.HcCode].Comments" value="" class="form-control" />
+    </td>
+</tr>
+

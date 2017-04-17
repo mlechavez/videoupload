@@ -53,10 +53,37 @@ namespace VideoUpload.EF.Migrations
                         DateApproved = c.DateTime(),
                         HasPlayedVideo = c.Boolean(nullable: false),
                         DatePlayedVideo = c.DateTime(),
+                        BranchID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.PostID)
+                .ForeignKey("dbo.Branches", t => t.BranchID, cascadeDelete: true)
                 .ForeignKey("dbo.Users", t => t.UserID)
-                .Index(t => t.UserID);
+                .Index(t => t.UserID)
+                .Index(t => t.BranchID);
+            
+            CreateTable(
+                "dbo.Branches",
+                c => new
+                    {
+                        BranchID = c.Int(nullable: false, identity: true),
+                        BranchName = c.String(),
+                    })
+                .PrimaryKey(t => t.BranchID);
+            
+            CreateTable(
+                "dbo.Jobcards",
+                c => new
+                    {
+                        JobcardNo = c.String(nullable: false, maxLength: 128),
+                        CustomerName = c.String(),
+                        ChassisNo = c.String(),
+                        PlateNo = c.String(),
+                        Mileage = c.String(),
+                        BranchID = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.JobcardNo)
+                .ForeignKey("dbo.Branches", t => t.BranchID, cascadeDelete: true)
+                .Index(t => t.BranchID);
             
             CreateTable(
                 "dbo.Users",
@@ -74,8 +101,11 @@ namespace VideoUpload.EF.Migrations
                         PasswordHash = c.String(maxLength: 128),
                         SecurityStamp = c.String(maxLength: 128),
                         EmailPass = c.String(nullable: false),
+                        BranchID = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.UserID);
+                .PrimaryKey(t => t.UserID)
+                .ForeignKey("dbo.Branches", t => t.BranchID, cascadeDelete: true)
+                .Index(t => t.BranchID);
             
             CreateTable(
                 "dbo.UserClaims",
@@ -89,6 +119,58 @@ namespace VideoUpload.EF.Migrations
                 .PrimaryKey(t => t.ClaimID)
                 .ForeignKey("dbo.Users", t => t.UserID)
                 .Index(t => t.UserID);
+            
+            CreateTable(
+                "dbo.Customers",
+                c => new
+                    {
+                        CustomerCode = c.String(nullable: false, maxLength: 128),
+                        Title = c.String(),
+                        FirstName = c.String(),
+                        SecondName = c.String(),
+                        ThirdName = c.String(),
+                        LastName = c.String(),
+                        Gender = c.Int(nullable: false),
+                        DateOfBirth = c.DateTime(),
+                        CompanyName = c.String(),
+                        Position = c.String(),
+                        Department = c.String(),
+                        Email = c.String(),
+                        Address = c.String(),
+                        City = c.String(),
+                        Region = c.String(),
+                        PostalCode = c.String(),
+                        Country = c.String(),
+                        SendEmail = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.CustomerCode);
+            
+            CreateTable(
+                "dbo.HealthCheckDetails",
+                c => new
+                    {
+                        HealCheckDetailsID = c.Int(nullable: false, identity: true),
+                        HcCode = c.String(),
+                        JobcardNo = c.String(),
+                        IsGoodCondition = c.Boolean(nullable: false),
+                        IsSuggestedToReplace = c.Boolean(nullable: false),
+                        IsUrgentToReplace = c.Boolean(nullable: false),
+                        Comments = c.String(),
+                        HealthCheck_HcCode = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.HealCheckDetailsID)
+                .ForeignKey("dbo.HealthChecks", t => t.HealthCheck_HcCode)
+                .Index(t => t.HealthCheck_HcCode);
+            
+            CreateTable(
+                "dbo.HealthChecks",
+                c => new
+                    {
+                        HcCode = c.String(nullable: false, maxLength: 128),
+                        Description = c.String(),
+                        HcGroup = c.String(),
+                    })
+                .PrimaryKey(t => t.HcCode);
             
             CreateTable(
                 "dbo.Histories",
@@ -106,15 +188,28 @@ namespace VideoUpload.EF.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.HealthCheckDetails", "HealthCheck_HcCode", "dbo.HealthChecks");
+            DropForeignKey("dbo.Users", "BranchID", "dbo.Branches");
             DropForeignKey("dbo.UserClaims", "UserID", "dbo.Users");
             DropForeignKey("dbo.Posts", "UserID", "dbo.Users");
+            DropForeignKey("dbo.Posts", "BranchID", "dbo.Branches");
+            DropForeignKey("dbo.Jobcards", "BranchID", "dbo.Branches");
             DropForeignKey("dbo.Attachments", "PostID", "dbo.Posts");
+            DropIndex("dbo.HealthCheckDetails", new[] { "HealthCheck_HcCode" });
             DropIndex("dbo.UserClaims", new[] { "UserID" });
+            DropIndex("dbo.Users", new[] { "BranchID" });
+            DropIndex("dbo.Jobcards", new[] { "BranchID" });
+            DropIndex("dbo.Posts", new[] { "BranchID" });
             DropIndex("dbo.Posts", new[] { "UserID" });
             DropIndex("dbo.Attachments", new[] { "PostID" });
             DropTable("dbo.Histories");
+            DropTable("dbo.HealthChecks");
+            DropTable("dbo.HealthCheckDetails");
+            DropTable("dbo.Customers");
             DropTable("dbo.UserClaims");
             DropTable("dbo.Users");
+            DropTable("dbo.Jobcards");
+            DropTable("dbo.Branches");
             DropTable("dbo.Posts");
             DropTable("dbo.Attachments");
             DropTable("dbo.Activities");
