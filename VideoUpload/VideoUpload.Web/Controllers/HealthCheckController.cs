@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using VideoUpload.Core;
@@ -141,8 +143,9 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public ActionResult New(HcViewModel viewModel)
-        {
+        public async Task<ActionResult> New(HcViewModel viewModel)
+        {            
+            
             if (ModelState.IsValid)
             {
                 var jobcard = new Jobcard
@@ -154,8 +157,28 @@ namespace VideoUpload.Web.Controllers
                     Mileage = viewModel.Jobcard.Mileage,
                     BranchID = CurrentUser.BranchID
                 };
-            }       
+                _uow.Jobcards.Add(jobcard);
+
+                var healthCheckDetails = new List<HealthCheckDetails>();
+                
+                viewModel.HealthCheckDetails.ToList().ForEach(x=> 
+                {
+                    healthCheckDetails.Add(new HealthCheckDetails
+                    {
+                        HcCode = x.HcCode,
+                        JobcardNo = jobcard.JobcardNo,
+                        Comments = x.Comments,
+                        Status = x.Status
+                    });
+                });
+                _uow.HealthCheckDetails.AddRange(healthCheckDetails);                
+                await _uow.SaveChangesAsync();
+                return RedirectToAction("index", "videos");
+            }
+            viewModel.GroupedHealthChecks = _uow.HealthChecks.GetAllByHcGroup();   
             return View(viewModel);
-        }         
+        }
+        
+        
     }
 }

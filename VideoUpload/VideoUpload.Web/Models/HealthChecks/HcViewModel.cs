@@ -33,9 +33,8 @@ namespace VideoUpload.Web.Models.HealthChecks
         public HcViewModel(IUnitOfWork uow, string jobcardNo)
         {                       
             GroupedHealthChecks = uow.HealthChecks.GetAllByHcGroup();            
-        }
-        
-        public Jobcard Jobcard { get; set; }   
+        }                
+        public JobcardViewModel Jobcard { get; set; }   
         [UIHint("HcGroup")]             
         public List<IGrouping<string,HealthCheck>> GroupedHealthChecks { get; set; }        
         public ICollection<HealthCheckDetails> HealthCheckDetails { get; set; }      

@@ -1,10 +1,10 @@
-﻿@model VideoUpload.Core.Entities.Jobcard
+﻿@model VideoUpload.Web.Models.HealthChecks.JobcardViewModel
 
 <div class="row">
     <div class="form-inline well clearfix hc-jc">
         <div class="form-group form-group-sm col-md-6 col-sm-6 col-xs-6">
             <label for="CustomerName">Customer name:</label>
-            @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control", autofocus = "autofocus" })
+            @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control", autofocus = "autofocus"})
         </div>
         <div class="form-group form-group-sm col-md-6 col-sm-6 col-xs-6">
             <label for="JobcardNo">Jobcard no:</label>
@@ -12,15 +12,15 @@
         </div>
         <div class="form-group form-group-sm col-md-4 col-sm-4 col-xs-4">
             <label for="ChassisNo">Chassis no:</label>
-            @Html.TextBoxFor(x => x.ChassisNo, new { @class = "form-control" })
+            @Html.TextBoxFor(x => x.ChassisNo, new { @class = "form-control"})
         </div>
         <div class="form-group form-group-sm col-md-4 col-sm-4 col-xs-4">
             <label for="PlateNo">Plate no:</label>
-            @Html.TextBoxFor(x => x.PlateNo, new { @class = "form-control" })
+            @Html.TextBoxFor(x => x.PlateNo, new { @class = "form-control"})
         </div>
         <div class="form-group form-group-sm col-md-4 col-sm-4 col-xs-4">
             <label for="Mileage">Mileage:</label>
-            @Html.TextBoxFor(x => x.Mileage, new { @class = "form-control", type = "number" })
+            @Html.TextBoxFor(x => x.Mileage, new { @class = "form-control", type = "number"})
         </div>
     </div>
 </div>

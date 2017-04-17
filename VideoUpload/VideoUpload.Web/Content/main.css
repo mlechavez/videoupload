@@ -77,9 +77,8 @@ body {
 }
 .hc-jc .form-control {      
     font-size: 12px;
-    font-family: Verdana;    
-    font-weight:400;    
-    letter-spacing: 0.8px; 
+    font-family: Arial;    
+    font-weight:400;        
     padding: 3px;
     width:75%;
 }
