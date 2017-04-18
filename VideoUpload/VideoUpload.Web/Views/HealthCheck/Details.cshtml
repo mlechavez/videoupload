@@ -8,3 +8,17 @@
 
 @Html.DisplayFor(x => x.Jobcard)
 @Html.DisplayFor(x => x.GroupedHealthChecks, new { HcDetails = Model.Jobcard.HealthCheckDetails })    
+
+@*<button type="button" id="btnPrint">Print</button>*@
+
+@*@section Script {
+    <script>
+        $(document).ready(function ()
+        {
+            $('#btnPrint').on('click', function ()
+            {
+                window.print();
+            });
+        });
+    </script>    
+}*@

@@ -2,8 +2,20 @@
      body {
          -webkit-print-color-adjust: exact;
      }
-    #main-content { border: 0px; }
-    .hc-table, .hc-table th { font-weight:400; }
+    #main-content { 
+        border: 0px; 
+        margin-top:0;
+    }
+    .hc-table{ 
+        font-weight:400; 
+    }
+    .hc-jc p {
+        font-family:Arial;
+        font-weight:400;
+    }
+    .hc-jc .col-md-6 {     
+        margin-bottom: 0;    
+    }
     .hc-stat-success { 
         background-color: #1c710b !important;       
     }    
@@ -12,13 +24,14 @@
     }    
     .hc-stat-danger { 
         background-color: #b40e0e !important;        
-    }      
-    .hc-stat-check {
+    }          
+    .hc-stat .fa-check {
         color:#fff !important;
     }
     .hc-jc label,
     .hc-table {
         font-weight:400;
     }
+    
     
 }
