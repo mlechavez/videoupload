@@ -17,23 +17,26 @@ namespace VideoUpload.Web.Models.HealthChecks
         public HcViewModel(IUnitOfWork uow)
         {            
             HealthCheckDetails = new List<HealthCheckDetails>();
-            GroupedHealthChecks = uow.HealthChecks.GetAllByHcGroup();
-
-            //GroupedHealthChecks.ForEach(hc =>
-            //{
-            //    hc.ToList().ForEach(hcDetails =>
-            //    {                    
-            //        HealthCheckDetails.Add(new HealthCheckDetails
-            //        {
-            //            HcCode = hcDetails.HcCode                        
-            //        });
-            //    });
-            //});
+            GroupedHealthChecks = uow.HealthChecks.GetAllByHcGroup();            
         }
         public HcViewModel(IUnitOfWork uow, string jobcardNo)
         {                       
-            GroupedHealthChecks = uow.HealthChecks.GetAllByHcGroup();            
-        }                
+            GroupedHealthChecks = uow.HealthChecks.GetAllByHcGroup();
+            //HealthCheckDetails = uow.HealthCheckDetails.GetAllByJobCardNo(jobcardNo);
+            var jobcard = uow.Jobcards.GetById(jobcardNo);
+
+            Jobcard = new JobcardViewModel
+            {
+                CustomerName = jobcard.CustomerName,
+                JobcardNo = jobcard.JobcardNo,
+                ChassisNo = jobcard.ChassisNo,
+                PlateNo = jobcard.PlateNo,
+                Mileage = jobcard.Mileage,
+                HealthCheckDetails = jobcard.HealthCheckDetails
+            };
+            
+        }               
+        [UIHint("Jobcard")] 
         public JobcardViewModel Jobcard { get; set; }   
         [UIHint("HcGroup")]             
         public List<IGrouping<string,HealthCheck>> GroupedHealthChecks { get; set; }        

@@ -1,4 +1,21 @@
-﻿@model VideoUpload.Core.Entities.Jobcard
+﻿@model VideoUpload.Web.Models.HealthChecks.JobcardViewModel
 
-
-
+<div class="row">
+    <div class="form-inline well clearfix hc-jc">
+        <div class="form-group form-group-sm col-md-6 col-sm-6 col-xs-6">            
+            <p><b>Customer name:</b> @Model.CustomerName</p>
+        </div>
+        <div class="form-group form-group-sm col-md-6 col-sm-6 col-xs-6">
+            <p><b>Jobcard no:</b> @Model.JobcardNo</p>
+        </div>
+        <div class="form-group form-group-sm col-md-4 col-sm-4 col-xs-4">
+            <p><b>Chassis no:</b> @Model.ChassisNo</p>
+        </div>
+        <div class="form-group form-group-sm col-md-4 col-sm-4 col-xs-4">
+            <p><b>Plate no:</b> @Model.PlateNo</p>
+        </div>
+        <div class="form-group form-group-sm col-md-4 col-sm-4 col-xs-4">
+            <p><b>Mileage</b> @Model.Mileage</p>
+        </div>
+    </div>
+</div>

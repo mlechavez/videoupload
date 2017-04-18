@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -60,9 +61,7 @@ namespace VideoUpload.Web.Controllers
             var plateNo = string.Empty;
             var mileage = string.Empty;
             var hcCode = string.Empty;
-            var isGoodCondition = false;
-            var isSuggestedToReplace = false;
-            var isUrgentToReplace = false;
+            var status = string.Empty;
             var comments = string.Empty;
 
             //We should not seperate the comma in a sentence
@@ -73,7 +72,14 @@ namespace VideoUpload.Web.Controllers
             line = sr.ReadLine();
             strArray = r.Split(line);
 
-            var jobcard = new Jobcard();           
+            var jobcard = new Jobcard();
+
+            jobcard.JobcardNo = jobcardNo;
+            jobcard.CustomerName = customerName;
+            jobcard.ChassisNo = chassisNo;
+            jobcard.PlateNo = plateNo;
+            jobcard.Mileage = mileage;
+            jobcard.BranchID = CurrentUser.BranchID; //inherit the AppController to get the CurrentUser Property
 
             while ((line = sr.ReadLine()) != null)
             {
@@ -85,43 +91,18 @@ namespace VideoUpload.Web.Controllers
                 plateNo = !string.IsNullOrWhiteSpace(strArray[3]) ? strArray[3].ToString() : string.Empty;
                 mileage = !string.IsNullOrWhiteSpace(strArray[4]) ? strArray[4].ToString() : string.Empty;
                 hcCode = !string.IsNullOrWhiteSpace(strArray[5]) ? strArray[5].ToString() : string.Empty;
+                status = !string.IsNullOrWhiteSpace(strArray[6]) ? strArray[6].ToString() : string.Empty;                
+                comments = !string.IsNullOrWhiteSpace(strArray[7]) ? strArray[7].ToString() : string.Empty;
 
-
-                if (strArray[6].ToString().ToLower() == "t")
-                {
-                    isGoodCondition = true;
-                }
-
-                if (strArray[7].ToString().ToLower() == "t")
-                {
-                    isSuggestedToReplace = true;
-                }
-
-                if (strArray[8].ToString().ToLower() == "t")
-                {
-                    isUrgentToReplace = true;
-                }
-
-                comments = !string.IsNullOrWhiteSpace(strArray[9]) ? strArray[9].ToString() : string.Empty;                               
-
-                _uow.HealthCheckDetails.Add(new HealthCheckDetails
+                jobcard.HealthCheckDetails.Add(new HealthCheckDetails
                 {
                     JobcardNo = jobcardNo,
                     HcCode = hcCode,
-                    
-                    //IsGoodCondition = isGoodCondition,
-                    //IsSuggestedToReplace = isSuggestedToReplace,
-                    //IsUrgentToReplace = isUrgentToReplace,
-                    Comments = comments
-                });               
-            }
+                    Status = status,
+                    Comments = comments,
 
-            jobcard.JobcardNo = jobcardNo;
-            jobcard.CustomerName = customerName;
-            jobcard.ChassisNo = chassisNo;
-            jobcard.PlateNo = plateNo;
-            jobcard.Mileage = mileage;
-            jobcard.BranchID = CurrentUser.BranchID; //inherit the AppController to get the CurrentUser Property
+                });                
+            }            
             _uow.Jobcards.Add(jobcard);
 
             _uow.SaveChanges();
@@ -130,11 +111,37 @@ namespace VideoUpload.Web.Controllers
             return isSuccess;
         }
 
-        public ActionResult Details(string jobcardNo)
+        public ActionResult ExportVhcToCsv(string jobcardNo)
         {
-            var viewModel = new HcViewModel(_uow, jobcardNo);
+            var jobcard = _uow.Jobcards.GetById(jobcardNo);
 
-            return View(viewModel);
+            StringBuilder sb = new StringBuilder();
+
+            //header column
+            sb.Append("Jobcard no").Append(",")
+              .Append("Customer name").Append(",")
+              .Append("Chassis no").Append(",")
+              .Append("Plate no").Append(",")
+              .Append("Mileage").Append(",")
+              .Append("Hc Code").Append(",")
+              .Append("Status").Append(",")
+              .Append("Comments").Append(",")
+              .AppendLine();
+
+            foreach (var item in jobcard.HealthCheckDetails)
+            {
+                sb.Append(jobcard.JobcardNo).Append(",")
+                  .Append(jobcard.CustomerName).Append(",")
+                  .Append(jobcard.ChassisNo).Append(",")
+                  .Append(jobcard.PlateNo).Append(",")
+                  .Append(jobcard.Mileage).Append(",")
+                  .Append(item.HcCode).Append(",")
+                  .Append(item.Status).Append(",")
+                  .Append(item.Comments).Append(",")
+                  .AppendLine();
+            }
+            var data = Encoding.UTF8.GetBytes(sb.ToString());
+            return File(data, "text/csv", "vhc.csv");
         }
 
         public ActionResult New()
@@ -158,27 +165,66 @@ namespace VideoUpload.Web.Controllers
                     BranchID = CurrentUser.BranchID
                 };
                 _uow.Jobcards.Add(jobcard);
-
-                var healthCheckDetails = new List<HealthCheckDetails>();
                 
-                viewModel.HealthCheckDetails.ToList().ForEach(x=> 
+                //add the jobcard foreach before saiving to db
+                viewModel.HealthCheckDetails.ToList().ForEach(x =>
                 {
-                    healthCheckDetails.Add(new HealthCheckDetails
-                    {
-                        HcCode = x.HcCode,
-                        JobcardNo = jobcard.JobcardNo,
-                        Comments = x.Comments,
-                        Status = x.Status
-                    });
+                    x.JobcardNo = jobcard.JobcardNo;
                 });
-                _uow.HealthCheckDetails.AddRange(healthCheckDetails);                
+
+                _uow.HealthCheckDetails.AddRange(viewModel.HealthCheckDetails.ToList());                
                 await _uow.SaveChangesAsync();
                 return RedirectToAction("index", "videos");
             }
+
+            SetJobcardValidationErrorMessages(ModelState);
+                        
             viewModel.GroupedHealthChecks = _uow.HealthChecks.GetAllByHcGroup();   
             return View(viewModel);
         }
-        
-        
+
+        public ActionResult Details(string jobcardNo)
+        {
+            var viewModel = new HcViewModel(_uow, jobcardNo);
+
+            return View(viewModel);
+        }
+
+        private void SetJobcardValidationErrorMessages(ModelStateDictionary modelState)
+        {
+            string hasError = "has-error";
+            string placeHolder = "This field is required";
+            IEnumerable<string> keys = modelState.Where(x => x.Value.Errors.Any()).Select(x => x.Key);
+
+            foreach (var key in keys)
+            {
+                switch (key)
+                {
+                    case "Jobcard.CustomerName":
+                        ViewBag.CustomerNameError = hasError;
+                        ViewBag.CustomerNamePlaceholder = placeHolder;
+                        break;
+                    case "Jobcard.JobcardNo":
+                        ViewBag.JobcardNoError = hasError;
+                        ViewBag.JobcardNoPlaceholder = placeHolder;
+                        break;
+                    case "Jobcard.ChassisNo":
+                        ViewBag.ChassisNoError = hasError;
+                        ViewBag.ChassisNoPlaceholder = placeHolder;
+                        break;
+                    case "Jobcard.PlateNo":
+                        ViewBag.PlateNoError = hasError;
+                        ViewBag.PlateNoPlaceholder = placeHolder;
+                        break;
+                    case "Jobcard.Mileage":
+                        ViewBag.MileageError = hasError;
+                        ViewBag.MileagePlaceholder = placeHolder;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
+        }
     }
 }

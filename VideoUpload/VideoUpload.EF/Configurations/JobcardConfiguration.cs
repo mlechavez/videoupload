@@ -16,7 +16,11 @@ namespace VideoUpload.EF.Configurations
             HasKey(x => x.JobcardNo);
 
             Property(x => x.JobcardNo)
-                .IsRequired();       
+                .IsRequired();
+
+            HasMany(x => x.HealthCheckDetails)
+                .WithRequired(x => x.Jobcard)
+                .HasForeignKey(x => x.JobcardNo);
         }
     }
 }

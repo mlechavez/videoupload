@@ -9,6 +9,7 @@ namespace VideoUpload.Core.Entities
     public class Jobcard
     {
         private Branch _branch;
+        private ICollection<HealthCheckDetails> _hcDetails;
 
         public string JobcardNo { get; set; }
         public string CustomerName { get; set; }
@@ -22,5 +23,12 @@ namespace VideoUpload.Core.Entities
             get { return _branch; }
             set { _branch = value; }
         }
+        public virtual ICollection<HealthCheckDetails> HealthCheckDetails
+        {
+            get { return _hcDetails ?? (_hcDetails = new List<HealthCheckDetails>()); }
+            set { _hcDetails = value; }
+        }
+
+
     }
 }

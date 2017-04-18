@@ -9,6 +9,7 @@ namespace VideoUpload.Core.Entities
     public class HealthCheckDetails
     {
         private HealthCheck _hc;
+        private Jobcard _jobcard;
 
         public int HealCheckDetailsID { get; set; }
         public string HcCode { get; set; }
@@ -20,6 +21,12 @@ namespace VideoUpload.Core.Entities
         {
             get { return _hc; }
             set { _hc = value; }
+        }
+
+        public virtual Jobcard Jobcard
+        {
+            get { return _jobcard; }
+            set { _jobcard = value; }
         }
     }
 }

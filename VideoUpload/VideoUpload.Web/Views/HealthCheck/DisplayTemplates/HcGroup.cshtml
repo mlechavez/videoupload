@@ -2,7 +2,8 @@
 @model IEnumerable<IGrouping<string, HealthCheck>>
 
 @{
-    int counter = 0; // will increment per group
+    var hcDetails = (List<HealthCheckDetails>)ViewBag.HcDetails;
+    
 }
 
 @foreach (var group in Model)
@@ -22,44 +23,44 @@
             @for (int i = 0; i < group.Count(); i++)
             {
                 <tr>
-                    <td class="hc-hccode">
-                        <input type="hidden" name="HealthCheckDetails[@(i + counter)].HcCode" value="@group.ElementAt(i).HcCode" />
+                    <td class="hc-hccode">                        
                         @group.ElementAt(i).HcCode
                     </td>
                     <td class="hc-description">@group.ElementAt(i).Description</td>
                     <td class="hc-stat hc-stat-success">
 
-                        <label>
-                            <input type="radio" name="HealthCheckDetails[@(i + counter)].Status" value="good" checked />
-                        </label>
+                        @if (hcDetails.ElementAt(i).Status == "good")
+                        {
+                            <i class="fa fa-check" style="color:#fff;"></i>
+                        }
 
                     </td>
                     <td class="hc-stat hc-stat-warning">
 
-                        <label>
-                            <input type="radio" name="HealthCheckDetails[@(i + counter)].Status" value="suggested" />
-                        </label>
+                        @if (hcDetails.ElementAt(i).Status == "suggested")
+                        {
+                            <i class="fa fa-check" style="color:#fff;"></i>
+                        }
 
                     </td>
                     <td class="hc-stat hc-stat-danger">
 
-                        <label>
-                            <input type="radio" name="HealthCheckDetails[@(i + counter)].Status" value="urgent" />
-                        </label>
+                        @if (hcDetails.ElementAt(i).Status == "urgent")
+                        {
+                            <i class="fa fa-check" style="color:#fff;"></i>
+                        }
 
                     </td>
                     <td class="hc-comments">
-
-                        <input type="text" name="HealthCheckDetails[@(i + counter)].Comments" class="form-control input-sm" />
-
+                       <span>@hcDetails.ElementAt(i).Comments</span>
                     </td>
                 </tr>
             }
         </thead>
     </table>
-    counter += group.Count();
-
 }
+
+
 
 
 

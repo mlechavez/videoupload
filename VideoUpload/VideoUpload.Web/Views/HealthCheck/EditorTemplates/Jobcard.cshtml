@@ -1,0 +1,26 @@
+﻿@model VideoUpload.Web.Models.HealthChecks.JobcardViewModel
+
+<div class="row">
+    <div class="form-inline well clearfix hc-jc">
+        <div class="form-group form-group-sm col-md-6 col-sm-6 col-xs-6 @ViewBag.CustomerError">
+            <label class="control-label" for="CustomerName">Customer name:</label>
+            @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control", autofocus = "autofocus", placeholder = ViewBag.CustomerNamePlaceholder})            
+        </div>
+        <div class="form-group form-group-sm col-md-6 col-sm-6 col-xs-6 @ViewBag.JobcardNoError">
+            <label class="control-label" for="JobcardNo">Jobcard no:</label>
+            @Html.TextBoxFor(x => x.JobcardNo, new { @class = "form-control", placeholder = ViewBag.JobcardNoPlaceholder })
+        </div>
+        <div class="form-group form-group-sm col-md-4 col-sm-4 col-xs-4 @ViewBag.ChassisNoError">
+            <label class="control-label" for="ChassisNo">Chassis no:</label>
+            @Html.TextBoxFor(x => x.ChassisNo, new { @class = "form-control", placeholder = ViewBag.ChassisNoPlaceholder })
+        </div>
+        <div class="form-group form-group-sm col-md-4 col-sm-4 col-xs-4 @ViewBag.PlateNoError">
+            <label class="control-label" for="PlateNo">Plate no:</label>
+            @Html.TextBoxFor(x => x.PlateNo, new { @class = "form-control", placeholder = ViewBag.PlateNoPlaceholder })
+        </div>
+        <div class="form-group form-group-sm col-md-4 col-sm-4 col-xs-4 @ViewBag.MileageError">
+            <label class="control-label" for="Mileage">Mileage:</label>
+            @Html.TextBoxFor(x => x.Mileage, new { @class = "form-control", type = "number", placeholder = ViewBag.MileagePlaceholder })
+        </div>
+    </div>
+</div>

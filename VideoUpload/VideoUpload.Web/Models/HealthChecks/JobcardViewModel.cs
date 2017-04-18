@@ -22,5 +22,7 @@ namespace VideoUpload.Web.Models.HealthChecks
         public string Mileage { get; set; }
         [Required]
         public int BranchID { get; set; }
+
+        public ICollection<HealthCheckDetails> HealthCheckDetails { get; set; } 
     }
 }

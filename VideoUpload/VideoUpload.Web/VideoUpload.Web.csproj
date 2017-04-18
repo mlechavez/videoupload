@@ -389,10 +389,10 @@
     <Content Include="Views\HealthCheck\Upload.cshtml" />
     <Content Include="Views\HealthCheck\Details.cshtml" />
     <Content Include="Views\HealthCheck\New.cshtml" />
-    <Content Include="Views\HealthCheck\EditorTemplates\JobcardViewModel.cshtml" />
+    <Content Include="Views\HealthCheck\EditorTemplates\Jobcard.cshtml" />
     <Content Include="Views\HealthCheck\DisplayTemplates\Jobcard.cshtml" />
     <Content Include="Views\HealthCheck\EditorTemplates\HcGroup.cshtml" />
-    <Content Include="Views\HealthCheck\EditorTemplates\HealthCheck.cshtml" />
+    <Content Include="Views\HealthCheck\DisplayTemplates\HcGroup.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
