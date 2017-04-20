@@ -222,6 +222,7 @@
     <Content Include="Content\Images\porsche-logo-header.jpg" />
     <Content Include="Content\Images\porsche-logo.png" />
     <Content Include="Content\main.css" />
+    <Content Include="Content\modified\bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\print.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -385,7 +386,6 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Views\Videos\Search.cshtml" />
-    <Content Include="Views\Shared\_Search.cshtml" />
     <Content Include="Views\HealthCheck\Upload.cshtml" />
     <Content Include="Views\HealthCheck\Details.cshtml" />
     <Content Include="Views\HealthCheck\New.cshtml" />
@@ -393,6 +393,10 @@
     <Content Include="Views\HealthCheck\DisplayTemplates\Jobcard.cshtml" />
     <Content Include="Views\HealthCheck\EditorTemplates\HcGroup.cshtml" />
     <Content Include="Views\HealthCheck\DisplayTemplates\HcGroup.cshtml" />
+    <Content Include="Views\Shared\_MainHeader.cshtml" />
+    <Content Include="Views\Videos\_VideoSideBar.cshtml" />
+    <Content Include="Views\Videos\_DetailsSidebar.cshtml" />
+    <Content Include="Views\Videos\MyPosts.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

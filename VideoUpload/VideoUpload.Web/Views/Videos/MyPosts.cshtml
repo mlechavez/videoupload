@@ -1,0 +1,85 @@
+﻿@using VideoUpload.Web.Common
+@using PagedList.Mvc;
+
+@model VideoUpload.Web.Models.PostViewModel
+
+@{
+    ViewBag.Title = "List of my videos";    
+}
+
+<div class="col-md-8 col-sm-8">
+    <h2>List of your videos</h2>
+
+    @if (Model.PagedListPosts.Count != 0)
+    {
+        
+        <div class="table-responsive">
+            <table class="table table-condensed table-hover">
+                <tr>
+                    <th>Plate number</th>
+                    <th>Description</th>                    
+                    <th>Date Uploaded</th>                    
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.PagedListPosts)
+                {
+                    <tr>
+                        <td>@item.PlateNumber</td>
+                        <td>@item.Description</td>                        
+                        <td>@item.DateUploaded.ToClientTime()</td>                        
+                        <td>
+                            <p>
+                                <a href="@Url.Action("edit", new { postID = item.PostID })" class="btn btn-warning btn-xs"><i class="fa fa-pencil-square-o"></i> Edit</a> |
+                                @if (item.Attachments == null)
+                                {
+                                    <span class="label label-danger">No video attached.</span>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("details", new { postID = item.PostID,
+                                    fileName = item.Attachments.FirstOrDefault().FileName,
+                                    plateNumber = item.PlateNumber })" class="btn btn-warning btn-xs">
+                                        <i class="fa fa-info"></i> Details
+                                    </a>
+                                }
+                                @if (!item.HasApproval)
+                                {
+                                    <text>|</text>
+                                    <span class="label label-info">For approval.</span>
+                                }
+                                else
+                                {
+                                    if (item.IsApproved)
+                                    {
+                                        <text>|</text>
+                                        <span class="label label-success">Approved.</span>
+                                    }
+                                    else
+                                    {
+                                        <text>|</text>
+                                        <span class="label label-danger">Disapproved.</span>
+                                    }
+                                }
+                            </p>
+                        </td>
+                    </tr>
+                }
+            </table>
+
+            <div class="text-center">
+                @Html.PagedListPager(Model.PagedListPosts, page => Url.Action("myposts", new { page }),
+                 new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
+            </div>
+        </div>
+    }
+
+</div>
+
+@section Script {
+    <script src="~/scripts/videos/timeZoneCooke.js"></script>
+}
+
+
+
+
+

@@ -4,7 +4,8 @@ var hasPlayed = $('#postUrl').data('hasplayed');
 
 var vPlayer = $('#vPlayer').get(0);
 
-if (!hasPlayed) {
+if (hasPlayed === "False") {
+
     if (vPlayer.play()) {
     var postID = $('#postUrl').data('id');
     var url = $('#postUrl').data('url');

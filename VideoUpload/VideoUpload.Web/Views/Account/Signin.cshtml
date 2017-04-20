@@ -4,23 +4,27 @@
     ViewBag.Title = "Signin";
 }
 
-<h2>Sign in</h2>
-@using (Html.BeginForm("Signin", "Account", FormMethod.Post, new { @class = "form-defaults" }))
-{
-    @Html.HiddenFor(x => x.ReturnUrl);
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(x=>x.Username)
-        @Html.TextBoxFor(x=>x.Username, new { @class = "form-control input-sm" })
-        @Html.ValidationMessageFor(x=>x.Username, "", new { @class = "text-danger" })
+<div class="row">
+    <div class="col-md-4">
+        <h2>Sign in</h2>
+        @using (Html.BeginForm("Signin", "Account", FormMethod.Post))
+        {
+            @Html.HiddenFor(x => x.ReturnUrl);
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(x => x.Username)
+                @Html.TextBoxFor(x => x.Username, new { @class = "form-control input-sm", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.Username, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Password)
+                @Html.PasswordFor(x => x.Password, new { @class = "form-control input-sm" })
+                @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Sign in</button>
+                Forgot password? click <a href="@Url.Action("passwordreset")">here.</a>
+            </div>
+        }
     </div>
-    <div class="form-group">
-        @Html.LabelFor(x => x.Password)
-        @Html.PasswordFor(x => x.Password, new { @class = "form-control input-sm" })
-        @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Sign in</button>
-        Forgot password? click <a href="@Url.Action("passwordreset")">here.</a>
-    </div>
-}
+</div>

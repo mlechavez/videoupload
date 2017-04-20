@@ -3,64 +3,12 @@
     DEFAULTS
 ==================================
 */
-body {
-    font-family: 'Raleway', sans-serif;
-    font-weight:500;    
-    background: whitesmoke;
-}
-#main-header {
-    padding-left: 0;
-    padding-right: 0;
-}
-#main-header h1 {
-    color: #a30f0f;
-}
-#main-nav {
-    margin-bottom: 0;
-}
-.navbar {
-    border:1px solid transparent;
-    
-}
-.navbar-inverse {
-    background-color:#a30f0f;    
-}
-.form-defaults input,
-.form-defaults select,
-.form-defaults textarea {
-    max-width: 380px;
-}
 
-/*
-==================================
-    MAIN-CONTENT
-==================================
-*/
-#main-image {   
-    
-    height:240px;
-    width:320px;
-    margin: 0 auto;           
+footer {
+    margin: 10px 0;
 }
-#main-content {
-    background-color:#fff;  
-    padding:30px;  
-    border-left:1px solid silver;
-    border-right:1px solid silver;
-    border-bottom:1px solid silver;
-    border-radius: 0 0 15px 15px;
-}
-/*
-==================================
-    FOOTER
-==================================
-*/
-#main-footer {
-    height:200px;
-    text-align:center;
-    color: #a30f0f;
-    margin-top:20px;    
-    padding:20px;
+.social-buttons {
+    margin-top: 10px;
 }
 /*
 ==================================

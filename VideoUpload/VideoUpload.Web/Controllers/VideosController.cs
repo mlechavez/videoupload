@@ -30,20 +30,27 @@ namespace VideoUpload.Web.Controllers
         [AccessActionFilter(Type= "Video", Value ="CanRead")]
         public async Task<ActionResult> Index(int? page)
         {
+            //var viewModel = new PostViewModel(_uow);
+            //viewModel.Posts.ToPagedList(page ?? 1, 1);   
+                     
             var posts = await _uow.Posts.GetAllAsync();
 
+            ViewBag.ApprovedVideos = posts.Where(post => post.HasApproval && post.IsApproved).OrderBy(d => d.DateApproved).Take(5).ToList();
+            ViewBag.VideosPlayed = posts.Where(post => post.HasPlayedVideo).OrderBy(d => d.DatePlayedVideo).Take(5).ToList().ToList();
+
             var viewModel = new List<PostViewModel>();
-            posts.ForEach(x => 
+
+            posts.ForEach(x =>
             {
                 var attachments = x.Attachments.OrderBy(y => y.AttachmentNo).ToList();
 
                 var attachment = attachments.FirstOrDefault();
-                
+
                 if (attachment == null)
                 {
                     attachments = null;
                 }
-                                
+
                 viewModel.Add(new PostViewModel
                 {
                     PostID = x.PostID,
@@ -56,12 +63,12 @@ namespace VideoUpload.Web.Controllers
                     DateEdited = x.DateEdited,
                     HasApproval = x.HasApproval,
                     IsApproved = x.IsApproved,
-                    BranchName = x.Branch.BranchName
+                    BranchName = x.Branch.BranchName                  
                 });
             });
             viewModel = viewModel.OrderByDescending(x => x.DateUploaded).ToList();
-                  
-            return View(viewModel.ToPagedList(page ?? 1, 20));
+
+            return View(viewModel.ToPagedList(page ?? 1, 1));
         }
         
         [Route("search")]
@@ -103,7 +110,6 @@ namespace VideoUpload.Web.Controllers
 
             return View(viewModel);
         }
-
 
         [Route("upload")]
         [AccessActionFilter(Type = "Video", Value = "CanCreate")]
@@ -228,6 +234,14 @@ namespace VideoUpload.Web.Controllers
             //return View(viewModel);
         }
 
+        [Route("{userName}/myposts")]
+        public ActionResult MyPosts(int? page)
+        {
+            var viewModel = new PostViewModel(_uow, User.Identity.GetUserId(), page, 15);
+            
+            return View(viewModel);
+        }
+
         [Route("{postID}/edit")]
         [AccessActionFilter(Type = "Video", Value = "CanUpdate")]
         public async Task<ActionResult> Edit(int postID)
@@ -272,6 +286,9 @@ namespace VideoUpload.Web.Controllers
         {            
             var post = await _uow.Posts.GetByIdAsync(postID);
 
+            ViewBag.ApprovedVideos = _uow.Posts.GetPostByApproved(5);
+            ViewBag.VideosPlayed = _uow.Posts.GetPostByVideoPlayed(5);            
+
             if (post == null)
             {
                 return View("_ResourceNotFound");
@@ -294,12 +311,12 @@ namespace VideoUpload.Web.Controllers
                 UploadedBy = post.User.UserName,
                 Attachments = attachments,
                 HasApproval = post.HasApproval,
-                IsApproved = post.IsApproved                
+                IsApproved = post.IsApproved                                
             };            
             return View(viewModel);
         }
 
-        [AllowAnonymous]        
+        [AllowAnonymous]
         public ActionResult VideoResult(string fileName)
         {
             var file = _uow.Attachments.GetByFileName(fileName);
@@ -469,8 +486,6 @@ namespace VideoUpload.Web.Controllers
                 }
             }                        
             return Json(new { success = success  });
-        }
-
-
+        }        
     }
 }

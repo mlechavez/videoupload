@@ -1,73 +1,225 @@
-﻿@model VideoUpload.Web.Models.PostViewModel
+﻿@using VideoUpload.Web.Common
+@using VideoUpload.Core.Entities;
+@using VideoUpload.Web.Models
+
+@model PostViewModel
+
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Details";    
 }
+
 @Html.Partial("_Modal")
 
-<div class="btn-group btn-group-xs" role="group">
-    @Html.ActionLink("Back to list", "index", null, new { @class = "btn btn-info" })
-    @Html.ActionLink("Edit post", "edit", new { postID = Model.PostID }, new { @class = "btn btn-info" })
-    @if (Model.IsApproved)
-    {
-        <div class="btn-group btn-group-xs">
-            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Sending options <span class="caret"></span></button>
+<div class="col-md-8">
+    <article>
 
-            <ul class="dropdown-menu">
-                <li>
-                    @Html.ActionLink("Send email", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "email" })
-                </li>
-                <li>
-                    @Html.ActionLink("Send sms", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "sms" })
-                </li>
-            </ul>
+        <h3>Car plate number: @Model.PlateNumber </h3>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <span class="glyphicon glyphicon-upload"></span> uploaded by: @Model.UploadedBy
+            </div>
+            <div class="text-right col-md-6 col-sm-6">
+                <span class="glyphicon glyphicon-time"></span> @Model.DateUploaded.ToClientTime()
+            </div>
         </div>
-    }
-    @if (CurrentUser.Approval.Any(x => x.Value == "CanApproveVideo"))
+
+        <hr />
+
+        <div class="embed-responsive embed-responsive-16by9">
+            <video id="vPlayer" class="embed-responsive-item" controls>
+                <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.FirstOrDefault().FileName })" type="@ViewBag.MIMEType" />
+                Your browser does not support playing this video. Please upgrade your browser.
+            </video>
+        </div>
+
+        <br />
+
+        <p class="lead text-center">@Model.Description</p>
+
+        <hr />
+
+    </article>
+
+    <ul class="pager">
+        <li class="previous">
+            <a href="@Url.Action("index")">
+                <span class="glyphicon glyphicon-arrow-left"></span> Back to post
+            </a>
+        </li>
+    </ul>
+
+</div>
+
+@section SideBar {    
+    <div class="col-md-4">
+
+            <div class="well text-center">
+                <p class="lead">Start uploading your videos and show it to our valuable customers</p>
+                @Html.ActionLink("Upload a video", "upload", null, new { @class = "btn btn-success btn-lg" })
+            </div>
+
+        <div class="well text-center">
+            @if (Model.IsApproved)
     {
-        <div class="btn-group btn-group-xs">
-            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                @if (!Model.HasApproval)
+                <p>Send via:</p>
+
+                <p>
+                    @Html.ActionLink("Email", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "email" }, new { @class = "btn btn-info" })
+
+                    @Html.ActionLink("Sms", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "sms" }, new { @class = "btn btn-info " })
+                </p>
+            }
+            else
+            {
+                if (!Model.HasApproval)
                 {
-                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Approve</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Disapprove</a></li>
+                    <p>This video has not yet been approved.</p>
                 }
                 else
                 {
-                    if (!Model.IsApproved)
-                    {
-                        <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Approve</a></li>
-                    }
-                    else
-                    {
-                        <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Disapprove</a></li>
-                    }
-                }                
-            </ul>
+                    <p>This video has been disappoved. Check on the comment section</p>
+                }
+            }
         </div>
-    }
-</div>
 
-<h2>Details</h2>
-<div class="panel panel-danger">
-    <div class="panel-heading">
-        <b>Plate number:</b> @Html.DisplayFor(model => model.PlateNumber)
-        <p class="pull-right"><b>Owner:</b> @Html.DisplayFor(model => model.UploadedBy)</p>
-    </div>
-    <div class="panel-body">
-        <p><b>Description:</b><br /> @Html.DisplayFor(model => model.Description)</p>
-    </div>
-    <div class="embed-responsive embed-responsive-16by9">
-        <video id="vPlayer" class="embed-responsive-item" preload="metadata" autoplay controls poster="@Url.Content("~/Content/Images/porsche-logo.png")">
-            <source src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType" />
-            Your browser does not support playing this video. Please upgrade your browser.
-        </video>
-    </div>
-    <div class="panel-footer"></div>
-</div>
+        @if (CurrentUser.Approval.Any(x => x.Value == "CanApproveVideo"))
+        {
+            <div class="well text-center">
+                <p>Review the video before letting the end-user send to the customer</p>
+                <div class="btn-group">
+                    <button class="btn btn-primary btn-block btn-lg dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        @if (!Model.HasApproval)
+                        {
+                            <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Approve</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Disapprove</a></li>
+                        }
+                        else
+                        {
+                            if (!Model.IsApproved)
+                            {
+                                <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Approve</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Disapprove</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
 
+
+
+           @if (ViewBag.ApprovedVideos.Count > 0)
+           {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Latest approved videos</h4>
+                </div>
+
+                <ul class="list-group">
+                    @foreach (var item in (List<Post>)ViewBag.ApprovedVideos)
+                    {
+                        <li class="list-group-item">
+                            <a href="@Url.Action("details", new { postID = item.PostID, plateNumber = item.PlateNumber, fileName = item.Attachments.FirstOrDefault().FileName })">
+                                <p>Plate number: @item.PlateNumber </p>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+           }
+
+        @if (ViewBag.VideosPlayed.Count > 0)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Recent videos played by customers</h4>
+                </div>
+
+                <ul class="list-group">
+                    @foreach (var item in (List<Post>)ViewBag.VideosPlayed)
+                    {
+                        <li class="list-group-item">
+                            <a href="@Url.Action("details", new { postID = item.PostID, plateNumber = item.PlateNumber, fileName = item.Attachments.FirstOrDefault().FileName })">
+                                <p>Plate number: @item.PlateNumber </p>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+        </div>
+}
 
 
 @section Script {
+    <script src="~/scripts/videos/timeZoneCooke.js"></script>
     <script src="~/scripts/videos/details.js"></script>
 }
+
+
+@*<div class="btn-group btn-group-xs" role="group">
+        @Html.ActionLink("Back to list", "index", null, new { @class = "btn btn-info" })
+        @Html.ActionLink("Edit post", "edit", new { postID = Model.PostID }, new { @class = "btn btn-info" })
+        @if (Model.IsApproved)
+        {
+            <div class="btn-group btn-group-xs">
+                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Sending options <span class="caret"></span></button>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        @Html.ActionLink("Send email", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "email" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Send sms", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "sms" })
+                    </li>
+                </ul>
+            </div>
+        }
+        @if (CurrentUser.Approval.Any(x => x.Value == "CanApproveVideo"))
+        {
+            <div class="btn-group btn-group-xs">
+                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    @if (!Model.HasApproval)
+                    {
+                        <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Approve</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Disapprove</a></li>
+                    }
+                    else
+                    {
+                        if (!Model.IsApproved)
+                        {
+                            <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Approve</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Disapprove</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+
+    <h2>Details</h2>
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <b>Plate number:</b> @Html.DisplayFor(model => model.PlateNumber)
+            <p class="pull-right"><b>Owner:</b> @Html.DisplayFor(model => model.UploadedBy)</p>
+        </div>
+        <div class="panel-body">
+            <p><b>Description:</b><br /> @Html.DisplayFor(model => model.Description)</p>
+        </div>
+        <div class="embed-responsive embed-responsive-16by9">
+            <video id="vPlayer" class="embed-responsive-item" preload="metadata" autoplay controls poster="@Url.Content("~/Content/Images/porsche-logo.png")">
+                <source src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType" />
+                Your browser does not support playing this video. Please upgrade your browser.
+            </video>
+        </div>
+        <div class="panel-footer"></div>
+    </div>*@
