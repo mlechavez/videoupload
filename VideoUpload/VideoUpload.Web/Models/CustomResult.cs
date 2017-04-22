@@ -17,7 +17,7 @@ namespace VideoUpload.Web.Models
         }
         public override void ExecuteResult(ControllerContext context)
         {
-            var fullpath = HostingEnvironment.MapPath("~/Uploads/" + _fileName);
+            var fullpath = HostingEnvironment.MapPath("~/Uploads/Videos/" + _fileName);
             long size, start, end, length, fp = 0;
             using (StreamReader reader = new StreamReader(fullpath))
             {

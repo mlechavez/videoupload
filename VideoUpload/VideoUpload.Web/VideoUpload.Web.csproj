@@ -405,8 +405,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\Uploads\" />
+    <Folder Include="App_Data\" />
     <Folder Include="Uploads\Thumbnails\" />
+    <Folder Include="Uploads\Videos\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VideoUpload.Core\VideoUpload.Core.csproj">

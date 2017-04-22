@@ -1,5 +1,4 @@
-﻿
-@using PagedList;
+﻿@using PagedList;
 @using PagedList.Mvc;
 @using VideoUpload.Web.Common;
 @using VideoUpload.Core.Entities;
@@ -11,6 +10,7 @@
 }
 
 <div class="col-md-8">
+
     <h1>Latest post</h1>
 
     @if (Model.Count != 0)
@@ -23,10 +23,10 @@
                 </a>
 
                 <div class="row">
-                    <div class="col-md-6 col-sm-6">
-                        <span class="glyphicon glyphicon-upload"></span> uploaded by: @item.UploadedBy
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <span class="glyphicon glyphicon-upload"></span> Uploaded by: @item.UploadedBy
                     </div>
-                    <div class="text-right col-md-6 col-sm-6">
+                    <div class="text-right col-md-6 col-sm-6 col-xs-6">
                         <span class="glyphicon glyphicon-time"></span> @item.DateUploaded.ToClientTime()
                     </div>
                 </div>

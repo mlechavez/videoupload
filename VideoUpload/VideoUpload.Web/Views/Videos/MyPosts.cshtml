@@ -8,11 +8,10 @@
 }
 
 <div class="col-md-8 col-sm-8">
-    <h2>List of your videos</h2>
+    <h1>List of your videos</h1>
 
     @if (Model.PagedListPosts.Count != 0)
-    {
-        
+    {      
         <div class="table-responsive">
             <table class="table table-condensed table-hover">
                 <tr>
@@ -29,7 +28,7 @@
                         <td>@item.DateUploaded.ToClientTime()</td>                        
                         <td>
                             <p>
-                                <a href="@Url.Action("edit", new { postID = item.PostID })" class="btn btn-warning btn-xs"><i class="fa fa-pencil-square-o"></i> Edit</a> |
+                                <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })" class="btn btn-warning btn-xs"><i class="fa fa-pencil-square-o"></i> Edit</a> |
                                 @if (item.Attachments == null)
                                 {
                                     <span class="label label-danger">No video attached.</span>

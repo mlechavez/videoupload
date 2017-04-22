@@ -9,8 +9,9 @@ namespace VideoUpload.Core.Repositories
 {
     public interface IPostRepository : IRepository<Post>
     {
-        List<Post> GetPostByApproved(int take);
-        List<Post> GetPostByVideoPlayed(int take);
-        List<Post> GetByUserID(string userID);
+        Task<List<Post>> GetPostByApprovedAsync(int take);
+        Task<List<Post>> GetPostByVideoPlayedAsync(int take);
+        Task<List<Post>> GetByUserIDAsync(string userID);
+        Task<Post> GetByUserIDAndPostIDAsync(string userID, int postID);
     }
 }

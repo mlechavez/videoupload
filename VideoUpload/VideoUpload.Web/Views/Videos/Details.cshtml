@@ -11,15 +11,16 @@
 @Html.Partial("_Modal")
 
 <div class="col-md-8">
+
     <article>
 
         <h3>Car plate number: @Model.PlateNumber </h3>
 
         <div class="row">
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-6 col-sm-6 col-xs-6">
                 <span class="glyphicon glyphicon-upload"></span> uploaded by: @Model.UploadedBy
             </div>
-            <div class="text-right col-md-6 col-sm-6">
+            <div class="text-right col-md-6 col-sm-6 col-xs-6">
                 <span class="glyphicon glyphicon-time"></span> @Model.DateUploaded.ToClientTime()
             </div>
         </div>
@@ -61,14 +62,20 @@
 
         <div class="well text-center">
             @if (Model.IsApproved)
-    {
-                <p>Send via:</p>
+            {
+                if (User.Identity.Name == Model.UploadedBy)
+                {
+                    <p>Send via:</p>
 
-                <p>
-                    @Html.ActionLink("Email", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "email" }, new { @class = "btn btn-info" })
-
-                    @Html.ActionLink("Sms", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "sms" }, new { @class = "btn btn-info " })
-                </p>
+                    <p>
+                        @Html.ActionLink("Email", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "email" }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Sms", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "sms" }, new { @class = "btn btn-info " })
+                    </p>
+                }
+                else
+                {
+                    <p>Only the owner of this posted video can send via email or sms to customer.</p>
+                }
             }
             else
             {

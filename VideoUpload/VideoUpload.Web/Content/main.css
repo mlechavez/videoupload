@@ -3,12 +3,20 @@
     DEFAULTS
 ==================================
 */
-
+body {
+    padding-top: 70px;
+}
 footer {
     margin: 10px 0;
 }
 .social-buttons {
     margin-top: 10px;
+}
+input, select, textarea {
+    font-size: 12px;
+}
+.search-photos {
+    margin-bottom: 10px;
 }
 /*
 ==================================

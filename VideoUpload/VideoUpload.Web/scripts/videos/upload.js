@@ -21,12 +21,23 @@
     });
     $('#appModal').modal('show');
 
-    var ajax = new XMLHttpRequest();
-    ajax.upload.addEventListener("progress", progressHandler, false);
-    ajax.upload.addEventListener("load", completeHandler, false);
-    ajax.open("post", form.attr('action'));
-    ajax.send(formData);
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var data = JSON.parse(this.responseText);
+            if (data.success) {                
+                completeHandler(data.message);
+            } else {                
+                invalidFormat(data.message);
+            }
+        }
+    }
 
+    xhr.upload.addEventListener("progress", progressHandler);
+    //xhr.upload.addEventListener("load", completeHandler); //ignore this because of onreadystatechange function
+    //xhr.upload.addEventListener("error", failedHandler); //no event handler function made that's why it's commented
+    xhr.open("post", form.attr('action'), true);
+    xhr.send(formData);
 });
 
 
@@ -51,12 +62,16 @@ $('#appModal').on('show.bs.modal', function () {
 });
 
 $('#appModal .modal-content').on('click', '#btnUploadExit', function () {
-    var appModal = $('#appModal');
-    $('#PlateNumber').val("");
-    $('#Description').val('');
-    $('#Attachments').val('');
+    
+    var self = $(this),
+        status = self.data('status');
 
-    appModal.modal('hide');   
+    if (status === "success") {
+        var redirectUrl = location.href.replace("upload", "index");
+        location.href = redirectUrl;
+    } else {
+        $('#appModal').modal('hide');
+    }            
 });
 
 $('#appModal').on('hidden.bs.modal', function () {
@@ -81,16 +96,16 @@ function progressHandler(event) {
     ).addClass('disabled');
 }
 
-function completeHandler() {
+function completeHandler(message) {
 
     var appModal = $('#appModal'),
         title = appModal.find('.modal-title'),
         progressBar = appModal.find('.progress-bar'),
-        btnClose = appModal.find('.close'),
+        
         content = appModal.find('.modal-content');
 
-    title.html('Uploaded succesfully');
-    btnClose.removeClass('hidden');
+    title.html(message);
+    
     progressBar
         .css('width', '100%')
         .removeClass('active')
@@ -100,9 +115,37 @@ function completeHandler() {
 
     var footer = $('<div></div>').addClass('modal-footer');
     var btnOk = $('<button></button>')
-                .addClass('btn btn-success pull-right')
-                .attr('id', 'btnUploadExit')
+                .addClass('btn btn-primary pull-right')
+                .attr({
+                    'id': 'btnUploadExit',
+                    'data-status': 'success'
+                })
                 .html('Close');
     footer.append(btnOk);
     content.append(footer);    
+}
+
+function invalidFormat(message) {
+    var appModal = $('#appModal'),
+        title = appModal.find('.modal-title'),
+        body = appModal.find('.modal-body'),        
+        content = appModal.find('.modal-content');
+
+    title.html('Upload failed');
+    body.empty();
+    
+    body.append('<p class="text-center">' + message + "</p>");
+
+    $('#btnSubmit').removeClass('disabled').html('Upload');
+
+    var footer = $('<div></div>').addClass('modal-footer');
+    var btnOk = $('<button></button>')
+                .addClass('btn btn-primary pull-right')
+                .attr({
+                    'id': 'btnUploadExit',
+                    'data-status': 'failed'
+                })
+                .html('Close');
+    footer.append(btnOk);
+    content.append(footer);
 }

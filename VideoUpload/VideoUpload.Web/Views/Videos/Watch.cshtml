@@ -5,72 +5,52 @@
     ViewBag.Title = "Your Porsche";
 }
 
-<div class="row">
-    <div class="col-md-8">
-        <article>
+<div class="col-md-8">
 
-            <h3>Your Porsche </h3>
+    <article>
 
-            <div class="row">
-                <div class="col-md-6 col-sm-6">
-                    <span class="glyphicon glyphicon-upload"></span> uploaded by: @Model.UploadedBy
-                </div>
-                <div class="text-right col-md-6 col-sm-6">
-                    <span class="glyphicon glyphicon-time"></span> @Model.DateUploaded.ToClientTime()
-                </div>
+        <h3>Your Porsche</h3>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <span class="glyphicon glyphicon-upload"></span> uploaded by: @Model.UploadedBy
             </div>
-
-            <hr />
-
-            <div class="embed-responsive embed-responsive-16by9">
-                <video id="vPlayer" class="embed-responsive-item" controls>
-                    <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.FirstOrDefault().FileName })" type="@ViewBag.MIMEType" />
-                    Your browser does not support playing this video. Please upgrade your browser.
-                </video>
+            <div class="text-right col-md-6 col-sm-6 col-xs-6">
+                <span class="glyphicon glyphicon-time"></span> @Model.DateUploaded.ToClientTime()
             </div>
-
-            <br />
-
-            <p class="lead text-center">@Model.Description</p>            
-
-        </article>
-    </div>
-    
-    <div class="col-md-4">
-        
-        <div class="well text-center">
-            <p class="lead">Like us on Facebook and follow us on Instagram</p>
-
-            <p>
-                <a href="https://www.facebook.com/PorscheCentreDoha/" class="btn btn-primary btn-lg social-buttons">
-                    <i class="fa fa-facebook-square fa-lg"></i> Facebook
-                </a>
-                <a href="https://www.instagram.com/porschecentredoha/" class="btn btn-primary btn-lg social-buttons">
-                    <i class="fa fa-instagram fa-lg"></i> Instagram
-                </a>
-            </p>
         </div>
+
+        <hr />
+
+        <div class="embed-responsive embed-responsive-16by9">
+            <video id="vPlayer" class="embed-responsive-item" controls>
+                <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.FirstOrDefault().FileName })" type="@ViewBag.MIMEType" />
+                Your browser does not support playing this video. Please upgrade your browser.
+            </video>
+        </div>
+
+        <br />
+
+        <p class="lead text-center">@Model.Description</p>            
+
+    </article>
+</div>
+    
+<div class="col-md-4">
+        
+    <div class="well text-center">
+        <p class="lead">Like us on Facebook and follow us on Instagram</p>
+
+        <p>
+            <a href="https://www.facebook.com/PorscheCentreDoha/" class="btn btn-primary btn-lg social-buttons">
+                <i class="fa fa-facebook-square fa-lg"></i> Facebook
+            </a>
+            <a href="https://www.instagram.com/porschecentredoha/" class="btn btn-primary btn-lg social-buttons">
+                <i class="fa fa-instagram fa-lg"></i> Instagram
+            </a>
+        </p>
     </div>
 </div>
-
-@*<h2 class="text-danger">Your Porsche</h2>
-<div class="panel panel-danger">
-    <div class="panel-heading">
-        <b>Plate number:</b> @Html.DisplayFor(model => model.PlateNumber)        
-    </div>
-    <div class="panel-body">
-        <p><b>@Html.DisplayNameFor(model => model.Description)</b> <text>:</text> <br /> @Html.DisplayFor(model => model.Description)</p>
-
-    </div>
-    <div class="embed-responsive embed-responsive-16by9">
-        <video id="vPlayer" class="embed-responsive-item" preload="metadata" autoplay controls poster="@Url.Content("~/Content/Images/porsche-logo.png")">
-            <source src="@Url.Action("VideoResult", new { fileName = ViewBag.FileName })" type="@ViewBag.MIMEType" />
-            Your browser does not support playing this video. Please upgrade your browser.
-        </video>  
-    </div>
-    <div class="panel-footer"></div>
-</div>*@
-
 
 <div id="postUrl" class="hidden" data-url="@Url.Action("VideoHasPlayed")" data-id="@Model.PostID" 
      data-uploader="@Model.UploadedBy" data-hasplayed="@Model.HasPlayedVideo" data-datePlayedVideo="@Model.DatePlayedVideo"></div>

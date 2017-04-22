@@ -14,20 +14,27 @@ namespace VideoUpload.EF.Repositories
         public PostRepository(AppDbContext context) : base(context)
         {
         }
-
-        public List<Post> GetByUserID(string userID)
+      
+        Task<List<Post>> IPostRepository.GetByUserIDAsync(string userID)
         {
-            return Set.Where(x => x.UserID == userID).ToList();
+            return Set.Where(x => x.UserID == userID).ToListAsync();
         }
 
-        public List<Post> GetPostByApproved(int take)
+        public Task<Post> GetByUserIDAndPostIDAsync(string userID, int postID)
         {
-            return Set.Where(x => x.HasApproval && x.IsApproved).OrderByDescending(x => x.DateApproved).Take(take).ToList();
+            return Set.FirstOrDefaultAsync(x => x.UserID == userID && x.PostID == postID);
+        }     
+
+        public Task<List<Post>> GetPostByApprovedAsync(int take)
+        {
+            return Set.Where(x => x.HasApproval && x.IsApproved).OrderByDescending(x => x.DateApproved).Take(take).ToListAsync();
         }
 
-        public List<Post> GetPostByVideoPlayed(int take)
+        public Task<List<Post>> GetPostByVideoPlayedAsync(int take)
         {
-            return Set.Where(x => x.HasPlayedVideo).OrderByDescending(x => x.DatePlayedVideo).Take(take).ToList();
+            return Set.Where(x => x.HasPlayedVideo).OrderByDescending(x => x.DatePlayedVideo).Take(take).ToListAsync();
         }
+
+        
     }
 }

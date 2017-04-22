@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using VideoUpload.Core;
 using VideoUpload.Core.Entities;
@@ -24,7 +25,8 @@ namespace VideoUpload.Web.Models
         public PostViewModel(IUnitOfWork uow, string userID, int? pageNumber, int pageSize)
         {
             _uow = uow;
-            PagedListPosts = _uow.Posts.GetByUserID(userID).ToPagedList(pageNumber ?? 1, pageSize);
+            var pagedlistPost = _uow.Posts.GetByUserIDAsync(userID).Result;
+            PagedListPosts = pagedlistPost.ToPagedList(pageNumber ?? 1, pageSize);
         }
 
         public int PostID { get; set; }    

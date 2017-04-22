@@ -3,57 +3,65 @@
 @{
     ViewBag.Title = "Edit user profile";
 }
+<div class="col-md-8">
+    <h1>Edit @Model.FirstName <text>&acute;s profile</text></h1>
+    @using (Html.BeginForm("edit", "users", FormMethod.Post, new { @class = "form-defaults" }))
+    {
+        @Html.HiddenFor(x => x.UserID)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(x => x.UserName)
+            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control input-sm", @readonly = "readonly" })
+            @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.FirstName)
+            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control input-sm", autofocus = "autofocus" })
+            @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.LastName)
+            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control input-sm" })
+            @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.JobTitle)
+            @Html.TextBoxFor(x => x.JobTitle, new { @class = "form-control input-sm" })
+            @Html.ValidationMessageFor(x => x.JobTitle, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.EmployeeNo)
+            @Html.TextBoxFor(x => x.EmployeeNo, new { @class = "form-control input-sm" })
+            @Html.ValidationMessageFor(x => x.EmployeeNo, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Email)
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control input-sm" })
+            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.EmailPass)
+            @Html.TextBoxFor(x => x.EmailPass, new { @class = "form-control input-sm" })
+            @Html.ValidationMessageFor(x => x.EmailPass, "", new { @class = "text-danger" })
+        </div>
 
-<h2>Edit @Model.FirstName <text>&acute;s profile</text></h2>
+        <div class="checkbox">
+            <label>
+                @Html.CheckBoxFor(x => x.IsActive) Active
+            </label>
+        </div>
 
-@using (Html.BeginForm("edit", "users", FormMethod.Post, new { @class = "form-defaults" }))
-{
-    @Html.HiddenFor(x => x.UserID)
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(x => x.UserName)
-        @Html.TextBoxFor(x => x.UserName, new { @class = "form-control input-sm", @readonly = "readonly" })
-        @Html.ValidationMessageFor(x=>x.UserName, "", new { @class = "text-danger"})
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(x => x.FirstName)
-        @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control input-sm", autofocus = "autofocus" })
-        @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(x => x.LastName)
-        @Html.TextBoxFor(x => x.LastName, new { @class = "form-control input-sm" })
-        @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(x => x.JobTitle)
-        @Html.TextBoxFor(x => x.JobTitle, new { @class = "form-control input-sm" })
-        @Html.ValidationMessageFor(x => x.JobTitle, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(x => x.EmployeeNo)
-        @Html.TextBoxFor(x => x.EmployeeNo, new { @class = "form-control input-sm" })
-        @Html.ValidationMessageFor(x => x.EmployeeNo, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(x => x.Email)
-        @Html.TextBoxFor(x => x.Email, new { @class = "form-control input-sm" })
-        @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(x => x.EmailPass)
-        @Html.TextBoxFor(x => x.EmailPass, new { @class = "form-control input-sm" })
-        @Html.ValidationMessageFor(x => x.EmailPass, "", new { @class = "text-danger" })
-    </div>
-    
-    <div class="checkbox">
-        <label>
-            @Html.CheckBoxFor(x=>x.IsActive) Active
-        </label>
-    </div>
-    
-    <div class="form-group">
-        <button type="submit" class="btn btn-warning">Save</button>
-    </div>
-}
-
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <span class="glyphicon glyphicon-save"></span>Save
+            </button>
+        </div>
+    }
+    <ul class="pager">
+        <li class="previous">
+            <a href="@Url.Action("list")">
+                <span class="glyphicon glyphicon-arrow-left"></span> Back to user list
+            </a>
+        </li>
+    </ul>
+</div>

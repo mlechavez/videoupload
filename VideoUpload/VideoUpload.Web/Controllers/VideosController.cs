@@ -68,7 +68,7 @@ namespace VideoUpload.Web.Controllers
             });
             viewModel = viewModel.OrderByDescending(x => x.DateUploaded).ToList();
 
-            return View(viewModel.ToPagedList(page ?? 1, 1));
+            return View(viewModel.ToPagedList(page ?? 1, 3));
         }
         
         [Route("search")]
@@ -123,11 +123,13 @@ namespace VideoUpload.Web.Controllers
         [Route("upload")]
         [AccessActionFilter(Type = "Video", Value = "CanCreate")]
         public async Task<ActionResult> Upload(CreatePostViewModel viewModel)
-        {           
+        {
+            var success = false;
+
             if (ModelState.IsValid)
             {
                 var countOfAttachments = 0;
-
+                
                 var contentTypeArray = new string[] 
                 {
                     "video/mp4"
@@ -154,17 +156,18 @@ namespace VideoUpload.Web.Controllers
                     if (item != null)
                     {
                         if (!contentTypeArray.Contains(item.ContentType))
-                        {
-                            ModelState.AddModelError("", "video file must be an mp4");
+                        {                            
+                            ModelState.AddModelError("", "video file must be an mp4 format");
 
-                            return View(viewModel);
+                            return Json(new { success = success, message = "Video file must be an mp4 format" });
                         }
                         countOfAttachments++;                        
 
                         var ext = Path.GetExtension(item.FileName);
 
-                        var path = Server.MapPath("~/Uploads");
+                        var path = Server.MapPath("~/Uploads/Videos");
                         var thumbnailPath = Server.MapPath("~/Uploads/Thumbnails");
+                     
                         //create new entity for each attachment
                         var attachment = new PostAttachment();
 
@@ -187,32 +190,19 @@ namespace VideoUpload.Web.Controllers
                             stream.CopyTo(fileStream);
                         }
 
-                        //var settings = new ConvertSettings();
-                        //settings.SetVideoFrameSize(640, 480);
-                        //settings.AudioCodec = "aac";
-                        //settings.VideoCodec = "h264";
-                        //settings.VideoFrameRate = 30;                                        
-
-                        //var ffMpeg = new FFMpegConverter();                                                
-                        //ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;
-
-                        //try
-                        //{
-                        //    ffMpeg.ConvertMedia(fileUrlToConvert, null, path + "/" + attachment.FileName, Format.mp4, settings);
-                        //}
-                        //catch (Exception ex)
-                        //{
-                        //    return Content(ex.Message);
-                        //}
+                        //TODO: uncomment this in production 
+                        var ffMpeg = new FFMpegConverter();
+                        ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;                        
 
                         var file = new FileInfo(fileUrlToConvert);
 
                         if (file.Exists)
                         {
-                            //ffMpeg.GetVideoThumbnail(fileUrlToConvert, thumbnailPath + "/" + attachment.ThumbnailFileName);
+                            //TODO: uncomment this in production
+                            ffMpeg.GetVideoThumbnail(fileUrlToConvert, thumbnailPath + "/" + attachment.ThumbnailFileName);
+                            
                             //add the attachment to post entity
-                            post.Attachments.Add(attachment);
-                            //file.Delete();
+                            post.Attachments.Add(attachment);                           
                         }
                     }                
                 }
@@ -222,16 +212,16 @@ namespace VideoUpload.Web.Controllers
                     _uow.Posts.Add(post);
                     await _uow.SaveChangesAsync();
 
+                    //TOD: uncomment this in production
                     //ALERT THE SERVICE MANAGER
                     //await _mgr.CustomSendEmailAsync(User.Identity.GetUserId(), "Video upload", User.Identity.Name + " has uploaded a new video", );
+                    success = true;
 
-                    return Json(new { message = "Uploaded successfully" });
-                    //return RedirectToAction("index");
+                    return Json(new { success = success, message = "Uploaded successfully" });                   
                 }
                 ModelState.AddModelError("", "Attached has not been succesfully uploaded");                
             }
-            return Json(new { message = "Something went wrong. Please try again" });
-            //return View(viewModel);
+            return Json(new { success = success, message = "Something went wrong. Please try again" });         
         }
 
         [Route("{userName}/myposts")]
@@ -242,13 +232,16 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
 
-        [Route("{postID}/edit")]
+        [Route("{userName}/{postID}")]
         [AccessActionFilter(Type = "Video", Value = "CanUpdate")]
-        public async Task<ActionResult> Edit(int postID)
+        public async Task<ActionResult> Edit(string userName, int postID)
         {
             if (postID < 0) return View("_ResourceNotFound");
-                     
-            var post = await _uow.Posts.GetByIdAsync(postID);
+
+            //prevent typing directly the other's username 
+            if (userName != User.Identity.Name) return View("_ResourceNotFound");
+
+            var post = await _uow.Posts.GetByUserIDAndPostIDAsync(User.Identity.GetUserId(), postID);
 
             if (post == null) return View("_ResourceNotFound");            
             
@@ -264,7 +257,7 @@ namespace VideoUpload.Web.Controllers
         }
 
         [HttpPost]
-        [Route("{postID}/edit")]
+        [Route("{userName}/{postID}")]
         [AccessActionFilter(Type = "Video", Value = "CanUpdate")]
         public async Task<ActionResult> Edit(PostViewModel viewModel)
         {
@@ -286,8 +279,8 @@ namespace VideoUpload.Web.Controllers
         {            
             var post = await _uow.Posts.GetByIdAsync(postID);
 
-            ViewBag.ApprovedVideos = _uow.Posts.GetPostByApproved(5);
-            ViewBag.VideosPlayed = _uow.Posts.GetPostByVideoPlayed(5);            
+            ViewBag.ApprovedVideos = await _uow.Posts.GetPostByApprovedAsync(5);
+            ViewBag.VideosPlayed = await _uow.Posts.GetPostByVideoPlayedAsync(5);            
 
             if (post == null)
             {
@@ -421,6 +414,7 @@ namespace VideoUpload.Web.Controllers
                 Description = post.Description,
                 Attachments = attachments,
                 UploadedBy = post.User.UserName,
+                DateUploaded = post.DateUploaded,
                 HasPlayedVideo = post.HasPlayedVideo,
                 DatePlayedVideo = post.DatePlayedVideo
             };
@@ -479,7 +473,7 @@ namespace VideoUpload.Web.Controllers
                     post.DatePlayedVideo = DateTime.UtcNow;
                     _uow.Posts.Update(post);
                     await _uow.SaveChangesAsync();
-
+                    success = true;
                     //alert the SA 
                     //await _mgr.CustomSendEmailAsync(user.Id, "Your video has been viewed.", "Your video has been viewed. See the details: " + details, user.Email, user.EmailPass);
                     //await _mgr.OoredooSendSmsAsync("97470064955", $"Your video with plate number {post.PlateNumber} has been played. You can now contact the customer");

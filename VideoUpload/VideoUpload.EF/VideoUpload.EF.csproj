@@ -69,21 +69,9 @@
     <Compile Include="Configurations\PostConfigurations.cs" />
     <Compile Include="Configurations\UserClaimConfiguration.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
-    <Compile Include="Migrations\201704160957065_InitialCreate.cs" />
-    <Compile Include="Migrations\201704160957065_InitialCreate.Designer.cs">
-      <DependentUpon>201704160957065_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704161306012_restructure3.cs" />
-    <Compile Include="Migrations\201704161306012_restructure3.Designer.cs">
-      <DependentUpon>201704161306012_restructure3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704161455581_restructure4.cs" />
-    <Compile Include="Migrations\201704161455581_restructure4.Designer.cs">
-      <DependentUpon>201704161455581_restructure4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704180640476_structure5.cs" />
-    <Compile Include="Migrations\201704180640476_structure5.Designer.cs">
-      <DependentUpon>201704180640476_structure5.cs</DependentUpon>
+    <Compile Include="Migrations\201704211230252_InitialCreate.cs" />
+    <Compile Include="Migrations\201704211230252_InitialCreate.Designer.cs">
+      <DependentUpon>201704211230252_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,17 +100,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704160957065_InitialCreate.resx">
-      <DependentUpon>201704160957065_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704161306012_restructure3.resx">
-      <DependentUpon>201704161306012_restructure3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704161455581_restructure4.resx">
-      <DependentUpon>201704161455581_restructure4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704180640476_structure5.resx">
-      <DependentUpon>201704180640476_structure5.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704211230252_InitialCreate.resx">
+      <DependentUpon>201704211230252_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

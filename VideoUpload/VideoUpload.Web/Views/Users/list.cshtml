@@ -6,42 +6,43 @@
 @{
     ViewBag.Title = "User list";
 }
-
-<div class="col-xs-12">
-    <p class="pull-right">
-        <a href="@Url.Action("new")" class="btn btn-success btn-xs">Add new user</a>
+<div class="col-md-12">
+    <h2>Manage your users</h2>
+    
+    <p>
+        <a href="@Url.Action("new")" class="btn btn-success">Add new user</a>
     </p>
+    
+    <div class="table-responsive">
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>Actions</th>
+                    <th>Username</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+            {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("edit", new { userName = user.UserName })" class="btn btn-primary btn-xs">
+                                Edit &nbsp; <i class="fa fa-pencil"></i>
+                            </a>
+                            <a href="@Url.Action("manage-claims", new { userID = user.UserID, userName = user.UserName })" class="btn btn-primary btn-xs">
+                                Manage Activities &nbsp; <i class="fa fa-pencil-square"></i>
+                            </a>
+                        </td>
+                        <td>@user.UserName</td>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
-
-<h2>Manage your users</h2>
-
-<table class="table table-condensed table-hover">
-    <thead>
-        <tr>
-            <th>Actions</th>
-            <th>Username</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>
-                    <a href="@Url.Action("edit", new { userName = user.UserName })" class="btn btn-primary btn-xs">
-                        Edit &nbsp; <i class="fa fa-pencil"></i>
-                    </a>
-                    <a href="@Url.Action("manage-claims", new { userID = user.UserID, userName = user.UserName })" class="btn btn-primary btn-xs">
-                        Manage Activities &nbsp; <i class="fa fa-pencil-square"></i>
-                    </a>
-                </td>
-                <td>@user.UserName</td>
-                <td>@user.FirstName</td>
-                <td>@user.LastName</td>
-                <td>@user.Email</td>
-            </tr>
-        }
-    </tbody>
-</table>
