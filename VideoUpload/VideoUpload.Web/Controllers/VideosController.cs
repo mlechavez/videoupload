@@ -180,8 +180,7 @@ namespace VideoUpload.Web.Controllers
                         attachment.AttachmentNo = $"Attachment {countOfAttachments.ToString()}";
                         attachment.ThumbnailFileName = attachment.PostAttachmentID + ".jpeg";
                         attachment.ThumbnailUrl = thumbnailPath + attachment.ThumbnailFileName;
-
-                        //var fileUrlToConvert = Path.Combine(path, Path.GetFileName(item.FileName));
+                      
                         var fileUrlToConvert = Path.Combine(path, attachment.FileName);                        
 
                         using (var fileStream = System.IO.File.Create(fileUrlToConvert))
@@ -191,15 +190,15 @@ namespace VideoUpload.Web.Controllers
                         }
 
                         //TODO: uncomment this in production 
-                        var ffMpeg = new FFMpegConverter();
-                        ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;                        
+                        //var ffMpeg = new FFMpegConverter();
+                        //ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;                        
 
                         var file = new FileInfo(fileUrlToConvert);
 
                         if (file.Exists)
                         {
                             //TODO: uncomment this in production
-                            ffMpeg.GetVideoThumbnail(fileUrlToConvert, thumbnailPath + "/" + attachment.ThumbnailFileName);
+                            //ffMpeg.GetVideoThumbnail(fileUrlToConvert, thumbnailPath + "/" + attachment.ThumbnailFileName);
                             
                             //add the attachment to post entity
                             post.Attachments.Add(attachment);                           

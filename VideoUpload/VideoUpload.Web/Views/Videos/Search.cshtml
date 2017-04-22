@@ -14,10 +14,12 @@
             foreach (var item in Model)
             {
                 <div class="col-md-3 col-sm-3">
-                    <img class="img-responsive img-thumbnail search-photos"
+                    <!--TODO: uncomment in production-->
+                    @*<img class="img-responsive img-thumbnail search-photos"
                          src="~/Uploads/Thumbnails/@item.Attachments.First().ThumbnailFileName"
                          alt="Car number @item.PlateNumber"
-                         width="300" height="350" />
+                         width="300" height="350" />*@
+                    <img class="img-thumbnail img-responsive photo" src="http://placehold.it/300x350" />
                 </div>
 
                 <div class="col-md-9 col-sm-9">

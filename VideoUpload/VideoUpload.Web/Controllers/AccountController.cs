@@ -119,11 +119,11 @@ namespace VideoUpload.Web.Controllers
 
         private string GetReturnUrl(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
+            if (string.IsNullOrEmpty(returnUrl) && !Url.IsLocalUrl(returnUrl))
             {
-                return returnUrl;
+                return Url.Action("index","videos");
             }
-            return Url.RouteUrl(returnUrl);
+            return returnUrl;
         }
 
         private void AddErrors(IdentityResult result)
