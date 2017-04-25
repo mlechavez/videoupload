@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
+using VideoUpload.Core.Entities;
 
 namespace VideoUpload.Web.Common
 {
@@ -34,6 +36,17 @@ namespace VideoUpload.Web.Common
             var cleanActionName = actionName.ToLower().Replace("-", " ");
             cleanActionName = Regex.Replace(cleanActionName, @"[^a-zA-Z0-9\/+ -]", "");
             return cleanActionName;
+        }
+
+        public static MvcHtmlString PostActionLink(this HtmlHelper htmlHelper, Post post)
+        {
+            return htmlHelper.ActionLink(post.PlateNumber, "post", "videos",
+                new {                    
+                    year = post.DateUploaded.Year,
+                    month = post.DateUploaded.Month,
+                    postID = post.PostID,
+                    plateNo = post.PlateNumber },
+                new { title = post.PlateNumber });
         }
     }
 }

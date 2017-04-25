@@ -1,0 +1,12 @@
+﻿@using PagedList
+@using PagedList.Mvc
+
+@model IPagedList<VideoUpload.Core.Entities.Post>
+
+@foreach (var item in Model)
+{
+    @Html.Partial("_Post", item)
+}
+
+@Html.PagedListPager(Model, page => Url.Action("posts", new { page, v = Request.QueryString["v"] }), PagedListRenderOptions.TwitterBootstrapPagerAligned)
+

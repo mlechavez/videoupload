@@ -1,117 +1,61 @@
 ﻿using Microsoft.AspNet.Identity;
-using NReco.VideoConverter;
-using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using VideoUpload.Core;
 using VideoUpload.Core.Entities;
-using VideoUpload.EF;
 using VideoUpload.Web.Common;
 using VideoUpload.Web.Models;
 using VideoUpload.Web.Models.Identity;
+using VideoUpload.Web.Models.Videos;
 
 namespace VideoUpload.Web.Controllers
-{
-    [RoutePrefix("videos")]
+{    
+    
     public class VideosController : AppController
     {
-        private readonly UnitOfWork _uow;
+        
+        private readonly IUnitOfWork _uow;
         private readonly UserManager _mgr;
 
-        public VideosController(UnitOfWork unitOfWork, UserManager mgr)
+        public VideosController(IUnitOfWork unitOfWork, UserManager mgr)
         {
             _uow = unitOfWork;
             _mgr = mgr;
         }
                 
+        
         [AccessActionFilter(Type= "Video", Value ="CanRead")]
-        public async Task<ActionResult> Index(int? page)
+        public ActionResult Posts(int page = 1)
         {
-            //var viewModel = new PostViewModel(_uow);
-            //viewModel.Posts.ToPagedList(page ?? 1, 1);   
-                     
-            var posts = await _uow.Posts.GetAllAsync();
+            var viewModel = new VideoViewModel(_uow, page, 2);
 
-            ViewBag.ApprovedVideos = posts.Where(post => post.HasApproval && post.IsApproved).OrderBy(d => d.DateApproved).Take(5).ToList();
-            ViewBag.VideosPlayed = posts.Where(post => post.HasPlayedVideo).OrderBy(d => d.DatePlayedVideo).Take(5).ToList().ToList();
+            ViewBag.Header = $"Latest Posts";            
 
-            var viewModel = new List<PostViewModel>();
-
-            posts.ForEach(x =>
-            {
-                var attachments = x.Attachments.OrderBy(y => y.AttachmentNo).ToList();
-
-                var attachment = attachments.FirstOrDefault();
-
-                if (attachment == null)
-                {
-                    attachments = null;
-                }
-
-                viewModel.Add(new PostViewModel
-                {
-                    PostID = x.PostID,
-                    PlateNumber = x.PlateNumber,
-                    Description = x.Description,
-                    UploadedBy = x.User.UserName,
-                    Attachments = attachments,
-                    DateUploaded = x.DateUploaded,
-                    EditedBy = x.EditedBy,
-                    DateEdited = x.DateEdited,
-                    HasApproval = x.HasApproval,
-                    IsApproved = x.IsApproved,
-                    BranchName = x.Branch.BranchName                  
-                });
-            });
-            viewModel = viewModel.OrderByDescending(x => x.DateUploaded).ToList();
-
-            return View(viewModel.ToPagedList(page ?? 1, 3));
+            return View("List", viewModel);
         }
         
-        [Route("search")]
-        public async Task<ActionResult> Search(string q)
+        
+        public ActionResult Search(string v)
         {
-            var posts = await _uow.Posts.GetAllAsync();
+            var viewModel = new VideoViewModel(_uow, 1, 2, v);
 
-            if (!string.IsNullOrWhiteSpace(q))
-            {
-                posts = posts.Where(query => query.PlateNumber.Contains(q) || query.Description.Contains(q)).ToList();
-            }
-            var viewModel = new List<PostViewModel>();
+            ViewBag.Header = $"Latest post found for \"{v}\"";
 
-            posts.ForEach(x => 
-            {
-                var attachments = x.Attachments.OrderBy(y => y.AttachmentNo).ToList();
-
-                var attachment = attachments.FirstOrDefault();
-
-                if (attachment == null)
-                {
-                    attachments = null;
-                }
-
-                viewModel.Add(new PostViewModel
-                {
-                    PostID = x.PostID,
-                    PlateNumber = x.PlateNumber,
-                    Description = x.Description,
-                    UploadedBy = x.User.UserName,
-                    Attachments = attachments,
-                    DateUploaded = x.DateUploaded,
-                    EditedBy = x.EditedBy,
-                    DateEdited = x.DateEdited,
-                    HasApproval = x.HasApproval,
-                    IsApproved = x.IsApproved
-                });
-            });
-
-            return View(viewModel);
+            return View("List", viewModel);
         }
 
-        [Route("upload")]
+        [ChildActionOnly]
+        public PartialViewResult Sidebars()
+        {
+            var viewModel = new WidgetViewModel(_uow);
+
+            return PartialView("_Sidebars", viewModel);
+        }
+
         [AccessActionFilter(Type = "Video", Value = "CanCreate")]
         public ActionResult Upload()
         {
@@ -119,8 +63,7 @@ namespace VideoUpload.Web.Controllers
             return View(post);            
         }
 
-        [HttpPost]
-        [Route("upload")]
+        [HttpPost]        
         [AccessActionFilter(Type = "Video", Value = "CanCreate")]
         public async Task<ActionResult> Upload(CreatePostViewModel viewModel)
         {
@@ -223,44 +166,41 @@ namespace VideoUpload.Web.Controllers
             return Json(new { success = success, message = "Something went wrong. Please try again" });         
         }
 
-        [Route("{userName}/myposts")]
-        public ActionResult MyPosts(int? page)
+        [Route("{userName}/posts")]
+        public ActionResult MyPosts(int page = 1)
         {
-            var viewModel = new PostViewModel(_uow, User.Identity.GetUserId(), page, 15);
+            var viewModel = new VideoViewModel(_uow, User.Identity.GetUserId(), page, 15);
+
+            ViewBag.Header = "List of your videos";
             
             return View(viewModel);
         }
 
-        [Route("{userName}/{postID}")]
+        [Route("{userName}/posts/{postID:int}")]
         [AccessActionFilter(Type = "Video", Value = "CanUpdate")]
-        public async Task<ActionResult> Edit(string userName, int postID)
+
+        public ActionResult Edit(string userName, int postID)
         {
             if (postID < 0) return View("_ResourceNotFound");
 
             //prevent typing directly the other's username 
             if (userName != User.Identity.Name) return View("_ResourceNotFound");
 
-            var post = await _uow.Posts.GetByUserIDAndPostIDAsync(User.Identity.GetUserId(), postID);
+            var viewModel = new VideoViewModel(_uow, User.Identity.GetUserId(), postID);
 
-            if (post == null) return View("_ResourceNotFound");            
-            
-            var viewModel = new PostViewModel
-            {
-                PostID = post.PostID,
-                PlateNumber = post.PlateNumber,
-                Description = post.Description,
-                UploadedBy = post.User.UserName
-            };
-                        
-            return View(viewModel);
+            if (viewModel.Post == null) return View("_ResourceNotFound");
+
+            ViewBag.Header = $"Edit post for plate number: { viewModel.Post.PlateNumber }";  
+                                                
+            return View(viewModel.Post);
         }
 
         [HttpPost]
-        [Route("{userName}/{postID}")]
+        [Route("{userName}/posts/{postID:int}")]
         [AccessActionFilter(Type = "Video", Value = "CanUpdate")]
-        public async Task<ActionResult> Edit(PostViewModel viewModel)
+        public async Task<ActionResult> Edit(Post viewModel)
         {
-            if (ModelState.IsValid)
+            if (!string.IsNullOrWhiteSpace(viewModel.PlateNumber) || !string.IsNullOrWhiteSpace(viewModel.Description))
             {
                 var post = await _uow.Posts.GetByIdAsync(viewModel.PostID);
 
@@ -268,51 +208,29 @@ namespace VideoUpload.Web.Controllers
                 post.Description = viewModel.Description;
                 
                 await _uow.SaveChangesAsync();
-                return RedirectToAction("index");
+                return RedirectToAction("myposts");
             }
+            ModelState.AddModelError("", "All fiedls are required");
             return View(viewModel);
         }
-
-        [Route("{postID}/{plateNumber}/{fileName}/details")]
-        public async Task<ActionResult> Details(int postID, string plateNumber, string fileName)
+        
+        [Route("archive/{year}/{month}/{postID}/{plateNo}")]
+        public async Task<ActionResult> Post(int year, int month, int postID, string plateNo)
         {            
             var post = await _uow.Posts.GetByIdAsync(postID);
-
-            ViewBag.ApprovedVideos = await _uow.Posts.GetPostByApprovedAsync(5);
-            ViewBag.VideosPlayed = await _uow.Posts.GetPostByVideoPlayedAsync(5);            
-
+                  
             if (post == null)
             {
                 return View("_ResourceNotFound");
             }
-            
-            var attachment = post.Attachments.FirstOrDefault(x => x.FileName == fileName);
-            
-            ViewBag.FileName = attachment.FileName;
-            ViewBag.MIMEType = attachment.MIMEType;
-            ViewBag.AttachmentNo = attachment.AttachmentNo;
+            ViewBag.Header = "Your Porsche";
 
-            //for some reason i need to orderby the attachment
-            var attachments = post.Attachments.OrderBy(x => x.AttachmentNo).ToList();
-
-            var viewModel = new PostViewModel
-            {
-                PostID = post.PostID,
-                PlateNumber = post.PlateNumber,
-                Description = post.Description,
-                UploadedBy = post.User.UserName,
-                Attachments = attachments,
-                HasApproval = post.HasApproval,
-                IsApproved = post.IsApproved                                
-            };            
-            return View(viewModel);
+            return View(post);
         }
 
         [AllowAnonymous]
         public ActionResult VideoResult(string fileName)
-        {
-            var file = _uow.Attachments.GetByFileName(fileName);
-
+        {           
             return new CustomResult(fileName);
             //return File(file.FileUrl, file.MIMEType, file.FileName);
         }

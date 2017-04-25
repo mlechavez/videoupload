@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -10,7 +7,7 @@ using VideoUpload.Web.Models.Identity;
 
 namespace VideoUpload.Web.Controllers
 {
-    [AllowAnonymous]
+    [AllowAnonymous]    
     public class AccountController : Controller
     {
         private readonly UserManager _mgr;
@@ -19,6 +16,7 @@ namespace VideoUpload.Web.Controllers
         {
             _mgr = mgr;
         }
+        
         public ActionResult Signin(string ReturnUrl)
         {
             var viewModel = new LoginViewModel { ReturnUrl = ReturnUrl };
@@ -61,7 +59,7 @@ namespace VideoUpload.Web.Controllers
             var authMgr = ctx.Authentication;
             authMgr.SignOut("Cookie");
 
-            return RedirectToAction("index", "videos");
+            return RedirectToAction("posts", "videos");
         }                
 
         public ActionResult PasswordReset()
@@ -110,7 +108,7 @@ namespace VideoUpload.Web.Controllers
                 var result = await _mgr.ResetPasswordAsync(viewModel.Id, viewModel.Key, viewModel.NewPassword);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("index","videos");
+                    return RedirectToAction("posts","videos");
                 }
                 AddErrors(result);
             }            
@@ -121,7 +119,7 @@ namespace VideoUpload.Web.Controllers
         {
             if (string.IsNullOrEmpty(returnUrl) && !Url.IsLocalUrl(returnUrl))
             {
-                return Url.Action("index","videos");
+                return Url.Action("posts","videos");
             }
             return returnUrl;
         }

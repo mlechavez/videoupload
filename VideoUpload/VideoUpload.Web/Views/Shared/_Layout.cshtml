@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>PCD - After Sales | @ViewBag.Title</title>
     <link rel="icon" href="~/Content/Images/favicon.ico" />
 
@@ -18,10 +19,9 @@
         <div class="row">
 
             @RenderBody()
-            @RenderSection("SideBar", required: false)
+            @RenderSection("Sidebar", required: false)
 
         </div>
-
     </div>
 
     <footer>
@@ -33,7 +33,9 @@
 
     @Scripts.Render("~/bundles/scripts")
     @RenderSection("Script", required: false)
+    <script>
 
+    </script>
 </body>
 
 </html>

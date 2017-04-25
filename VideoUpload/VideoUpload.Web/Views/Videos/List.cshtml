@@ -1,0 +1,36 @@
+﻿@model VideoUpload.Web.Models.Videos.VideoViewModel
+
+@{
+    ViewBag.Title = "List of videos";
+}
+
+<div class="col-md-8 col-sm-8">
+
+    <h1>@ViewBag.Header</h1>
+
+    @if (Model.Posts.Count >  0)
+    {
+        @Html.Partial("_PostList", Model.Posts)
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <h4 class="text-center">No post to be displayed.</h4>
+        </div>
+    }
+</div>
+
+@section Sidebar
+{
+    <div class="col-md-4 col-sm-4">
+        @Html.Action("Sidebars")
+    </div>    
+}
+
+@section Script 
+{
+    <script src="~/scripts/videos/timeZoneCooke.js"></script>
+}
+
+
+

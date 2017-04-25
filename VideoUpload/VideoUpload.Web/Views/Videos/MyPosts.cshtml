@@ -1,16 +1,15 @@
-﻿@using VideoUpload.Web.Common
-@using PagedList.Mvc;
+﻿@using PagedList.Mvc
 
-@model VideoUpload.Web.Models.PostViewModel
+@model VideoUpload.Web.Models.Videos.VideoViewModel
 
 @{
     ViewBag.Title = "List of my videos";    
 }
 
-<div class="col-md-8 col-sm-8">
-    <h1>List of your videos</h1>
+<div class="col-md-12 col-sm-12">
+    <h1>@ViewBag.Header</h1>
 
-    @if (Model.PagedListPosts.Count != 0)
+    @if (Model.Posts.Count > 0)
     {      
         <div class="table-responsive">
             <table class="table table-condensed table-hover">
@@ -20,7 +19,7 @@
                     <th>Date Uploaded</th>                    
                     <th></th>
                 </tr>
-                @foreach (var item in Model.PagedListPosts)
+                @foreach (var item in Model.Posts)
                 {
                     <tr>
                         <td>@item.PlateNumber</td>
@@ -66,12 +65,11 @@
             </table>
 
             <div class="text-center">
-                @Html.PagedListPager(Model.PagedListPosts, page => Url.Action("myposts", new { page }),
+                @Html.PagedListPager(Model.Posts, page => Url.Action("myposts", new { page }),
                  new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
             </div>
         </div>
     }
-
 </div>
 
 @section Script {

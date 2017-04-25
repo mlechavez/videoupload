@@ -13,28 +13,41 @@ namespace VideoUpload.EF.Repositories
     {
         public PostRepository(AppDbContext context) : base(context)
         {
-        }
-      
-        Task<List<Post>> IPostRepository.GetByUserIDAsync(string userID)
-        {
-            return Set.Where(x => x.UserID == userID).ToListAsync();
-        }
+        }             
 
-        public Task<Post> GetByUserIDAndPostIDAsync(string userID, int postID)
+        public IList<Post> GetAllForSearch(string v)
         {
-            return Set.FirstOrDefaultAsync(x => x.UserID == userID && x.PostID == postID);
-        }     
-
-        public Task<List<Post>> GetPostByApprovedAsync(int take)
-        {
-            return Set.Where(x => x.HasApproval && x.IsApproved).OrderByDescending(x => x.DateApproved).Take(take).ToListAsync();
+            return Set.Where(x => x.PlateNumber.Contains(v))
+                      .OrderByDescending(x => x.DateUploaded)
+                      .ToList();
         }
 
-        public Task<List<Post>> GetPostByVideoPlayedAsync(int take)
+        public IList<Post> GetAllApprovedVideos(int pageSize)
         {
-            return Set.Where(x => x.HasPlayedVideo).OrderByDescending(x => x.DatePlayedVideo).Take(take).ToListAsync();
+            return Set.Where(x => x.IsApproved)
+                      .OrderByDescending(x => x.DateUploaded)
+                      .Take(pageSize)
+                      .ToList();
         }
 
-        
+        public IList<Post> GetAllPlayedVideos(int pageSize)
+        {
+            return Set.Where(x => x.IsApproved && x.HasPlayedVideo)
+                      .OrderByDescending(x => x.DatePlayedVideo)
+                      .Take(pageSize)
+                      .ToList();
+        }
+
+        public IList<Post> GetAllByUserID(string userID)
+        {
+            return Set.Where(x => x.User.UserID == userID)
+                      .OrderByDescending(x => x.DateUploaded)
+                      .ToList();
+        }
+
+        public Post GetByUserIDAndPostID(string userID, int postID)
+        {
+            return Set.FirstOrDefault(x => x.UserID == userID && x.PostID == postID);
+        }
     }
 }

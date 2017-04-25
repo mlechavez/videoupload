@@ -67,7 +67,7 @@ $('#appModal .modal-content').on('click', '#btnUploadExit', function () {
         status = self.data('status');
 
     if (status === "success") {
-        var redirectUrl = location.href.replace("upload", "index");
+        var redirectUrl = location.href.replace("upload", "posts");
         location.href = redirectUrl;
     } else {
         $('#appModal').modal('hide');

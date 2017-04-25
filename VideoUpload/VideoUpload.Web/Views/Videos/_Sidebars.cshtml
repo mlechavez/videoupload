@@ -1,0 +1,16 @@
+﻿@model VideoUpload.Web.Models.Videos.WidgetViewModel
+
+<div class="well text-center">
+    <p class="lead">Start uploading your videos and show it to our valuable customers</p>
+    @Html.ActionLink("Upload a video", "upload", null, new { @class = "btn btn-success btn-lg" })
+</div>
+
+@if (Model.ApprovedVideos.Count > 0)
+{
+    @Html.Partial("_ApprovedVideos", Model.ApprovedVideos)
+}
+
+@if (Model.PlayedVideos.Count > 0)
+{
+    @Html.Partial("_PlayedVideos", Model.PlayedVideos)
+}

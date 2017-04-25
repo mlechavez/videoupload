@@ -308,6 +308,8 @@
     <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Models\UserViewModels\UserActivityViewModel.cs" />
     <Compile Include="Models\UserViewModels\UserViewModel.cs" />
+    <Compile Include="Models\Videos\VideoViewModel.cs" />
+    <Compile Include="Models\Videos\WidgetViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\OoredooSOAP\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -325,9 +327,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Videos\Upload.cshtml" />
-    <Content Include="Views\Videos\Index.cshtml" />
+    <Content Include="Views\Videos\List.cshtml" />
     <Content Include="Views\Videos\Edit.cshtml" />
-    <Content Include="Views\Videos\Details.cshtml" />
+    <Content Include="Views\Videos\Post.cshtml" />
     <Content Include="Views\Videos\Watch.cshtml" />
     <Content Include="Views\Videos\Send.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -394,9 +396,13 @@
     <Content Include="Views\HealthCheck\EditorTemplates\HcGroup.cshtml" />
     <Content Include="Views\HealthCheck\DisplayTemplates\HcGroup.cshtml" />
     <Content Include="Views\Shared\_MainHeader.cshtml" />
-    <Content Include="Views\Videos\_VideoSideBar.cshtml" />
-    <Content Include="Views\Videos\_DetailsSidebar.cshtml" />
     <Content Include="Views\Videos\MyPosts.cshtml" />
+    <Content Include="Views\Videos\_PostList.cshtml" />
+    <Content Include="Views\Videos\_Post.cshtml" />
+    <Content Include="Views\Videos\_Sidebars.cshtml" />
+    <Content Include="Views\Videos\_ApprovedVideos.cshtml" />
+    <Content Include="Views\Videos\_PlayedVideos.cshtml" />
+    <Content Include="Views\Videos\_PostActions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -24,9 +24,8 @@ namespace VideoUpload.Web.Models
         }
         public PostViewModel(IUnitOfWork uow, string userID, int? pageNumber, int pageSize)
         {
-            _uow = uow;
-            var pagedlistPost = _uow.Posts.GetByUserIDAsync(userID).Result;
-            PagedListPosts = pagedlistPost.ToPagedList(pageNumber ?? 1, pageSize);
+            
+            
         }
 
         public int PostID { get; set; }    

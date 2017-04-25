@@ -8,10 +8,11 @@ using VideoUpload.Core.Entities;
 namespace VideoUpload.Core.Repositories
 {
     public interface IPostRepository : IRepository<Post>
-    {
-        Task<List<Post>> GetPostByApprovedAsync(int take);
-        Task<List<Post>> GetPostByVideoPlayedAsync(int take);
-        Task<List<Post>> GetByUserIDAsync(string userID);
-        Task<Post> GetByUserIDAndPostIDAsync(string userID, int postID);
+    {        
+        IList<Post> GetAllByUserID(string userID);        
+        IList<Post> GetAllForSearch(string v);
+        IList<Post> GetAllApprovedVideos(int pageSize);
+        IList<Post> GetAllPlayedVideos(int pageSize);
+        Post GetByUserIDAndPostID(string userID, int postID);
     }
 }

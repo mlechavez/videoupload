@@ -1,0 +1,47 @@
+﻿@model VideoUpload.Core.Entities.Post
+@{
+    ViewBag.Title = "Details";
+}
+
+@Html.Partial("_Modal")
+
+<div class="col-md-8 col-sm-8">
+    <article>
+
+        <h3><small>Car plate no. </small> @Model.PlateNumber</h3>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <span class="glyphicon glyphicon-upload"></span> Uploaded by: @Model.User.UserName
+            </div>
+            <div class="text-right col-md-6 col-sm-6 col-xs-6">
+                <span class="glyphicon glyphicon-time"></span> @Model.DateUploaded.ToClientTime()
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="embed-responsive embed-responsive-16by9">
+            <video class="embed-responsive-item" controls>
+                <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />
+                Your browser does not support playing this video. Please upgrade your browser.
+            </video>
+        </div>
+
+        <br />
+
+        <p class="lead text-center">@Model.Description</p>        
+
+    </article>
+</div>
+
+@section SideBar {
+    <div class="col-md-4">
+        @Html.Partial("_PostActions", Model)
+        @Html.Action("Sidebars")
+    </div>
+}
+@section Script {
+    <script src="~/scripts/videos/timeZoneCooke.js"></script>
+    <script src="~/scripts/videos/details.js"></script>
+}
