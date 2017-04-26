@@ -31,7 +31,7 @@ namespace VideoUpload.Web.Controllers
         [AccessActionFilter(Type= "Video", Value ="CanRead")]
         public ActionResult Posts(int page = 1)
         {
-            var viewModel = new VideoViewModel(_uow, page, 1);
+            var viewModel = new VideoViewModel(_uow, page, 2);
 
             ViewBag.Header = $"Latest Posts";            
 
