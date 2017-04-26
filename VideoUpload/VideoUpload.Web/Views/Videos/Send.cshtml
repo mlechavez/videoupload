@@ -1,34 +1,43 @@
-﻿@model VideoUpload.Web.Models.PostViewModel
+﻿@model VideoUpload.Core.Entities.Post
 
 @{
     ViewBag.Title = "Send link";
 }
 
-<div class="col-md-8">
 
-    <h2>Send a link to customer via @ViewBag.SendingType</h2>
+@{
+    var sendingType = ViewBag.SendingType;
+    var url = Url.Action("watch", new {
+        year = Model.DateUploaded.Year,
+        month = Model.DateUploaded.Month,
+        postID = Model.PostID,
+        plateNo = Model.PlateNumber });
+}
+
+<div class="col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2">
+
+    <h2 class="text-center">@ViewBag.Header</h2>
 
     <div class="well text-center">
-        <p class="lead"><b>Plate Number:</b> @Model.PlateNumber</p>
+        <p class="lead">Plate number: @Model.PlateNumber</p>
         <p><b>Description:</b> @Model.Description</p>
     </div>
 
     @using (Html.BeginForm("send", "videos", FormMethod.Post))
-    {
-        <input type="hidden" name="p" value="@Model.PostID" />
-        <input type="hidden" name="v" value="@ViewBag.FileName" />
-        <input type="hidden" name="c" value="@Model.PlateNumber" />
-        <input type="hidden" name="sendingType" value="@ViewBag.SendingType" />
+            {
+        @Html.HiddenFor(x => x.PostID)
+        <input type="hidden" name="sendingType" value="@sendingType" />
+            <input type="hidden" name="url" value="@url" />
         if (ViewBag.SendingType == "email")
         {
             <div class="form-group">
                 <label for="email">Enter email address:</label>
                 <input type="email" name="email" class="form-control" autofocus required />
             </div>
-            <div class="form-group">
-                <label for="subject">Subject:</label>
-                <textarea name="subject" class="form-control" required></textarea>
-            </div>
+                @*<div class="form-group">
+                        <label for="subject">Subject:</label>
+                        <textarea name="subject" class="form-control" required></textarea>
+                    </div>*@
         }
         else
         {
@@ -36,23 +45,28 @@
                 <label for="mobile">Phone number: (include the country code e.g +974)</label>
                 <input type="text" name="mobile" class="form-control" autofocus required />
             </div>
-            <div class="form-group">
-                <label for="subject">Message:</label>
-                <textarea name="subject" class="form-control" required></textarea>
-            </div>
+                <div class="form-group">
+                    <label for="subject">Message:</label>
+                    <textarea name="subject" class="form-control" rows="7" required></textarea>
+                </div>
         }
-        <div class="form-group text-right">
-            <input type="submit" class="btn btn-primary" value="Send" />
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary btn-lg" value="Send" />
         </div>
     }
 
     <ul class="pager">
         <li class="previous">
-            <a href="@Url.Action("details", new { postID = Model.PostID, plateNumber = Model.PlateNumber, fileName = Model.Attachments.FirstOrDefault().FileName })" id="anchorBackToList">
+            <a href="@Url.Action("post",  new {
+                        year = Model.DateUploaded.Year,
+                        month = Model.DateUploaded.Month,
+                        postID = Model.PostID,
+                        plateNo = Model.PlateNumber })">
                 <span class="glyphicon glyphicon-arrow-left"></span> Back to details
             </a>
         </li>
     </ul>
+
 </div>
 
 

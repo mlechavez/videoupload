@@ -8,7 +8,7 @@
 <div class="col-md-8 col-sm-8">
     <article>
 
-        <h3><small>Car plate no. </small> @Model.PlateNumber</h3>
+        <h3>@ViewBag.Header</h3>
 
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-6">
@@ -22,7 +22,7 @@
         <hr />
 
         <div class="embed-responsive embed-responsive-16by9">
-            <video class="embed-responsive-item" controls>
+            <video id="vPlayer" class="embed-responsive-item" controls preload="metadata">
                 <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />
                 Your browser does not support playing this video. Please upgrade your browser.
             </video>
@@ -30,18 +30,51 @@
 
         <br />
 
-        <p class="lead text-center">@Model.Description</p>        
+        <p class="lead text-center">@Model.Description</p>
 
     </article>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <ul class="pager">
+            <li class="previous">
+                <a href="@Url.Action("posts")">
+                    <span class="glyphicon glyphicon-arrow-left"></span> Back to list
+                </a>
+            </li>
+        </ul>
+    }
 </div>
 
 @section SideBar {
-    <div class="col-md-4">
-        @Html.Partial("_PostActions", Model)
-        @Html.Action("Sidebars")
+    <div class="col-md-4 col-sm-4">
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.Partial("_PostActions", Model)
+            @Html.Action("Sidebars")
+        }
+        else
+        {
+            @Html.Partial("_SocialSidebar")
+        }
     </div>
 }
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <div id="postUrl" class="hidden" data-url="@Url.Action("VideoHasPlayed")" data-id="@Model.PostID"
+         data-uploader="@Model.User.UserName" data-hasplayed="@Model.HasPlayedVideo" data-datePlayedVideo="@Model.DatePlayedVideo"></div>
+}
+
+
 @section Script {
     <script src="~/scripts/videos/timeZoneCooke.js"></script>
-    <script src="~/scripts/videos/details.js"></script>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script src="~/scripts/videos/details.js"></script>
+    }
+    else
+    {
+        <script src="~/scripts/videos/watch.js"></script>
+    }
 }

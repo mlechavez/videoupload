@@ -123,7 +123,7 @@ namespace VideoUpload.Web.Models.Identity
             email.Body = message.Body;
             email.IsBodyHtml = true;
             //78.100.48.220
-            using (var client = new SmtpClient("78.100.48.220", 25))
+            using (var client = new SmtpClient("192.168.5.10", 25))
             {               
                 //client.Credentials = new System.Net.NetworkCredential("kyocera.km3060@boraq-porsche.com.qa", "kyocera123");
                 client.Credentials = new System.Net.NetworkCredential(message.Destination.Trim(), message.Credential.Trim());               

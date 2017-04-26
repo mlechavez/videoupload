@@ -8,8 +8,8 @@
             <p>Send via:</p>
 
             <p>
-                @Html.ActionLink("Email", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "email" }, new { @class = "btn btn-info" })
-                @Html.ActionLink("Sms", "send", new { p = Model.PostID, c = Model.PlateNumber, v = ViewBag.FileName, sendingType = "sms" }, new { @class = "btn btn-info " })
+                @Html.ActionLink("Email", "send", new { postID = Model.PostID, sendingType = "email" }, new { @class = "btn btn-info" })
+                @Html.ActionLink("Sms", "send", new { postID = Model.PostID, sendingType = "sms" }, new { @class = "btn btn-info " })
             </p>
         }
         else
@@ -25,7 +25,7 @@
         }
         else
         {
-            <p>This video has been disappoved. Check on the comment section</p>
+            <p>This video has been disappoved. You can't send this to our customer.</p>
         }
     }
 </div>

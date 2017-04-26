@@ -403,6 +403,8 @@
     <Content Include="Views\Videos\_ApprovedVideos.cshtml" />
     <Content Include="Views\Videos\_PlayedVideos.cshtml" />
     <Content Include="Views\Videos\_PostActions.cshtml" />
+    <Content Include="Views\Videos\_SocialSidebar.cshtml" />
+    <Content Include="Views\Shared\_Search.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

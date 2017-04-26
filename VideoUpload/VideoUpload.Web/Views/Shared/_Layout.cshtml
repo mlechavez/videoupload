@@ -34,7 +34,14 @@
     @Scripts.Render("~/bundles/scripts")
     @RenderSection("Script", required: false)
     <script>
+        $(function () {
+            $('#search-form').on('submit', function () {
 
+                if ($('#v').val().trim()) return true;
+
+                return false;
+            });
+        });
     </script>
 </body>
 

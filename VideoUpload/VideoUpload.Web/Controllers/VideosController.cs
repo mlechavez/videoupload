@@ -31,14 +31,13 @@ namespace VideoUpload.Web.Controllers
         [AccessActionFilter(Type= "Video", Value ="CanRead")]
         public ActionResult Posts(int page = 1)
         {
-            var viewModel = new VideoViewModel(_uow, page, 2);
+            var viewModel = new VideoViewModel(_uow, page, 1);
 
             ViewBag.Header = $"Latest Posts";            
 
             return View("List", viewModel);
         }
-        
-        
+                
         public ActionResult Search(string v)
         {
             var viewModel = new VideoViewModel(_uow, 1, 2, v);
@@ -223,7 +222,7 @@ namespace VideoUpload.Web.Controllers
             {
                 return View("_ResourceNotFound");
             }
-            ViewBag.Header = "Your Porsche";
+            ViewBag.Header = $"Car plate no: { post.PlateNumber}";
 
             return View(post);
         }
@@ -241,101 +240,69 @@ namespace VideoUpload.Web.Controllers
         }
 
         [AccessActionFilter(Type = "Video", Value = "CanSend")]
-        public async Task<ActionResult> Send(int p, string v, string sendingType)
+        public async Task<ActionResult> Send(int postID, string sendingType)
         {
-            var post = await _uow.Posts.GetByIdAsync(p);
+            var post = await _uow.Posts.GetByIdAsync(postID);
 
             if (post == null)
             {
                 return View("_ResourceNotFound");
             }
-
-            var attachment = post.Attachments.FirstOrDefault(x => x.FileName == v);
-
-            ViewBag.FileName = attachment.FileName;
-            ViewBag.MIMEType = attachment.MIMEType;
-            ViewBag.AttachmentNo = attachment.AttachmentNo;
-
-            //for some reason i need to orderby the attachment
-            var attachments = post.Attachments.OrderBy(x => x.AttachmentNo).ToList();
-
-            var viewModel = new PostViewModel
-            {
-                PostID = post.PostID,
-                PlateNumber = post.PlateNumber,
-                Description = post.Description,
-                UploadedBy = post.User.UserName,
-                Attachments = attachments
-            };
+            
             ViewBag.SendingType = sendingType;
-            return View(viewModel);
+            ViewBag.Header = $"Send a link to our valuable customers via: { sendingType }";
+            return View(post);
         }
 
         [HttpPost]
         [AccessActionFilter(Type = "Video", Value = "CanSend")]
-        public  async Task<ActionResult> Send(string sendingType, string email, string subject,int p, string c, string v, string mobile)
-        {                        
-            var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("watch", new { p = p, c = c, v = v });
+        public  async Task<ActionResult> Send(Post post, FormCollection formCollection)
+        {                                    
+            var url = Request.Url.Scheme + "://" + Request.Url.Authority + formCollection["url"];
             var id = User.Identity.GetUserId();
 
             var history = new History();
             history.Sender = id;
             history.DateSent = DateTime.UtcNow;
 
-            if (sendingType == "email")
+            if (formCollection["sendingType"] == "email")
             {
-                if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(subject))
+                if (string.IsNullOrWhiteSpace(formCollection["email"]))  // || string.IsNullOrWhiteSpace(subject) --> I removed this temporarily, no textarea for the subject for the mean time
                 {
                     return View("_Error");
                 }
-                history.Type = sendingType;
-                history.Recipient = email;
-                await _mgr.CustomSendEmailAsync(id, subject, "Watch the link for your car: " + url, email, CurrentUser.EmailPass);                                
+                history.Type = formCollection["sendingType"];
+                history.Recipient = formCollection["email"];
+
+                await _mgr.CustomSendEmailAsync(id, "Your Porsche", 
+                        "Watch the link for your car: " + url, formCollection["email"], 
+                        CurrentUser.EmailPass); 
             }
             else
             {
-                history.Type = sendingType;
-                history.Recipient = mobile;
-                var result = await _mgr.OoredooSendSmsAsync(mobile, subject + " " + url);
+                history.Type = formCollection["sendingType"];
+                history.Recipient = formCollection["mobile"];
+                var result = await _mgr.OoredooSendSmsAsync(formCollection["mobile"], formCollection["subject"] + " " + url);
                 TempData["smsResult"] = result;
             }
             _uow.Histories.Add(history);
             await _uow.SaveChangesAsync();
-            return RedirectToAction("index");
+            return RedirectToAction("posts");
         }        
 
         [AllowAnonymous]
-        [Route("{p}/{c}/{v}/watch")]
-        public ActionResult Watch(int p, string c, string v)
+        [Route("watch/{year}/{month}/{postID}/{plateNo}")]
+        public async Task<ActionResult> Watch(int year, int month, int postID, string plateNo)
         {
-            var post = _uow.Posts.GetById(p);
+            var post = await _uow.Posts.GetByIdAsync(postID);
 
             if (post == null)
             {
-                return View("_ErrorWatch");
+                return View("_ResourceNotFound");
             }
+            ViewBag.Header = "Your Porsche";
 
-            var attachment = post.Attachments.FirstOrDefault(x => x.FileName == v);
-
-            ViewBag.FileName = attachment.FileName;
-            ViewBag.MIMEType = attachment.MIMEType;
-            ViewBag.AttachmentNo = attachment.AttachmentNo;
-
-            //for some reason i need to orderby the attachment
-            var attachments = post.Attachments.OrderBy(x => x.AttachmentNo).ToList();
-
-            var viewModel = new PostViewModel
-            {
-                PostID = post.PostID,
-                PlateNumber = post.PlateNumber,
-                Description = post.Description,
-                Attachments = attachments,
-                UploadedBy = post.User.UserName,
-                DateUploaded = post.DateUploaded,
-                HasPlayedVideo = post.HasPlayedVideo,
-                DatePlayedVideo = post.DatePlayedVideo
-            };
-            return View(viewModel);
+            return View("Post", post);            
         }
 
         [HttpPost]
