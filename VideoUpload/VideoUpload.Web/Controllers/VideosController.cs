@@ -16,8 +16,7 @@ namespace VideoUpload.Web.Controllers
 {    
     
     public class VideosController : AppController
-    {
-        
+    {        
         private readonly IUnitOfWork _uow;
         private readonly UserManager _mgr;
 
