@@ -4,11 +4,13 @@
     ViewBag.Title = "New Vehiicle Health Check";
 }
 
-<h2 class="text-center">Vehicle Health Check</h2>
+<div class="col-md-12 col-sm-12">
+    <h2 class="text-center">Vehicle Health Check</h2>
 
-@using (Html.BeginForm("new", "healthcheck", FormMethod.Post))
-{    
-    @Html.EditorFor(x=>x.Jobcard)
-    @Html.EditorFor(x=>x.GroupedHealthChecks)    
-    <input type="submit" class="btn btn-default" value="Save" />
-}
+    @using (Html.BeginForm("new", "healthcheck", FormMethod.Post))
+    {
+        @Html.EditorFor(x => x.Jobcard)
+        @Html.EditorFor(x => x.GroupedHealthChecks)
+        <input type="submit" class="btn btn-default" value="Save" />
+    }
+</div>
