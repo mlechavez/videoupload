@@ -34,47 +34,24 @@
 
     </article>
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        <ul class="pager">
-            <li class="previous">
-                <a href="@Url.Action("posts")">
-                    <span class="glyphicon glyphicon-arrow-left"></span> Back to list
-                </a>
-            </li>
-        </ul>
-    }
+    <ul class="pager">
+        <li class="previous">
+            <a href="@Url.Action("posts")">
+                <span class="glyphicon glyphicon-arrow-left"></span> Back to list
+            </a>
+        </li>
+    </ul>
+
 </div>
 
 @section SideBar {
     <div class="col-md-4 col-sm-4">
-        @if (User.Identity.IsAuthenticated)
-        {
-            @Html.Partial("_PostActions", Model)
-            @Html.Action("Sidebars")
-        }
-        else
-        {
-            @Html.Partial("_SocialSidebar")
-        }
+        @Html.Partial("_PostActions", Model)
+        @Html.Action("Sidebars")
     </div>
-}
-
-@if (!User.Identity.IsAuthenticated)
-{
-    <div id="postUrl" class="hidden" data-url="@Url.Action("VideoHasPlayed")" data-id="@Model.PostID"
-         data-uploader="@Model.User.UserName" data-hasplayed="@Model.HasPlayedVideo" data-datePlayedVideo="@Model.DatePlayedVideo"></div>
 }
 
 
 @section Script {
-    <script src="~/scripts/videos/timeZoneCooke.js"></script>
-    @if (User.Identity.IsAuthenticated)
-    {
-        <script src="~/scripts/videos/details.js"></script>
-    }
-    else
-    {
-        <script src="~/scripts/videos/watch.js"></script>
-    }
+    @Scripts.Render("~/details")   
 }

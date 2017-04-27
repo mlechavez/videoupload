@@ -2,7 +2,15 @@
 
 $(function () {
     setTimeZoneCookie();
+
+    $('#search-form').on('submit', function () {
+
+        if ($('#v').val().trim()) return true;
+
+        return false;
+    });
 });
+
 function setTimeZoneCookie() {
     var timeZone_cookie = "timezoneoffset";
 

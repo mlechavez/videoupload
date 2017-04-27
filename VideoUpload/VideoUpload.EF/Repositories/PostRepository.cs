@@ -15,14 +15,42 @@ namespace VideoUpload.EF.Repositories
         {
         }             
 
-        public IList<Post> GetAllForSearch(string v)
+        public Task<List<Post>> GetAllForSearchAsync(string v)
         {
             return Set.Where(x => x.PlateNumber.Contains(v))
                       .OrderByDescending(x => x.DateUploaded)
-                      .ToList();
+                      .ToListAsync();
         }
 
-        public IList<Post> GetAllApprovedVideos(int pageSize)
+        public Task<List<Post>> GetAllApprovedVideosAsync(int pageSize)
+        {
+            return Set.Where(x => x.IsApproved)
+                      .OrderByDescending(x => x.DateUploaded)
+                      .Take(pageSize)
+                      .ToListAsync();
+        }
+
+        public Task<List<Post>> GetAllPlayedVideosAsync(int pageSize)
+        {
+            return Set.Where(x => x.IsApproved && x.HasPlayedVideo)
+                      .OrderByDescending(x => x.DatePlayedVideo)
+                      .Take(pageSize)
+                      .ToListAsync();
+        }
+
+        public Task<List<Post>> GetAllByUserIDAsync(string userID)
+        {
+            return Set.Where(x => x.User.UserID == userID)
+                      .OrderByDescending(x => x.DateUploaded)
+                      .ToListAsync();
+        }
+
+        public Task<Post> GetByUserIDAndPostIDAsync(string userID, int postID)
+        {
+            return Set.FirstOrDefaultAsync(x => x.UserID == userID && x.PostID == postID);
+        }
+
+        public List<Post> GetAllApprovedVideos(int pageSize)
         {
             return Set.Where(x => x.IsApproved)
                       .OrderByDescending(x => x.DateUploaded)
@@ -30,24 +58,12 @@ namespace VideoUpload.EF.Repositories
                       .ToList();
         }
 
-        public IList<Post> GetAllPlayedVideos(int pageSize)
+        public List<Post> GetAllPlayedVideos(int pageSize)
         {
             return Set.Where(x => x.IsApproved && x.HasPlayedVideo)
                       .OrderByDescending(x => x.DatePlayedVideo)
                       .Take(pageSize)
                       .ToList();
-        }
-
-        public IList<Post> GetAllByUserID(string userID)
-        {
-            return Set.Where(x => x.User.UserID == userID)
-                      .OrderByDescending(x => x.DateUploaded)
-                      .ToList();
-        }
-
-        public Post GetByUserIDAndPostID(string userID, int postID)
-        {
-            return Set.FirstOrDefault(x => x.UserID == userID && x.PostID == postID);
         }
     }
 }

@@ -258,7 +258,7 @@
     <Content Include="scripts\jquery.cookie-1.4.1.min.js" />
     <Content Include="scripts\jquery.cookie.js" />
     <Content Include="scripts\videos\details.js" />
-    <Content Include="scripts\videos\timeZoneCooke.js" />
+    <Content Include="scripts\videos\timeZoneCookie.js" />
     <Content Include="scripts\videos\upload.js" />
     <Content Include="scripts\videos\watch.js" />
     <None Include="Service References\OoredooSOAP\Messenger.disco" />
@@ -299,6 +299,7 @@
     <Compile Include="Models\CreatePostViewModel.cs" />
     <Compile Include="Models\HealthChecks\JobcardViewModel.cs" />
     <Compile Include="Models\HealthChecks\HcViewModel.cs" />
+    <Compile Include="Models\IAsyncInitialization.cs" />
     <Compile Include="Models\UserViewModels\CreateUserViewModel.cs" />
     <Compile Include="Models\CustomResult.cs" />
     <Compile Include="Models\DownloadResult.cs" />

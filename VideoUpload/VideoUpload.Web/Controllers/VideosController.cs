@@ -28,18 +28,22 @@ namespace VideoUpload.Web.Controllers
                 
         
         [AccessActionFilter(Type= "Video", Value ="CanRead")]
-        public ActionResult Posts(int page = 1)
-        {
+        public async Task<ActionResult> Posts(int page = 1)
+        {            
             var viewModel = new VideoViewModel(_uow, page, 2);
+
+            await viewModel.Initialization;
 
             ViewBag.Header = $"Latest Posts";            
 
             return View("List", viewModel);
         }
                 
-        public ActionResult Search(string v)
+        public async Task<ActionResult> Search(string v)
         {
             var viewModel = new VideoViewModel(_uow, 1, 2, v);
+
+            await viewModel.Initialization;          
 
             ViewBag.Header = $"Latest post found for \"{v}\"";
 
@@ -50,7 +54,7 @@ namespace VideoUpload.Web.Controllers
         public PartialViewResult Sidebars()
         {
             var viewModel = new WidgetViewModel(_uow);
-
+            
             return PartialView("_Sidebars", viewModel);
         }
 
@@ -165,9 +169,11 @@ namespace VideoUpload.Web.Controllers
         }
 
         [Route("{userName}/posts")]
-        public ActionResult MyPosts(int page = 1)
+        public async Task<ActionResult> MyPosts(int page = 1)
         {
             var viewModel = new VideoViewModel(_uow, User.Identity.GetUserId(), page, 15);
+
+            await viewModel.Initialization;
 
             ViewBag.Header = "List of your videos";
             
@@ -176,8 +182,7 @@ namespace VideoUpload.Web.Controllers
 
         [Route("{userName}/posts/{postID:int}")]
         [AccessActionFilter(Type = "Video", Value = "CanUpdate")]
-
-        public ActionResult Edit(string userName, int postID)
+        public async Task<ActionResult> Edit(string userName, int postID)
         {
             if (postID < 0) return View("_ResourceNotFound");
 
@@ -185,6 +190,8 @@ namespace VideoUpload.Web.Controllers
             if (userName != User.Identity.Name) return View("_ResourceNotFound");
 
             var viewModel = new VideoViewModel(_uow, User.Identity.GetUserId(), postID);
+
+            await viewModel.Initialization;
 
             if (viewModel.Post == null) return View("_ResourceNotFound");
 
@@ -301,7 +308,7 @@ namespace VideoUpload.Web.Controllers
             }
             ViewBag.Header = "Your Porsche";
 
-            return View("Post", post);            
+            return View("Watch", post);            
         }
 
         [HttpPost]

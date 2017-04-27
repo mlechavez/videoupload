@@ -2,33 +2,59 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using VideoUpload.Core;
 using VideoUpload.Core.Entities;
 
 namespace VideoUpload.Web.Models.Videos
 {
-    public class VideoViewModel
+    public class VideoViewModel : IAsyncInitialization
     {
+        private readonly IUnitOfWork _uow;
+
         public VideoViewModel(IUnitOfWork uow, int pageNo, int pageSize)
-        {
-            Posts = uow.Posts.GetAll().OrderByDescending(x=>x.DateUploaded).ToPagedList(pageNo, pageSize);
+        {                   
+            Initialization = InitializeAsync(uow, pageNo, pageSize);
         }
 
         public VideoViewModel(IUnitOfWork uow, int pageNo, int pageSize, string search)
-        {
-            Posts = uow.Posts.GetAllForSearch(search).ToPagedList(pageNo, pageSize) ;
+        {            
+            Initialization = InitializeAsync(uow, pageNo, pageSize, search);
         }        
         public VideoViewModel(IUnitOfWork uow, string userID, int pageNo, int pageSize)
-        {            
-            Posts = uow.Posts.GetAllByUserID(userID).ToPagedList(pageNo, pageSize);            
+        {
+            Initialization = InitializeAsync(uow, userID, pageNo, pageSize);         
         }
 
         public VideoViewModel(IUnitOfWork uow, string userID, int postID)
         {
-            Post = uow.Posts.GetByUserIDAndPostID(userID, postID);
+            Initialization = InitializeAsync(uow, userID, postID);
         }
+        
         public IPagedList<Post> Posts { get; private set; }
         public Post Post { get; private set; }
+
+        public Task Initialization { get; private set; }
+
+        private async Task InitializeAsync(IUnitOfWork uow, int pageNo, int pageSize)
+        {
+            var posts = await uow.Posts.GetAllAsync();
+            Posts = posts.OrderByDescending(x => x.DateUploaded).ToPagedList(pageNo, pageSize);
+        }
+        private async Task InitializeAsync(IUnitOfWork uow, int pageNo, int pageSize, string search)
+        {
+            var posts = await uow.Posts.GetAllForSearchAsync(search);
+            Posts = posts.ToPagedList(pageNo, pageSize);
+        }
+        private async Task InitializeAsync(IUnitOfWork uow, string userID, int pageNo, int pageSize)
+        {
+            var posts = await uow.Posts.GetAllByUserIDAsync(userID);
+            Posts = posts.ToPagedList(pageNo, pageSize);
+        }
+        private async Task InitializeAsync(IUnitOfWork uow, string userID, int postID)
+        {
+            Post = await _uow.Posts.GetByUserIDAndPostIDAsync(userID, postID);            
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace VideoUpload.Web.Models
         {
             _fileName = fileName;
         }
+
         public override void ExecuteResult(ControllerContext context)
         {
             var fullpath = HostingEnvironment.MapPath("~/Uploads/Videos/" + _fileName);
@@ -102,6 +103,7 @@ namespace VideoUpload.Web.Models
             context.HttpContext.Response.AddHeader("Content-Type", "video/mp4");            
             // Start buffered download
             context.HttpContext.Response.WriteFile(fullpath, fp, length);
+            
             context.HttpContext.Response.End();
 
         }        

@@ -9,10 +9,12 @@ namespace VideoUpload.Core.Repositories
 {
     public interface IPostRepository : IRepository<Post>
     {        
-        IList<Post> GetAllByUserID(string userID);        
-        IList<Post> GetAllForSearch(string v);
-        IList<Post> GetAllApprovedVideos(int pageSize);
-        IList<Post> GetAllPlayedVideos(int pageSize);
-        Post GetByUserIDAndPostID(string userID, int postID);
+        Task<List<Post>> GetAllByUserIDAsync(string userID);
+        Task<List<Post>> GetAllForSearchAsync(string v);
+        List<Post> GetAllApprovedVideos(int pageSize);        
+        Task<List<Post>> GetAllApprovedVideosAsync(int pageSize);
+        List<Post> GetAllPlayedVideos(int pageSize);
+        Task<List<Post>> GetAllPlayedVideosAsync(int pageSize);
+        Task<Post> GetByUserIDAndPostIDAsync(string userID, int postID);
     }
 }

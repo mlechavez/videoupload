@@ -5,11 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>PCD - After Sales | @ViewBag.Title</title>
-    <link rel="icon" href="~/Content/Images/favicon.ico" />
+    <link rel="shortcut icon" href="~/Content/Images/favicon.ico" />
 
-    @Styles.Render("~/bundles/css")
-    @Styles.Render("~/bundles/gfont")
+    <title>PCD - After Sales | @ViewBag.Title</title>
+    
+
+    @Styles.Render("~/bootstrap", "~/cerulean", "~/fontawesome", "~/gfont", "~/css")    
 </head>
 <body>
 
@@ -31,18 +32,9 @@
         </div>
     </footer>
 
-    @Scripts.Render("~/bundles/scripts")
+    @Scripts.Render("~/jquery", "~/jbootstrap", "~/jcookies", "~/js")
     @RenderSection("Script", required: false)
-    <script>
-        $(function () {
-            $('#search-form').on('submit', function () {
-
-                if ($('#v').val().trim()) return true;
-
-                return false;
-            });
-        });
-    </script>
+    
 </body>
 
 </html>
