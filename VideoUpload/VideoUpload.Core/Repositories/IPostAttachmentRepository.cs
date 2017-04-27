@@ -10,5 +10,6 @@ namespace VideoUpload.Core.Repositories
     public interface IPostAttachmentRepository : IRepository<PostAttachment>
     {
         PostAttachment GetByFileName(string fileName);
+        Task<PostAttachment> GetByFileNameAsync(string fileName);
     }
 }

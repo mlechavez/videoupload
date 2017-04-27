@@ -19,5 +19,10 @@ namespace VideoUpload.EF.Repositories
         {
             return Set.FirstOrDefault(x => x.FileName == fileName);
         }
+
+        public Task<PostAttachment> GetByFileNameAsync(string fileName)
+        {
+            return Set.FirstOrDefaultAsync(x => x.FileName == fileName);
+        }
     }
 }

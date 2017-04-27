@@ -15,7 +15,7 @@ namespace VideoUpload.Web.Models
         {
             _fileName = fileName;
         }
-
+                
         public override void ExecuteResult(ControllerContext context)
         {
             var fullpath = HostingEnvironment.MapPath("~/Uploads/Videos/" + _fileName);

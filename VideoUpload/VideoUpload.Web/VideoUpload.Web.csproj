@@ -157,6 +157,7 @@
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.2\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
@@ -283,6 +284,7 @@
     <Compile Include="Common\AccessActionFilter.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\RequireSSLFilter.cs" />
+    <Compile Include="Common\VideoStream.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\HealthCheckController.cs" />
