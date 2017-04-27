@@ -30,7 +30,7 @@ namespace VideoUpload.Web.Controllers
         [AccessActionFilter(Type= "Video", Value ="CanRead")]
         public async Task<ActionResult> Posts(int page = 1)
         {            
-            var viewModel = new VideoViewModel(_uow, page, 2);
+            var viewModel = new VideoViewModel(_uow, page, 1);
 
             await viewModel.Initialization;
 
@@ -288,7 +288,10 @@ namespace VideoUpload.Web.Controllers
             {
                 history.Type = formCollection["sendingType"];
                 history.Recipient = formCollection["mobile"];
-                var result = await _mgr.OoredooSendSmsAsync(formCollection["mobile"], formCollection["subject"] + " " + url);
+
+                var message = $"Dear { formCollection["subject"] }, Please find the video for your Porsche. I will call you shortly to discuss further. Many thanks, { CurrentUser.FirstName }";
+
+                var result = await _mgr.OoredooSendSmsAsync(formCollection["mobile"], message + " " + url);
                 TempData["smsResult"] = result;
             }
             _uow.Histories.Add(history);
