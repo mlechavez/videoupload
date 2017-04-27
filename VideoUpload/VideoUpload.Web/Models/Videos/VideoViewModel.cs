@@ -10,8 +10,7 @@ using VideoUpload.Core.Entities;
 namespace VideoUpload.Web.Models.Videos
 {
     public class VideoViewModel : IAsyncInitialization
-    {
-        private readonly IUnitOfWork _uow;
+    {        
 
         public VideoViewModel(IUnitOfWork uow, int pageNo, int pageSize)
         {                   
@@ -54,7 +53,7 @@ namespace VideoUpload.Web.Models.Videos
         }
         private async Task InitializeAsync(IUnitOfWork uow, string userID, int postID)
         {
-            Post = await _uow.Posts.GetByUserIDAndPostIDAsync(userID, postID);            
+            Post = await uow.Posts.GetByUserIDAndPostIDAsync(userID, postID);            
         }
     }
 }
