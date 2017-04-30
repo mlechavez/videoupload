@@ -1,28 +1,46 @@
-﻿<header class="hidden-print navbar navbar-inverse navbar-fixed-top" role="banner">
+﻿<header id="main-header" class="hidden-print navbar navbar-default navbar-fixed-top" role="banner">
 
     <div class="container">
 
-        <div class="navbar-header">            
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+        <div class="navbar-header">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            }
+            
 
             @if (User.Identity.IsAuthenticated)
             {
-                <a href="@Url.Action("posts","videos")" class="navbar-brand">Porsche Center Doha</a>
+                <a href="http://www.porsche.com/middle-east/_qatar_/" class="navbar-brand">
+
+                    <img src="~/Content/Images/porsche-crest.png" alt="Porsche" class="navbar-left" />
+
+                    <div id="title-header" class="navbar-text">
+                        <h4>Porsche Center Doha <br /> <small>Al Boraq automobiles Co. w.l.l.</small></h4>
+                    </div>
+                </a>
             }
             else
             {
-                <a href="http://www.porsche.com/middle-east/_qatar_/" class="navbar-brand">Porsche Center Doha</a>
+                <a href="http://www.porsche.com/middle-east/_qatar_/" class="navbar-brand">
+
+                    <img src="~/Content/Images/porsche-crest.png" alt="Porsche" class="navbar-left" />
+
+                    <div id="title-header" class="navbar-text">
+                        <h4>Porsche Center Doha <br /> <small>Al Boraq automobiles Co. w.l.l.</small></h4>
+                    </div>
+                </a>
             }
 
         </div>
 
-        <nav class="navbar-collapse collapse" role="navigation">
-            @if (User.Identity.IsAuthenticated)
-            {
+        @if (User.Identity.IsAuthenticated)
+        {
+            <nav class="navbar-collapse collapse" role="navigation">
                 <ul class="nav navbar-nav">
                     <li class="active">
                         <a href="@Url.Action("posts","videos")">Videos</a>
@@ -39,7 +57,7 @@
                         <ul class="dropdown-menu">
 
                             @if (CurrentUser.ManageUser.Any(x => x.Value == "CanRead"))
-                            {
+                {
                                 <li>
                                     <a href="@Url.Action("list","users", new { Area = "" })">
                                         <i class="fa fa-cog fa-fw"></i> Manage users
@@ -60,9 +78,10 @@
                     </li>
                 </ul>
 
-                @Html.Partial("_Search")                
-            }
-        </nav>
+                @Html.Partial("_Search")
+            </nav>
+        }
+
 
     </div>
 </header>

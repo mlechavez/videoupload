@@ -220,9 +220,11 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\favicon.ico" />
+    <Content Include="Content\Images\porsche-crest.png" />
     <Content Include="Content\Images\porsche-logo-header.jpg" />
     <Content Include="Content\Images\porsche-logo.png" />
     <Content Include="Content\main.css" />
+    <Content Include="Content\modified\bootstrap.css" />
     <Content Include="Content\modified\bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\print.css" />

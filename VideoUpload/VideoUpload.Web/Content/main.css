@@ -18,6 +18,38 @@ input, select, textarea {
 .search-photos {
     margin-bottom: 10px;
 }
+.navbar-default {
+    background-color: #b40e0e;
+}
+.navbar-brand {
+    padding-top: 10px; 
+}
+.navbar-brand>img {
+    display: inline;
+}
+#title-header {
+    margin-top: -13px;
+    margin-left: 5px;
+}
+@media (min-width: 320px) {
+    .navbar-brand {
+        clear: left;
+    }
+    .navbar-brand > img {
+        padding-right: 5px;
+    }
+    .navbar-left {
+        float: left !important;        
+    }       
+    #title-header {
+        width: 170px;        
+    }
+    #title-header > h4 {
+        font-size: 13px;
+        padding-top: 5px;
+    }    
+} 
+
 /*
 ==================================
     HEALTH CHECK

@@ -17,8 +17,8 @@ namespace VideoUpload.Web
                 new StyleBundle("~/bootstrap", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
                         .Include("~/Content/bootstrap.css"));
             bundles.Add(
-                new StyleBundle("~/cerulean", "https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css")
-                        .Include("~/Content/modified/bootstrap.min.css"));
+                new StyleBundle("~/united", "https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/united/bootstrap.min.css")
+                        .Include("~/Content/modified/bootstrap.css"));
 
             bundles.Add(
                 new StyleBundle("~/fontawesome", "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
