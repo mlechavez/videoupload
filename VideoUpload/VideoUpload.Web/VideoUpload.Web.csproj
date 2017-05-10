@@ -314,6 +314,7 @@
     <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Models\UserViewModels\UserActivityViewModel.cs" />
     <Compile Include="Models\UserViewModels\UserViewModel.cs" />
+    <Compile Include="Models\VideoStreamResult.cs" />
     <Compile Include="Models\Videos\VideoViewModel.cs" />
     <Compile Include="Models\Videos\WidgetViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

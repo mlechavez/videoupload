@@ -100,10 +100,10 @@ namespace VideoUpload.Web.Models
             // Notify the client the byte range we'll be outputting
             context.HttpContext.Response.AddHeader("Content-Range", "bytes " + start + "-" + end + "/" + size);
             context.HttpContext.Response.AddHeader("Content-Length", length.ToString());
-            context.HttpContext.Response.AddHeader("Content-Type", "video/mp4");            
-            // Start buffered download
-            context.HttpContext.Response.WriteFile(fullpath, fp, length);
+            context.HttpContext.Response.AddHeader("Content-Type", "video/mp4");
             
+            // Start buffered download            
+            context.HttpContext.Response.WriteFile(fullpath, fp, length);               
             context.HttpContext.Response.End();
 
         }        

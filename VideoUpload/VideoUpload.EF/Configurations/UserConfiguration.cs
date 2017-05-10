@@ -36,7 +36,11 @@ namespace VideoUpload.EF.Configurations
 
             HasMany(x => x.UserClaims)
                 .WithOptional(x => x.User)
-                .HasForeignKey(x => x.UserID);               
+                .HasForeignKey(x => x.UserID);
+
+            HasMany(x => x.Histories)
+                .WithRequired(x => x.User)
+                .HasForeignKey(x => x.UserID);         
         }
     }
 }

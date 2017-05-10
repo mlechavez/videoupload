@@ -10,6 +10,7 @@ namespace VideoUpload.Core.Entities
     {
         private ICollection<UserClaim> _userClaims;
         private ICollection<Post> _posts;
+        private ICollection<History> _histories;
         private Branch _branch;
 
         public string UserID { get; set; }
@@ -42,6 +43,12 @@ namespace VideoUpload.Core.Entities
         {
             get { return _branch; }
             set { _branch = value; }
+        }
+
+        public virtual ICollection<History> Histories
+        {
+            get { return _histories ?? (_histories = new List<History>()); }
+            set { _histories = value; }
         }
     }
 }

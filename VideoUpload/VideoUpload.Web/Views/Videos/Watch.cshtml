@@ -37,10 +37,10 @@
         </div>
 
         <hr />
-
+        <input type="hidden" id="videoSourceUrl" data-url="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" />
         <div class="embed-responsive embed-responsive-16by9">
             <video id="vPlayer" class="embed-responsive-item" controls preload="auto">
-                <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />
+                <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />                
                 Your browser does not support playing this video. Please upgrade your browser.
             </video>
         </div>
@@ -62,6 +62,6 @@
     </div>
 }
 
-                @section Script {
-                    @Scripts.Render("~/watch")    
+@section Script {
+    @Scripts.Render("~/watch")    
 }

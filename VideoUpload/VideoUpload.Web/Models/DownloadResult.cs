@@ -16,28 +16,28 @@ namespace VideoUpload.Web.Models
             _fileName = fileName;
         }
         public override void ExecuteResult(ControllerContext context)
-        {   
+        {
             /*
             context.HttpContext.Response.Buffer = false;
             context.HttpContext.Response.BufferOutput = false;
             context.HttpContext.Response.Clear();
             */
             //The File Path 
-            var videoFilePath = HostingEnvironment.MapPath("~/Uploads/" + _fileName);
+            var videoFilePath = HostingEnvironment.MapPath("~/Uploads/Videos/" + _fileName);
             //The header information 
-            context.HttpContext.Response.AddHeader("Content-Disposition", "attachment; filename="+_fileName);
+            context.HttpContext.Response.AddHeader("Content-Disposition", "attachment; filename=" + _fileName);
             context.HttpContext.Response.AddHeader("Content-Type", "video/mp4");
 
             var file = new FileInfo(videoFilePath);
             //Check the file exist,  it will be written into the response 
-            
+
             if (file.Exists)
             {
                 var stream = file.OpenRead();
                 var bytesinfile = new byte[stream.Length];
                 stream.Read(bytesinfile, 0, (int)file.Length);
                 context.HttpContext.Response.BinaryWrite(bytesinfile);
-            }
+            }            
         }
     }
 }

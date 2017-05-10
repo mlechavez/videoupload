@@ -9,6 +9,7 @@ namespace VideoUpload.Core.Entities
     public class Post
     {
         private ICollection<PostAttachment> _attachments;
+        private ICollection<History> _histories;
         private User _user;
         private Branch _branch;
 
@@ -41,6 +42,12 @@ namespace VideoUpload.Core.Entities
         {
             get { return _branch; }
             set { _branch = value; }
+        }
+
+        public virtual ICollection<History> Histories
+        {
+            get { return _histories ?? (new List<History>()); }
+            set { _histories = value; }
         }
     }
 }

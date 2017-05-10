@@ -40,11 +40,16 @@ $('#frmUpload').on('submit', function (e) {
         var widthSize = percent.toString() + "%";
         var appModal = $('#appModal');
         progressBar = appModal.find('.progress-bar');
+        
 
         progressBar
             .css('width', widthSize)
             .addClass('progress-bar-striped active')
             .html(widthSize);
+
+        if (widthSize === "100%") {
+            $('#appModal').find('.modal-title').html('Your video is now being converted. Pls do not interrupt');
+        }
 
         $('#btnSubmit').html(
             "<i class='fa fa-spin'></i>Loading..."

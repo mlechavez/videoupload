@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
+using NReco.VideoConverter;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VideoUpload.Core;
@@ -14,8 +13,8 @@ using VideoUpload.Web.Models.Identity;
 using VideoUpload.Web.Models.Videos;
 
 namespace VideoUpload.Web.Controllers
-{    
-    
+{
+
     public class VideosController : AppController
     {        
         private readonly IUnitOfWork _uow;
@@ -31,7 +30,7 @@ namespace VideoUpload.Web.Controllers
         [AccessActionFilter(Type= "Video", Value ="CanRead")]
         public async Task<ActionResult> Posts(int page = 1)
         {            
-            var viewModel = new VideoViewModel(_uow, page, 1);
+            var viewModel = new VideoViewModel(_uow, page, 5);
 
             await viewModel.Initialization;
 
@@ -109,42 +108,53 @@ namespace VideoUpload.Web.Controllers
                         }
                         countOfAttachments++;                        
 
-                        var ext = Path.GetExtension(item.FileName);
+                        var videoExt = Path.GetExtension(item.FileName);
+                        var videoFileName = Path.GetFileName(item.FileName);
 
-                        var path = Server.MapPath("~/Uploads/Videos");
+                        var videoPath = Server.MapPath("~/Uploads/Videos");
                         var thumbnailPath = Server.MapPath("~/Uploads/Thumbnails");
                      
                         //create new entity for each attachment
                         var attachment = new PostAttachment();
 
                         attachment.PostAttachmentID = Guid.NewGuid().ToString();
-                        attachment.FileName = attachment.PostAttachmentID + ext;
+                        attachment.FileName = attachment.PostAttachmentID + videoExt;
                         attachment.MIMEType = item.ContentType;
                         attachment.FileSize = item.ContentLength;
-                        attachment.FileUrl = path + "/" + attachment.FileName;
+                        attachment.FileUrl = Path.Combine(videoPath, attachment.FileName);
                         attachment.DateCreated = viewModel.DateUploaded;
                         attachment.AttachmentNo = $"Attachment {countOfAttachments.ToString()}";
                         attachment.ThumbnailFileName = attachment.PostAttachmentID + ".jpeg";
-                        attachment.ThumbnailUrl = thumbnailPath + attachment.ThumbnailFileName;
-                      
-                        var fileUrlToConvert = Path.Combine(path, attachment.FileName);                        
+                        attachment.ThumbnailUrl = Path.Combine(thumbnailPath, attachment.ThumbnailFileName);
+                        
+                        var videoToSaveBeforeConvertingPath = Path.Combine(videoPath, videoFileName);                                       
 
-                        using (var fileStream = System.IO.File.Create(fileUrlToConvert))
+                        using (var fileStream = System.IO.File.Create(videoToSaveBeforeConvertingPath))
                         {
                             var stream = item.InputStream;
                             stream.CopyTo(fileStream);
                         }
-
-                        //TODO: uncomment this in production 
-                        //var ffMpeg = new FFMpegConverter();
-                        //ffMpeg.FFMpegToolPath = path; //need to have this and upload the ffmpeg.exe to this path;                        
-
-                        var file = new FileInfo(fileUrlToConvert);
+                        
+                        var ffMpeg = new FFMpegConverter();
+                        ffMpeg.FFMpegToolPath = videoPath; //set the tool to this path.. it's an exe file.
+                        
+                        var file = new FileInfo(videoToSaveBeforeConvertingPath);
 
                         if (file.Exists)
-                        {
-                            //TODO: uncomment this in production
-                            //ffMpeg.GetVideoThumbnail(fileUrlToConvert, thumbnailPath + "/" + attachment.ThumbnailFileName);
+                        {          
+                            //TODO: search for the bitrate settings                  
+                            var convertSettings = new ConvertSettings
+                            {
+                                AudioCodec = "aac",
+                                VideoCodec = "h264"                                                                                             
+                            };
+                            convertSettings.SetVideoFrameSize(1280, 720);
+                            
+                            ffMpeg.ConvertMedia(videoToSaveBeforeConvertingPath, Format.mp4, attachment.FileUrl, Format.mp4, convertSettings);
+                            ffMpeg.GetVideoThumbnail(videoToSaveBeforeConvertingPath, attachment.ThumbnailUrl);
+
+                            //Once the conversion is successful delete the original file
+                            file.Delete();
                             
                             //add the attachment to post entity
                             post.Attachments.Add(attachment);                           
@@ -236,15 +246,11 @@ namespace VideoUpload.Web.Controllers
 
         [AllowAnonymous]
         public ActionResult VideoResult(string fileName)
-        {            
-            return new CustomResult(fileName);
-            //return File(file.FileUrl, file.MIMEType, file.FileName);
-        }
-       
-        public ActionResult Download(string fileName)
         {
-            return new DownloadResult(fileName);
-        }
+            //return new CustomResult(fileName);
+            //return new DownloadResult(fileName);         
+            return new VideoStreamResult(fileName);
+        }              
 
         [AccessActionFilter(Type = "Video", Value = "CanSend")]
         public async Task<ActionResult> Send(int postID, string sendingType)
@@ -263,41 +269,73 @@ namespace VideoUpload.Web.Controllers
 
         [HttpPost]
         [AccessActionFilter(Type = "Video", Value = "CanSend")]
-        public  async Task<ActionResult> Send(Post post, FormCollection formCollection)
+        public async Task<ActionResult> Send(Post post, FormCollection formCollection)
         {                                    
             var url = Request.Url.Scheme + "://" + Request.Url.Authority + formCollection["url"];
-            var id = User.Identity.GetUserId();
-
-            var history = new History();
-            history.Sender = id;
-            history.DateSent = DateTime.UtcNow;
-
-            if (formCollection["sendingType"] == "email")
+            var id = User.Identity.GetUserId();            
+            
+            var history = new History
             {
-                if (string.IsNullOrWhiteSpace(formCollection["email"]))  // || string.IsNullOrWhiteSpace(subject) --> I removed this temporarily, no textarea for the subject for the mean time
+                UserID = id,
+                PostID = post.PostID,
+                DateSent = DateTime.UtcNow,
+                Type = formCollection["sendingType"]
+            };
+
+            if (!string.IsNullOrWhiteSpace(formCollection["customerName"]))
+            {
+                var message = $"Dear { formCollection["customerName"] }, Please find the video for your Porsche. I will call you shortly to discuss further. Many thanks, { CurrentUser.FirstName }";
+                history.Name = formCollection["customerName"];
+
+                if (formCollection["sendingType"] == "email")
                 {
-                    return View("_Error");
+                    if (string.IsNullOrWhiteSpace(formCollection["email"]))
+                    {
+                        ViewBag.SendingType = formCollection["sendingType"];
+                        ViewBag.HasError = "has-error";
+                        return View(post);
+                    }
+                    
+                    history.Recipient = formCollection["email"];                    
+
+                    try
+                    {
+                        await _mgr.CustomSendEmailAsync(id, "Your Porsche",
+                            message + " " + url, formCollection["email"],
+                            CurrentUser.EmailPass);
+                    }
+                    catch (Exception)
+                    {
+                        return View("Error");                        
+                    }
                 }
-                history.Type = formCollection["sendingType"];
-                history.Recipient = formCollection["email"];
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(formCollection["mobile"]))
+                    {
+                        ViewBag.SendingType = formCollection["sendingType"];
+                        ViewBag.HasError = "has-error";
+                        return View(post);
+                    }         
 
-                await _mgr.CustomSendEmailAsync(id, "Your Porsche", 
-                        "Watch the link for your car: " + url, formCollection["email"], 
-                        CurrentUser.EmailPass); 
+                    history.Recipient = formCollection["mobile"];
+
+                    try
+                    {
+                        await _mgr.OoredooSendSmsAsync(formCollection["mobile"], message + " " + url);                        
+                    }
+                    catch (Exception)
+                    {
+                        return View("Error");
+                    }                    
+                }
+                _uow.Histories.Add(history);
+                await _uow.SaveChangesAsync();
+                return RedirectToAction("posts");
             }
-            else
-            {
-                history.Type = formCollection["sendingType"];
-                history.Recipient = formCollection["mobile"];
-
-                var message = $"Dear { formCollection["subject"] }, Please find the video for your Porsche. I will call you shortly to discuss further. Many thanks, { CurrentUser.FirstName }";
-
-                var result = await _mgr.OoredooSendSmsAsync(formCollection["mobile"], message + " " + url);
-                TempData["smsResult"] = result;
-            }
-            _uow.Histories.Add(history);
-            await _uow.SaveChangesAsync();
-            return RedirectToAction("posts");
+            ViewBag.SendingType = formCollection["sendingType"];
+            ViewBag.HasError = "has-error";
+            return View(post);
         }        
 
         [AllowAnonymous]

@@ -1,7 +1,7 @@
 ﻿@model VideoUpload.Core.Entities.Post
 
 @{
-    ViewBag.Title = "Send link";
+    ViewBag.Title = "Send a link";
 }
 
 
@@ -12,6 +12,7 @@
         month = Model.DateUploaded.Month,
         postID = Model.PostID,
         plateNo = Model.PlateNumber });
+    var hasError = ViewBag.HasError;
 }
 
 <div class="col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2">
@@ -24,32 +25,26 @@
     </div>
 
     @using (Html.BeginForm("send", "videos", FormMethod.Post))
-            {
+    {
         @Html.HiddenFor(x => x.PostID)
         <input type="hidden" name="sendingType" value="@sendingType" />
-            <input type="hidden" name="url" value="@url" />
-        if (ViewBag.SendingType == "email")
+        <input type="hidden" name="url" value="@url" />
+        <div class="form-group">
+        @if (ViewBag.SendingType == "email")
         {
-            <div class="form-group">
-                <label for="email">Enter email address:</label>
-                <input type="email" name="email" class="form-control" autofocus required />
-            </div>
-            <div class="form-group">
-                <label for="subject">Customer name: (with appellation)</label>
-                <input type="text" name="subject" class="form-control" required></input>
-            </div>
+            <label for="email">Enter email address:</label>
+            <input type="email" name="email" class="form-control @hasError" autofocus required />
         }
         else
-        {
-            <div class="form-group">
-                <label for="mobile">Phone number: (include the country code e.g +974)</label>
-                <input type="text" name="mobile" class="form-control" autofocus required />
-            </div>
-                <div class="form-group">
-                    <label for="subject">Customer name: (with appellation)</label>
-                    <input type="text" name="subject" class="form-control" rows="7" required />
-                </div>
+        {        
+            <label for="mobile">Phone number: (include the country code e.g +974)</label>
+            <input type="text" name="mobile" class="form-control @hasError" autofocus required />        
         }
+        </div>
+        <div class="form-group">
+            <label for="customerName">Customer name: (with appellation)</label>
+            <input type="text" name="customerName" class="form-control" required />
+        </div>
         <div class="form-group">
             <input type="submit" class="btn btn-primary btn-lg" value="Send" />
         </div>

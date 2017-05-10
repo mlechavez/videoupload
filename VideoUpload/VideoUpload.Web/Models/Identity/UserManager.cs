@@ -153,7 +153,10 @@ namespace VideoUpload.Web.Models.Identity
             var customerID = Convert.ToInt32(ConfigurationManager.AppSettings["SmsCustomerID"]);
             var username = ConfigurationManager.AppSettings["SmsUsername"];
             var password = ConfigurationManager.AppSettings["SmsPassword"];
-            string defDate = DateTime.UtcNow.AddHours(3).ToString("yyyyMMddhhmmss");
+
+            // if you want to delay your message to a certain time
+            // uncomment this and modify this based on your requirements and add to SendSmsAsync as an argument
+            //string defDate = DateTime.UtcNow.AddHours(3).ToString("yyyyMMddhhmmss"); 
 
             MessengerSoapClient messenger = new MessengerSoapClient("MessengerSoap");
 
@@ -174,7 +177,7 @@ namespace VideoUpload.Web.Models.Identity
                     message.Body,
                     message.Destination,
                     MessageType.Latin,
-                    defDate, false, false, false);
+                    null, false, false, false);
                 SmsStatus smsStatus = await messenger.GetSmsStatusAsync(user, sendResult.TransactionID, true);
                 return smsStatus.Result;
             }

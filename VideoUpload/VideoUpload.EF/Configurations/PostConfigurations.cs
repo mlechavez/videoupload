@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity.ModelConfiguration;
 using VideoUpload.Core.Entities;
 
 namespace VideoUpload.EF.Configurations
@@ -31,6 +26,14 @@ namespace VideoUpload.EF.Configurations
 
             Property(x => x.DatePlayedVideo)
                 .IsOptional();
+
+            HasMany(x => x.Attachments)
+                .WithRequired(x => x.Post)
+                .HasForeignKey(x => x.PostID);
+
+            HasMany(x => x.Histories)
+                .WithRequired(x => x.Post)
+                .HasForeignKey(x => x.PostID);
         }
     }
 }
