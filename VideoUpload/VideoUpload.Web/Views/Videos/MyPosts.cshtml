@@ -3,79 +3,113 @@
 @model VideoUpload.Web.Models.Videos.VideoViewModel
 
 @{
-    ViewBag.Title = "List of my videos";    
+    ViewBag.Title = "List of my videos";
 }
 
 <div class="col-md-12 col-sm-12">
     <h1>@ViewBag.Header</h1>
 
     @if (Model.Posts.Count > 0)
-    {      
-        <div class="table-responsive">
-            <table class="table table-condensed table-hover">
+    {
+        <table class="table table-condensed table-hover">
+            <thead>
+
                 <tr>
+                    <th>Action</th>
+                    <th>Status</th>
                     <th>Plate number</th>
-                    <th>Description</th>                    
                     <th>Date Uploaded</th>                    
-                    <th></th>
                 </tr>
+
+            </thead>
+            
+            <tbody>
+
                 @foreach (var item in Model.Posts)
                 {
-                    <tr>
-                        <td>@item.PlateNumber</td>
-                        <td>@item.Description</td>                        
-                        <td>@item.DateUploaded.ToClientTime()</td>                        
+                    var rowClass = string.Empty;
+                    var lblClass = string.Empty;
+                    var lblText = string.Empty;
+
+                    if (item.HasApproval)
+                    {
+                        if (item.IsApproved)
+                        {
+                            rowClass = "success";
+                            lblClass = "label-success";
+                            lblText = "Approved";
+                        }
+                        else
+                        {
+                            rowClass = "danger";
+                            lblClass = "label-danger";
+                            lblText = "Disapproved";
+                        }
+                    }
+                    else
+                    {
+                        lblClass = "label-default";
+                        lblText = "For approval";
+                    }
+
+                    <tr class="@rowClass">
                         <td>
-                            <p>
-                                <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })" class="btn btn-warning btn-xs"><i class="fa fa-pencil-square-o"></i> Edit</a> |
+                            <!-- desktop view-->
+                            <p class="hidden-sm hidden-xs">
+                                <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })"
+                                   class="btn btn-default btn-xs"><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;Edit</a> <span class="hidden-sm hidden-xs">|</span>
+
                                 @if (item.Attachments == null)
                                 {
                                     <span class="label label-danger">No video attached.</span>
                                 }
                                 else
                                 {
-                                    <a href="@Url.Action("details", new { postID = item.PostID,
-                                    fileName = item.Attachments.FirstOrDefault().FileName,
-                                    plateNumber = item.PlateNumber })" class="btn btn-warning btn-xs">
-                                        <i class="fa fa-info"></i> Details
-                                    </a>
+                                    <a href="@Url.Action("post", new { year = item.DateUploaded.Year, month = item.DateUploaded.Month, postID = item.PostID, plateNo = item.PlateNumber})"
+                                       class="btn btn-info btn-xs"><i class="fa fa-info"></i>&nbsp;&nbsp;Details</a>
                                 }
-                                @if (!item.HasApproval)
-                                {
-                                    <text>|</text>
-                                    <span class="label label-info">For approval.</span>
-                                }
-                                else
-                                {
-                                    if (item.IsApproved)
+                            </p>
+
+                            <!-- mobile devices-->
+                            <div class="row hidden-md hidden-lg">                               
+
+                                <div class="col-sm-4 mypost-action">
+                                    <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })"
+                                       class="btn btn-default btn-xs"><i class="fa fa-pencil-square-o"></i>Edit</a>
+                                </div>
+
+                                <div class="col-sm-4 mypost-action">
+                                    @if (item.Attachments == null)
                                     {
-                                        <text>|</text>
-                                        <span class="label label-success">Approved.</span>
+                                        <span class="label label-danger">No video attached.</span>
                                     }
                                     else
                                     {
-                                        <text>|</text>
-                                        <span class="label label-danger">Disapproved.</span>
+                                        <a href="@Url.Action("post", new { year = item.DateUploaded.Year, month =item.DateUploaded.Month, postID = item.PostID, plateNo = item.PlateNumber})"
+                                           class="btn btn-info btn-xs"><i class="fa fa-info"></i>Details</a>
                                     }
-                                }
-                            </p>
+                                </div>                                
+
+                            </div>
                         </td>
+
+                        <td style="vertical-align:middle;"><span class="label @lblClass">@lblText</span></td>
+                        <td style="vertical-align:middle;">@item.PlateNumber</td>
+                        <td style="vertical-align:middle;">@item.DateUploaded.ToClientTime()</td>
+
                     </tr>
                 }
-            </table>
 
-            <div class="text-center">
-                @Html.PagedListPager(Model.Posts, page => Url.Action("myposts", new { page }),
-                 new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
-            </div>
-        </div>
+            </tbody>
+            
+        </table>
+
+        <div class="text-center">
+            @Html.PagedListPager(Model.Posts, page => Url.Action("myposts", new { page }),
+                new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
+        </div>        
     }
 </div>
-
-@section Script {
-    <script src="~/scripts/videos/timeZoneCooke.js"></script>
-}
-
 
 
 

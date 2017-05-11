@@ -20,10 +20,10 @@ namespace VideoUpload.Web.Common
             {
                 var offset = int.Parse(timeoffSet.ToString());
                 dt = dt.AddMinutes(-1 * offset);
-                return dt.ToString();
+                return dt.ToString("MMM dd, yyyy hh:mm:ss");
             }
             //if there is no offset in session return the datetime in server timezone
-            return dt.ToLocalTime().ToString();
+            return dt.ToLocalTime().ToString("MMM dd, yyyy hh:mm:ss");
         }
 
         public static string HyphenUrl(this HtmlHelper htmlHelper, string actionName)

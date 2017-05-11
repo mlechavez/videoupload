@@ -26,3 +26,10 @@
         @Html.Action("Sidebars")        
     </div>    
 }
+
+@section Script{
+    <script>
+        $('.pager li:first-child a').html('&#8592; Previous');
+        $('.pager li:last-child a').html('Next &#8594;');
+    </script>
+}

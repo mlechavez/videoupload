@@ -3,7 +3,7 @@
 <article>
 
     <h3><small>Car plate no. </small> @Html.PostActionLink(Model)</h3>
-    
+
     <div class="row">
         <div class="col-md-6 col-sm-6 col-xs-6">
             <span class="glyphicon glyphicon-upload"></span> Uploaded by: @Model.User.UserName
@@ -14,18 +14,20 @@
     </div>
 
     <hr />
-
-    <div class="embed-responsive embed-responsive-16by9">
-        <video class="embed-responsive-item" controls>
-            <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />
-            Your browser does not support playing this video. Please upgrade your browser.
-        </video>
-    </div>
-
+    
+    <a href="@Url.Action("post", new {
+            year = Model.DateUploaded.Year,
+            month = Model.DateUploaded.Month,
+            postID = Model.PostID,
+            plateNo = Model.PlateNumber})">
+        
+        <img class="img-responsive" src="@Url.Content($"~/uploads/thumbnails/{Model.Attachments.First().ThumbnailFileName}")" alt="Car plate no. @Model.PlateNumber" />
+    </a>        
+    
     <br />
 
     <p class="lead text-center">@Model.Description</p>
-
-    <hr />
     
+    <hr />
+
 </article>

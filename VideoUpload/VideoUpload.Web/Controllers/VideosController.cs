@@ -28,27 +28,25 @@ namespace VideoUpload.Web.Controllers
                 
         
         [AccessActionFilter(Type= "Video", Value ="CanRead")]
-        public async Task<ActionResult> Posts(int page = 1)
-        {            
-            var viewModel = new VideoViewModel(_uow, page, 5);
+        public async Task<ActionResult> Posts(string v, int page = 1)
+        {
+            IAsyncInitialization viewModel = null;
+
+            if (string.IsNullOrWhiteSpace(v))
+            {
+                viewModel = new VideoViewModel(_uow, page, 5);
+                ViewBag.Header = $"Latest Posts";                
+            }
+            else
+            {
+                viewModel = new VideoViewModel(_uow, page, 5, v);
+                ViewBag.Header = $"Latest post found for \"{v}\"";                
+            }
 
             await viewModel.Initialization;
 
-            ViewBag.Header = $"Latest Posts";            
-
             return View("List", viewModel);
-        }
-                
-        public async Task<ActionResult> Search(string v)
-        {
-            var viewModel = new VideoViewModel(_uow, 1, 2, v);
-
-            await viewModel.Initialization;          
-
-            ViewBag.Header = $"Latest post found for \"{v}\"";
-
-            return View("List", viewModel);
-        }
+        }                        
 
         [ChildActionOnly]
         public PartialViewResult Sidebars()
@@ -180,8 +178,10 @@ namespace VideoUpload.Web.Controllers
         }
 
         [Route("{userName}/posts")]
-        public async Task<ActionResult> MyPosts(int page = 1)
+        public async Task<ActionResult> MyPosts(string userName, int page = 1)
         {
+            if (User.Identity.Name != userName) return View("_ResourceNotFound");
+
             var viewModel = new VideoViewModel(_uow, User.Identity.GetUserId(), page, 15);
 
             await viewModel.Initialization;
@@ -195,6 +195,8 @@ namespace VideoUpload.Web.Controllers
         [AccessActionFilter(Type = "Video", Value = "CanUpdate")]
         public async Task<ActionResult> Edit(string userName, int postID)
         {
+            if (User.Identity.Name != userName) return View("_ResourceNotFound");
+
             if (postID < 0) return View("_ResourceNotFound");
 
             //prevent typing directly the other's username 
@@ -215,13 +217,13 @@ namespace VideoUpload.Web.Controllers
         [Route("{userName}/posts/{postID:int}")]
         [AccessActionFilter(Type = "Video", Value = "CanUpdate")]
         public async Task<ActionResult> Edit(Post viewModel)
-        {
+        {            
             if (!string.IsNullOrWhiteSpace(viewModel.PlateNumber) || !string.IsNullOrWhiteSpace(viewModel.Description))
             {
                 var post = await _uow.Posts.GetByIdAsync(viewModel.PostID);
 
-                post.PlateNumber = viewModel.PlateNumber;
-                post.Description = viewModel.Description;
+                post.PlateNumber = viewModel.PlateNumber.Trim();
+                post.Description = viewModel.Description.Trim();
                 
                 await _uow.SaveChangesAsync();
                 return RedirectToAction("myposts");
@@ -232,9 +234,14 @@ namespace VideoUpload.Web.Controllers
         
         [Route("archive/{year}/{month}/{postID}/{plateNo}")]
         public async Task<ActionResult> Post(int year, int month, int postID, string plateNo)
-        {            
+        {     
+            //TODO: check the year and month passed in the url       
             var post = await _uow.Posts.GetByIdAsync(postID);
-                  
+
+            if (post.DateUploaded.Year != year || post.DateUploaded.Month != month)
+            {
+                return View("_ResourceNotFound");
+            }
             if (post == null)
             {
                 return View("_ResourceNotFound");
@@ -247,9 +254,9 @@ namespace VideoUpload.Web.Controllers
         [AllowAnonymous]
         public ActionResult VideoResult(string fileName)
         {
-            //return new CustomResult(fileName);
+            return new CustomResult(fileName);
             //return new DownloadResult(fileName);         
-            return new VideoStreamResult(fileName);
+            //return new VideoStreamResult(fileName);
         }              
 
         [AccessActionFilter(Type = "Video", Value = "CanSend")]

@@ -26,7 +26,8 @@ namespace VideoUpload.Web.Models
 
                 while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0)
                 {                    
-                    context.HttpContext.Response.OutputStream.Write(buffer, 0, bytesRead);
+                    context.HttpContext.Response.OutputStream.Write(buffer, 0, bytesRead);                    
+                    bytesRead--;
                 }
                 context.HttpContext.Response.End();
             }

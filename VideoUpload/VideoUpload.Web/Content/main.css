@@ -31,6 +31,9 @@ input, select, textarea {
     margin-top: -13px;
     margin-left: 5px;
 }
+.mypost-action {
+    margin-bottom: 4px;
+}
 @media (min-width: 320px) {
     .navbar-brand {
         clear: left;
@@ -49,7 +52,9 @@ input, select, textarea {
         padding-top: 5px;
     }    
 } 
-
+.watch-group-sa {
+    margin-bottom: 10px;
+}
 /*
 ==================================
     HEALTH CHECK

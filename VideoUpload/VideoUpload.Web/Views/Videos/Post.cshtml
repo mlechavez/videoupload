@@ -22,7 +22,7 @@
         <hr />
 
         <div class="embed-responsive embed-responsive-16by9">
-            <video id="vPlayer" class="embed-responsive-item" controls preload="auto">
+            <video id="vPlayer" class="embed-responsive-item" controls preload="auto" controlsList="nodownload">
                 <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />
                 Your browser does not support playing this video. Please upgrade your browser.
             </video>

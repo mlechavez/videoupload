@@ -11,13 +11,12 @@
         <h3>@ViewBag.Header</h3>
 
         <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-6">
+
+            <div class="col-md-12 col-sm-6 col-xs-6 watch-group-sa">
                 <strong>Your Service Advisor:</strong> @(Model.User.FirstName + " " + Model.User.LastName)
             </div>
-            <div class="text-right col-md-6 col-sm-6 col-xs-6">
-                
-            </div>
-            <div class="col-md-12 col-sm-12">
+
+            <div class="col-md-12 col-sm-6 col-xs-6">
                 @switch (Model.Branch.BranchName)
                 {
                     case "ST16":
@@ -37,10 +36,10 @@
         </div>
 
         <hr />
-        <input type="hidden" id="videoSourceUrl" data-url="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" />
+
         <div class="embed-responsive embed-responsive-16by9">
-            <video id="vPlayer" class="embed-responsive-item" controls preload="auto">
-                <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />                
+            <video id="vPlayer" class="embed-responsive-item" controls preload="auto" controlsList="nodownload">
+                <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />
                 Your browser does not support playing this video. Please upgrade your browser.
             </video>
         </div>
