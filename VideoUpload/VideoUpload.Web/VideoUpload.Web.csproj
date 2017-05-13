@@ -285,6 +285,7 @@
     <Compile Include="Common\AppController.cs" />
     <Compile Include="Common\AccessActionFilter.cs" />
     <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\IExceptionLogger.cs" />
     <Compile Include="Common\RequireSSLFilter.cs" />
     <Compile Include="Common\VideoStream.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -303,7 +304,7 @@
     <Compile Include="Models\CreatePostViewModel.cs" />
     <Compile Include="Models\HealthChecks\JobcardViewModel.cs" />
     <Compile Include="Models\HealthChecks\HcViewModel.cs" />
-    <Compile Include="Models\IAsyncInitialization.cs" />
+    <Compile Include="Common\IAsyncInitialization.cs" />
     <Compile Include="Models\UserViewModels\CreateUserViewModel.cs" />
     <Compile Include="Models\CustomResult.cs" />
     <Compile Include="Models\DownloadResult.cs" />

@@ -21,7 +21,8 @@
             postID = Model.PostID,
             plateNo = Model.PlateNumber})">
         
-        <img class="img-responsive" src="@Url.Content($"~/uploads/thumbnails/{Model.Attachments.First().ThumbnailFileName}")" alt="Car plate no. @Model.PlateNumber" />
+        <img class="img-responsive vthumbnail" src="@Url.Content($"~/uploads/thumbnails/{Model.Attachments.First().ThumbnailFileName}")"
+             alt="Car plate no. @Model.PlateNumber" title="Car plate no. @Model.PlateNumber" />
     </a>        
     
     <br />

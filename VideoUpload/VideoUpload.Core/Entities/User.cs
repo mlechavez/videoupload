@@ -25,6 +25,7 @@ namespace VideoUpload.Core.Entities
         public string PasswordHash { get; set; }
         public string SecurityStamp { get; set; }
         public string EmailPass { get; set; }
+        public string MobileNumber { get; set; }
         public int? BranchID { get; set; }
 
 

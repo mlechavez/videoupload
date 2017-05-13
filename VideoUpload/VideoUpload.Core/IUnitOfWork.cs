@@ -21,6 +21,7 @@ namespace VideoUpload.Core
         IHealthCheckRepository HealthChecks { get; }
         IHealthCheckDetailsRepository HealthCheckDetails { get; }
         IBranchRepository Branches { get; }
+        IAppLogRepository AppLogs { get; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

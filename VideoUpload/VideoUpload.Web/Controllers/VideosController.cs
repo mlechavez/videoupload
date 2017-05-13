@@ -197,10 +197,7 @@ namespace VideoUpload.Web.Controllers
         {
             if (User.Identity.Name != userName) return View("_ResourceNotFound");
 
-            if (postID < 0) return View("_ResourceNotFound");
-
-            //prevent typing directly the other's username 
-            if (userName != User.Identity.Name) return View("_ResourceNotFound");
+            if (postID < 0) return View("_ResourceNotFound");            
 
             var viewModel = new VideoViewModel(_uow, User.Identity.GetUserId(), postID);
 
@@ -232,20 +229,15 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
         
-        [Route("archive/{year}/{month}/{postID}/{plateNo}")]
+        [Route("archive/{year:int}/{month:int}/{postID:int}/{plateNo}")]
         public async Task<ActionResult> Post(int year, int month, int postID, string plateNo)
-        {     
-            //TODO: check the year and month passed in the url       
+        {                     
             var post = await _uow.Posts.GetByIdAsync(postID);
+            
+            if (post == null) return View("_ResourceNotFound");
 
-            if (post.DateUploaded.Year != year || post.DateUploaded.Month != month)
-            {
-                return View("_ResourceNotFound");
-            }
-            if (post == null)
-            {
-                return View("_ResourceNotFound");
-            }
+            if (post.DateUploaded.Year != year || post.DateUploaded.Month != month) return View("_ResourceNotFound");
+
             ViewBag.Header = $"Car plate no: { post.PlateNumber}";
 
             return View(post);
@@ -264,35 +256,33 @@ namespace VideoUpload.Web.Controllers
         {
             var post = await _uow.Posts.GetByIdAsync(postID);
 
-            if (post == null)
-            {
-                return View("_ResourceNotFound");
-            }
-            
+            if (post == null) return View("_ResourceNotFound");
+
             ViewBag.SendingType = sendingType;
             ViewBag.Header = $"Send a link to our valuable customers via: { sendingType }";
+
             return View(post);
         }
 
         [HttpPost]
         [AccessActionFilter(Type = "Video", Value = "CanSend")]
         public async Task<ActionResult> Send(Post post, FormCollection formCollection)
-        {                                    
-            var url = Request.Url.Scheme + "://" + Request.Url.Authority + formCollection["url"];
-            var id = User.Identity.GetUserId();            
-            
-            var history = new History
-            {
-                UserID = id,
-                PostID = post.PostID,
-                DateSent = DateTime.UtcNow,
-                Type = formCollection["sendingType"]
-            };
-
+        {                                                
             if (!string.IsNullOrWhiteSpace(formCollection["customerName"]))
             {
-                var message = $"Dear { formCollection["customerName"] }, Please find the video for your Porsche. I will call you shortly to discuss further. Many thanks, { CurrentUser.FirstName }";
-                history.Name = formCollection["customerName"];
+                var url = Request.Url.Scheme + "://" + Request.Url.Authority + formCollection["url"];
+                var id = User.Identity.GetUserId();
+
+                var history = new History
+                {
+                    UserID = id,
+                    PostID = post.PostID,
+                    DateSent = DateTime.UtcNow,
+                    Type = formCollection["sendingType"],
+                    Name = formCollection["customerName"]
+                };
+
+                var message = $"Dear { formCollection["customerName"] }, Please find the video for your Porsche. I will call you shortly to discuss further. Many thanks, { CurrentUser.FirstName }";                
 
                 if (formCollection["sendingType"] == "email")
                 {
@@ -311,9 +301,20 @@ namespace VideoUpload.Web.Controllers
                             message + " " + url, formCollection["email"],
                             CurrentUser.EmailPass);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        return View("Error");                        
+                        ViewBag.Message = "We were unable to send your email. Please try again after a few minutes or contact your admin.";
+                        _uow.AppLogs.Add(new AppLog
+                        {
+                            Message = ex.Message,
+                            Type = ex.GetType().Name,
+                            Url = Request.Url.ToString(),
+                            Source = ex.InnerException.InnerException.Message,
+                            UserName = User.Identity.Name,
+                            LogDate = DateTime.UtcNow
+                        });
+                        await _uow.SaveChangesAsync();
+                        return View("Error", new HandleErrorInfo(ex, "videos", "send"));                        
                     }
                 }
                 else
@@ -328,11 +329,22 @@ namespace VideoUpload.Web.Controllers
                     history.Recipient = formCollection["mobile"];
 
                     try
-                    {
+                    {                        
                         await _mgr.OoredooSendSmsAsync(formCollection["mobile"], message + " " + url);                        
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        ViewBag.Message = "We were unable to send your sms. Please try again after a few minutes or contact your admin.";
+                        _uow.AppLogs.Add(new AppLog
+                        {
+                            Message = ex.Message,
+                            Type = ex.GetType().Name,
+                            Url = Request.Url.ToString(),
+                            Source = ex.InnerException.InnerException.Message,
+                            UserName = User.Identity.Name,
+                            LogDate = DateTime.UtcNow
+                        });
+                        await _uow.SaveChangesAsync();
                         return View("Error");
                     }                    
                 }
@@ -346,15 +358,17 @@ namespace VideoUpload.Web.Controllers
         }        
 
         [AllowAnonymous]
-        [Route("watch/{year}/{month}/{postID}/{plateNo}")]
+        [Route("watch/{year:int}/{month:int}/{postID:int}/{plateNo}")]
         public async Task<ActionResult> Watch(int year, int month, int postID, string plateNo)
         {
             var post = await _uow.Posts.GetByIdAsync(postID);
 
-            if (post == null)
+            if (post == null || post.DateUploaded.Year != year || post.DateUploaded.Month != month)
             {
+                ViewBag.Message = $"You're supposed to watch a video for your car. Please try the link again and if the problem occurs you can contact us using the below links";
                 return View("_ResourceNotFound");
-            }
+            }            
+
             ViewBag.Header = "Your Porsche";
 
             return View("Watch", post);            
@@ -366,12 +380,13 @@ namespace VideoUpload.Web.Controllers
         {
             var _postID = int.Parse(postID);
             var post = await _uow.Posts.GetByIdAsync(_postID);
-
+            var message = string.Empty;
 
             if (post == null)
             {
-                return Json(new { success = false, message = "We could not retrieve the post. Please contact IT" });
+                return Json(new { success = false, message = "We could not retrieve the post. Please contact your admin." });
             }
+
             var user = await _mgr.FindByIdAsync(post.UserID);
 
             if (isapproved)
@@ -379,21 +394,45 @@ namespace VideoUpload.Web.Controllers
                 post.HasApproval = isapproved;
                 post.IsApproved = isapproved;
                 post.DateApproved = DateTime.UtcNow;
-                _uow.Posts.Update(post);
-                _uow.SaveChanges();
-
-                //await _mgr.CustomSendEmailAsync(user.Id, "Video approval", "Your video has been approved you can now send the video to customer", user.Email, "");
-
-                return Json(new { success = true, message = "You've successfully approved the video. He/she will receive an email notification" });
+                message = "You've successfully approved the video. He/she will receive an email notification";
             }
-            post.HasApproval = true;
-            post.IsApproved = isapproved;
+            else
+            {
+                //set  to true even not approved
+                post.HasApproval = true;
+                message = "You've successfully disapproved the video. He/she will receive an email notification";
+            }
+                                              
             _uow.Posts.Update(post);
             _uow.SaveChanges();
 
-            //await _mgr.CustomSendEmailAsync(user.Id, "Video approval", "Your video has been disapproved.", user.Email, "");
+            try
+            {
+                await _mgr.CustomSendEmailAsync(user.Id,
+                    "Video approval", "Your video has been approved you can now send the video to customer",
+                    user.Email, user.EmailPass);
+            }
+            catch (Exception ex)
+            {
+                _uow.AppLogs.Add(new AppLog
+                {
+                    Message = ex.Message,
+                    Type = ex.GetType().Name,
+                    Url = Request.Url.ToString(),
+                    Source = ex.InnerException.InnerException.Message,
+                    UserName = User.Identity.Name,
+                    LogDate = DateTime.UtcNow
+                });
+                await _uow.SaveChangesAsync();
+                return Json(new
+                {
+                    success = false,
+                    //TODO: revised the message. not yet complete. do not concatenate
+                    message = message + " " + "but it seems our email is currently not available and we're not able to send email to the service advisor."
+                });
+            }
 
-            return Json(new { success = true, message = "You've successfully disapproved the video. He/she will receive an email notification" });            
+            return Json(new { success = true, message = message });            
         }
 
         [AllowAnonymous]
@@ -402,7 +441,7 @@ namespace VideoUpload.Web.Controllers
             var post = _uow.Posts.GetById(postID);
             var user = await _mgr.FindByNameAsync(userName);
 
-            var success = false;            
+            var success = false;
 
             if (post != null)
             {
@@ -413,9 +452,24 @@ namespace VideoUpload.Web.Controllers
                     _uow.Posts.Update(post);
                     await _uow.SaveChangesAsync();
                     success = true;
+
                     //alert the SA 
-                    //await _mgr.CustomSendEmailAsync(user.Id, "Your video has been viewed.", "Your video has been viewed. See the details: " + details, user.Email, user.EmailPass);
-                    //await _mgr.OoredooSendSmsAsync("97470064955", $"Your video with plate number {post.PlateNumber} has been played. You can now contact the customer");
+                    try
+                    {
+                        await _mgr.CustomSendEmailAsync(user.Id, "Your posted video.", "Your video has been viewed. See the details: " + details, user.Email, user.EmailPass);
+                    }
+                    catch (Exception)
+                    {
+                        try
+                        {
+                            await _mgr.OoredooSendSmsAsync(user.MobileNumber, $"Your video with plate number {post.PlateNumber} has been played. You can now contact the customer");
+                        }
+                        catch (Exception)
+                        {
+                            
+                        }
+                        
+                    }                                        
                 }
             }                        
             return Json(new { success = success  });

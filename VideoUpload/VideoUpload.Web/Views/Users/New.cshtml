@@ -30,6 +30,11 @@
             @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
+            @Html.LabelFor(x => x.MobileNumber)
+            @Html.TextBoxFor(x => x.MobileNumber, new { @class = "form-control input-sm" })
+            @Html.ValidationMessageFor(x => x.MobileNumber, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
             @Html.LabelFor(x => x.Designation)
             @Html.TextBoxFor(x => x.Designation, new { @class = "form-control input-sm" })
             @Html.ValidationMessageFor(x => x.Designation, "", new { @class = "text-danger" })

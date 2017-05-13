@@ -42,36 +42,31 @@ namespace VideoUpload.Web.Models.Identity
         public string SmsStatusResult { get; set; }
         public async Task CustomSendEmailAsync(string userId, string subject, string body, string to, string credential)
         {
-            if (CustomEmailService != null)
-            {
-                var identityMessage = new EmailIdentityMessage();
-                var user = await GetEmailAsync(userId);
-                identityMessage.Destination = user;
-                identityMessage.Subject = subject;
-                identityMessage.Body = body;
-                identityMessage.To = to;
-                identityMessage.Credential = credential;
+            if (CustomEmailService == null) throw new NotImplementedException("MessageService has not been implemented.");
+            
+            var identityMessage = new EmailIdentityMessage();
+            var user = await GetEmailAsync(userId);
+            identityMessage.Destination = user;
+            identityMessage.Subject = subject;
+            identityMessage.Body = body;
+            identityMessage.To = to;
+            identityMessage.Credential = credential;
 
-                await CustomEmailService.SendAsync(identityMessage);                
-            }
+            await CustomEmailService.SendAsync(identityMessage);                
+            
         }
 
         public async Task<string> OoredooSendSmsAsync(string mobile, string message)
         {
-            if (OoredooMessageService != null)
+            if (OoredooMessageService == null) throw new NotImplementedException("MessageService has not been implemented.");
+            
+            var ooredooMessage = new OoredooMessage
             {
-                var ooredooMessage = new OoredooMessage
-                {
-                    Body = message,
-                    Destination = mobile
-                };
-                var result = await OoredooMessageService.SendAsync(ooredooMessage);
-                return result;
-            }
-            else
-            {
-                throw new ArgumentException("MessageService is not available");
-            }
+                Body = message,
+                Destination = mobile
+            };
+            var result = await OoredooMessageService.SendAsync(ooredooMessage);
+            return result;            
         }
 
     }
@@ -116,17 +111,18 @@ namespace VideoUpload.Web.Models.Identity
         public async Task SendAsync(EmailIdentityMessage message)
         {
             var email = new MailMessage();
-            email.From = new MailAddress(message.Destination);
-            //email.From = new MailAddress("kyocera.km3060@boraq-porsche.com.qa");
+            email.From = new MailAddress(message.Destination);            
             email.To.Add(message.To);
             email.Subject = message.Subject;
             email.Body = message.Body;
             email.IsBodyHtml = true;
             //78.100.48.220
-            using (var client = new SmtpClient("78.100.48.220", 25))
-            {               
-                //client.Credentials = new System.Net.NetworkCredential("kyocera.km3060@boraq-porsche.com.qa", "kyocera123");
-                client.Credentials = new System.Net.NetworkCredential(message.Destination.Trim(), message.Credential.Trim());               
+           
+            using (var client = new SmtpClient("192.168.6.9", 25))
+            {
+                client.UseDefaultCredentials = true;                
+                //client.Credentials = new System.Net.NetworkCredential(message.Destination.Trim(), message.Credential.Trim());               
+
                 await client.SendMailAsync(email);
             }
         }

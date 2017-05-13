@@ -33,5 +33,8 @@ namespace VideoUpload.Web.Models.UserViewModels
         [Required]
         [Display(Name = "Location")]
         public int? BranchID { get; set; }
+        [Required]
+        [Display(Name = "Mobile number")]
+        public string MobileNumber { get; set; }
     }
 }

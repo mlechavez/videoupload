@@ -2,11 +2,22 @@
 @{
     ViewBag.Title = "Something went wrong";
 }
+<div class="col-md-12 col-sm-12">
 
-<h2 class="text-warning">Sorry! an error occured while processing your request.</h2>
+    <div class="well">
 
-<p>
-    @Html.ActionLink("Back to list of posts", "index", "videos", null, new { @class = "btn btn-info btn-xs" })
-</p>
-<p>@Model.Exception</p>
+        <p class="lead">Sorry!</p>
+
+        <p class="text-danger">An error has occured while processing your request.</p>
+
+        <p>@ViewBag.Message</p>
+        
+    </div>        
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>@Model.Exception</p>
+    }
+</div>
+
 

@@ -53,7 +53,8 @@ namespace VideoUpload.Web.Models.Identity
             user.EmailConfirmed = identityUser.EmailConfirmed;
             user.IsActive = identityUser.IsActive;
             user.UserClaims = identityUser.UserClaims;
-            user.BranchID = identityUser.BranchID;          
+            user.BranchID = identityUser.BranchID;
+            user.MobileNumber = identityUser.MobileNumber;    
         }
 
         private IdentityUser GetIdentityUser(User user)
@@ -79,7 +80,8 @@ namespace VideoUpload.Web.Models.Identity
             identityUser.EmailConfirmed = user.EmailConfirmed;
             identityUser.IsActive = user.IsActive;
             identityUser.UserClaims = user.UserClaims;
-            identityUser.BranchID = user.BranchID;     
+            identityUser.BranchID = user.BranchID;
+            identityUser.MobileNumber = user.MobileNumber;
         }
 
         #region IUserStore      

@@ -72,20 +72,30 @@ $('#appModal .modal-content').on('click', '#btnApproved', function () {
             postID : postID
         },
         success: function (result) {
+
+            //create another button for reloading the page
+            var btnReload = $('<button></button>').attr('id', 'btnReload').addClass('btn btn-default text-right').text('Reload the page');
+            //append to footer
+            appModal.find('.modal-footer').append(btnReload)
+            var body = appModal.find('.modal-body');
+            body.empty();
+
+            var p = $('<p></p>').addClass('text-center');
+
+            btn.addClass('hidden');
+
             if (result.success) {
-                btn.addClass('hidden');
-
-                //create another button for reloading the page
-                var btnReload = $('<button></button>').attr('id', 'btnReload').addClass('btn btn-default text-right').text('Reload the page');
-                //append to footer
-                appModal.find('.modal-footer').append(btnReload)
-                var body = appModal.find('.modal-body');
-                body.empty();
-
-                var p = $('<p></p>').addClass('text-center');
+                                               
                 p.text(result.message);
-                body.append(p);                
+                
+            } else {
+                //if you go this far, It's either you could not retrieve the post
+                // or it's been approved/disapproved but the email is not working.
+                
+                p.text(result.message);
             }
+
+            body.append(p);
         }
     });
 });

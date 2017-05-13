@@ -25,6 +25,7 @@ namespace VideoUpload.EF
         private IHealthCheckRepository _healthChecks;
         private IHealthCheckDetailsRepository _healthCheckDetails;
         private IBranchRepository _branches;
+        private IAppLogRepository _appLogs;
 
         #endregion
 
@@ -118,6 +119,14 @@ namespace VideoUpload.EF
             }
         }
 
+        public IAppLogRepository AppLogs
+        {
+            get
+            {
+                return _appLogs ?? (_appLogs = new AppLogRepository(_context));
+            }
+        }
+
         public UnitOfWork(string nameOrConnectionString)
         {
             _context = new AppDbContext(nameOrConnectionString);
@@ -135,7 +144,8 @@ namespace VideoUpload.EF
             _jobcards = null;
             _healthChecks = null;
             _healthCheckDetails = null;
-            _branches = null;      
+            _branches = null;
+            _appLogs = null;
             _context.Dispose();            
         }
 

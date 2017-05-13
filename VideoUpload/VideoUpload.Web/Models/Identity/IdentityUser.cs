@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using VideoUpload.Core.Entities;
 
 namespace VideoUpload.Web.Models.Identity
@@ -32,6 +30,7 @@ namespace VideoUpload.Web.Models.Identity
         public bool IsActive { get; set; }
         public string PasswordHash { get; set; }
         public string SecurityStamp { get; set; }
+        public string MobileNumber { get; set; }
         public string EmailPass { get; set; }
         public int? BranchID { get; set; }
 

@@ -7,7 +7,10 @@
 }
 
 <div class="col-md-12 col-sm-12">
+
     <h1>@ViewBag.Header</h1>
+
+    <hr />
 
     @if (Model.Posts.Count > 0)
     {
@@ -18,11 +21,11 @@
                     <th>Action</th>
                     <th>Status</th>
                     <th>Plate number</th>
-                    <th>Date Uploaded</th>                    
+                    <th>Date Uploaded</th>
                 </tr>
 
             </thead>
-            
+
             <tbody>
 
                 @foreach (var item in Model.Posts)
@@ -52,62 +55,70 @@
                         lblText = "For approval";
                     }
 
-                    <tr class="@rowClass">
-                        <td>
-                            <!-- desktop view-->
-                            <p class="hidden-sm hidden-xs">
-                                <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })"
-                                   class="btn btn-default btn-xs"><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;Edit</a> <span class="hidden-sm hidden-xs">|</span>
+                <tr class="@rowClass">
+                    <td>
+                        <!-- desktop view-->
+                        <p class="hidden-sm hidden-xs">
+                            <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })"
+                               class="btn btn-default btn-xs"><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;Edit</a> <span class="hidden-sm hidden-xs">|</span>
 
-                                @if (item.Attachments == null)
+                            @if (item.Attachments == null)
                                 {
-                                    <span class="label label-danger">No video attached.</span>
+                                <span class="label label-danger">No video attached.</span>
                                 }
                                 else
                                 {
-                                    <a href="@Url.Action("post", new { year = item.DateUploaded.Year, month = item.DateUploaded.Month, postID = item.PostID, plateNo = item.PlateNumber})"
-                                       class="btn btn-info btn-xs"><i class="fa fa-info"></i>&nbsp;&nbsp;Details</a>
+                                <a href="@Url.Action("post", new { year = item.DateUploaded.Year, month = item.DateUploaded.Month, postID = item.PostID, plateNo = item.PlateNumber})"
+                                   class="btn btn-info btn-xs"><i class="fa fa-info"></i>&nbsp;&nbsp;Details</a>
                                 }
-                            </p>
+                        </p>
 
-                            <!-- mobile devices-->
-                            <div class="row hidden-md hidden-lg">                               
+                        <!-- mobile devices-->
+                        <div class="row hidden-md hidden-lg">
 
-                                <div class="col-sm-4 mypost-action">
-                                    <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })"
-                                       class="btn btn-default btn-xs"><i class="fa fa-pencil-square-o"></i>Edit</a>
-                                </div>
+                            <div class="col-sm-4 mypost-action">
+                                <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })"
+                                   class="btn btn-default btn-xs"><i class="fa fa-pencil-square-o"></i>Edit</a>
+                            </div>
 
-                                <div class="col-sm-4 mypost-action">
-                                    @if (item.Attachments == null)
+                            <div class="col-sm-4 mypost-action">
+                                @if (item.Attachments == null)
                                     {
-                                        <span class="label label-danger">No video attached.</span>
+                                    <span class="label label-danger">No video attached.</span>
                                     }
                                     else
                                     {
-                                        <a href="@Url.Action("post", new { year = item.DateUploaded.Year, month =item.DateUploaded.Month, postID = item.PostID, plateNo = item.PlateNumber})"
-                                           class="btn btn-info btn-xs"><i class="fa fa-info"></i>Details</a>
+                                    <a href="@Url.Action("post", new { year = item.DateUploaded.Year, month =item.DateUploaded.Month, postID = item.PostID, plateNo = item.PlateNumber})"
+                                       class="btn btn-info btn-xs"><i class="fa fa-info"></i>Details</a>
                                     }
-                                </div>                                
-
                             </div>
-                        </td>
 
-                        <td style="vertical-align:middle;"><span class="label @lblClass">@lblText</span></td>
-                        <td style="vertical-align:middle;">@item.PlateNumber</td>
-                        <td style="vertical-align:middle;">@item.DateUploaded.ToClientTime()</td>
+                        </div>
+                    </td>
 
-                    </tr>
+                    <td style="vertical-align:middle;"><span class="label @lblClass">@lblText</span></td>
+                    <td style="vertical-align:middle;">@item.PlateNumber</td>
+                    <td style="vertical-align:middle;">@item.DateUploaded.ToClientTime()</td>
+
+                </tr>
                 }
 
             </tbody>
-            
+
         </table>
 
         <div class="text-center">
             @Html.PagedListPager(Model.Posts, page => Url.Action("myposts", new { page }),
                 new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
-        </div>        
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            <p class="lead">You haven't uploaded any videos yet.</p>
+
+            <p>@Html.ActionLink("Start uploading a video", "upload", "videos", null, new { @class = "btn btn-lg btn-success" })</p>
+        </div>
     }
 </div>
 

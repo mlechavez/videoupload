@@ -3,5 +3,47 @@
     ViewBag.Title = "Resource cannot be found";
 }
 
-<p class="lead text-center">Resource cannot be found.</p>
+<div class="col-md-12 col-sm-12">
 
+    <div class="well">
+        <p class="lead">Oh, Snap!</p>
+
+        <p class="text-danger">Resource cannot be found.</p>
+        <p>The page you are trying to access is either moved or doesn't exist.</p>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <p>@Html.ActionLink("Back to home page.", "posts", "videos")</p>
+        }
+        else
+        {
+            <p>@ViewBag.Message</p>
+        }
+    </div>
+</div>
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Contact us</h4>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="@Url.Action("contact", "home")#pcd">Porsche Center Doha - Showroom</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="@Url.Action("contact", "home")#st16">Porsche Service Centre - St. 16 Industrial Area</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="@Url.Action("contact", "home")#st27">Porsche Service Centre - St. 27 Industrial Area</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="@Url.Action("contact", "home")#qsc">Porsche Quick Service Centre</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+}

@@ -79,6 +79,7 @@ namespace VideoUpload.Web.Controllers
                     Email = viewModel.Email,
                     EmailPass = viewModel.EmailPass,
                     IsActive = true,
+                    MobileNumber = viewModel.MobileNumber,
                     BranchID = viewModel.BranchID
                 };
                 var result = await _mgr.CreateAsync(identityUser, viewModel.Password);                

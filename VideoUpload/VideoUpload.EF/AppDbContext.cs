@@ -27,6 +27,7 @@ namespace VideoUpload.EF
         public DbSet<HealthCheck> HealthChecks { get; set; }
         public DbSet<HealthCheckDetails> HealthCheckDetails { get; set; }
         public DbSet<Branch> Branches { get; set; }
+        public DbSet<AppLog> AppLogs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -41,6 +42,7 @@ namespace VideoUpload.EF
             modelBuilder.Configurations.Add(new HealthCheckConfiguration());
             modelBuilder.Configurations.Add(new HealthCheckDetailsConfiguration());
             modelBuilder.Configurations.Add(new BranchConfiguration());
+            modelBuilder.Configurations.Add(new AppLogConfiguration());
         }
     }
 }

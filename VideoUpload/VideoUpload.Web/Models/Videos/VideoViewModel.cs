@@ -1,11 +1,9 @@
 ﻿using PagedList;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using VideoUpload.Core;
 using VideoUpload.Core.Entities;
+using VideoUpload.Web.Common;
 
 namespace VideoUpload.Web.Models.Videos
 {

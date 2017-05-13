@@ -6,6 +6,9 @@
 body {
     padding-top: 70px;
 }
+#main-content {
+    min-height: 400px;
+}
 footer {
     margin: 10px 0;
 }
@@ -54,6 +57,9 @@ input, select, textarea {
 } 
 .watch-group-sa {
     margin-bottom: 10px;
+}
+.vthumbnail:hover {
+    opacity: .7;
 }
 /*
 ==================================
