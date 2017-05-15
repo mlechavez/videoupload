@@ -61,6 +61,9 @@ input, select, textarea {
 .vthumbnail:hover {
     opacity: .7;
 }
+.useraccount-settings-widget {
+    margin-top: 30px;        
+}
 /*
 ==================================
     HEALTH CHECK

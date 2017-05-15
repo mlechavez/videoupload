@@ -371,7 +371,7 @@ namespace VideoUpload.Web.Controllers
 
             ViewBag.Header = "Your Porsche";
 
-            return View("Watch", post);            
+            return View(post);            
         }
 
         [HttpPost]
@@ -424,11 +424,11 @@ namespace VideoUpload.Web.Controllers
                     LogDate = DateTime.UtcNow
                 });
                 await _uow.SaveChangesAsync();
+
                 return Json(new
                 {
-                    success = false,
-                    //TODO: revised the message. not yet complete. do not concatenate
-                    message = message + " " + "but it seems our email is currently not available and we're not able to send email to the service advisor."
+                    success = false,                    
+                    message = "You've successfully approved/disapproved the video but it seems our email is currently not available and we're not able to send email to the service advisor."
                 });
             }
 
@@ -443,36 +443,61 @@ namespace VideoUpload.Web.Controllers
 
             var success = false;
 
-            if (post != null)
+            if (post == null) return Json(new { success = success });
+            
+            if (!post.HasPlayedVideo && post.DatePlayedVideo == null && user != null)
             {
-                if (!post.HasPlayedVideo && post.DatePlayedVideo == null && user != null)
-                {
-                    post.HasPlayedVideo = true;
-                    post.DatePlayedVideo = DateTime.UtcNow;
-                    _uow.Posts.Update(post);
-                    await _uow.SaveChangesAsync();
-                    success = true;
+                post.HasPlayedVideo = true;
+                post.DatePlayedVideo = DateTime.UtcNow;
+                _uow.Posts.Update(post);
+                await _uow.SaveChangesAsync();
+                success = true;
 
-                    //alert the SA 
+                //alert the SA 
+                try
+                {                    
+                    await _mgr.CustomSendEmailAsync(user.Id, "Your posted video.", 
+                        "Your video has been viewed. See the details: " + details, user.Email, user.EmailPass);
+                }
+                catch (Exception eExcp)
+                {
+                    var eAppLog = new AppLog
+                    {
+                        Message = eExcp.Message,
+                        Type = eExcp.GetType().Name,
+                        Url = Request.Url.ToString(),
+                        Source = eExcp.InnerException.InnerException.Message,
+                        UserName = User.Identity.Name,
+                        LogDate = DateTime.UtcNow
+                    };
+                    _uow.AppLogs.Add(eAppLog);
+
+                    //Try to send via text when email is not available
                     try
                     {
-                        await _mgr.CustomSendEmailAsync(user.Id, "Your posted video.", "Your video has been viewed. See the details: " + details, user.Email, user.EmailPass);
-                    }
-                    catch (Exception)
-                    {
-                        try
-                        {
-                            await _mgr.OoredooSendSmsAsync(user.MobileNumber, $"Your video with plate number {post.PlateNumber} has been played. You can now contact the customer");
-                        }
-                        catch (Exception)
-                        {
-                            
-                        }
+                        await _mgr.OoredooSendSmsAsync(user.MobileNumber, $"Your video with plate number {post.PlateNumber} has been played. You can now contact the customer");
                         
-                    }                                        
+                        //save the email log exception
+                        _uow.SaveChanges();
+                    }
+                    catch (Exception sExcp)
+                    {
+                        var sAppLog = new AppLog
+                        {
+                            Message = sExcp.Message,
+                            Type = sExcp.GetType().Name,
+                            Url = Request.Url.ToString(),
+                            Source = sExcp.InnerException.InnerException.Message,
+                            UserName = User.Identity.Name,
+                            LogDate = DateTime.UtcNow
+                        };
+
+                        await _uow.SaveChangesAsync();
+                    }
+
                 }
-            }                        
-            return Json(new { success = success  });
+            }
+            return Json(new { success = success });
         }        
     }
 }

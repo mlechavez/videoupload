@@ -7,7 +7,8 @@ using VideoUpload.Web.Models.Identity;
 
 namespace VideoUpload.Web.Controllers
 {
-    [AllowAnonymous]    
+    [AllowAnonymous]
+    [RoutePrefix("account")]    
     public class AccountController : Controller
     {
         private readonly UserManager _mgr;
@@ -22,7 +23,7 @@ namespace VideoUpload.Web.Controllers
             var viewModel = new LoginViewModel { ReturnUrl = ReturnUrl };
             return View(viewModel);
         }
-        // GET: Account
+        
         [HttpPost]
         public async Task<ActionResult> Signin(LoginViewModel viewModel)
         {
@@ -62,12 +63,15 @@ namespace VideoUpload.Web.Controllers
             return RedirectToAction("posts", "videos");
         }                
 
+        [Route("password-reset")]
         public ActionResult PasswordReset()
         {
-            return View();
+            ViewBag.Header = "Reset your password";
+            return View("Password-Reset");
         }
 
         [HttpPost]
+        [Route("password-reset")]
         public async Task<ActionResult> PasswordReset(string email)
         {            
             if (string.IsNullOrEmpty(email))
@@ -91,6 +95,7 @@ namespace VideoUpload.Web.Controllers
             return View("_PasswordResetRequestSentSuccess");
         }
 
+        [Route("confirm-password-reset")]
         public ActionResult ConfirmPasswordReset(string key, string id)
         {
             var viewModel = new ConfirmPasswordViewModel
@@ -98,10 +103,11 @@ namespace VideoUpload.Web.Controllers
                 Key = key,
                 Id = id
             };
-            return View(viewModel);
+            return View("confirm-password-reset", viewModel);
         }
 
         [HttpPost]
+        [Route("confirm-password-reset")]
         public async Task<ActionResult> ConfirmPasswordReset(ConfirmPasswordViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -113,7 +119,7 @@ namespace VideoUpload.Web.Controllers
                 }
                 AddErrors(result);
             }            
-            return View(viewModel);
+            return View("confirm-password-reset", viewModel);
         }
 
         private string GetReturnUrl(string returnUrl)

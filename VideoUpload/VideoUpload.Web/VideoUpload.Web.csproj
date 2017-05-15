@@ -284,8 +284,8 @@
     <Compile Include="Common\AppViewPage.cs" />
     <Compile Include="Common\AppController.cs" />
     <Compile Include="Common\AccessActionFilter.cs" />
+    <Compile Include="Common\EmailTemplate.cs" />
     <Compile Include="Common\Extensions.cs" />
-    <Compile Include="Common\IExceptionLogger.cs" />
     <Compile Include="Common\RequireSSLFilter.cs" />
     <Compile Include="Common\VideoStream.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -348,9 +348,9 @@
     <Content Include="Views\Users\List.cshtml" />
     <Content Include="Views\Users\New.cshtml" />
     <Content Include="Views\Account\Signin.cshtml" />
-    <Content Include="Views\Account\PasswordReset.cshtml" />
-    <Content Include="Views\Account\_PasswordResetRequestSentSuccess.cshtml" />
-    <Content Include="Views\Account\ConfirmPasswordReset.cshtml" />
+    <Content Include="Views\Shared\Password-Reset.cshtml" />
+    <Content Include="Views\Shared\_PasswordResetRequestSentSuccess.cshtml" />
+    <Content Include="Views\Shared\Confirm-Password-Reset.cshtml" />
     <Content Include="Views\Shared\_ResourceNotFound.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Manage-Claims.cshtml" />
@@ -413,6 +413,8 @@
     <Content Include="Views\Videos\_SocialSidebar.cshtml" />
     <Content Include="Views\Shared\_Search.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Users\_UserAccountSettingsWidget.cshtml" />
+    <Content Include="Views\Shared\Change-Password.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

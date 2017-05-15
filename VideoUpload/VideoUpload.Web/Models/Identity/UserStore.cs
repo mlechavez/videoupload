@@ -54,7 +54,11 @@ namespace VideoUpload.Web.Models.Identity
             user.IsActive = identityUser.IsActive;
             user.UserClaims = identityUser.UserClaims;
             user.BranchID = identityUser.BranchID;
-            user.MobileNumber = identityUser.MobileNumber;    
+            user.WorkAddress = identityUser.WorkAddress;
+            user.PhoneNumber = identityUser.PhoneNumber;
+            user.DirectLine = identityUser.DirectLine;
+            user.FaxNumber = identityUser.FaxNumber;
+            user.MobileNumber = identityUser.MobileNumber;
         }
 
         private IdentityUser GetIdentityUser(User user)
@@ -81,6 +85,10 @@ namespace VideoUpload.Web.Models.Identity
             identityUser.IsActive = user.IsActive;
             identityUser.UserClaims = user.UserClaims;
             identityUser.BranchID = user.BranchID;
+            identityUser.WorkAddress = user.WorkAddress;
+            identityUser.PhoneNumber = user.PhoneNumber;
+            identityUser.DirectLine = user.DirectLine;
+            identityUser.FaxNumber = user.FaxNumber;
             identityUser.MobileNumber = user.MobileNumber;
         }
 

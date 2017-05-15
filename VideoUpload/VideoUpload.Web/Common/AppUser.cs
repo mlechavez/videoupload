@@ -21,6 +21,16 @@ namespace VideoUpload.Web.Common
         {
             get { return FindFirst("lastname").Value; }
         }
+
+        public string FullName
+        {
+            get { return FirstName + " " + LastName; }
+        }
+
+        public string JobTitle
+        {
+            get { return FindFirst("jobtitle").Value; }
+        }
         public string Email
         {
             get { return FindFirst("email").Value; }
@@ -30,6 +40,28 @@ namespace VideoUpload.Web.Common
             get { return FindFirst("emailpass").Value; }
         }
 
+        public string WorkAddress
+        {
+            get { return FindFirst("workaddress").Value; }
+        }
+        public string PhoneNumber
+        {
+            get { return FindFirst("phonenumber").Value; }
+        }
+
+        public string DirectLine
+        {
+            get { return FindFirst("directline").Value; }
+        }
+
+        public string FaxNumber
+        {
+            get { return FindFirst("faxnumber").Value; }
+        }
+        public string MobileNumber
+        {
+            get { return FindFirst("mobilenumber").Value; }
+        }
         public List<Claim> ManageUser
         {
             get { return FindAll("ManageUser").ToList(); }

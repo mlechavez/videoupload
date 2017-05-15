@@ -83,6 +83,12 @@ namespace VideoUpload.Web.Models.Identity
             id.AddClaim(new Claim("email", user.Email));
             id.AddClaim(new Claim("emailpass", user.EmailPass));
             id.AddClaim(new Claim("branchID", user.BranchID.ToString()));
+            id.AddClaim(new Claim("jobtitle", user.JobTitle));
+            //id.AddClaim(new Claim("workaddress", user.WorkAddress));
+            id.AddClaim(new Claim("phonenumber", user.PhoneNumber));
+            id.AddClaim(new Claim("directline", user.DirectLine));
+            id.AddClaim(new Claim("faxnumber", user.FaxNumber));
+            id.AddClaim(new Claim("mobilenumber", user.MobileNumber));
 
             var claims = await manager.GetClaimsAsync(user.Id);
                         

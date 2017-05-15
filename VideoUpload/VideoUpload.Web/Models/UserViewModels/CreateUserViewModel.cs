@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace VideoUpload.Web.Models.UserViewModels
 {
@@ -18,12 +14,13 @@ namespace VideoUpload.Web.Models.UserViewModels
         [Display(Name = "Last name")]
         public string LastName { get; set; }
         [Required]
-        [Display(Name = "Designation")]
-        public string Designation { get; set; }
+        [Display(Name = "Job Title")]
+        public string JobTitle { get; set; }
 
         [Display(Name = "Employee no")]
         public string EmployeeNo { get; set; }
         [Required]
+        [Display(Name = "Email")]
         public string Email { get; set; }        
         public bool IsActive { get; set; }
         public string Password { get; set; }
@@ -34,7 +31,19 @@ namespace VideoUpload.Web.Models.UserViewModels
         [Display(Name = "Location")]
         public int? BranchID { get; set; }
         [Required]
+        [Display(Name = "Phone number")]
+        public string PhoneNumber { get; set; }
+        [Required]
+        [Display(Name = "Direct line")]
+        public string DirectLine { get; set; }
+        [Required]
+        [Display(Name = "Fax number")]
+        public string FaxNumber { get; set; }
+        [Required]
         [Display(Name = "Mobile number")]
         public string MobileNumber { get; set; }
+        [Required]
+        [Display(Name = "Work address")]
+        public string WorkAddress { get; set; }
     }
 }

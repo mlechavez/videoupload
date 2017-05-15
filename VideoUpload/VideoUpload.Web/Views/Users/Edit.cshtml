@@ -3,47 +3,86 @@
 @{
     ViewBag.Title = "Edit user profile";
 }
+
+@Html.Partial("_Modal")
+
 <div class="col-md-8 col-sm-6">
     <h1>Edit @Model.FirstName <text>&acute;s profile</text></h1>
     @using (Html.BeginForm("edit", "users", FormMethod.Post, new { @class = "form-defaults" }))
     {
         @Html.HiddenFor(x => x.UserID)
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(x => x.UserName)
-            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control input-sm", @readonly = "readonly" })
-            @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(x => x.FirstName)
-            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control input-sm", autofocus = "autofocus" })
-            @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(x => x.LastName)
-            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control input-sm" })
-            @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(x => x.JobTitle)
-            @Html.TextBoxFor(x => x.JobTitle, new { @class = "form-control input-sm" })
-            @Html.ValidationMessageFor(x => x.JobTitle, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(x => x.EmployeeNo)
-            @Html.TextBoxFor(x => x.EmployeeNo, new { @class = "form-control input-sm" })
-            @Html.ValidationMessageFor(x => x.EmployeeNo, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(x => x.Email)
-            @Html.TextBoxFor(x => x.Email, new { @class = "form-control input-sm" })
-            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(x => x.EmailPass)
-            @Html.TextBoxFor(x => x.EmailPass, new { @class = "form-control input-sm" })
-            @Html.ValidationMessageFor(x => x.EmailPass, "", new { @class = "text-danger" })
-        </div>
+        <fieldset>
+
+            <legend>Account Information</legend>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.UserName)
+                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control input-sm", required = "required", autofocus = "autofocus", @readonly = "readonly" })
+                @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
+            </div>           
+            <div class="form-group">
+                @Html.LabelFor(x => x.FirstName)
+                @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control input-sm", required = "required" })
+                @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.LastName)
+                @Html.TextBoxFor(x => x.LastName, new { @class = "form-control input-sm", required = "required" })
+                @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Email)
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control input-sm", required = "required", type = "email", @readonly = "readonly" })
+                @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+            </div>            
+            <div class="form-group">
+                @Html.LabelFor(x => x.MobileNumber)
+                @Html.TextBoxFor(x => x.MobileNumber, new { @class = "form-control input-sm" })
+                @Html.ValidationMessageFor(x => x.MobileNumber, "", new { @class = "text-danger" })
+            </div>
+        </fieldset>
+
+        <fieldset>
+
+            <legend>Organization Information</legend>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.JobTitle)
+                @Html.TextBoxFor(x => x.JobTitle, new { @class = "form-control input-sm" })
+                @Html.ValidationMessageFor(x => x.JobTitle, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.EmployeeNo)
+                @Html.TextBoxFor(x => x.EmployeeNo, new { @class = "form-control input-sm" })
+                @Html.ValidationMessageFor(x => x.EmployeeNo, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.PhoneNumber)
+                @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control input-sm" })
+                @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.DirectLine)
+                @Html.TextBoxFor(x => x.DirectLine, new { @class = "form-control input-sm" })
+                @Html.ValidationMessageFor(x => x.DirectLine, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.FaxNumber)
+                @Html.TextBoxFor(x => x.FaxNumber, new { @class = "form-control input-sm" })
+                @Html.ValidationMessageFor(x => x.FaxNumber, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.WorkAddress)
+                @Html.TextBoxFor(x => x.WorkAddress, new { @class = "form-control input-sm" })
+                @Html.ValidationMessageFor(x => x.WorkAddress, "", new { @class = "text-danger" })
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(x => x.BranchID)
+                @Html.DropDownList("BranchID", null, "SELECT LOCATION", new { @class = "form-control input-sm", required = "required" })
+            </div>
+        </fieldset>
 
         <div class="checkbox">
             <label>
@@ -52,7 +91,7 @@
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg">
+            <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-save"></span> Save
             </button>
         </div>
@@ -65,3 +104,7 @@
         </li>
     </ul>
 </div>
+
+@section SideBar {
+    @Html.Partial("_UserAccountSettingsWidget", Model)    
+}

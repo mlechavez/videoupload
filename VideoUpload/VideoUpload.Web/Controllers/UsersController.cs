@@ -4,14 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using VideoUpload.Web.Models.UserViewModels;
 using VideoUpload.Web.Models.Identity;
 using VideoUpload.Core;
 using System.Security.Claims;
 using VideoUpload.Web.Common;
-using VideoUpload.Core.Entities;
 
 namespace VideoUpload.Web.Controllers
 {
@@ -71,15 +69,19 @@ namespace VideoUpload.Web.Controllers
             {
                 var identityUser = new IdentityUser
                 {
-                    UserName = viewModel.UserName,                    
-                    FirstName = viewModel.FirstName,
-                    LastName = viewModel.LastName,
-                    JobTitle = viewModel.Designation,
-                    EmployeeNo = viewModel.EmployeeNo,
-                    Email = viewModel.Email,
-                    EmailPass = viewModel.EmailPass,
+                    UserName = viewModel.UserName.Trim(),                    
+                    FirstName = viewModel.FirstName.Trim(),
+                    LastName = viewModel.LastName.Trim(),
+                    JobTitle = viewModel.JobTitle.Trim(),
+                    EmployeeNo = viewModel.EmployeeNo.Trim(),
+                    Email = viewModel.Email.Trim(),
+                    EmailPass = viewModel.EmailPass.Trim(),
                     IsActive = true,
-                    MobileNumber = viewModel.MobileNumber,
+                    PhoneNumber = viewModel.PhoneNumber.Trim(),
+                    DirectLine = viewModel.DirectLine.Trim(),
+                    FaxNumber = viewModel.FaxNumber.Trim(),
+                    MobileNumber = viewModel.MobileNumber.Trim(),
+                    WorkAddress = viewModel.WorkAddress.Trim(),
                     BranchID = viewModel.BranchID
                 };
                 var result = await _mgr.CreateAsync(identityUser, viewModel.Password);                
@@ -110,6 +112,7 @@ namespace VideoUpload.Web.Controllers
                 }
                 AddErrors(result);
             }
+            ViewBag.BranchID = new SelectList(_uow.Branches.GetAll(), "BranchID", "BranchName");
             return View(viewModel);
         }
 
@@ -133,8 +136,15 @@ namespace VideoUpload.Web.Controllers
                 EmployeeNo = user.EmployeeNo,
                 Email = user.Email,
                 EmailPass = user.EmailPass,
-                IsActive = user.IsActive
+                IsActive = user.IsActive,
+                PhoneNumber = user.PhoneNumber,
+                DirectLine = user.DirectLine,
+                FaxNumber = user.FaxNumber,
+                MobileNumber = user.MobileNumber,
+                WorkAddress = user.WorkAddress
+                
             };
+            ViewBag.BranchID = new SelectList(_uow.Branches.GetAll(), "BranchID", "BranchName", user.BranchID);
             return View(viewModel);
         }
 
@@ -157,6 +167,12 @@ namespace VideoUpload.Web.Controllers
                 user.Email = viewModel.Email;
                 user.EmailPass = viewModel.EmailPass;
                 user.IsActive = viewModel.IsActive;
+                user.PhoneNumber = viewModel.PhoneNumber;
+                user.DirectLine = viewModel.DirectLine;
+                user.FaxNumber = viewModel.FaxNumber;
+                user.MobileNumber = viewModel.MobileNumber;
+                user.WorkAddress = viewModel.WorkAddress;
+                user.BranchID = viewModel.BranchID;
                 
                 var result = await _mgr.UpdateAsync(user);
                 if (result.Succeeded)
@@ -165,7 +181,9 @@ namespace VideoUpload.Web.Controllers
                     if (result.Succeeded) return RedirectToAction("list");
                 }                
                 AddErrors(result);
+
             }
+            ViewBag.BranchID = new SelectList(_uow.Branches.GetAll(), "BranchID", "BranchName", viewModel.BranchID);
             return View(viewModel);
         }
 
@@ -209,6 +227,21 @@ namespace VideoUpload.Web.Controllers
             RemoveUserClaimsManually();
             return RedirectToAction("list");
         }
+
+        [Route("{userName}/change-password")]
+        public async Task<ActionResult> ChangePassword(string userName)
+        {
+            var user = await _mgr.FindByNameAsync(userName);
+
+            if (user == null)
+            {
+                return View("_ResourceNotFound");
+            }
+            ViewBag.Header = $"Change {user.UserName}'s password";
+            return View("Change-Password", user);
+        }
+
+
 
         private void AddRemoveClaims(string userID, List<Claim> userClaims, string selectedClaims, string type)
         {
@@ -297,5 +330,7 @@ namespace VideoUpload.Web.Controllers
                 ModelState.AddModelError("", error);
             }
         }
+
+
     }
 }
