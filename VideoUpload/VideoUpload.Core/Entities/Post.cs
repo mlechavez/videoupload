@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VideoUpload.Core.Entities
 {
@@ -14,8 +11,8 @@ namespace VideoUpload.Core.Entities
         private Branch _branch;
 
         public int PostID { get; set; }
-        public string PlateNumber { get; set; }
-        public string Description { get; set; }                
+        public string PlateNumber { get; set; }        
+        public virtual string Description { get; set; }                
         public DateTime DateUploaded { get; set; }
         public string EditedBy { get; set; }
         public DateTime? DateEdited { get; set; }
@@ -46,7 +43,7 @@ namespace VideoUpload.Core.Entities
 
         public virtual ICollection<History> Histories
         {
-            get { return _histories ?? (new List<History>()); }
+            get { return _histories ?? ( _histories = new List<History>()); }
             set { _histories = value; }
         }
     }

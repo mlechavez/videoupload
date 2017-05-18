@@ -10,6 +10,7 @@ using VideoUpload.Web.Models.Identity;
 using VideoUpload.Core;
 using System.Security.Claims;
 using VideoUpload.Web.Common;
+using VideoUpload.Web.Models;
 
 namespace VideoUpload.Web.Controllers
 {
@@ -134,8 +135,7 @@ namespace VideoUpload.Web.Controllers
                 LastName = user.LastName,
                 JobTitle = user.JobTitle,
                 EmployeeNo = user.EmployeeNo,
-                Email = user.Email,
-                EmailPass = user.EmailPass,
+                Email = user.Email,                
                 IsActive = user.IsActive,
                 PhoneNumber = user.PhoneNumber,
                 DirectLine = user.DirectLine,
@@ -164,8 +164,7 @@ namespace VideoUpload.Web.Controllers
                 user.LastName = viewModel.LastName;
                 user.JobTitle = viewModel.JobTitle;
                 user.EmployeeNo = viewModel.EmployeeNo;
-                user.Email = viewModel.Email;
-                user.EmailPass = viewModel.EmailPass;
+                user.Email = viewModel.Email;                
                 user.IsActive = viewModel.IsActive;
                 user.PhoneNumber = viewModel.PhoneNumber;
                 user.DirectLine = viewModel.DirectLine;
@@ -175,6 +174,7 @@ namespace VideoUpload.Web.Controllers
                 user.BranchID = viewModel.BranchID;
                 
                 var result = await _mgr.UpdateAsync(user);
+
                 if (result.Succeeded)
                 {
                     result = await _mgr.SetEmailAsync(user.Id, user.Email);
@@ -237,11 +237,34 @@ namespace VideoUpload.Web.Controllers
             {
                 return View("_ResourceNotFound");
             }
+
+            var viewModel = new ChangePasswordViewModel
+            {
+                UserID = user.Id,
+                UserName = user.UserName
+            };
+
             ViewBag.Header = $"Change {user.UserName}'s password";
-            return View("Change-Password", user);
+            return View("Change-Password", viewModel);
         }
 
+        [HttpPost]
+        [Route("{userName}/change-password")]
+        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _mgr.ChangePasswordAsync(viewModel.UserID, viewModel.OldPassword, viewModel.NewPassword);
 
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("edit", new { userName = viewModel.UserName });
+                }
+                AddErrors(result);
+            }
+            
+            return View("Change-Password", viewModel);
+        }
 
         private void AddRemoveClaims(string userID, List<Claim> userClaims, string selectedClaims, string type)
         {

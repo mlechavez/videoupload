@@ -6,6 +6,7 @@ using System;
 using System.Net.Mail;
 using System.Configuration;
 using VideoUpload.Web.OoredooSOAP;
+using System.Text;
 
 namespace VideoUpload.Web.Models.Identity
 {
@@ -84,7 +85,7 @@ namespace VideoUpload.Web.Models.Identity
             id.AddClaim(new Claim("emailpass", user.EmailPass));
             id.AddClaim(new Claim("branchID", user.BranchID.ToString()));
             id.AddClaim(new Claim("jobtitle", user.JobTitle));
-            //id.AddClaim(new Claim("workaddress", user.WorkAddress));
+            id.AddClaim(new Claim("workaddress", user.WorkAddress));
             id.AddClaim(new Claim("phonenumber", user.PhoneNumber));
             id.AddClaim(new Claim("directline", user.DirectLine));
             id.AddClaim(new Claim("faxnumber", user.FaxNumber));
@@ -110,7 +111,7 @@ namespace VideoUpload.Web.Models.Identity
     public class EmailIdentityMessage : IdentityMessage
     {
         public virtual string To { get; set; }
-        public virtual string Credential { get; set; }
+        public virtual string Credential { get; set; }      
     }
     public class CustomEmailService : IEmailIdentityMessage
     {

@@ -32,7 +32,8 @@ namespace VideoUpload.EF.Configurations
             Property(x => x.Email)
                 .IsRequired();
             Property(x => x.EmailPass)
-                .IsRequired();
+                .HasMaxLength(128)
+                .IsOptional();
 
             HasMany(x => x.UserClaims)
                 .WithOptional(x => x.User)

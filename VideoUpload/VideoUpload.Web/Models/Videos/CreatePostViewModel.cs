@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace VideoUpload.Web.Models
 {
@@ -17,6 +18,7 @@ namespace VideoUpload.Web.Models
         [Required]
         public string PlateNumber { get; set; }
         [Required]
+        [AllowHtml]
         public string Description { get; set; }      
         public DateTime DateUploaded { get; set; }
         public List<HttpPostedFileBase> Attachments { get; set; }

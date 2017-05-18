@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using VideoUpload.Core;
 using VideoUpload.Core.Entities;
@@ -63,7 +64,7 @@ namespace VideoUpload.Web.Controllers
             return View(post);            
         }
 
-        [HttpPost]        
+        [HttpPost]          
         [AccessActionFilter(Type = "Video", Value = "CanCreate")]
         public async Task<ActionResult> Upload(CreatePostViewModel viewModel)
         {
@@ -88,7 +89,7 @@ namespace VideoUpload.Web.Controllers
                 var post = new Post
                 {
                     PlateNumber = viewModel.PlateNumber,
-                    Description = viewModel.Description,
+                    Description = HttpUtility.HtmlDecode(viewModel.Description),
                     UserID = User.Identity.GetUserId(),
                     DateUploaded = viewModel.DateUploaded,
                     BranchID = CurrentUser.BranchID
@@ -205,27 +206,36 @@ namespace VideoUpload.Web.Controllers
 
             if (viewModel.Post == null) return View("_ResourceNotFound");
 
-            ViewBag.Header = $"Edit post for plate number: { viewModel.Post.PlateNumber }";  
-                                                
-            return View(viewModel.Post);
+            ViewBag.Header = $"Edit post for plate number: { viewModel.Post.PlateNumber }";
+
+            var postedEdit = new EditPostViewModel
+            {
+                PostID = viewModel.Post.PostID,
+                UserName = viewModel.Post.User.UserName,
+                PlateNumber = viewModel.Post.PlateNumber,
+                Description = viewModel.Post.Description
+            };
+            return View(postedEdit);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("{userName}/posts/{postID:int}")]
         [AccessActionFilter(Type = "Video", Value = "CanUpdate")]
-        public async Task<ActionResult> Edit(Post viewModel)
-        {            
-            if (!string.IsNullOrWhiteSpace(viewModel.PlateNumber) || !string.IsNullOrWhiteSpace(viewModel.Description))
+        public async Task<ActionResult> Edit(EditPostViewModel viewModel)
+        {
+            if (ModelState.IsValid)
             {
                 var post = await _uow.Posts.GetByIdAsync(viewModel.PostID);
 
                 post.PlateNumber = viewModel.PlateNumber.Trim();
-                post.Description = viewModel.Description.Trim();
-                
+
+                post.Description = viewModel.Description;
+
                 await _uow.SaveChangesAsync();
                 return RedirectToAction("myposts");
-            }
-            ModelState.AddModelError("", "All fiedls are required");
+            }                   
+            ModelState.AddModelError("", "All fields are required");
             return View(viewModel);
         }
         
@@ -237,7 +247,7 @@ namespace VideoUpload.Web.Controllers
             if (post == null) return View("_ResourceNotFound");
 
             if (post.DateUploaded.Year != year || post.DateUploaded.Month != month) return View("_ResourceNotFound");
-
+            
             ViewBag.Header = $"Car plate no: { post.PlateNumber}";
 
             return View(post);
@@ -282,8 +292,8 @@ namespace VideoUpload.Web.Controllers
                     Name = formCollection["customerName"]
                 };
 
-                var message = $"Dear { formCollection["customerName"] }, Please find the video for your Porsche. I will call you shortly to discuss further. Many thanks, { CurrentUser.FirstName }";                
-
+                var message = $"Dear { formCollection["customerName"] }, <br/><br/> Please find the video for your Porsche. I will call you shortly to discuss further.";                
+                
                 if (formCollection["sendingType"] == "email")
                 {
                     if (string.IsNullOrWhiteSpace(formCollection["email"]))
@@ -298,7 +308,7 @@ namespace VideoUpload.Web.Controllers
                     try
                     {
                         await _mgr.CustomSendEmailAsync(id, "Your Porsche",
-                            message + " " + url, formCollection["email"],
+                            EmailTemplate.GetTemplate(CurrentUser, message, url), formCollection["email"],
                             CurrentUser.EmailPass);
                     }
                     catch (Exception ex)
@@ -457,7 +467,8 @@ namespace VideoUpload.Web.Controllers
                 try
                 {                    
                     await _mgr.CustomSendEmailAsync(user.Id, "Your posted video.", 
-                        "Your video has been viewed. See the details: " + details, user.Email, user.EmailPass);
+                         EmailTemplate.GetTemplate(CurrentUser, "Your video has been viewed. See the details: ", details),
+                        user.Email, user.EmailPass);
                 }
                 catch (Exception eExcp)
                 {

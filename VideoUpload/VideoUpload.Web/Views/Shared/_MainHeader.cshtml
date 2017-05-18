@@ -57,7 +57,7 @@
                         <ul class="dropdown-menu">
 
                             @if (CurrentUser.ManageUser.Any(x => x.Value == "CanRead"))
-                {
+                            {
                                 <li>
                                     <a href="@Url.Action("list","users", new { Area = "" })">
                                         <i class="fa fa-cog fa-fw"></i> Manage users
@@ -74,6 +74,7 @@
                                     <i class="fa fa-sign-out fa-fw"></i> Sign out
                                 </a>
                             </li>
+
                         </ul>
                     </li>
                 </ul>

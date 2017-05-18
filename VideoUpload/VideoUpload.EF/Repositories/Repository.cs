@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using VideoUpload.Core.Repositories;
@@ -20,9 +18,9 @@ namespace VideoUpload.EF.Repositories
         }
         public Repository(AppDbContext context)
         {
-            _context = context;
-            
+            _context = context;            
         }
+
         public void Add(T entity)
         {
             Set.Add(entity);
@@ -54,7 +52,7 @@ namespace VideoUpload.EF.Repositories
 
         public Task<T> GetByIdAsync(object id)
         {
-            return Set.FindAsync(id);
+            return Set.FindAsync(id);            
         }
 
         public Task<T> GetByIdAsync(object id, CancellationToken cancellationToken)

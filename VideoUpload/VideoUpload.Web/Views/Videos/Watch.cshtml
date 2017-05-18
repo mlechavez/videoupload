@@ -42,11 +42,9 @@
                 <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />
                 Your browser does not support playing this video. Please upgrade your browser.
             </video>
-        </div>
+        </div>        
 
-        <br />
-
-        <p class="lead text-center">@Model.Description</p>
+        <div>@Html.Raw(Model.Description)</div>
 
     </article>
 

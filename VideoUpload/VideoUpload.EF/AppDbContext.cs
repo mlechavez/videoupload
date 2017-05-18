@@ -14,6 +14,7 @@ namespace VideoUpload.EF
         public AppDbContext(string nameOrconnectionString)
             :base(nameOrconnectionString)
         {
+            
             //this.Database.Log = (message) => Debug.Write(message);
         }
         public DbSet<User> Users { get; set; }

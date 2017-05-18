@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Web;
+﻿using System.Text;
 
 namespace VideoUpload.Web.Common
 {
-    public static class EmailTemplate
+    public class EmailTemplate
     {
-        public static StringBuilder GetTemplate(AppUser currentUser)
+        public static string GetTemplate(AppUser currentUser, string message, string url)
         {
 
             var template = new StringBuilder();
-
+            template.Append("<p style='font:15px Porsche News Gothic'>" + message + "<br/>");
+            template.Append("<p style='font:15px Porsche News Gothic'>" + url + "<br/>");
             template.Append("<div><p style='font:15px Porsche News Gothic'>Best Regards,</p>");
             template.Append("<span style='font:15px Porsche News Gothic'><b>" + currentUser.FullName + "</b></span><br/>");
             template.Append("<span style='font:15px Porsche News Gothic'>" + currentUser.JobTitle + "<span><br/><br/>");
@@ -24,7 +20,7 @@ namespace VideoUpload.Web.Common
             template.Append("<b>Direct Line:</b> " + currentUser.DirectLine + "<br/>");
             template.Append("<b>Fax:</b> " + currentUser.FaxNumber + "<br/>");
             template.Append("<b>Email:</b> " + currentUser.Email + "<br/></div>");
-            return template;
+            return template.ToString();
         }
     }
 }

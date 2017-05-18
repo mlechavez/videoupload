@@ -46,13 +46,24 @@ namespace VideoUpload.Web
                         .Include("~/scripts/jquery.cookie.js"));
 
             bundles.Add(
+                new ScriptBundle("~/tinymce", "https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=5p70a8d0ew9m48r9xmcngtz3t0itd0czyhvrsiimy476qizj")
+                    .Include("~/scripts/tinymce.js"));
+
+            bundles.Add(
                 new ScriptBundle("~/js")
                     .Include("~/scripts/videos/timeZoneCookie.js"));
+
+            
 
             //Upload page
             bundles.Add(
                 new ScriptBundle("~/upload")
                     .Include("~/scripts/videos/upload.js"));
+            //Edit video page
+            bundles.Add(
+                new ScriptBundle("~/post-edit")
+                    .Include("~/scripts/videos/edit.js"));
+
 
             //Post page
             bundles.Add(

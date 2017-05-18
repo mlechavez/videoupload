@@ -31,6 +31,7 @@ namespace VideoUpload.Web.Models.Videos
         
         public IPagedList<Post> Posts { get; private set; }
         public Post Post { get; private set; }
+        
 
         public Task Initialization { get; private set; }
 

@@ -57,32 +57,32 @@
 
             <div class="form-group">
                 @Html.LabelFor(x => x.JobTitle)
-                @Html.TextBoxFor(x => x.JobTitle, new { @class = "form-control input-sm" })
+                @Html.TextBoxFor(x => x.JobTitle, new { @class = "form-control input-sm", required = "required" })
                 @Html.ValidationMessageFor(x => x.JobTitle, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 @Html.LabelFor(x => x.EmployeeNo)
-                @Html.TextBoxFor(x => x.EmployeeNo, new { @class = "form-control input-sm" })
+                @Html.TextBoxFor(x => x.EmployeeNo, new { @class = "form-control input-sm", required = "required" })
                 @Html.ValidationMessageFor(x => x.EmployeeNo, "", new { @class = "text-danger" })
             </div>            
             <div class="form-group">
                 @Html.LabelFor(x => x.PhoneNumber)
-                @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control input-sm" })
+                @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control input-sm", required = "required" })
                 @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 @Html.LabelFor(x => x.DirectLine)
-                @Html.TextBoxFor(x => x.DirectLine, new { @class = "form-control input-sm" })
+                @Html.TextBoxFor(x => x.DirectLine, new { @class = "form-control input-sm", required = "required" })
                 @Html.ValidationMessageFor(x => x.DirectLine, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 @Html.LabelFor(x => x.FaxNumber)
-                @Html.TextBoxFor(x => x.FaxNumber, new { @class = "form-control input-sm" })
+                @Html.TextBoxFor(x => x.FaxNumber, new { @class = "form-control input-sm", required = "required" })
                 @Html.ValidationMessageFor(x => x.FaxNumber, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 @Html.LabelFor(x => x.WorkAddress)
-                @Html.TextBoxFor(x => x.WorkAddress, new { @class = "form-control input-sm" })
+                @Html.TextBoxFor(x => x.WorkAddress, new { @class = "form-control input-sm", required = "required" })
                 @Html.ValidationMessageFor(x => x.WorkAddress, "", new { @class = "text-danger" })
             </div>
             

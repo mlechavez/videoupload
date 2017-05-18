@@ -28,9 +28,30 @@
             </video>
         </div>
 
+        <br />        
+        <div>
+            @Html.Raw(Model.Description)
+        </div>
+        
+
         <br />
 
-        <p class="lead text-center">@Model.Description</p>
+        @if (Model.Histories.Count() > 0)
+        {
+            <article class="well">
+                <p class="lead">Email and Sms logs</p>
+
+                <ul class="list-unstyled">
+                @foreach (var history in Model.Histories)
+                {
+                    <li>
+                        For <b>@history.Name:</b><br />
+                        <b><span class="text-info">@history.Recipient</span></b> on <b>@history.DateSent.ToClientTime()</b>
+                    </li>
+                }
+                </ul>
+            </article>
+        }
 
     </article>
 
