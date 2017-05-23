@@ -13,9 +13,7 @@
             <tr>
                 <th></th>
                 <th>@group.Key</th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th class="text-center" colspan="3">Status</th>                
                 <th class="text-center">Comments</th>
             </tr>
         </thead>
@@ -31,7 +29,7 @@
 
                         @if (hcDetails.ElementAt(i).Status == "good")
                         {
-                            <i class="fa fa-check"></i>
+                            <i class="fa fa-check" title="Good condition"></i>
                         }
 
                     </td>
@@ -39,7 +37,7 @@
 
                         @if (hcDetails.ElementAt(i).Status == "suggested")
                         {
-                            <i class="fa fa-check"></i>
+                            <i class="fa fa-check" title="Suggested to be replaced"></i>
                         }
 
                     </td>
@@ -47,7 +45,7 @@
 
                         @if (hcDetails.ElementAt(i).Status == "urgent")
                         {
-                            <i class="fa fa-check"></i>
+                            <i class="fa fa-check" title="Urgent to replace"></i>
                         }
 
                     </td>

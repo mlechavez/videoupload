@@ -15,7 +15,7 @@ using VideoUpload.Web.Models.HealthChecks;
 
 namespace VideoUpload.Web.Controllers
 {
-    [RoutePrefix("health-check")]
+    [RoutePrefix("hc")]
     public class HealthCheckController : AppController
     {
         private readonly IUnitOfWork _uow;
@@ -28,31 +28,38 @@ namespace VideoUpload.Web.Controllers
         {
             return View();
         }
-
+        
+        [Route("upload")]
         public ActionResult Upload()
-        {
+        {           
             return View();
         }
+
         [HttpPost]
+        [Route("upload")]
         public ActionResult Upload(HttpPostedFileBase csv)
         {
-            var isSuccess = false;
+            var jobcardNo = string.Empty;
             
-            if (csv != null && csv.ContentLength > 0)
-            {
-                isSuccess = UploadCsvToDatabase(csv.InputStream);
-            }
+            if (csv != null && csv.ContentLength > 0 && csv.ContentType == "application/vnd.ms-excel")
+            {                
+                jobcardNo = UploadCsvToDatabase(csv.InputStream);
 
-            if (isSuccess)
-            {
-
+                if (!string.IsNullOrEmpty(jobcardNo))
+                {
+                    return RedirectToAction("details", new { jobcardNo = jobcardNo });
+                }
             }
+            else
+            {
+                ViewBag.UploadStatus = "Please double check the format of the file. Make sure it is in CSV format";
+            }            
             return View();
         }        
 
-        private bool UploadCsvToDatabase(Stream inputStream)
+        private string UploadCsvToDatabase(Stream inputStream)
         {
-            var isSuccess = false;
+            //var isSuccess = false;
             var line = string.Empty;
             string[] strArray;
             var jobcardNo = string.Empty;
@@ -72,43 +79,46 @@ namespace VideoUpload.Web.Controllers
             line = sr.ReadLine();
             strArray = r.Split(line);
 
-            var jobcard = new Jobcard();
-
-            jobcard.JobcardNo = jobcardNo;
-            jobcard.CustomerName = customerName;
-            jobcard.ChassisNo = chassisNo;
-            jobcard.PlateNo = plateNo;
-            jobcard.Mileage = mileage;
-            jobcard.BranchID = CurrentUser.BranchID; //inherit the AppController to get the CurrentUser Property
+            //_uow.Jobcards.GetById()
+            var jobcard = new Jobcard();             
 
             while ((line = sr.ReadLine()) != null)
-            {
+            {                
                 strArray = r.Split(line);
 
-                jobcardNo = !string.IsNullOrWhiteSpace(strArray[0]) ? strArray[0].ToString() : string.Empty;
-                customerName = !string.IsNullOrWhiteSpace(strArray[1]) ? strArray[1].ToString() : string.Empty;
-                chassisNo = !string.IsNullOrWhiteSpace(strArray[2]) ? strArray[2].ToString() : string.Empty;
-                plateNo = !string.IsNullOrWhiteSpace(strArray[3]) ? strArray[3].ToString() : string.Empty;
-                mileage = !string.IsNullOrWhiteSpace(strArray[4]) ? strArray[4].ToString() : string.Empty;
-                hcCode = !string.IsNullOrWhiteSpace(strArray[5]) ? strArray[5].ToString() : string.Empty;
-                status = !string.IsNullOrWhiteSpace(strArray[6]) ? strArray[6].ToString() : string.Empty;                
-                comments = !string.IsNullOrWhiteSpace(strArray[7]) ? strArray[7].ToString() : string.Empty;
+                jobcardNo = !string.IsNullOrWhiteSpace(strArray[0]) ? strArray[0].ToString().Replace($"\"","") : string.Empty;
+                customerName = !string.IsNullOrWhiteSpace(strArray[1]) ? strArray[1].ToString().Replace($"\"", null) : string.Empty;
+                chassisNo = !string.IsNullOrWhiteSpace(strArray[2]) ? strArray[2].ToString().Replace($"\"", null) : string.Empty;
+                plateNo = !string.IsNullOrWhiteSpace(strArray[3]) ? strArray[3].ToString().Replace($"\"", null) : string.Empty;
+                mileage = !string.IsNullOrWhiteSpace(strArray[4]) ? strArray[4].ToString().Replace($"\"", null) : string.Empty;
+                hcCode = !string.IsNullOrWhiteSpace(strArray[5]) ? strArray[5].ToString().Replace($"\"", null) : string.Empty;
+                status = !string.IsNullOrWhiteSpace(strArray[6]) ? strArray[6].ToString().Replace($"\"", null) : string.Empty;                
+                comments = !string.IsNullOrWhiteSpace(strArray[7]) ? strArray[7].ToString().Replace($"\"", null) : string.Empty;
+
+                if (jobcard.JobcardNo == null)
+                {
+                    jobcard.JobcardNo = jobcardNo;                    
+                    jobcard.CustomerName = customerName;
+                    jobcard.ChassisNo = chassisNo;
+                    jobcard.PlateNo = plateNo;
+                    jobcard.Mileage = mileage;
+                    jobcard.BranchID = CurrentUser.BranchID;
+                }
 
                 jobcard.HealthCheckDetails.Add(new HealthCheckDetails
                 {
                     JobcardNo = jobcardNo,
                     HcCode = hcCode,
                     Status = status,
-                    Comments = comments,
-
+                    Comments = comments
                 });                
             }            
             _uow.Jobcards.Add(jobcard);
 
             _uow.SaveChanges();
             sr.Dispose();
-            isSuccess = true;
-            return isSuccess;
+            //isSuccess = true;
+            return jobcardNo;
         }
 
         public ActionResult ExportVhcToCsv(string jobcardNo)
@@ -144,12 +154,14 @@ namespace VideoUpload.Web.Controllers
             return File(data, "text/csv", "vhc.csv");
         }
 
+        [Route("new")]
         public ActionResult New()
         {
             var viewModel = new HcViewModel(_uow);            
             return View(viewModel);
         }
         [HttpPost]
+        [Route("new")]
         public async Task<ActionResult> New(HcViewModel viewModel)
         {            
             
@@ -183,6 +195,8 @@ namespace VideoUpload.Web.Controllers
             return View(viewModel);
         }
 
+        [AllowAnonymous]
+        [Route("{jobcardNo}")]
         public ActionResult Details(string jobcardNo)
         {
             var viewModel = new HcViewModel(_uow, jobcardNo);

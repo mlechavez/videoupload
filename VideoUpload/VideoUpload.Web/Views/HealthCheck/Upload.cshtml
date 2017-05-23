@@ -3,15 +3,22 @@
     ViewBag.Title = "Upload";
 }
 
-<h2>Upload your health check for your customer</h2>
+<div class="col-md-8">
 
-@using (Html.BeginForm("upload", "healthcheck", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="form-group">
-        <label for="healthCheckCsv">Csv file</label>
-        <input type="file" name="csv" class="form-control" />
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-default">Upload</button>
-    </div>
-}
+    <h2>Upload the vehicle health check for your customer</h2>
+
+    <hr />
+
+    <p class="text-danger">@ViewBag.UploadStatus</p>
+
+    @using (Html.BeginForm("upload", "healthcheck", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="form-group">
+            <label for="healthCheckCsv">Csv file</label>
+            <input type="file" name="csv" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Upload</button>
+        </div>
+    }
+</div>
