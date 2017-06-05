@@ -31,7 +31,7 @@ vPlayer.onplay = function () {
         var url = $('#postUrl').data('url');
         var uploader = $('#postUrl').data('uploader');
         var currentLink = window.location.href;
-        currentLink = currentLink.replace("watch", "details");
+        currentLink = currentLink.replace("watch", "archive");
 
         $.ajax({
             type: 'post',

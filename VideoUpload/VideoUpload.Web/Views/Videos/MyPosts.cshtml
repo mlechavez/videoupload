@@ -12,8 +12,10 @@
 
     <hr />
 
-    @if (Model.Posts.Count > 0)
+    @if (Model.Count > 0)
     {
+        @Html.Partial("_Pager", Model)
+
         <table class="table table-condensed table-hover">
             <thead>
 
@@ -28,7 +30,7 @@
 
             <tbody>
 
-                @foreach (var item in Model.Posts)
+                @foreach (var item in Model)
                 {
                     var rowClass = string.Empty;
                     var lblClass = string.Empty;
@@ -107,10 +109,7 @@
 
         </table>
 
-        <div class="text-center">
-            @Html.PagedListPager(Model.Posts, page => Url.Action("myposts", new { page }),
-                new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
-        </div>
+        @Html.Partial("_Pager", Model)
     }
     else
     {

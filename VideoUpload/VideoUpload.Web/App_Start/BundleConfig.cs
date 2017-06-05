@@ -46,7 +46,7 @@ namespace VideoUpload.Web
                         .Include("~/scripts/jquery.cookie.js"));
 
             bundles.Add(
-                new ScriptBundle("~/tinymce", "https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=5p70a8d0ew9m48r9xmcngtz3t0itd0czyhvrsiimy476qizj")
+                new ScriptBundle("~/tinymce", "https://cloud.tinymce.com/stable/tinymce.js?apiKey=5p70a8d0ew9m48r9xmcngtz3t0itd0czyhvrsiimy476qizj")
                     .Include("~/scripts/tinymce.js"));
 
             bundles.Add(

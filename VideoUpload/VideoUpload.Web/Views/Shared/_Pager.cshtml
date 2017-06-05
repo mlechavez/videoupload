@@ -1,0 +1,20 @@
+﻿@model VideoUpload.Web.Models.Videos.VideoViewModel
+
+@{
+    var search = Context.Request.QueryString["s"];
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var actionRoute = ViewContext.RouteData.Values["action"].ToString();
+}
+
+@if (Model.TotalPages > 1)
+{
+    <ul class="pager">
+        <li class="previous @prevDisabled">
+            <a href="@Url.Action(actionRoute, new { s = search, page = Model.PageIndex - 1 })">Previous</a>
+        </li>
+        <li class="next @nextDisabled">
+            <a href="@Url.Action(actionRoute, new { s = search , page = Model.PageIndex + 1 })">Next</a>
+        </li>
+    </ul>
+}

@@ -560,6 +560,7 @@
     <Content Include="Views\Users\_UserAccountSettingsWidget.cshtml" />
     <Content Include="Views\Shared\Change-Password.cshtml" />
     <Content Include="Views\Videos\Edit.cshtml" />
+    <Content Include="Views\Shared\_Pager.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

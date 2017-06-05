@@ -1,4 +1,6 @@
 ﻿using PagedList;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VideoUpload.Core;
@@ -7,52 +9,51 @@ using VideoUpload.Web.Common;
 
 namespace VideoUpload.Web.Models.Videos
 {
-    public class VideoViewModel : IAsyncInitialization
-    {        
+    public class VideoViewModel : List<Post>
+    {
+        public int PageIndex { get; private set; }
+        public int TotalPages { get; private set; }
 
-        public VideoViewModel(IUnitOfWork uow, int pageNo, int pageSize)
-        {                   
-            Initialization = InitializeAsync(uow, pageNo, pageSize);
+        public VideoViewModel(ICollection<Post> items, int count, int pageIndex, int pageSize)
+        {
+            PageIndex = pageIndex;
+            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+            AddRange(items);
         }
 
-        public VideoViewModel(IUnitOfWork uow, int pageNo, int pageSize, string search)
-        {            
-            Initialization = InitializeAsync(uow, pageNo, pageSize, search);
+        public bool HasPreviousPage
+        {
+            get { return (PageIndex > 1); }
+        }
+
+        public bool HasNextPage
+        {
+            get { return (PageIndex < TotalPages); }
+        }
+
+        public static async Task<ICollection<Post>> CreateAsync(IUnitOfWork uow, int pageIndex, int pageSize, string filterType, string param)
+        {
+            List<Post> posts;
+            int count = 0;
+
+            switch (filterType)
+            {
+                case "user":
+                    posts = await uow.Posts.PageAllByUserIDAsync(param, pageIndex - 1, pageSize);
+                    count = await uow.Posts.GetTotalPostsByUserIDAsync(param);
+                    break;
+                case "search":
+                    posts = await uow.Posts.PageAllBySearchAsync(param, pageIndex - 1, pageSize);
+                    count = await uow.Posts.GetTotalPostsBySearchAsync(param);
+                    break;                
+                default:
+                    posts = await uow.Posts.PageAllByPostedOnAsync(pageIndex - 1, pageSize);
+                    count = await uow.Posts.GetTotalPostsAsync();
+                    break;
+            }
+
+            return new VideoViewModel(posts, count, pageIndex, pageSize);
         }        
-        public VideoViewModel(IUnitOfWork uow, string userID, int pageNo, int pageSize)
-        {
-            Initialization = InitializeAsync(uow, userID, pageNo, pageSize);         
-        }
-
-        public VideoViewModel(IUnitOfWork uow, string userID, int postID)
-        {
-            Initialization = InitializeAsync(uow, userID, postID);
-        }
-        
-        public IPagedList<Post> Posts { get; private set; }
-        public Post Post { get; private set; }
-        
-
-        public Task Initialization { get; private set; }
-
-        private async Task InitializeAsync(IUnitOfWork uow, int pageNo, int pageSize)
-        {
-            var posts = await uow.Posts.GetAllAsync();
-            Posts = posts.OrderByDescending(x => x.DateUploaded).ToPagedList(pageNo, pageSize);
-        }
-        private async Task InitializeAsync(IUnitOfWork uow, int pageNo, int pageSize, string search)
-        {
-            var posts = await uow.Posts.GetAllForSearchAsync(search);
-            Posts = posts.ToPagedList(pageNo, pageSize);
-        }
-        private async Task InitializeAsync(IUnitOfWork uow, string userID, int pageNo, int pageSize)
-        {
-            var posts = await uow.Posts.GetAllByUserIDAsync(userID);
-            Posts = posts.ToPagedList(pageNo, pageSize);
-        }
-        private async Task InitializeAsync(IUnitOfWork uow, string userID, int postID)
-        {
-            Post = await uow.Posts.GetByUserIDAndPostIDAsync(userID, postID);            
-        }
     }
 }

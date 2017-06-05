@@ -53,11 +53,12 @@ $('#appModal').on('hidden.bs.modal', function () {
 });
 
 $('#appModal .modal-content').on('click', '#btnApproved', function () {
-    var appModal = $('#appModal');
-    var btn = $(this);
-    var url = btn.data('url');
-    var value = btn.data('value');
-    var postID = btn.data('postid');
+    var appModal = $('#appModal'),
+        btn = $(this),
+        url = btn.data('url'),
+        value = btn.data('value'),
+        postID = btn.data('postid'),
+        videodetailsUrl = window.location.href;    
     
 
     appModal.find('#btnClose').addClass('hidden');
@@ -69,7 +70,8 @@ $('#appModal .modal-content').on('click', '#btnApproved', function () {
         dataType: 'json',
         data: {
             isapproved: value,
-            postID : postID
+            postID: postID,
+            details: videodetailsUrl
         },
         success: function (result) {
 

@@ -2,17 +2,25 @@
 
 @if (CurrentUser.Approval.Any(x => x.Value == "CanApproveVideo"))
 {
-    
+
     if (!Model.HasApproval)
     {
+        var url = Url.Action("post", new
+        {
+            year = Model.DateUploaded.Year,
+            month = Model.DateUploaded.Month,
+            postID = Model.PostID,
+            plateNo = Model.PlateNumber
+        });
+
         <div class="well text-center">
             <p>Review the video before letting the end-user send to the customer</p>
 
             <div class="btn-group">
                 <button class="btn btn-primary btn-block btn-lg dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Approve</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")">Disapprove</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")" data-details="@url">Approve</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")" data-details="@url">Disapprove</a></li>
                 </ul>
             </div>
             

@@ -5,6 +5,7 @@ $('#frmUpload').on('submit', function (e) {
     var form = $(this);
 
     var files = $('#Attachments').get(0).files;
+
     var formData = new FormData();
 
     for (var i = 0; i < files.length; i++) {
@@ -15,15 +16,20 @@ $('#frmUpload').on('submit', function (e) {
         formData.append($(value).attr('name'), $(value).val());
     });
 
-    formData.append('Description', $('#Description').val());
+    //since I use tinyMce, for me to get the raw content of the editor use tinyMCE.activeEditor.getContent({ format : 'raw'})
+    //formData.append('Description', $('#Description').val()); // This has been commented since I used the tinyMCE
 
+    formData.append('Description', tinyMCE.activeEditor.getContent({ format: 'raw' }));
+    
     $('#appModal').modal({
         keyboard: false,
         backdrop: 'static'
     });
+    
     $('#appModal').modal('show');
 
     var xhr = new XMLHttpRequest();
+
     xhr.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             var data = JSON.parse(this.responseText);

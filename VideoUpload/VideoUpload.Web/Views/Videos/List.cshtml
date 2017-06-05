@@ -8,9 +8,16 @@
 
     <h1>@ViewBag.Header</h1>
 
-    @if (Model.Posts.Count >  0)
+    @if (Model.Count > 0)
     {
-        @Html.Partial("_PostList", Model.Posts)
+        @Html.Partial("_Pager", Model);
+
+        foreach (var post in Model)
+        {
+            @Html.Partial("_Post", post);
+        }
+
+        @Html.Partial("_Pager", Model);
     }
     else
     {
@@ -23,8 +30,8 @@
 @section Sidebar
 {
     <div class="col-md-4 col-sm-4">
-        @Html.Action("Sidebars")        
-    </div>    
+        @Html.Action("Sidebars")
+    </div>
 }
 
 @section Script{

@@ -25,29 +25,38 @@ namespace VideoUpload.Web.Controllers
         {
             _uow = unitOfWork;
             _mgr = mgr;
-        }
-                
+        }                
         
         [AccessActionFilter(Type= "Video", Value ="CanRead")]
-        public async Task<ActionResult> Posts(string v, int page = 1)
+        public async Task<ActionResult> Posts(string s, int? page)
         {
-            IAsyncInitialization viewModel = null;
+            var viewModel = 
+                await VideoViewModel.CreateAsync(
+                uow: _uow, 
+                pageIndex: page ?? 1, 
+                pageSize: 3, 
+                filterType: string.Empty,
+                param: string.Empty);
 
-            if (string.IsNullOrWhiteSpace(v))
-            {
-                viewModel = new VideoViewModel(_uow, page, 5);
-                ViewBag.Header = $"Latest Posts";                
-            }
-            else
-            {
-                viewModel = new VideoViewModel(_uow, page, 5, v);
-                ViewBag.Header = $"Latest post found for \"{v}\"";                
-            }
-
-            await viewModel.Initialization;
+            ViewBag.Header = "Latest Posts";
 
             return View("List", viewModel);
         }                        
+
+        public async Task<ActionResult> Search(string s, int? page)
+        {
+            var viewModel =
+                await VideoViewModel.CreateAsync(
+                uow: _uow,
+                pageIndex: page ?? 1,
+                pageSize: 3,
+                filterType: "search",
+                param: s);
+
+            ViewBag.Header = $"Latest of posts found for \"{s}\"";
+
+            return View("List", viewModel);
+        }
 
         [ChildActionOnly]
         public PartialViewResult Sidebars()
@@ -179,13 +188,17 @@ namespace VideoUpload.Web.Controllers
         }
 
         [Route("{userName}/posts")]
-        public async Task<ActionResult> MyPosts(string userName, int page = 1)
+        public async Task<ActionResult> MyPosts(string userName, int? page)
         {
             if (User.Identity.Name != userName) return View("_ResourceNotFound");
 
-            var viewModel = new VideoViewModel(_uow, User.Identity.GetUserId(), page, 15);
-
-            await viewModel.Initialization;
+            var viewModel = 
+                await VideoViewModel.CreateAsync(
+                    uow: _uow, 
+                    pageIndex: page ?? 1,
+                    pageSize: 10, 
+                    filterType: "user",
+                    param: User.Identity.GetUserId());            
 
             ViewBag.Header = "List of your videos";
             
@@ -200,20 +213,18 @@ namespace VideoUpload.Web.Controllers
 
             if (postID < 0) return View("_ResourceNotFound");            
 
-            var viewModel = new VideoViewModel(_uow, User.Identity.GetUserId(), postID);
+            var post = await _uow.Posts.GetByUserIDAndPostIDAsync(User.Identity.GetUserId(), postID);            
 
-            await viewModel.Initialization;
+            if (post == null) return View("_ResourceNotFound");
 
-            if (viewModel.Post == null) return View("_ResourceNotFound");
-
-            ViewBag.Header = $"Edit post for plate number: { viewModel.Post.PlateNumber }";
+            ViewBag.Header = $"Edit post for plate number: { post.PlateNumber }";
 
             var postedEdit = new EditPostViewModel
             {
-                PostID = viewModel.Post.PostID,
-                UserName = viewModel.Post.User.UserName,
-                PlateNumber = viewModel.Post.PlateNumber,
-                Description = viewModel.Post.Description
+                PostID = post.PostID,
+                UserID = post.UserID,
+                PlateNumber = post.PlateNumber,
+                Description = post.Description
             };
             return View(postedEdit);
         }
@@ -226,7 +237,7 @@ namespace VideoUpload.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var post = await _uow.Posts.GetByIdAsync(viewModel.PostID);
+                var post = await _uow.Posts.GetByUserIDAndPostIDAsync(viewModel.UserID, viewModel.PostID);
 
                 post.PlateNumber = viewModel.PlateNumber.Trim();
 
@@ -242,7 +253,7 @@ namespace VideoUpload.Web.Controllers
         [Route("archive/{year:int}/{month:int}/{postID:int}/{plateNo}")]
         public async Task<ActionResult> Post(int year, int month, int postID, string plateNo)
         {                     
-            var post = await _uow.Posts.GetByIdAsync(postID);
+            var post = await _uow.Posts.GetByDateUploadedAndPostIDAsync(year, month, postID);
             
             if (post == null) return View("_ResourceNotFound");
 
@@ -292,7 +303,8 @@ namespace VideoUpload.Web.Controllers
                     Name = formCollection["customerName"]
                 };
 
-                var message = $"Dear { formCollection["customerName"] }, <br/><br/> Please find the video for your Porsche. I will call you shortly to discuss further.";                
+                var recipient = formCollection["customerName"];
+                var message = "Please find the video for your Porsche. I will call you shortly to discuss further.";                
                 
                 if (formCollection["sendingType"] == "email")
                 {
@@ -306,9 +318,9 @@ namespace VideoUpload.Web.Controllers
                     history.Recipient = formCollection["email"];                    
 
                     try
-                    {
+                    {                        
                         await _mgr.CustomSendEmailAsync(id, "Your Porsche",
-                            EmailTemplate.GetTemplate(CurrentUser, message, url), formCollection["email"],
+                            EmailTemplate.GetTemplate(CurrentUser, recipient, message, url), formCollection["email"],
                             CurrentUser.EmailPass);
                     }
                     catch (Exception ex)
@@ -371,9 +383,9 @@ namespace VideoUpload.Web.Controllers
         [Route("watch/{year:int}/{month:int}/{postID:int}/{plateNo}")]
         public async Task<ActionResult> Watch(int year, int month, int postID, string plateNo)
         {
-            var post = await _uow.Posts.GetByIdAsync(postID);
+            var post = await _uow.Posts.GetByDateUploadedAndPostIDAsync(year, month, postID);
 
-            if (post == null || post.DateUploaded.Year != year || post.DateUploaded.Month != month)
+            if (post == null)
             {
                 ViewBag.Message = $"You're supposed to watch a video for your car. Please try the link again and if the problem occurs you can contact us using the below links";
                 return View("_ResourceNotFound");
@@ -386,11 +398,12 @@ namespace VideoUpload.Web.Controllers
 
         [HttpPost]
         [AccessActionFilter(Type = "Approval", Value = "CanApproveVideo")]
-        public async Task<ActionResult> Approval(bool isapproved, string postID)
+        public async Task<ActionResult> Approval(bool isapproved, string postID, string details)
         {
             var _postID = int.Parse(postID);
             var post = await _uow.Posts.GetByIdAsync(_postID);
             var message = string.Empty;
+            var status = string.Empty;
 
             if (post == null)
             {
@@ -405,12 +418,14 @@ namespace VideoUpload.Web.Controllers
                 post.IsApproved = isapproved;
                 post.DateApproved = DateTime.UtcNow;
                 message = "You've successfully approved the video. He/she will receive an email notification";
+                status = "approved";
             }
             else
             {
                 //set  to true even not approved
                 post.HasApproval = true;
                 message = "You've successfully disapproved the video. He/she will receive an email notification";
+                status = "disapproved";
             }
                                               
             _uow.Posts.Update(post);
@@ -419,7 +434,7 @@ namespace VideoUpload.Web.Controllers
             try
             {
                 await _mgr.CustomSendEmailAsync(user.Id,
-                    "Video approval", "Your video has been approved you can now send the video to customer",
+                    "Video approval", EmailTemplate.GetTemplate(CurrentUser, string.Empty, $"Your video has been { status }.", details),
                     user.Email, user.EmailPass);
             }
             catch (Exception ex)
@@ -465,9 +480,9 @@ namespace VideoUpload.Web.Controllers
 
                 //alert the SA 
                 try
-                {                    
+                {                                        
                     await _mgr.CustomSendEmailAsync(user.Id, "Your posted video.", 
-                         EmailTemplate.GetTemplate(CurrentUser, "Your video has been viewed. See the details: ", details),
+                         EmailTemplate.GetTemplate(user, $"Your video with plate number {post.PlateNumber} has been played. You can now contact the customer. For more details: ", details),
                         user.Email, user.EmailPass);
                 }
                 catch (Exception eExcp)
