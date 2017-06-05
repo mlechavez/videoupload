@@ -61,9 +61,10 @@ namespace VideoUpload.Web.Controllers
         [ChildActionOnly]
         public PartialViewResult Sidebars()
         {
-            var viewModel = new WidgetViewModel(_uow);
+            var approvedVideosViewModel = WidgetViewModel.CreateAsync(_uow, 1, 10, "approved", string.Empty);
+            var hasPlayedVideosViewModel = WidgetViewModel.CreateAsync(_uow, 1, 10, "hasplayed", string.Empty);
             
-            return PartialView("_Sidebars", viewModel);
+            return PartialView("_Sidebars", new { ApprovedVideos = approvedVideosViewModel, HasPlayedVideos = hasPlayedVideosViewModel } );
         }
 
         [AccessActionFilter(Type = "Video", Value = "CanCreate")]

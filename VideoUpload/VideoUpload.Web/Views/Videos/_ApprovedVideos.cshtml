@@ -1,4 +1,5 @@
-﻿@model IList<VideoUpload.Core.Entities.Post>
+﻿@using VideoUpload.Core.Entities
+@model IList<VideoUpload.Core.Entities.Post>
 
 <div class="panel panel-default">
 
@@ -10,10 +11,10 @@
 
     <ul class="list-group">
 
-        @foreach (var post in Model)
+        @foreach (var post in ViewBag.ApprovedVideos)
         {
             <li class="list-group-item">
-                @Html.PostActionLink(post)
+                @Html.PostActionLink((Post)post)
             </li>
         }
     </ul>

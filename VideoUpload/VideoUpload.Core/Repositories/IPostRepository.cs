@@ -14,11 +14,15 @@ namespace VideoUpload.Core.Repositories
         Task<Post> GetByDateUploadedAndPostIDAsync(int year, int month, int postID);
         Task<Post> GetByDateUploadedAndPostIDAsync(int year, int month, int postID, CancellationToken cancellationToken);        
 
-        List<Post> PageAllByApprovedVideos(int pageSize);        
-        Task<List<Post>> PageAllByApprovedVideosAsync(int pageSize);
+        List<Post> PageAllByApprovedVideos(int pageNo, int pageSize);        
+        Task<List<Post>> PageAllByApprovedVideosAsync(int pageNo, int pageSize);
+        int GetTotalPostsByApprovedVideos();
+        Task<int> GetTotalPostsByApprovedVideosAsync();
 
-        List<Post> PageAllByPlayedVideos(int pageSize);
-        Task<List<Post>> PageAllByPlayedVideosAsync(int pageSize);
+        List<Post> PageAllByPlayedVideos(int pageNo, int pageSize);
+        Task<List<Post>> PageAllByPlayedVideosAsync(int pageNo, int pageSize);
+        int GetTotalPostsByPlayedVideos();
+        Task<int> GetTotalPostsByPlayedVideosAsync();
 
         Task<Post> GetByUserIDAndPostIDAsync(string userID, int postID);
 

@@ -51,38 +51,65 @@ namespace VideoUpload.EF.Repositories
                         post.DateUploaded.Month.Equals(month) &&
                         post.PostID.Equals(postID), cancellationToken);
         }
+        
+        public List<Post> PageAllByApprovedVideos(int pageNo, int pageSize)
+        {
+            return Set.Where(x => x.IsApproved)
+                       .OrderByDescending(x => x.DateUploaded)
+                       .Take(pageSize)
+                       .ToList();
+        }
 
-        public List<Post> PageAllByApprovedVideos(int pageSize)
+        public int GetTotalPostsByApprovedVideos()
+        {
+            return Set
+                    .Where(approved => approved.IsApproved)
+                    .Count();
+        }
+
+        public Task<int> GetTotalPostsByApprovedVideosAsync()
+        {
+            return Set
+                    .Where(approved => approved.IsApproved)
+                    .CountAsync();
+        }
+
+        public Task<List<Post>> PageAllByApprovedVideosAsync(int pageNo, int pageSize)
         {
             return Set.Where(x => x.IsApproved)
                       .OrderByDescending(x => x.DateUploaded)
+                      .Skip(pageNo * pageSize)
+                      .Take(pageSize)
+                      .ToListAsync();
+        }
+        public List<Post> PageAllByPlayedVideos(int pageNo, int pageSize)
+        {
+            return Set.Where(x => x.IsApproved && x.HasPlayedVideo)
+                      .OrderByDescending(x => x.DatePlayedVideo)
+                      .Skip(pageNo * pageSize)
                       .Take(pageSize)
                       .ToList();
         }
 
-        public List<Post> PageAllByPlayedVideos(int pageSize)
-        {
-            return Set.Where(x => x.IsApproved && x.HasPlayedVideo)
-                      .OrderByDescending(x => x.DatePlayedVideo)
-                      .Take(pageSize)
-                      .ToList();
-        }
-        public Task<List<Post>> PageAllByApprovedVideosAsync(int pageSize)
-        {
-            return Set.Where(x => x.IsApproved)
-                      .OrderByDescending(x => x.DateUploaded)
-                      .Take(pageSize)
-                      .ToListAsync();
-        }
-
-
-        public Task<List<Post>> PageAllByPlayedVideosAsync(int pageSize)
+        public Task<List<Post>> PageAllByPlayedVideosAsync(int pageNo, int pageSize)
         {
             return Set.Where(x => x.IsApproved && x.HasPlayedVideo)
                       .OrderByDescending(x => x.DatePlayedVideo)
                       .Take(pageSize)
                       .ToListAsync();
-        }        
+        }
+        public int GetTotalPostsByPlayedVideos()
+        {
+            return Set
+                    .Where(video => video.HasPlayedVideo)
+                    .Count();
+        }
+        public Task<int> GetTotalPostsByPlayedVideosAsync()
+        {
+            return Set
+                    .Where(video => video.HasPlayedVideo)
+                    .CountAsync();
+        }
 
         public Task<Post> GetByUserIDAndPostIDAsync(string userID, int postID)
         {
@@ -254,6 +281,10 @@ namespace VideoUpload.EF.Repositories
                     .Where(post => post.PlateNumber.Contains(s) ||
                        post.User.UserName.Contains(s))
                     .CountAsync();
-        }        
+        }
+
+        
+
+        
     }
 }

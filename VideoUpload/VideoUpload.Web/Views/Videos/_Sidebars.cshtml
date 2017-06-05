@@ -1,16 +1,25 @@
-﻿@model VideoUpload.Web.Models.Videos.WidgetViewModel
+﻿@*@model VideoUpload.Web.Models.Videos.WidgetViewModel*@
 
-<div class="well text-center">
+
+@{ 
+    var approvedVideos = ViewBag.ApprovedVideos;
+    var hasPlayedVideos = ViewBag.HasPlayedVideos;
+}
+
+<p>@approvedVideos</p>
+<p>@hasPlayedVideos</p>
+
+@*<div class="well text-center">
     <p class="lead">Start uploading your videos and show it to our valuable customers</p>
     @Html.ActionLink("Upload a video", "upload", null, new { @class = "btn btn-success btn-lg" })
 </div>
 
 @if (Model.ApprovedVideos.Count > 0)
 {
-    @Html.Partial("_ApprovedVideos", Model.ApprovedVideos)
+    @Html.Partial("_ApprovedVideos", new { ApprovedVideos = approvedVideos })
 }
 
 @if (Model.PlayedVideos.Count > 0)
 {
-    @Html.Partial("_PlayedVideos", Model.PlayedVideos)
-}
+    @Html.Partial("_PlayedVideos", new { HasPlayedVideos = hasPlayedVideos })
+}*@
