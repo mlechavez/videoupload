@@ -53,7 +53,7 @@ namespace VideoUpload.Web.Controllers
                 filterType: "search",
                 param: s);
 
-            ViewBag.Header = $"Latest of posts found for \"{s}\"";
+            ViewBag.Header = $"List of posts found for \"{s}\"";
 
             return View("List", viewModel);
         }
@@ -61,10 +61,11 @@ namespace VideoUpload.Web.Controllers
         [ChildActionOnly]
         public PartialViewResult Sidebars()
         {
-            var approvedVideosViewModel = WidgetViewModel.CreateAsync(_uow, 1, 10, "approved", string.Empty);
-            var hasPlayedVideosViewModel = WidgetViewModel.CreateAsync(_uow, 1, 10, "hasplayed", string.Empty);
-            
-            return PartialView("_Sidebars", new { ApprovedVideos = approvedVideosViewModel, HasPlayedVideos = hasPlayedVideosViewModel } );
+            //MVC 5 does not support asynchronous so I fetch the data synchronously 
+            ViewBag.ApprovedVideos = WidgetViewModel.Create(_uow, 1, 10, "approved", string.Empty);
+            ViewBag.HasPlayedVideos = WidgetViewModel.Create(_uow, 1, 10, "hasplayed", string.Empty);
+                         
+            return PartialView("_Sidebars");
         }
 
         [AccessActionFilter(Type = "Video", Value = "CanCreate")]

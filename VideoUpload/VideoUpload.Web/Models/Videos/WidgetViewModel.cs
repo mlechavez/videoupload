@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using VideoUpload.Core;
 using VideoUpload.Core.Entities;
 
@@ -28,7 +27,7 @@ namespace VideoUpload.Web.Models.Videos
             get { return (PageIndex < TotalPages); }
         }
 
-        public static async Task<ICollection<Post>> CreateAsync(IUnitOfWork uow, int pageNo, int pageSize, string filterType, string param)
+        public static ICollection<Post> Create(IUnitOfWork uow, int pageNo, int pageSize, string filterType, string param)
         {
             List<Post> posts = null;
             int count = 0;
@@ -36,12 +35,12 @@ namespace VideoUpload.Web.Models.Videos
             switch (filterType)
             {
                 case "approved":
-                    posts = await uow.Posts.PageAllByApprovedVideosAsync(pageNo - 1, pageSize);
-                    count = await uow.Posts.GetTotalPostsByApprovedVideosAsync();
+                    posts = uow.Posts.PageAllByApprovedVideos(pageNo - 1, pageSize);
+                    count = uow.Posts.GetTotalPostsByApprovedVideos();
                     break;
                 case "hasplayed":
-                    posts = await uow.Posts.PageAllByPlayedVideosAsync(pageNo - 1, pageSize);
-                    count = await uow.Posts.GetTotalPostsByPlayedVideosAsync();
+                    posts = uow.Posts.PageAllByPlayedVideos(pageNo - 1, pageSize);
+                    count = uow.Posts.GetTotalPostsByPlayedVideos();
                     break;
                 default:
                     break;
