@@ -29,9 +29,9 @@ namespace VideoUpload.Web.Controllers
 
         [Route]
         [AccessActionFilter(Type = "ManageUser", Value = "CanRead")]
-        public ActionResult List(int? page)
+        public async Task<ActionResult> List(int? page)
         {
-            var users = _mgr.Users.ToList();
+            var users = await _uow.Users.GetAllAsync();
 
             var viewModel = new List<UserViewModel>();
 
@@ -39,7 +39,7 @@ namespace VideoUpload.Web.Controllers
             {
                 viewModel.Add(new UserViewModel
                 {
-                    UserID = x.Id,
+                    UserID = x.UserID,
                     UserName = x.UserName,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
@@ -50,7 +50,7 @@ namespace VideoUpload.Web.Controllers
                 });       
             });
 
-            return View(viewModel.ToPagedList(page ?? 1, 20));
+            return View(viewModel.ToPagedList(page ?? 1, 15));
         }
 
         [Route("new")]

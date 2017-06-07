@@ -7,6 +7,8 @@ using System.Net.Mail;
 using System.Configuration;
 using VideoUpload.Web.OoredooSOAP;
 using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace VideoUpload.Web.Models.Identity
 {
@@ -41,7 +43,7 @@ namespace VideoUpload.Web.Models.Identity
         public IEmailIdentityMessage CustomEmailService { get; set; }        
         public IOoredooMessageService OoredooMessageService { get; set; }
         public string SmsStatusResult { get; set; }
-        public async Task CustomSendEmailAsync(string userId, string subject, string body, string to, string credential)
+        public async Task CustomSendEmailAsync(string userId, string subject, string body, string recipients, string emailPass)
         {
             if (CustomEmailService == null) throw new NotImplementedException("MessageService has not been implemented.");
             
@@ -50,8 +52,8 @@ namespace VideoUpload.Web.Models.Identity
             identityMessage.Destination = user;
             identityMessage.Subject = subject;
             identityMessage.Body = body;
-            identityMessage.To = to;
-            identityMessage.Credential = credential;
+            identityMessage.To = recipients;
+            identityMessage.Credential = emailPass;
 
             await CustomEmailService.SendAsync(identityMessage);                
             
@@ -118,8 +120,20 @@ namespace VideoUpload.Web.Models.Identity
         public async Task SendAsync(EmailIdentityMessage message)
         {
             var email = new MailMessage();
-            email.From = new MailAddress(message.Destination);            
-            email.To.Add(message.To);
+            email.From = new MailAddress(message.Destination);
+
+            //split the value semi-colon separated value
+            string[] recipients = message.To.Split(';').Select(sValue => sValue.Trim()).ToArray();
+
+            //loop and add to mailaddress
+            for (int i = 0; i < recipients.Length; i++)
+            {
+                if (!string.IsNullOrWhiteSpace(recipients[i]))
+                {
+                    email.To.Add(new MailAddress(recipients[i]));
+                }                
+            }            
+            
             email.Subject = message.Subject;
             email.Body = message.Body;
             email.IsBodyHtml = true;

@@ -3,6 +3,7 @@ using NReco.VideoConverter;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -61,7 +62,7 @@ namespace VideoUpload.Web.Controllers
         [ChildActionOnly]
         public PartialViewResult Sidebars()
         {
-            //MVC 5 does not support asynchronous so I fetch the data synchronously 
+            //MVC 5 does not support asynchronous in partial view. Fetch the data synchronously 
             ViewBag.ApprovedVideos = WidgetViewModel.Create(_uow, 1, 10, "approved", string.Empty);
             ViewBag.HasPlayedVideos = WidgetViewModel.Create(_uow, 1, 10, "hasplayed", string.Empty);
                          
@@ -70,9 +71,8 @@ namespace VideoUpload.Web.Controllers
 
         [AccessActionFilter(Type = "Video", Value = "CanCreate")]
         public ActionResult Upload()
-        {
-            var post = new CreatePostViewModel();            
-            return View(post);            
+        {            
+            return View();
         }
 
         [HttpPost]          
@@ -97,6 +97,7 @@ namespace VideoUpload.Web.Controllers
                     //"video/x-ms-wmv"
                 };
 
+                //create new post entity
                 var post = new Post
                 {
                     PlateNumber = viewModel.PlateNumber,
@@ -106,22 +107,31 @@ namespace VideoUpload.Web.Controllers
                     BranchID = CurrentUser.BranchID
                 };
 
+                // loop through the attachments
+                // as of the moment, attachments will always be one item
                 foreach (var item in viewModel.Attachments)
                 {
+                    //check if the current item is not null
                     if (item != null)
                     {
+                        //check if the content type is an MP4                        
                         if (!contentTypeArray.Contains(item.ContentType))
                         {                            
                             ModelState.AddModelError("", "video file must be an mp4 format");
 
                             return Json(new { success = success, message = "Video file must be an mp4 format" });
                         }
+                        //increment the count of attachment
                         countOfAttachments++;                        
 
+                        //get the fileName extension 
                         var videoExt = Path.GetExtension(item.FileName);
+                        //get the fileName
                         var videoFileName = Path.GetFileName(item.FileName);
 
+                        //set the video path
                         var videoPath = Server.MapPath("~/Uploads/Videos");
+                        //set the thumbnail path
                         var thumbnailPath = Server.MapPath("~/Uploads/Thumbnails");
                      
                         //create new entity for each attachment
@@ -137,8 +147,10 @@ namespace VideoUpload.Web.Controllers
                         attachment.ThumbnailFileName = attachment.PostAttachmentID + ".jpeg";
                         attachment.ThumbnailUrl = Path.Combine(thumbnailPath, attachment.ThumbnailFileName);
                         
+                        //concatenate the path and the filename
                         var videoToSaveBeforeConvertingPath = Path.Combine(videoPath, videoFileName);                                       
 
+                        //save the video
                         using (var fileStream = System.IO.File.Create(videoToSaveBeforeConvertingPath))
                         {
                             var stream = item.InputStream;
@@ -146,21 +158,28 @@ namespace VideoUpload.Web.Controllers
                         }
                         
                         var ffMpeg = new FFMpegConverter();
-                        ffMpeg.FFMpegToolPath = videoPath; //set the tool to this path.. it's an exe file.
+
+                        //I save the exe file of the converter in this path.
+                        ffMpeg.FFMpegToolPath = videoPath; 
                         
                         var file = new FileInfo(videoToSaveBeforeConvertingPath);
 
                         if (file.Exists)
                         {          
-                            //TODO: search for the bitrate settings                  
+                            //codec for mp4
                             var convertSettings = new ConvertSettings
                             {
                                 AudioCodec = "aac",
                                 VideoCodec = "h264"                                                                                             
                             };
+                            //set the resolution
                             convertSettings.SetVideoFrameSize(1280, 720);
                             
+                            //convert the saved file
+                            //attachment.FileUrl is the new output filename 
                             ffMpeg.ConvertMedia(videoToSaveBeforeConvertingPath, Format.mp4, attachment.FileUrl, Format.mp4, convertSettings);
+
+                            //get the thumbnail of the video for 
                             ffMpeg.GetVideoThumbnail(videoToSaveBeforeConvertingPath, attachment.ThumbnailUrl);
 
                             //Once the conversion is successful delete the original file
@@ -171,15 +190,75 @@ namespace VideoUpload.Web.Controllers
                         }
                     }                
                 }
+                //find the first attachment
                 var attached = post.Attachments.FirstOrDefault();
+
+                //if the attachment is not null save it else throw an error
                 if (attached != null)
                 {
+                    //add the post entity and save
                     _uow.Posts.Add(post);
                     await _uow.SaveChangesAsync();
 
-                    //TOD: uncomment this in production
-                    //ALERT THE SERVICE MANAGER
-                    //await _mgr.CustomSendEmailAsync(User.Identity.GetUserId(), "Video upload", User.Identity.Name + " has uploaded a new video", );
+
+                    //fetch the end-users who have approval access                    
+                    var claims = await _uow.UserClaims.GetAllByClaimTypeAndValueAsync("Approval", "CanApproveVideo");
+
+                    if (claims.Count > 0)
+                    {
+                        StringBuilder recipients = new StringBuilder();
+
+                        //loop through and create a semicolon separated values
+                        //to be used in sending email notification to the supervisors
+                        claims.ForEach(claim =>
+                        {
+                            recipients.Append(claim.User.Email)
+                              .Append(";");
+                        });
+
+                        //get the url of the posted video to be included in the email
+                        var url = Request.Url.Scheme + "://" + Request.Url.Authority +
+                            Url.Action("post", new
+                            {
+                                year = post.DateUploaded.Year,
+                                month = post.DateUploaded.Month,
+                                postID = post.PostID,
+                                plateNo = post.PlateNumber
+                            });
+                        
+                        //send email
+                        try
+                        {
+                            await _mgr.CustomSendEmailAsync(
+                            User.Identity.GetUserId(),
+                            "New posted video",
+                            EmailTemplate.GetTemplate(
+                                CurrentUser,
+                                "Dear Supervisors",
+                                "I have posted a new video. Please see the details.",
+                                url),
+                            recipients.ToString(),
+                            CurrentUser.EmailPass);
+                        }
+                        catch (Exception ex)
+                        {
+                            //add logs and see the errors
+                            _uow.AppLogs.Add(new AppLog
+                            {
+                                Message = ex.Message,
+                                Type = ex.GetType().Name,
+                                Url = Request.Url.ToString(),
+                                Source = ex.InnerException.InnerException.Message,
+                                UserName = User.Identity.Name,
+                                LogDate = DateTime.UtcNow
+                            });
+                            await _uow.SaveChangesAsync();
+
+                            success = true;
+
+                            return Json(new { success = success, message = "Uploaded successfully" });
+                        }                        
+                    }                    
                     success = true;
 
                     return Json(new { success = success, message = "Uploaded successfully" });                   
@@ -269,9 +348,7 @@ namespace VideoUpload.Web.Controllers
         [AllowAnonymous]
         public ActionResult VideoResult(string fileName)
         {
-            return new CustomResult(fileName);
-            //return new DownloadResult(fileName);         
-            //return new VideoStreamResult(fileName);
+            return new CustomResult(fileName);            
         }              
 
         [AccessActionFilter(Type = "Video", Value = "CanSend")]

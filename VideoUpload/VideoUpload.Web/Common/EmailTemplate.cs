@@ -5,13 +5,13 @@ namespace VideoUpload.Web.Common
 {
     public class EmailTemplate
     {
-        public static string GetTemplate(AppUser currentUser, string to, string message, string url)
+        public static string GetTemplate(AppUser currentUser, string recipientName, string message, string hyperLink)
         {
 
             var template = new StringBuilder();
-            template.Append("<p style='font:15px Porsche News Gothic'>" + to + "<br/>");
+            template.Append("<p style='font:15px Porsche News Gothic'>" + recipientName + "<br/>");
             template.Append("<p style='font:15px Porsche News Gothic'>" + message + "<br/>");
-            template.Append("<p style='font:15px Porsche News Gothic'>" + url + "<br/>");
+            template.Append("<p style='font:15px Porsche News Gothic'>" + hyperLink + "<br/>");
             template.Append("<div><p style='font:15px Porsche News Gothic'>Best Regards,</p>");
             template.Append("<span style='font:15px Porsche News Gothic'><b>" + currentUser.FullName + "</b></span><br/>");
             template.Append("<span style='font:15px Porsche News Gothic'>" + currentUser.JobTitle + "<span><br/><br/>");
