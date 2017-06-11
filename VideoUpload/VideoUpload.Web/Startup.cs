@@ -84,7 +84,13 @@ namespace VideoUpload.Web
                     Email = "alboraq.app@boraq-porsche.com.qa",
                     EmailConfirmed = true,
                     EmailPass = "app@23619",
-                    BranchID = 2 // ST16
+                    BranchID = 2,
+                    WorkAddress = "st16",
+                    PhoneNumber  = "974 44599800",
+                    DirectLine = "974 44599800",
+                    FaxNumber = "974 44599800",
+                    MobileNumber = "700 1000"
+
                 };
                 var result = mgr.Create(u, "@lb0raQ23619");
 
