@@ -70,13 +70,9 @@
     <Compile Include="Configurations\PostConfigurations.cs" />
     <Compile Include="Configurations\UserClaimConfiguration.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
-    <Compile Include="Migrations\201704211230252_InitialCreate.cs" />
-    <Compile Include="Migrations\201704211230252_InitialCreate.Designer.cs">
-      <DependentUpon>201704211230252_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705100824177_ModifyHistories.cs" />
-    <Compile Include="Migrations\201705100824177_ModifyHistories.Designer.cs">
-      <DependentUpon>201705100824177_ModifyHistories.cs</DependentUpon>
+    <Compile Include="Migrations\201706110649466_InitialCreate.cs" />
+    <Compile Include="Migrations\201706110649466_InitialCreate.Designer.cs">
+      <DependentUpon>201706110649466_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -106,11 +102,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704211230252_InitialCreate.resx">
-      <DependentUpon>201704211230252_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705100824177_ModifyHistories.resx">
-      <DependentUpon>201705100824177_ModifyHistories.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706110649466_InitialCreate.resx">
+      <DependentUpon>201706110649466_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

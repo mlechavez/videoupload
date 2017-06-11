@@ -74,19 +74,19 @@ namespace VideoUpload.Web
             {
                 var u = new IdentityUser
                 {
-                    UserName = "lester",
+                    UserName = "admin",
 
-                    FirstName = "Mark Lester",
-                    LastName = "Echavez",
-                    JobTitle = "IT Administrator",
-                    EmployeeNo = "382",
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    JobTitle = "Developer",
+                    EmployeeNo = "000",
                     IsActive = true,
-                    Email = "echavez.marklester@boraq-porsche.com.qa",
+                    Email = "alboraq.app@boraq-porsche.com.qa",
                     EmailConfirmed = true,
-                    EmailPass = "lester123",
+                    EmailPass = "app@23619",
                     BranchID = 2 // ST16
                 };
-                var result = mgr.Create(u, "Lester@dev");
+                var result = mgr.Create(u, "@lb0raQ23619");
 
                 if (result.Succeeded)
                 {                    

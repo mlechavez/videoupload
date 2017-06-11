@@ -7,13 +7,13 @@ namespace VideoUpload.EF.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ModifyHistories : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ModifyHistories));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705100824177_ModifyHistories"; }
+            get { return "201706110649466_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source
