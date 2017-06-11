@@ -137,7 +137,7 @@ namespace VideoUpload.Web.Models.Identity
             email.IsBodyHtml = true;
             //78.100.48.220
            
-            using (var client = new SmtpClient("192.168.6.9", 25))
+            using (var client = new SmtpClient("78.100.48.220", 25))
             {
                 client.UseDefaultCredentials = true;                
                 //client.Credentials = new System.Net.NetworkCredential(message.Destination.Trim(), message.Credential.Trim());               
