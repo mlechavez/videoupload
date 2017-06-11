@@ -247,7 +247,7 @@ namespace VideoUpload.Web.Controllers
             ViewBag.Header = $"Change {user.UserName}'s password";
             return View("Change-Password", viewModel);
         }
-
+        
         [HttpPost]
         [Route("{userName}/change-password")]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel viewModel)
@@ -266,6 +266,40 @@ namespace VideoUpload.Web.Controllers
             return View("Change-Password", viewModel);
         }
 
+        [Route("{userName}/password-reset")]
+        public async Task<ActionResult> PasswordReset(string userName)
+        {
+            var user = await _mgr.FindByNameAsync(userName);
+            var viewModel = new PasswordResetViewModel { Email = user.Email };
+            ViewBag.Header = $"Reset the password of {userName}";
+            ViewBag.EmailLabel = $"Please verify {user.UserName }'s email address";
+            return View("Password-Reset", viewModel);
+        }
+        [HttpPost]
+        [Route("{userName}/password-reset")]
+        public async Task<ActionResult> PasswordReset(PasswordResetViewModel viewModel)
+        {
+            if (string.IsNullOrEmpty(viewModel.Email))
+            {
+                ViewBag.Message = "Email is required";
+            }
+            var user = await _mgr.FindByEmailAsync(viewModel.Email);
+
+            if (user == null)
+            {
+                ViewBag.Message = "We cannot find your email to our records. Please try again";
+                return View("Password-Reset");
+            }
+
+            var key = await _mgr.GeneratePasswordResetTokenAsync(user.Id);
+
+            var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("ConfirmPasswordReset", "Account", new { key = key, id = user.Id });
+
+            await _mgr.CustomSendEmailAsync(user.Id, "Reset Password Request", "Click here to reset your password: " + url, user.Email, user.EmailPass);
+
+            ViewBag.Message = $"{user.FirstName } will receive an email notification for reset password";
+            return View("_PasswordResetRequestSentSuccess");
+        }
         private void AddRemoveClaims(string userID, List<Claim> userClaims, string selectedClaims, string type)
         {
             if (selectedClaims == null)

@@ -6,8 +6,6 @@ using System;
 using System.Net.Mail;
 using System.Configuration;
 using VideoUpload.Web.OoredooSOAP;
-using System.Text;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace VideoUpload.Web.Models.Identity

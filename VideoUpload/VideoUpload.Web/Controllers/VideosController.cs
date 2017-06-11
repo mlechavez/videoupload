@@ -3,6 +3,7 @@ using NReco.VideoConverter;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -106,91 +107,98 @@ namespace VideoUpload.Web.Controllers
                     DateUploaded = viewModel.DateUploaded,
                     BranchID = CurrentUser.BranchID
                 };
+                
+                // I removed the foreach loop
+                // and use this instead since the posted file will always be one
+                // and for performance reason
+                var item = viewModel.Attachments.FirstOrDefault();
 
-                // loop through the attachments
-                // as of the moment, attachments will always be one item
-                foreach (var item in viewModel.Attachments)
+                //check if the item is null
+                //or else throw an error
+                if (item != null)
                 {
-                    //check if the current item is not null
-                    if (item != null)
+                    //check if the content type is an MP4                        
+                    if (!contentTypeArray.Contains(item.ContentType))
                     {
-                        //check if the content type is an MP4                        
-                        if (!contentTypeArray.Contains(item.ContentType))
-                        {                            
-                            ModelState.AddModelError("", "video file must be an mp4 format");
+                        ModelState.AddModelError("", "video file must be an mp4 format");
 
-                            return Json(new { success = success, message = "Video file must be an mp4 format" });
-                        }
-                        //increment the count of attachment
-                        countOfAttachments++;                        
+                        return Json(new { success = success, message = "Video file must be an mp4 format" });
+                    }
 
-                        //get the fileName extension 
-                        var videoExt = Path.GetExtension(item.FileName);
-                        //get the fileName
-                        var videoFileName = Path.GetFileName(item.FileName);
+                    //increment the count of attachment                    
+                    countOfAttachments++;
 
-                        //set the video path
-                        var videoPath = Server.MapPath("~/Uploads/Videos");
-                        //set the thumbnail path
-                        var thumbnailPath = Server.MapPath("~/Uploads/Thumbnails");
-                     
-                        //create new entity for each attachment
-                        var attachment = new PostAttachment();
+                    //get the fileName extension 
+                    var videoExt = Path.GetExtension(item.FileName);
+                    //get the fileName
+                    var videoFileName = Path.GetFileName(item.FileName);
 
-                        attachment.PostAttachmentID = Guid.NewGuid().ToString();
-                        attachment.FileName = attachment.PostAttachmentID + videoExt;
-                        attachment.MIMEType = item.ContentType;
-                        attachment.FileSize = item.ContentLength;
-                        attachment.FileUrl = Path.Combine(videoPath, attachment.FileName);
-                        attachment.DateCreated = viewModel.DateUploaded;
-                        attachment.AttachmentNo = $"Attachment {countOfAttachments.ToString()}";
-                        attachment.ThumbnailFileName = attachment.PostAttachmentID + ".jpeg";
-                        attachment.ThumbnailUrl = Path.Combine(thumbnailPath, attachment.ThumbnailFileName);
-                        
-                        //concatenate the path and the filename
-                        var videoToSaveBeforeConvertingPath = Path.Combine(videoPath, videoFileName);                                       
+                    //set the video path
+                    var videoPath = Server.MapPath("~/Uploads/Videos");
+                    //set the thumbnail path
+                    var thumbnailPath = Server.MapPath("~/Uploads/Thumbnails");
 
-                        //save the video
-                        using (var fileStream = System.IO.File.Create(videoToSaveBeforeConvertingPath))
+                    //create new entity for each attachment
+                    var attachment = new PostAttachment();
+
+                    attachment.PostAttachmentID = Guid.NewGuid().ToString();
+                    attachment.FileName = attachment.PostAttachmentID + videoExt;
+                    attachment.MIMEType = item.ContentType;
+                    attachment.FileSize = item.ContentLength;
+                    attachment.FileUrl = Path.Combine(videoPath, attachment.FileName);
+                    attachment.DateCreated = viewModel.DateUploaded;
+                    attachment.AttachmentNo = $"Attachment {countOfAttachments.ToString()}";
+                    attachment.ThumbnailFileName = attachment.PostAttachmentID + ".jpeg";
+                    attachment.ThumbnailUrl = Path.Combine(thumbnailPath, attachment.ThumbnailFileName);
+
+                    //concatenate the path and the filename
+                    var videoToSaveBeforeConvertingPath = Path.Combine(videoPath, videoFileName);
+                    
+                    //save the video
+                    using (var fileStream = System.IO.File.Create(videoToSaveBeforeConvertingPath))
+                    {
+                        var stream = item.InputStream;
+                        stream.CopyTo(fileStream);
+                    }
+
+                    //for conversion
+                    var ffMpeg = new FFMpegConverter();
+
+                    //I saved the exe file of the converter in this path.
+                    ffMpeg.FFMpegToolPath = videoPath;
+
+                    //create a file instance 
+                    var file = new FileInfo(videoToSaveBeforeConvertingPath);
+
+                    //check if the file exists after saving the video                    
+                    if (file.Exists)
+                    {
+                        //codec for mp4
+                        var convertSettings = new ConvertSettings
                         {
-                            var stream = item.InputStream;
-                            stream.CopyTo(fileStream);
-                        }
-                        
-                        var ffMpeg = new FFMpegConverter();
+                            AudioCodec = "aac",
+                            VideoCodec = "h264"
+                        };
+                        //set the resolution
+                        convertSettings.SetVideoFrameSize(1280, 720);
 
-                        //I save the exe file of the converter in this path.
-                        ffMpeg.FFMpegToolPath = videoPath; 
-                        
-                        var file = new FileInfo(videoToSaveBeforeConvertingPath);
+                        //convert the saved file
+                        //attachment.FileUrl is the new output filename 
+                        ffMpeg.ConvertMedia(videoToSaveBeforeConvertingPath, Format.mp4, attachment.FileUrl, Format.mp4, convertSettings);
 
-                        if (file.Exists)
-                        {          
-                            //codec for mp4
-                            var convertSettings = new ConvertSettings
-                            {
-                                AudioCodec = "aac",
-                                VideoCodec = "h264"                                                                                             
-                            };
-                            //set the resolution
-                            convertSettings.SetVideoFrameSize(1280, 720);
-                            
-                            //convert the saved file
-                            //attachment.FileUrl is the new output filename 
-                            ffMpeg.ConvertMedia(videoToSaveBeforeConvertingPath, Format.mp4, attachment.FileUrl, Format.mp4, convertSettings);
+                        //get the thumbnail of the video for 
+                        ffMpeg.GetVideoThumbnail(videoToSaveBeforeConvertingPath, attachment.ThumbnailUrl);
 
-                            //get the thumbnail of the video for 
-                            ffMpeg.GetVideoThumbnail(videoToSaveBeforeConvertingPath, attachment.ThumbnailUrl);
+                        //Once the conversion is successful delete the original file
+                        file.Delete();
 
-                            //Once the conversion is successful delete the original file
-                            file.Delete();
-                            
-                            //add the attachment to post entity
-                            post.Attachments.Add(attachment);                           
-                        }
-                    }                
+                        //add the attachment to post entity
+                        post.Attachments.Add(attachment);
+                    }
                 }
-                //find the first attachment
+
+
+                //find the first attachment                
                 var attached = post.Attachments.FirstOrDefault();
 
                 //if the attachment is not null save it else throw an error
@@ -216,7 +224,8 @@ namespace VideoUpload.Web.Controllers
                               .Append(";");
                         });
 
-                        //get the url of the posted video to be included in the email
+                        //get the url of the posted video 
+                        //to be included in the email
                         var url = Request.Url.Scheme + "://" + Request.Url.Authority +
                             Url.Action("post", new
                             {
@@ -240,7 +249,7 @@ namespace VideoUpload.Web.Controllers
                             recipients.ToString(),
                             CurrentUser.EmailPass);
                         }
-                        catch (Exception ex)
+                        catch (SmtpException ex)
                         {
                             //add logs and see the errors
                             _uow.AppLogs.Add(new AppLog
@@ -257,7 +266,7 @@ namespace VideoUpload.Web.Controllers
                             success = true;
 
                             return Json(new { success = success, message = "Uploaded successfully" });
-                        }                        
+                        }                                                                    
                     }                    
                     success = true;
 
@@ -271,6 +280,7 @@ namespace VideoUpload.Web.Controllers
         [Route("{userName}/posts")]
         public async Task<ActionResult> MyPosts(string userName, int? page)
         {
+            //this checks if the user is trying to change the name in the url
             if (User.Identity.Name != userName) return View("_ResourceNotFound");
 
             var viewModel = 
@@ -290,6 +300,7 @@ namespace VideoUpload.Web.Controllers
         [AccessActionFilter(Type = "Video", Value = "CanUpdate")]
         public async Task<ActionResult> Edit(string userName, int postID)
         {
+            //this checks if the user is trying to change the name in the url
             if (User.Identity.Name != userName) return View("_ResourceNotFound");
 
             if (postID < 0) return View("_ResourceNotFound");            
@@ -402,7 +413,7 @@ namespace VideoUpload.Web.Controllers
                             EmailTemplate.GetTemplate(CurrentUser, recipient, message, url), formCollection["email"],
                             CurrentUser.EmailPass);
                     }
-                    catch (Exception ex)
+                    catch (SmtpException ex)
                     {
                         ViewBag.Message = "We were unable to send your email. Please try again after a few minutes or contact your admin.";
                         _uow.AppLogs.Add(new AppLog
@@ -516,7 +527,7 @@ namespace VideoUpload.Web.Controllers
                     "Video approval", EmailTemplate.GetTemplate(CurrentUser, string.Empty, $"Your video has been { status }.", details),
                     user.Email, user.EmailPass);
             }
-            catch (Exception ex)
+            catch (SmtpException ex)
             {
                 _uow.AppLogs.Add(new AppLog
                 {
@@ -564,7 +575,7 @@ namespace VideoUpload.Web.Controllers
                          EmailTemplate.GetTemplate(user, $"Your video with plate number {post.PlateNumber} has been played. You can now contact the customer. For more details: ", details),
                         user.Email, user.EmailPass);
                 }
-                catch (Exception eExcp)
+                catch (SmtpException eExcp)
                 {
                     var eAppLog = new AppLog
                     {

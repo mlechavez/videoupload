@@ -67,18 +67,19 @@ namespace VideoUpload.Web.Controllers
         public ActionResult PasswordReset()
         {
             ViewBag.Header = "Reset your password";
+            ViewBag.EmailLabel = "Enter your email address";
             return View("Password-Reset");
         }
 
         [HttpPost]
         [Route("password-reset")]
-        public async Task<ActionResult> PasswordReset(string email)
+        public async Task<ActionResult> PasswordReset(PasswordResetViewModel viewModel)
         {            
-            if (string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(viewModel.Email))
             {
                 ViewBag.Message = "Email is required";
             }
-            var user = await _mgr.FindByEmailAsync(email);
+            var user = await _mgr.FindByEmailAsync(viewModel.Email);
 
             if (user == null)
             {
@@ -92,6 +93,7 @@ namespace VideoUpload.Web.Controllers
 
             await _mgr.CustomSendEmailAsync(user.Id, "Reset Password Request", "Click here to reset your password: " + url, user.Email, user.EmailPass);
 
+            ViewBag.Message = "Your password request has been sent to your email";
             return View("_PasswordResetRequestSentSuccess");
         }
 

@@ -4,11 +4,9 @@ using Microsoft.Owin.Security.DataProtection;
 using Owin;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-
 using VideoUpload.Web.Models.Identity;
 using VideoUpload.Core.Entities;
 using VideoUpload.EF;
-using System.Collections.Generic;
 using System.Security.Claims;
 using VideoUpload.Core;
 
@@ -62,7 +60,7 @@ namespace VideoUpload.Web
             {
                 branches.Add(new Branch { BranchName = "ST27" });
                 branches.Add(new Branch { BranchName = "ST16" });
-                branches.Add(new Branch { BranchName = "QSC" });
+                branches.Add(new Branch { BranchName = "QSC" });                
 
                 branches.ForEach(x => { unitOfWork.Branches.Add(x); });
             }
@@ -88,7 +86,7 @@ namespace VideoUpload.Web
                     EmailPass = "lester123",
                     BranchID = 2 // ST16
                 };
-                var result = mgr.Create(u, "Lester@Dev");
+                var result = mgr.Create(u, "Lester@dev");
 
                 if (result.Succeeded)
                 {                    

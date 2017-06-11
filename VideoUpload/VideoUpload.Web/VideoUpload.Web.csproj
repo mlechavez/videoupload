@@ -445,6 +445,7 @@
     <Compile Include="Models\ActivityViewModels\ActivityViewModel.cs" />
     <Compile Include="Models\ActivityViewModels\CreateActivityViewModel.cs" />
     <Compile Include="Models\ConfirmPasswordViewModel.cs" />
+    <Compile Include="Models\PasswordResetViewModel.cs" />
     <Compile Include="Models\Videos\CreatePostViewModel.cs" />
     <Compile Include="Models\HealthChecks\JobcardViewModel.cs" />
     <Compile Include="Models\HealthChecks\HcViewModel.cs" />
