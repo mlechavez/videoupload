@@ -53,7 +53,7 @@ namespace VideoUpload.Web.Models.Identity
             identityMessage.To = recipients;
             identityMessage.Credential = emailPass;
 
-            await CustomEmailService.SendAsync(identityMessage);                
+            await CustomEmailService.SendAsync(identityMessage);
             
         }
 
@@ -111,7 +111,9 @@ namespace VideoUpload.Web.Models.Identity
     public class EmailIdentityMessage : IdentityMessage
     {
         public virtual string To { get; set; }
-        public virtual string Credential { get; set; }      
+        public virtual string Credential { get; set; }
+        public virtual string Host { get; set; }
+        public virtual string Port { get; set; }
     }
     public class CustomEmailService : IEmailIdentityMessage
     {
@@ -135,9 +137,11 @@ namespace VideoUpload.Web.Models.Identity
             email.Subject = message.Subject;
             email.Body = message.Body;
             email.IsBodyHtml = true;
-            //78.100.48.220
+
+            var host = ConfigurationManager.AppSettings["SmtpHost"];
+            var port = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpPort"]);
            
-            using (var client = new SmtpClient("78.100.48.220", 25))
+            using (var client = new SmtpClient(host, port))
             {
                 client.UseDefaultCredentials = true;                
                 //client.Credentials = new System.Net.NetworkCredential(message.Destination.Trim(), message.Credential.Trim());               
