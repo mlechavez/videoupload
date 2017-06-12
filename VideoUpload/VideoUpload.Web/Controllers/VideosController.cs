@@ -187,7 +187,7 @@ namespace VideoUpload.Web.Controllers
                         ffMpeg.ConvertMedia(videoToSaveBeforeConvertingPath, Format.mp4, attachment.FileUrl, Format.mp4, convertSettings);
 
                         //get the thumbnail of the video for 
-                        ffMpeg.GetVideoThumbnail(videoToSaveBeforeConvertingPath, attachment.ThumbnailUrl);
+                        ffMpeg.GetVideoThumbnail(attachment.FileUrl, attachment.ThumbnailUrl);                        
 
                         //Once the conversion is successful delete the original file
                         file.Delete();
