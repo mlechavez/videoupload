@@ -125,7 +125,7 @@ namespace VideoUpload.Web.Models.Identity
             //split the value semi-colon separated value
             string[] recipients = message.To.Split(';').Select(sValue => sValue.Trim()).ToArray();
 
-            //loop and add to mailaddress
+            //loop and add a new instance of MailAddress
             for (int i = 0; i < recipients.Length; i++)
             {
                 if (!string.IsNullOrWhiteSpace(recipients[i]))
@@ -140,11 +140,10 @@ namespace VideoUpload.Web.Models.Identity
 
             var host = ConfigurationManager.AppSettings["SmtpHost"];
             var port = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpPort"]);
-           
+
             using (var client = new SmtpClient(host, port))
             {
-                client.UseDefaultCredentials = true;                
-                //client.Credentials = new System.Net.NetworkCredential(message.Destination.Trim(), message.Credential.Trim());               
+                client.Credentials = new System.Net.NetworkCredential(message.Destination.Trim(), message.Credential.Trim());
 
                 await client.SendMailAsync(email);
             }

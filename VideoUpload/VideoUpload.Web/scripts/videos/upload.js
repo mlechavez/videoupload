@@ -54,7 +54,7 @@ $('#frmUpload').on('submit', function (e) {
             .html(widthSize);
 
         if (widthSize === "100%") {
-            $('#appModal').find('.modal-title').html('Your video is now being converted. Pls do not interrupt');
+            $('#appModal').find('.modal-title').html('Your video is now being converted. Please do not interrupt');
         }
 
         $('#btnSubmit').html(

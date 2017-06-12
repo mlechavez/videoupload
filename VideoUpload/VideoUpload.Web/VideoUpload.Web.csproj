@@ -246,8 +246,8 @@
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
+    <None Include="Properties\PublishProfiles\SmarterAspDevProfile.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterASPProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\SomeeProfile.pubxml" />
     <None Include="scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="scripts\ai.1.0.8-build01310.js" />
     <Content Include="scripts\ai.1.0.8-build01310.min.js" />

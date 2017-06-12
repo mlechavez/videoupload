@@ -251,13 +251,12 @@ namespace VideoUpload.Web.Controllers
                         }
                         catch (SmtpException ex)
                         {
-                            //add logs and see the errors
                             _uow.AppLogs.Add(new AppLog
                             {
                                 Message = ex.Message,
                                 Type = ex.GetType().Name,
                                 Url = Request.Url.ToString(),
-                                Source = ex.InnerException.InnerException.Message,
+                                Source = (ex.InnerException != null) ? ex.InnerException.Message : string.Empty,
                                 UserName = User.Identity.Name,
                                 LogDate = DateTime.UtcNow
                             });
@@ -266,7 +265,7 @@ namespace VideoUpload.Web.Controllers
                             success = true;
 
                             return Json(new { success = success, message = "Uploaded successfully" });
-                        }                                                                    
+                        }
                     }                    
                     success = true;
 
@@ -415,18 +414,17 @@ namespace VideoUpload.Web.Controllers
                     }
                     catch (SmtpException ex)
                     {
-                        ViewBag.Message = "We were unable to send your email. Please try again after a few minutes or contact your admin.";
                         _uow.AppLogs.Add(new AppLog
                         {
                             Message = ex.Message,
                             Type = ex.GetType().Name,
                             Url = Request.Url.ToString(),
-                            Source = ex.InnerException.InnerException.Message,
+                            Source = (ex.InnerException != null) ? ex.InnerException.Message : string.Empty,
                             UserName = User.Identity.Name,
                             LogDate = DateTime.UtcNow
                         });
                         await _uow.SaveChangesAsync();
-                        return View("Error", new HandleErrorInfo(ex, "videos", "send"));                        
+                        return View("Error", new HandleErrorInfo(ex, "videos", "send"));
                     }
                 }
                 else
@@ -452,7 +450,7 @@ namespace VideoUpload.Web.Controllers
                             Message = ex.Message,
                             Type = ex.GetType().Name,
                             Url = Request.Url.ToString(),
-                            Source = ex.InnerException.InnerException.Message,
+                            Source =  (ex.InnerException != null) ? ex.InnerException.Message : string.Empty,
                             UserName = User.Identity.Name,
                             LogDate = DateTime.UtcNow
                         });
