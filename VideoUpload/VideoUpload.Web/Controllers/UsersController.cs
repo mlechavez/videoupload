@@ -295,7 +295,7 @@ namespace VideoUpload.Web.Controllers
 
             var url = Request.Url.Scheme + "://" + Request.Url.Authority + Url.Action("ConfirmPasswordReset", "Account", new { key = key, id = user.Id });
 
-            await _mgr.CustomSendEmailAsync(user.Id, "Reset Password Request", "Click here to reset your password: " + url, user.Email, user.EmailPass);
+            await _mgr.CustomSendEmailAsync(user.Id, "Reset Password Request", "Click here to reset your password: " + url, user.Email);
 
             ViewBag.Message = $"{user.FirstName } will receive an email notification for reset password";
             return View("_PasswordResetRequestSentSuccess");

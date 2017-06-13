@@ -246,8 +246,7 @@ namespace VideoUpload.Web.Controllers
                                 "Dear Supervisors",
                                 "I have posted a new video. Please see the details.",
                                 url),
-                            recipients.ToString(),
-                            CurrentUser.EmailPass);
+                            recipients.ToString());
                         }
                         catch (SmtpException ex)
                         {
@@ -380,12 +379,11 @@ namespace VideoUpload.Web.Controllers
         {                                                
             if (!string.IsNullOrWhiteSpace(formCollection["customerName"]))
             {
-                var url = Request.Url.Scheme + "://" + Request.Url.Authority + formCollection["url"];
-                var id = User.Identity.GetUserId();
+                var url = Request.Url.Scheme + "://" + Request.Url.Authority + formCollection["url"];                
 
                 var history = new History
                 {
-                    UserID = id,
+                    UserID = User.Identity.GetUserId(),
                     PostID = post.PostID,
                     DateSent = DateTime.UtcNow,
                     Type = formCollection["sendingType"],
@@ -408,9 +406,15 @@ namespace VideoUpload.Web.Controllers
 
                     try
                     {                        
-                        await _mgr.CustomSendEmailAsync(id, "Your Porsche",
-                            EmailTemplate.GetTemplate(CurrentUser, recipient, message, url), formCollection["email"],
-                            CurrentUser.EmailPass);
+                        await _mgr.CustomSendEmailAsync(
+                            User.Identity.GetUserId(), 
+                            "Your Porsche",
+                            EmailTemplate.GetTemplate(
+                                CurrentUser, 
+                                recipient, 
+                                message, 
+                                url), 
+                            formCollection["email"].Trim().ToString());
                     }
                     catch (SmtpException ex)
                     {
@@ -440,7 +444,7 @@ namespace VideoUpload.Web.Controllers
 
                     try
                     {                        
-                        await _mgr.OoredooSendSmsAsync(formCollection["mobile"], message + " " + url);                        
+                        await _mgr.OoredooSendSmsAsync(formCollection["mobile"], $"Dear { recipient }, { message } { url }");
                     }
                     catch (Exception ex)
                     {
@@ -521,9 +525,14 @@ namespace VideoUpload.Web.Controllers
 
             try
             {
-                await _mgr.CustomSendEmailAsync(user.Id,
-                    "Video approval", EmailTemplate.GetTemplate(CurrentUser, string.Empty, $"Your video has been { status }.", details),
-                    user.Email, user.EmailPass);
+                await _mgr.CustomSendEmailAsync(
+                    user.Id,
+                    "Video approval", 
+                    EmailTemplate.GetTemplate(
+                        CurrentUser, 
+                        user.FirstName,
+                        $"Your video has been { status }.", details),
+                        user.Email);
             }
             catch (SmtpException ex)
             {
@@ -569,9 +578,14 @@ namespace VideoUpload.Web.Controllers
                 //alert the SA 
                 try
                 {                                        
-                    await _mgr.CustomSendEmailAsync(user.Id, "Your posted video.", 
-                         EmailTemplate.GetTemplate(user, $"Your video with plate number {post.PlateNumber} has been played. You can now contact the customer. For more details: ", details),
-                        user.Email, user.EmailPass);
+                    await _mgr.CustomSendEmailAsync(
+                        user.Id, 
+                        "Your posted video.", 
+                         EmailTemplate.GetTemplate(
+                             user, 
+                             $"Your video with plate number { post.PlateNumber } has been played. You can now contact the customer. For more details: ",
+                             details),
+                        user.Email);
                 }
                 catch (SmtpException eExcp)
                 {
@@ -580,7 +594,7 @@ namespace VideoUpload.Web.Controllers
                         Message = eExcp.Message,
                         Type = eExcp.GetType().Name,
                         Url = Request.Url.ToString(),
-                        Source = eExcp.InnerException.InnerException.Message,
+                        Source = (eExcp.InnerException != null) ? eExcp.InnerException.Message : string.Empty,
                         UserName = User.Identity.Name,
                         LogDate = DateTime.UtcNow
                     };

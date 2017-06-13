@@ -9,7 +9,7 @@ namespace VideoUpload.Web.Common
         {
 
             var template = new StringBuilder();
-            template.Append("<p style='font:15px Porsche News Gothic'>" + recipientName + "<br/>");
+            template.Append("<p style='font:15px Porsche News Gothic'>Dear " + recipientName + ",<br/>");
             template.Append("<p style='font:15px Porsche News Gothic'>" + message + "<br/>");
             template.Append("<p style='font:15px Porsche News Gothic'>" + hyperLink + "<br/>");
             template.Append("<div><p style='font:15px Porsche News Gothic'>Best Regards,</p>");

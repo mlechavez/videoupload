@@ -41,17 +41,17 @@ namespace VideoUpload.Web.Models.Identity
         public IEmailIdentityMessage CustomEmailService { get; set; }        
         public IOoredooMessageService OoredooMessageService { get; set; }
         public string SmsStatusResult { get; set; }
-        public async Task CustomSendEmailAsync(string userId, string subject, string body, string recipients, string emailPass)
+        public async Task CustomSendEmailAsync(string userId, string subject, string body, string recipient)
         {
             if (CustomEmailService == null) throw new NotImplementedException("MessageService has not been implemented.");
             
             var identityMessage = new EmailIdentityMessage();
-            var user = await GetEmailAsync(userId);
-            identityMessage.Destination = user;
+            var user = await FindByIdAsync(userId);
+            identityMessage.Destination = user.Email; //from
             identityMessage.Subject = subject;
             identityMessage.Body = body;
-            identityMessage.To = recipients;
-            identityMessage.Credential = emailPass;
+            identityMessage.To = recipient;
+            identityMessage.Credential = user.EmailPass;
 
             await CustomEmailService.SendAsync(identityMessage);
             
@@ -120,7 +120,7 @@ namespace VideoUpload.Web.Models.Identity
         public async Task SendAsync(EmailIdentityMessage message)
         {
             var email = new MailMessage();
-            email.From = new MailAddress(message.Destination);
+            email.From = new MailAddress(message.Destination.Trim());
 
             //split the value semi-colon separated value
             string[] recipients = message.To.Split(';').Select(sValue => sValue.Trim()).ToArray();
