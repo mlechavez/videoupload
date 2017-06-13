@@ -17,7 +17,8 @@
     <AssemblyName>VideoUpload.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -446,6 +447,7 @@
     <Compile Include="Models\ActivityViewModels\CreateActivityViewModel.cs" />
     <Compile Include="Models\ConfirmPasswordViewModel.cs" />
     <Compile Include="Models\PasswordResetViewModel.cs" />
+    <Compile Include="Models\UserViewModels\EmailPasswordViewModel.cs" />
     <Compile Include="Models\Videos\CreatePostViewModel.cs" />
     <Compile Include="Models\HealthChecks\JobcardViewModel.cs" />
     <Compile Include="Models\HealthChecks\HcViewModel.cs" />
@@ -562,6 +564,7 @@
     <Content Include="Views\Shared\Change-Password.cshtml" />
     <Content Include="Views\Videos\Edit.cshtml" />
     <Content Include="Views\Shared\_Pager.cshtml" />
+    <Content Include="Views\Users\ChangeEmailPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -605,7 +608,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>7835</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:7835/</IISUrl>
+          <IISUrl>http://localhost:7835</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

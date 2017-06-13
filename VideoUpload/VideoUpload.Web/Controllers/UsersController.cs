@@ -300,6 +300,43 @@ namespace VideoUpload.Web.Controllers
             ViewBag.Message = $"{user.FirstName } will receive an email notification for reset password";
             return View("_PasswordResetRequestSentSuccess");
         }
+
+        [Route("{userName}/change-email-password")]
+        public async Task<ActionResult> ChangeEmailPassword(string userName)
+        {
+            var user = await _mgr.FindByNameAsync(userName);
+            var viewModel = new EmailPasswordViewModel { UserID = user.Id, EmailPassword = user.EmailPass };
+
+            ViewBag.Header = $"Change email password for { user.FirstName }";
+            return View(viewModel);
+        }
+
+        [Route("{userName}/change-email-password")]
+        [HttpPost]
+        public async Task<ActionResult> ChangeEmailPassword(EmailPasswordViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _mgr.FindByIdAsync(viewModel.UserID);
+
+                if (user == null) return View("ResourceNotFound");
+
+                user.EmailPass = viewModel.EmailPassword;
+
+                var result = await _mgr.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("edit", new { userName = user.UserName });
+                }
+                else
+                {
+                    AddErrors(result);
+                }                
+            }
+            ModelState.AddModelError("", "Email password is required");               
+            return View(viewModel);
+        }
         private void AddRemoveClaims(string userID, List<Claim> userClaims, string selectedClaims, string type)
         {
             if (selectedClaims == null)

@@ -137,7 +137,7 @@ namespace VideoUpload.Web.Models.Identity
             populateUser(u, user);
             _unitOfWork.Users.Update(u);
             return _unitOfWork.SaveChangesAsync();
-        }
+        }        
         #endregion
         #region IUserEmailStore        
         public Task SetEmailAsync(IdentityUser user, string email)
