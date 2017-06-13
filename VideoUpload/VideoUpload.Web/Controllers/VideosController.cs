@@ -243,7 +243,7 @@ namespace VideoUpload.Web.Controllers
                             "New posted video",
                             EmailTemplate.GetTemplate(
                                 CurrentUser,
-                                "Dear Supervisors",
+                                "Supervisors",
                                 "I have posted a new video. Please see the details.",
                                 url),
                             recipients.ToString());
