@@ -20,6 +20,7 @@ namespace VideoUpload.Core.Entities
         public bool HasApproval { get; set; }
         public bool IsApproved { get; set; }
         public DateTime? DateApproved { get; set; }
+        public string Approver { get; set; }
         public bool HasPlayedVideo { get; set; }
         public DateTime? DatePlayedVideo { get; set; }
         public int? BranchID { get; set; }

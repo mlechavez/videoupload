@@ -44,5 +44,9 @@ namespace VideoUpload.Core.Repositories
         Task<List<Post>> PageAllBySearchAsync(string s, int pageNo, int pageSize, CancellationToken cancellationToken);
         int GetTotalPostsBySearch(string s);
         Task<int> GetTotalPostsBySearchAsync(string s);
+
+        List<Post> GetAllForApprovalsByBranchID(int branchID);
+        Task<List<Post>> GetAllForApprovalsByBranchIDAsync(int branchID);
+        Task<List<Post>> GetAllForApprovalsByBranchIDAsync(int branchID, CancellationToken cancellationToken);
     }
 }

@@ -24,6 +24,10 @@ namespace VideoUpload.EF.Configurations
             Property(x => x.DateEdited)
                 .IsOptional();
 
+            Property(x => x.Approver)
+                .HasMaxLength(15)
+                .IsOptional();
+
             Property(x => x.DatePlayedVideo)
                 .IsOptional();
 

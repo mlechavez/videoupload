@@ -519,7 +519,7 @@ namespace VideoUpload.Web.Controllers
                 message = "You've successfully disapproved the video. He/she will receive an email notification";
                 status = "disapproved";
             }
-                                              
+            post.Approver = User.Identity.Name;                                              
             _uow.Posts.Update(post);
             _uow.SaveChanges();
 
@@ -541,7 +541,7 @@ namespace VideoUpload.Web.Controllers
                     Message = ex.Message,
                     Type = ex.GetType().Name,
                     Url = Request.Url.ToString(),
-                    Source = ex.InnerException.InnerException.Message,
+                    Source = (ex.InnerException != null) ? ex.InnerException.Message : string.Empty,
                     UserName = User.Identity.Name,
                     LogDate = DateTime.UtcNow
                 });
@@ -615,7 +615,7 @@ namespace VideoUpload.Web.Controllers
                             Message = sExcp.Message,
                             Type = sExcp.GetType().Name,
                             Url = Request.Url.ToString(),
-                            Source = sExcp.InnerException.InnerException.Message,
+                            Source = (sExcp.InnerException != null) ? sExcp.InnerException.Message : string.Empty,
                             UserName = User.Identity.Name,
                             LogDate = DateTime.UtcNow
                         };
@@ -627,5 +627,14 @@ namespace VideoUpload.Web.Controllers
             }
             return Json(new { success = success });
         }        
+
+        //[Route("for-approval")]
+        //public async Task<ActionResult> ForApproval()
+        //{
+
+        //    var viewModel = await _uow.Posts.GetAllForApprovalsByBranchIDAsync(CurrentUser.BranchID);
+
+        //    return View(viewModel);
+        //}
     }
 }

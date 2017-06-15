@@ -283,8 +283,25 @@ namespace VideoUpload.EF.Repositories
                     .CountAsync();
         }
 
-        
+        public List<Post> GetAllForApprovalsByBranchID(int branchID)
+        {
+            return Set
+                    .Where(post => !post.HasApproval && post.BranchID.Equals(branchID))
+                    .ToList();
+        }
 
-        
+        public Task<List<Post>> GetAllForApprovalsByBranchIDAsync(int branchID)
+        {
+            return Set
+                    .Where(post => !post.HasApproval && post.BranchID.Equals(branchID))
+                    .ToListAsync();
+        }
+
+        public Task<List<Post>> GetAllForApprovalsByBranchIDAsync(int branchID, CancellationToken cancellationToken)
+        {
+            return Set
+                    .Where(post => !post.HasApproval && post.BranchID.Equals(branchID))
+                    .ToListAsync(cancellationToken);
+        }
     }
 }
