@@ -70,6 +70,10 @@
     <Compile Include="Configurations\PostConfigurations.cs" />
     <Compile Include="Configurations\UserClaimConfiguration.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
+    <Compile Include="Migrations\201706150803472_InitialCreate.cs" />
+    <Compile Include="Migrations\201706150803472_InitialCreate.Designer.cs">
+      <DependentUpon>201706150803472_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ActivityRepository.cs" />
@@ -96,6 +100,11 @@
       <Project>{0A9674DB-D19A-4FAC-B97F-B717A691F85B}</Project>
       <Name>VideoUpload.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201706150803472_InitialCreate.resx">
+      <DependentUpon>201706150803472_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
