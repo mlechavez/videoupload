@@ -77,22 +77,22 @@ namespace VideoUpload.Web
                     UserName = "admin",
 
                     FirstName = "Admin",
-                    LastName = "Admin",
-                    JobTitle = "Developer",
+                    LastName = "",
+                    JobTitle = "Administrator",
                     EmployeeNo = "000",
                     IsActive = true,
                     Email = "alboraq.app@boraq-porsche.com.qa",
                     EmailConfirmed = true,
-                    EmailPass = "app@23619",
+                    EmailPass = "Boraq@23619",
                     BranchID = 2,
                     WorkAddress = "st16",
-                    PhoneNumber  = "974 44599800",
-                    DirectLine = "974 44599800",
-                    FaxNumber = "974 44599800",
-                    MobileNumber = "700 1000"
+                    PhoneNumber  = "+974 44599800",
+                    DirectLine = "+974 44599800",
+                    FaxNumber = "+974 44111027",
+                    MobileNumber = "+974 700 64955"
 
                 };
-                var result = mgr.Create(u, "@lb0raQ23619");
+                var result = mgr.Create(u, "@lboraq.app");
 
                 if (result.Succeeded)
                 {                    

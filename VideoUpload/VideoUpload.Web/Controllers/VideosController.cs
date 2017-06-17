@@ -561,7 +561,7 @@ namespace VideoUpload.Web.Controllers
         public async Task<ActionResult> VideoHasPlayed(int postID, string userName, string details)
         {
             var post = _uow.Posts.GetById(postID);
-            var user = await _mgr.FindByNameAsync(userName);
+            var user = await _mgr.FindByNameAsync("admin"); //to get the alboraq.app@boraq-porsche email
 
             var success = false;
 
@@ -627,14 +627,6 @@ namespace VideoUpload.Web.Controllers
             }
             return Json(new { success = success });
         }        
-
-        //[Route("for-approval")]
-        //public async Task<ActionResult> ForApproval()
-        //{
-
-        //    var viewModel = await _uow.Posts.GetAllForApprovalsByBranchIDAsync(CurrentUser.BranchID);
-
-        //    return View(viewModel);
-        //}
+        
     }
 }

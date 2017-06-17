@@ -131,8 +131,8 @@ namespace VideoUpload.Web.Models.Identity
                 if (!string.IsNullOrWhiteSpace(recipients[i]))
                 {
                     email.To.Add(new MailAddress(recipients[i]));
-                }                
-            }            
+                }
+            }
             
             email.Subject = message.Subject;
             email.Body = message.Body;
