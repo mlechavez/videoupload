@@ -58,7 +58,7 @@ namespace VideoUpload.Web.Controllers
                         UserName = "admin",
 
                         FirstName = "Admin",
-                        LastName = "",
+                        LastName = "A",
                         JobTitle = "Administrator",
                         EmployeeNo = "000",
                         IsActive = true,
