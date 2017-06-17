@@ -500,9 +500,7 @@ namespace VideoUpload.Web.Controllers
             if (post == null)
             {
                 return Json(new { success = false, message = "We could not retrieve the post. Please contact your admin." });
-            }
-
-            var user = await _mgr.FindByIdAsync(post.UserID);
+            }            
 
             if (isapproved)
             {
@@ -525,8 +523,10 @@ namespace VideoUpload.Web.Controllers
 
             try
             {
+                var user = await _mgr.FindByIdAsync(post.UserID);
+
                 await _mgr.CustomSendEmailAsync(
-                    user.Id,
+                    User.Identity.GetUserId(),
                     "Video approval", 
                     EmailTemplate.GetTemplate(
                         CurrentUser, 
