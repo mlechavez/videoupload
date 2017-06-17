@@ -92,7 +92,7 @@ namespace VideoUpload.Web
                     MobileNumber = "+974 700 64955"
 
                 };
-                var result = mgr.Create(u, "@lboraq.app");
+                var result = mgr.Create(u, "Alboraq.@pp");
 
                 if (result.Succeeded)
                 {                    

@@ -13,9 +13,8 @@ namespace VideoUpload.Web.Controllers
     [RoutePrefix("account")]    
     public class AccountController : Controller
     {
-        private readonly UserManager _mgr;
-        private readonly IUnitOfWork _uow;
-        public AccountController(UserManager mgr, IUnitOfWork uow)
+        private readonly UserManager _mgr;        
+        public AccountController(UserManager mgr)
         {
             _mgr = mgr;
         }
@@ -50,47 +49,7 @@ namespace VideoUpload.Web.Controllers
                         ModelState.AddModelError("", "You account has not activated yet. Contact your admin");
                         return View(viewModel);
                     }
-                }
-                else
-                {
-                    var u = new IdentityUser
-                    {
-                        UserName = "admin",
-
-                        FirstName = "Admin",
-                        LastName = "A",
-                        JobTitle = "Administrator",
-                        EmployeeNo = "000",
-                        IsActive = true,
-                        Email = "alboraq.app@boraq-porsche.com.qa",
-                        EmailConfirmed = true,
-                        EmailPass = "Boraq@23619",
-                        BranchID = 2,
-                        WorkAddress = "st16",
-                        PhoneNumber = "+974 44599800",
-                        DirectLine = "+974 44599800",
-                        FaxNumber = "+974 44111027",
-                        MobileNumber = "+974 700 64955"
-
-                    };
-                    var result = _mgr.Create(u, "@lboraq.app");
-
-                    if (result.Succeeded)
-                    {
-                        result = _mgr.SetEmail(u.Id, u.Email);
-                        if (result.Succeeded)
-                        {
-                            var activities = _uow.Activities.GetAll();
-                            if (activities != null)
-                            {
-                                activities.ForEach(x =>
-                                {
-                                    _mgr.AddClaim(u.Id, new Claim(x.Type, x.Value));
-                                });
-                            }
-                        }
-                    }
-                }
+                }                
                 ModelState.AddModelError("", "username or password is incorrect!");  
             }
             return View(viewModel);
