@@ -550,7 +550,7 @@ namespace VideoUpload.Web.Controllers
                 return Json(new
                 {
                     success = false,                    
-                    message = "You've successfully approved/disapproved the video but it seems our email is currently not available and we're not able to send email to the service advisor."
+                    message = "You've successfully approved/disapproved the video but could not send an email to the service advisor."
                 });
             }
 
@@ -561,13 +561,14 @@ namespace VideoUpload.Web.Controllers
         public async Task<ActionResult> VideoHasPlayed(int postID, string userName, string details)
         {
             var post = _uow.Posts.GetById(postID);
-            var user = await _mgr.FindByNameAsync("admin"); //to get the alboraq.app@boraq-porsche email
+
+            var admin = await _mgr.FindByNameAsync("admin"); //to get the alboraq.app@boraq-porsche email
 
             var success = false;
 
             if (post == null) return Json(new { success = success });
             
-            if (!post.HasPlayedVideo && post.DatePlayedVideo == null && user != null)
+            if (!post.HasPlayedVideo && post.DatePlayedVideo == null && admin != null)
             {
                 post.HasPlayedVideo = true;
                 post.DatePlayedVideo = DateTime.UtcNow;
@@ -577,15 +578,18 @@ namespace VideoUpload.Web.Controllers
 
                 //alert the SA 
                 try
-                {                                        
+                {
+                    var owner = await _mgr.FindByIdAsync(post.UserID); //get the owner of the posted video
+
                     await _mgr.CustomSendEmailAsync(
-                        user.Id, 
+                        admin.Id, 
                         "Your posted video.", 
                          EmailTemplate.GetTemplate(
-                             user, 
+                             admin,
+                             owner.FirstName, 
                              $"Your video with plate number { post.PlateNumber } has been played. You can now contact the customer. For more details: ",
                              details),
-                        user.Email);
+                        owner.Email);
                 }
                 catch (SmtpException eExcp)
                 {
@@ -595,7 +599,7 @@ namespace VideoUpload.Web.Controllers
                         Type = eExcp.GetType().Name,
                         Url = Request.Url.ToString(),
                         Source = (eExcp.InnerException != null) ? eExcp.InnerException.Message : string.Empty,
-                        UserName = User.Identity.Name,
+                        UserName = admin.UserName,
                         LogDate = DateTime.UtcNow
                     };
                     _uow.AppLogs.Add(eAppLog);
@@ -603,7 +607,7 @@ namespace VideoUpload.Web.Controllers
                     //Try to send via text when email is not available
                     try
                     {
-                        await _mgr.OoredooSendSmsAsync(user.MobileNumber, $"Your video with plate number {post.PlateNumber} has been played. You can now contact the customer");
+                        await _mgr.OoredooSendSmsAsync(admin.MobileNumber, $"Your video with plate number {post.PlateNumber} has been played. You can now contact the customer");
                         
                         //save the email log exception
                         _uow.SaveChanges();

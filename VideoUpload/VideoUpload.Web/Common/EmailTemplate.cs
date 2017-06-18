@@ -25,10 +25,11 @@ namespace VideoUpload.Web.Common
             return template.ToString();
         }
 
-        public static string GetTemplate(IdentityUser user, string message, string url)
+        public static string GetTemplate(IdentityUser user, string recipientName, string message, string url)
         {
 
             var template = new StringBuilder();
+            template.Append("<p style='font:15px Porsche News Gothic'>Dear " + recipientName + ",<br/>");
             template.Append("<p style='font:15px Porsche News Gothic'>" + message + "<br/>");
             template.Append("<p style='font:15px Porsche News Gothic'>" + url + "<br/>");
             template.Append("<div><p style='font:15px Porsche News Gothic'>Best Regards,</p>");

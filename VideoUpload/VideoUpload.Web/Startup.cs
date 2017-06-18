@@ -76,18 +76,18 @@ namespace VideoUpload.Web
                 {
                     UserName = "admin",
 
-                    FirstName = "Admin",
-                    LastName = "A",
-                    JobTitle = "Administrator",
+                    FirstName = "Systems",
+                    LastName = "Admin",
+                    JobTitle = "Web App Administrator",
                     EmployeeNo = "000",
                     IsActive = true,
-                    Email = "alboraq.app@boraq-porsche.com.qa",
+                    Email = "remoteyourporsche@boraq-porsche.com.qa",
                     EmailConfirmed = true,
                     EmailPass = "Boraq@23619",
                     BranchID = 2,
-                    WorkAddress = "st16",
+                    WorkAddress = "16th Street Industrial Area",
                     PhoneNumber  = "+974 44599800",
-                    DirectLine = "+974 44599800",
+                    DirectLine = "+974 44599800 ext. 170",
                     FaxNumber = "+974 44111027",
                     MobileNumber = "+974 700 64955"
 
