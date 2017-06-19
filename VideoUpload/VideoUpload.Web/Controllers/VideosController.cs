@@ -443,8 +443,14 @@ namespace VideoUpload.Web.Controllers
                     history.Recipient = formCollection["mobile"];
 
                     try
-                    {                        
-                        await _mgr.OoredooSendSmsAsync(formCollection["mobile"], $"Dear { recipient }, { message } { url }");
+                    {
+                        StringBuilder msg = new StringBuilder();
+                        msg.AppendLine($"Dear { recipient },")
+                           .AppendLine("Please find the video for your Porsche.")
+                           .AppendLine(url)
+                           .AppendLine("I will call you shortly to discuss further.");
+                        
+                        await _mgr.OoredooSendSmsAsync(formCollection["mobile"], msg.ToString());
                     }
                     catch (Exception ex)
                     {

@@ -3,9 +3,9 @@
     DEFAULTS
 ==================================
 */
-body {
+/*body {
     padding-top: 70px;
-}
+}*/
 #main-content {
     min-height: 400px;
 }
@@ -130,3 +130,11 @@ input, select, textarea {
  
 .hc-stat-check { color:#fff; }  
 .invi { visibility:collapse; }
+/*
+==================================
+    CONTACT US
+==================================
+*/
+/*.pad-address {
+    padding-top: 80px;
+}*/

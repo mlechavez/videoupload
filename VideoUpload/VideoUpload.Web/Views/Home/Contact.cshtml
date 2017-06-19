@@ -11,13 +11,7 @@
         <p class="lead">Do you have any questions? Please feel free to contact us or to arrange an appointment</p>
     </div>   
     
-    <address id="pcd">
-        <strong>Porsche Centre Doha</strong><br />
-        Al Boraq Automobiles Co WLL<br />
-        Airport Street<br />
-        PO Box 23619<br />
-        Doha, Qatar<br /><br />
-
+    <address id="pcd">       
         <strong>Showroom</strong><br />
         Phone: +974 44599 666<br />
         Fax: +974 44666 993<br />
@@ -28,6 +22,8 @@
         8:00 am to 12:00 noon<br />
         4:00 pm to 8:00 pm<br />
     </address>
+
+    <hr/>
 
     <address id="st16">
         <strong>Porsche Service Centre - <abbr title="Street">St.</abbr> 16</strong><br />
@@ -47,6 +43,8 @@
         8:00 am to 6:30 pm<br />
     </address>
 
+    <hr />
+
     <address id="st27">
         <strong>Porsche Service Centre - <abbr title="Street">St.</abbr> 27</strong><br />
         Industrial Area Street No 27<br />
@@ -62,6 +60,8 @@
         Thursday<br />
         7:00 am to 12:30 pm<br />
     </address>
+
+    <hr />
 
     <address id="qsc">
         <strong>Porsche Quick Service Centre</strong><br />
@@ -81,6 +81,24 @@
     </address>
 </div>
 
-
-
+@*<script>
+    var currentUrl = location.href;
+    var locationIndex = currentUrl.indexOf("#");
+    var strLocation = currentUrl.substr(locationIndex + 1);    
+    
+    switch (strLocation) {
+        case "pcd":
+            document.getElementById("pcd").className += "pad-address";
+            break;
+        case "st16":
+            document.getElementById("st16").className += "pad-address";
+            break;
+        case "st27":
+            document.getElementById("st27").className += "pad-address";
+            break;
+        case "qsc":
+            document.getElementById("qsc").className += "pad-address";
+            break;
+    }
+</script>*@
 

@@ -32,16 +32,16 @@ namespace VideoUpload.Web.Common
             template.Append("<p style='font:15px Porsche News Gothic'>Dear " + recipientName + ",<br/>");
             template.Append("<p style='font:15px Porsche News Gothic'>" + message + "<br/>");
             template.Append("<p style='font:15px Porsche News Gothic'>" + url + "<br/>");
-            template.Append("<div><p style='font:15px Porsche News Gothic'>Best Regards,</p>");
-            template.Append("<span style='font:15px Porsche News Gothic'><b>" + $"{user.FirstName} {user.LastName}" + "</b></span><br/>");
-            template.Append("<span style='font:15px Porsche News Gothic'>" + user.JobTitle + "<span><br/><br/>");
-            template.Append("<span style='font:15px Porsche News Gothic'>Porsche Center Doha</span><br/>");
-            template.Append("<span style='font:15px Porsche News Gothic'>Alboraq Automobiles Co. w.l.l<span><br/>");
-            template.Append("<span style='font:15px Porsche News Gothic'>" + user.WorkAddress + "</span><br/><br/>");
-            template.Append("<b>Phone:</b> " + user.PhoneNumber + "<br/>");
-            template.Append("<b>Direct Line:</b> " + user.DirectLine + "<br/>");
-            template.Append("<b>Fax:</b> " + user.FaxNumber + "<br/>");
-            template.Append("<b>Email:</b> " + user.Email + "<br/></div>");
+            //template.Append("<div><p style='font:15px Porsche News Gothic'>Best Regards,</p>");
+            //template.Append("<span style='font:15px Porsche News Gothic'><b>" + $"{user.FirstName} {user.LastName}" + "</b></span><br/>");
+            //template.Append("<span style='font:15px Porsche News Gothic'>" + user.JobTitle + "<span><br/><br/>");
+            //template.Append("<span style='font:15px Porsche News Gothic'>Porsche Center Doha</span><br/>");
+            //template.Append("<span style='font:15px Porsche News Gothic'>Alboraq Automobiles Co. w.l.l<span><br/>");
+            //template.Append("<span style='font:15px Porsche News Gothic'>" + user.WorkAddress + "</span><br/><br/>");
+            //template.Append("<b>Phone:</b> " + user.PhoneNumber + "<br/>");
+            //template.Append("<b>Direct Line:</b> " + user.DirectLine + "<br/>");
+            //template.Append("<b>Fax:</b> " + user.FaxNumber + "<br/>");
+            //template.Append("<b>Email:</b> " + user.Email + "<br/></div>");
             return template.ToString();
         }
     }

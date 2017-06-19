@@ -246,6 +246,7 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
+    <None Include="Properties\PublishProfiles\ProdSmarterAspProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterAspDevProfile.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterASPProfile.pubxml" />
