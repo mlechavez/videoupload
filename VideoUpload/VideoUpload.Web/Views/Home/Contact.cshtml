@@ -81,24 +81,16 @@
     </address>
 </div>
 
-@*<script>
-    var currentUrl = location.href;
-    var locationIndex = currentUrl.indexOf("#");
-    var strLocation = currentUrl.substr(locationIndex + 1);    
-    
-    switch (strLocation) {
-        case "pcd":
-            document.getElementById("pcd").className += "pad-address";
-            break;
-        case "st16":
-            document.getElementById("st16").className += "pad-address";
-            break;
-        case "st27":
-            document.getElementById("st27").className += "pad-address";
-            break;
-        case "qsc":
-            document.getElementById("qsc").className += "pad-address";
-            break;
-    }
-</script>*@
+@section Script {
+    @Scripts.Render("~/contactus")
+    <script>
+        $(document).ready(function () {
+            if (window.location.hash) {
+                scrollBy(0, -70);
+            }
+        });
+        window
+    </script>
+}
+
 

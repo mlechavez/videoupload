@@ -3,9 +3,9 @@
     DEFAULTS
 ==================================
 */
-/*body {
+body {
     padding-top: 70px;
-}*/
+}
 #main-content {
     min-height: 400px;
 }
@@ -135,6 +135,7 @@ input, select, textarea {
     CONTACT US
 ==================================
 */
-/*.pad-address {
-    padding-top: 80px;
-}*/
+#pcd,#st16,#st27,#qsc {
+    padding: 10px;
+    border-radius: 8px;
+}

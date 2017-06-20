@@ -54,7 +54,6 @@ namespace VideoUpload.Web
                     .Include("~/scripts/videos/timeZoneCookie.js"));
 
             
-
             //Upload page
             bundles.Add(
                 new ScriptBundle("~/upload")
@@ -64,7 +63,6 @@ namespace VideoUpload.Web
                 new ScriptBundle("~/post-edit")
                     .Include("~/scripts/videos/edit.js"));
 
-
             //Post page
             bundles.Add(
                 new ScriptBundle("~/details")
@@ -73,6 +71,10 @@ namespace VideoUpload.Web
             bundles.Add(
                 new ScriptBundle("~/watch")
                     .Include("~/scripts/videos/watch.js"));
+            //Contact page
+            bundles.Add(
+                new ScriptBundle("~/contactus")
+                    .Include("~/scripts/videos/contactus.js"));
 
             BundleTable.EnableOptimizations = true;
         }

@@ -399,6 +399,7 @@
     <Content Include="scripts\tinymce\themes\modern\theme.min.js" />
     <Content Include="scripts\tinymce\tinymce.js" />
     <Content Include="scripts\tinymce\tinymce.min.js" />
+    <Content Include="scripts\videos\contactus.js" />
     <Content Include="scripts\videos\details.js" />
     <Content Include="scripts\videos\edit.js" />
     <Content Include="scripts\videos\timeZoneCookie.js" />
