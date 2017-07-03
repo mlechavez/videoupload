@@ -82,6 +82,11 @@ namespace VideoUpload.EF.Migrations
                     {
                         BranchID = c.Int(nullable: false, identity: true),
                         BranchName = c.String(),
+                        Name = c.String(),
+                        Address = c.String(),
+                        PhoneNumber = c.String(),
+                        FaxNumber = c.String(),
+                        Email = c.String(),
                     })
                 .PrimaryKey(t => t.BranchID);
             

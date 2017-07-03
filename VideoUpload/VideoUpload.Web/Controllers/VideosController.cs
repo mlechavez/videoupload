@@ -64,8 +64,8 @@ namespace VideoUpload.Web.Controllers
         public PartialViewResult Sidebars()
         {
             //MVC 5 does not support asynchronous in partial view. Fetch the data synchronously 
-            ViewBag.ApprovedVideos = WidgetViewModel.Create(_uow, 1, 10, "approved", string.Empty);
-            ViewBag.HasPlayedVideos = WidgetViewModel.Create(_uow, 1, 10, "hasplayed", string.Empty);
+            ViewBag.ApprovedVideos = VideoWidgetViewModel.Create(_uow, 1, 10, "approved", string.Empty);
+            ViewBag.HasPlayedVideos = VideoWidgetViewModel.Create(_uow, 1, 10, "hasplayed", string.Empty);
                          
             return PartialView("_Sidebars");
         }
@@ -158,11 +158,12 @@ namespace VideoUpload.Web.Controllers
                     using (var fileStream = System.IO.File.Create(videoToSaveBeforeConvertingPath))
                     {
                         var stream = item.InputStream;
-                        stream.CopyTo(fileStream);
+                        stream.CopyTo(fileStream);                        
                     }
 
                     //for conversion
                     var ffMpeg = new FFMpegConverter();
+                    
 
                     //I saved the exe file of the converter in this path.
                     ffMpeg.FFMpegToolPath = videoPath;
@@ -244,7 +245,7 @@ namespace VideoUpload.Web.Controllers
                             EmailTemplate.GetTemplate(
                                 CurrentUser,
                                 "Supervisors",
-                                "I have posted a new video. Please see the details.",
+                                "I have posted a new video. Please see the details for approval",
                                 url),
                             recipients.ToString());
                         }
@@ -481,6 +482,10 @@ namespace VideoUpload.Web.Controllers
         [Route("watch/{year:int}/{month:int}/{postID:int}/{plateNo}")]
         public async Task<ActionResult> Watch(int year, int month, int postID, string plateNo)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return View("_ResourceNotFound");
+            }
             var post = await _uow.Posts.GetByDateUploadedAndPostIDAsync(year, month, postID);
 
             if (post == null)

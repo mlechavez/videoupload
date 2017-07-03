@@ -1,65 +1,47 @@
 ﻿@model VideoUpload.Core.Entities.Post
-@{
-    ViewBag.Title = "Your Porsche";
+
+@{ 
+    Layout = null;
 }
 
-@Html.Partial("_Modal")
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="~/Content/Images/favicon.ico" />
+    <title>PCD - After Sales | Your Porsche</title>
 
-<div class="col-md-8 col-sm-8">
-    <article>
+    @Styles.Render("~/bootstrap", "~/united", "~/fontawesome", "~/gfont", "~/css")    
 
-        <h3>@ViewBag.Header</h3>
-
+</head>
+<body>
+    <div id="cust-header">
+        <div class="container">
+            <a href="http://www.porsche.com/middle-east/_qatar_/">
+                <img src="~/Content/Images/Porsche-MZ-30mm.jpg" />
+            </a>
+            <hr />
+        </div>
+    </div>
+    <div id="main-content" class="container">
         <div class="row">
-
-            <div class="col-md-12 col-sm-6 col-xs-6 watch-group-sa">
-                <strong>Your Service Advisor:</strong> @(Model.User.FirstName + " " + Model.User.LastName)
-            </div>
-
-            <div class="col-md-12 col-sm-6 col-xs-6">
-                @switch (Model.Branch.BranchName)
-                {
-                    case "ST16":
-                        <text><strong>Should you have any queries, contact us +974 44599 799</strong></text>
-                        break;
-                    case "ST27":
-                        <text><strong>Should you have any queries, contact us +974 44599 777</strong></text>
-                        break;
-                    case "QSC":
-                        <text><strong>Should you have any queries, contact us +974 44599 733</strong></text>
-                        break;
-                    default:
-                        <text><strong>Should you have any queries, contact us +974 44599 666</strong></text>
-                        break;
-                }
+            @Html.Partial("_Watch", Model)
+            <div class="col-md-4 col-sm-4">
+                @Html.Partial("_SocialSidebar")
             </div>
         </div>
-
-        <hr />
-
-        <div class="embed-responsive embed-responsive-16by9">
-            <video id="vPlayer" class="embed-responsive-item" controls preload="auto" controlsList="nodownload">
-                <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />
-                Your browser does not support playing this video. Please upgrade your browser.
-            </video>
-        </div>        
-
-        <br />
-        <div>@Html.Raw(Model.Description)</div>
-
-    </article>
-
-</div>
-
-<div id="postUrl" class="hidden" data-url="@Url.Action("VideoHasPlayed")" data-id="@Model.PostID"
-     data-uploader="@Model.User.UserName" data-hasplayed="@Model.HasPlayedVideo" data-datePlayedVideo="@Model.DatePlayedVideo"></div>
-
-@section SideBar {
-    <div class="col-md-4 col-sm-4">
-        @Html.Partial("_SocialSidebar")
     </div>
-}
-
-@section Script {
-    @Scripts.Render("~/watch")    
-}
+    <footer>
+        <div class="container">
+            <hr />
+            <p class="text-center">Copyright &copy; @DateTime.Today.Year. Al Boraq Automobiles Co. W.l.l.</p>
+        </div>
+    </footer>
+    @Scripts.Render("~/jquery", "~/jbootstrap", "~/jcookies", "~/tinymce", "~/js", "~/watch")
+    
+    <script>
+        $('.dropdown-contact-menu .divider:last-child').remove();
+    </script>
+</body>
+</html>

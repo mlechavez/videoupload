@@ -58,9 +58,42 @@ namespace VideoUpload.Web
 
             if (branches.Count == 0)
             {
-                branches.Add(new Branch { BranchName = "ST27" });
-                branches.Add(new Branch { BranchName = "ST16" });
-                branches.Add(new Branch { BranchName = "QSC" });                
+                branches.Add(new Branch
+                {
+                    BranchName = "PCD",
+                    Name = "Showroom",
+                    Address = "P.O Box 23619 - Airport St. Doha, Qatar",
+                    PhoneNumber = "+974 44599 666",
+                    FaxNumber = "+974 44666 993",
+                    Email = "info@boraq-porsche.com.qa"
+                });
+                branches.Add(new Branch
+                {
+                    BranchName = "ST27",
+                    Name =  "Porsche Service Centre St. 27",
+                    Address = "27th Street Industrial Area",
+                    PhoneNumber = "+974 44599 777",
+                    FaxNumber = "+974 44503 366",
+                    Email = "info@boraq-porsche.com.qa"
+                });
+                branches.Add(new Branch
+                {
+                    BranchName = "ST16",
+                    Name = "Porsche Service Centre St. 16",
+                    Address = "16th Street Industrial Area",
+                    PhoneNumber = "+974 44599 799",
+                    FaxNumber = "+974 44111 027",
+                    Email = "info@boraq-porsche.com.qa"                    
+                });
+                branches.Add(new Branch
+                {
+                    BranchName = "QSC",
+                    Name = "Porsche Quick Service Centre",
+                    Address = "City Petol Station, Al Gharaffa",
+                    PhoneNumber = "+974 44599 733",
+                    FaxNumber = "+974 44863 388",
+                    Email = "info@boraq-porsche.com.qa"
+                });                
 
                 branches.ForEach(x => { unitOfWork.Branches.Add(x); });
             }

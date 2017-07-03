@@ -12,8 +12,13 @@ namespace VideoUpload.Core.Entities
         private ICollection<Post> _posts;
         private ICollection<Jobcard> _jobcards;
 
-        public int BranchID { get; set; }
+        public int BranchID { get; set; }        
         public string BranchName { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
+        public string FaxNumber { get; set; }
+        public string Email { get; set; }
 
         public virtual ICollection<User> Users
         {

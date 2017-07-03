@@ -5,12 +5,12 @@ using VideoUpload.Core.Entities;
 
 namespace VideoUpload.Web.Models.Videos
 {
-    public class WidgetViewModel : List<Post>
+    public class VideoWidgetViewModel : List<Post>
     {
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
 
-        public WidgetViewModel(ICollection<Post> items, int count, int pageIndex, int pageSize)
+        public VideoWidgetViewModel(ICollection<Post> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = PageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageIndex);
@@ -45,7 +45,7 @@ namespace VideoUpload.Web.Models.Videos
                 default:
                     break;
             }
-            return new WidgetViewModel(posts, count, pageNo, pageSize);
+            return new VideoWidgetViewModel(posts, count, pageNo, pageSize);
         }
     }
 }

@@ -17,8 +17,7 @@
     <AssemblyName>VideoUpload.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44318</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -224,6 +223,7 @@
     <Content Include="Content\Images\porsche-crest.png" />
     <Content Include="Content\Images\porsche-logo-header.jpg" />
     <Content Include="Content\Images\porsche-logo.png" />
+    <Content Include="Content\Images\Porsche-MZ-30mm.jpg" />
     <Content Include="Content\main.css" />
     <Content Include="Content\modified\bootstrap.css" />
     <Content Include="Content\modified\bootstrap.min.css" />
@@ -448,6 +448,7 @@
     <Compile Include="Models\ActivityViewModels\ActivityViewModel.cs" />
     <Compile Include="Models\ActivityViewModels\CreateActivityViewModel.cs" />
     <Compile Include="Models\ConfirmPasswordViewModel.cs" />
+    <Compile Include="Models\Home\ContactWidgetViewModel.cs" />
     <Compile Include="Models\PasswordResetViewModel.cs" />
     <Compile Include="Models\UserViewModels\EmailPasswordViewModel.cs" />
     <Compile Include="Models\Videos\CreatePostViewModel.cs" />
@@ -467,7 +468,7 @@
     <Compile Include="Common\VideoStreamResult.cs" />
     <Compile Include="Models\Videos\EditPostViewModel.cs" />
     <Compile Include="Models\Videos\VideoViewModel.cs" />
-    <Compile Include="Models\Videos\WidgetViewModel.cs" />
+    <Compile Include="Models\Videos\VideoWidgetViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\OoredooSOAP\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -487,7 +488,7 @@
     <Content Include="Views\Videos\Upload.cshtml" />
     <Content Include="Views\Videos\List.cshtml" />
     <Content Include="Views\Videos\Post.cshtml" />
-    <Content Include="Views\Videos\Watch.cshtml" />
+    <Content Include="Views\Videos\_Watch.cshtml" />
     <Content Include="Views\Videos\Send.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_ErrorWatch.cshtml" />
@@ -567,6 +568,8 @@
     <Content Include="Views\Videos\Edit.cshtml" />
     <Content Include="Views\Shared\_Pager.cshtml" />
     <Content Include="Views\Users\ChangeEmailPassword.cshtml" />
+    <Content Include="Views\Shared\_ContactUsWidget.cshtml" />
+    <Content Include="Views\Videos\Watch.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

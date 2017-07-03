@@ -1,0 +1,23 @@
+﻿@using VideoUpload.Core.Entities
+
+@if (ViewBag.BranchList.Count > 0)
+{
+    var branches = (IEnumerable<Branch>)ViewBag.BranchList;
+
+    <div class="dropdown dropdown-contact">
+        <button class="dropdown-toggle btn btn-primary btn-contact" data-toggle="dropdown">
+            <i class="fa fa-list fa-lg"></i> Contact Us
+        </button>
+        <ul class="dropdown-menu dropdown-contact-menu">
+            @foreach (var branch in branches)
+            {
+                <li>
+                    <a href="@Url.Action("contact", "home", new { branchName = branch.BranchName })#pcd">
+                        <i class="fa fa-angle-down fa-lg fa-angle-down-padright"></i> @branch.Name
+                    </a>
+                </li>
+                <li role="separator" class="divider"></li>
+            }            
+        </ul>
+    </div>
+} 
