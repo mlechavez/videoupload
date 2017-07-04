@@ -1,0 +1,131 @@
+﻿#cust-header img {
+    display: block;
+    width: 110px;
+    height: 60px;
+    margin: 15px auto;
+}
+/*
+==================================
+    SOCIAL BUTTONS
+==================================
+*/
+.btn-social {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+    .btn-social:focus,
+    .btn-social.focus {
+        color: #fff;
+        background-color: #286090;
+        border-color: #122b40;
+    }
+
+    .btn-social:hover {
+        color: #fff;
+        background-color: #286090;
+        border-color: #204d74;
+    }
+
+    .btn-social:active,
+    .btn-social.active,
+    .open > .dropdown-toggle.btn-social {
+        color: #fff;
+        background-color: #286090;
+        border-color: #204d74;
+    }
+
+        .btn-social:active:hover,
+        .btn-social.active:hover,
+        .open > .dropdown-toggle.btn-social:hover,
+        .btn-social:active:focus,
+        .btn-social.active:focus,
+        .open > .dropdown-toggle.btn-social:focus,
+        .btn-social:active.focus,
+        .btn-social.active.focus,
+        .open > .dropdown-toggle.btn-social.focus {
+            color: #fff;
+            background-color: #204d74;
+            border-color: #122b40;
+        }
+
+.dropdown-contact {
+    margin-top: 15px;
+}
+
+.btn-primary {
+    background-color: #900;
+    border-color: #900;
+}
+
+    .btn-primary:active {
+        background-color: #900;
+    }
+
+    .btn-primary:focus,
+    .btn-primary.focus {
+        color: #ffffff;
+        background-color: #900;
+        border-color: #900;
+    }
+
+.open > .dropdown-toggle.btn-primary {
+    color: #ffffff;
+    background-color: #900;
+    border-color: #900;
+}
+
+.btn-contact {
+    width: 100%;
+    text-align: left;
+}
+
+    .btn-contact i {
+        margin-right: 15px;
+    }
+
+.dropdown-contact-menu {
+    width: 100%;
+}
+
+.social-buttons-container {
+    margin-top: 30px;
+}
+
+.fa-angle-down-padright {
+    margin-right: 15px;
+}
+/*
+==================================
+    WATCH POSTED ARTICLE
+==================================
+*/
+.watch-posted-article {
+    color: #737373;
+    background-color: #f2f2f2;
+    background-image: linear-gradient(#f2f2f2, #fff 80%, #f2f2f2);
+    border-radius: 3px;
+    border: 1px solid silver;
+    padding: 20px;
+    -moz-box-shadow: inset 0 3px 8px silver;
+    -webkit-box-shadow: inset 0 3px 8px silver;
+    box-shadow: inset 0 3px 8px silver;
+    text-shadow: 2px 2px 2px #fff;
+}
+#watch-yp-heading { 
+    font-size: 25px;           
+    color: #900;
+    text-shadow: 3px 2px 5px #900;            
+}
+.watch-group-contact {
+    margin-bottom: 10px;
+}
+@media (min-width:360px) {
+    .watch-group-contact, .watch-group-sa {
+        margin-bottom: 10px;
+    }
+}
+#main-footer > .container {
+    padding: 30px;
+}

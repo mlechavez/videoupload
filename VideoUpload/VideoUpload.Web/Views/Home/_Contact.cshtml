@@ -1,0 +1,124 @@
+﻿
+@model VideoUpload.Core.Entities.Branch
+@{
+    ViewBag.Title = "Contact Us";
+}
+<div class="col-md-12 col-sm-12">
+    <h2>@ViewBag.Header</h2>
+    <div class="well text-center">
+        <p class="lead">Do you have any questions? Please feel free to contact us or to arrange an appointment</p>
+    </div>
+
+    @if (Model != null)
+    {
+        <address id="@Model.BranchName.ToLower()">
+            <strong>@Model.Name</strong><br />
+            @Model.Address<br />
+            Phone: @Model.PhoneNumber<br />
+            Fax: @Model.FaxNumber<br />
+            Email: <a href="mailto:info@boraq-porsche.com.qa">@Model.Email</a><br /><br />
+            <strong>Opening Hours</strong><br />
+            @switch (Model.BranchName)
+            {
+                case "st16":
+                    <text>
+                        Saturday<br />
+                        8:00 am to 6:30 pm<br />
+                        Sunday to Wednesday<br />
+                        8:00 am to 6:00 pm<br />
+                        Thursday<br />
+                        8:00 am to 6:30 pm<br />
+                    </text>
+                    break;
+                case "st27":
+                    <text>
+                        Saturday to Wednesday<br />
+                        8:00 am to 5:00 pm<br />
+                        Thursday<br />
+                        7:00 am to 12:30 pm<br />
+                    </text>
+                    break;
+                case "qsc":
+                    <text>
+                        Saturday to Wednesday<br />
+                        8:00 am to 5:00 pm<br />
+                        11:00 am to 8:00 pm<br />
+                        Thursday<br />
+                        8:00 am to 1:30 pm<br />
+                    </text>
+                    break;
+                default:
+                    <text>
+                        Saturday to Thursday<br />
+                        8:00 am to 12:00 noon<br />
+                        4:00 pm to 8:00 pm<br />
+                    </text>
+                    break;
+            }
+        </address>
+    }
+    else
+    {
+        <address id="pcd">
+            <strong>Showroom</strong><br />
+            P.O Box 23619 - Airport St. Doha, Qatar
+            Phone: +974 44599 666<br />
+            Fax: +974 44666 993<br />
+            Email: <a href="mailto:info@boraq-porsche.com.qa">info@boraq-porsche.com.qa</a><br /><br />
+            <strong>Opening Hours</strong>
+            Saturday to Thursday<br />
+            8:00 am to 12:00 noon<br />
+            4:00 pm to 8:00 pm<br />
+        </address>
+        <hr />
+        <address id="st16">
+            <strong>Porsche Service Centre - <abbr title="Street">St.</abbr> 16</strong><br />
+            16th Street Industrial Area<br />
+            PO Box 23619<br />
+            Doha, Qatar<br />
+            Phone: +974 44599 799<br />
+            Fax: +974 44111 027<br />
+            Email: <a href="mailto:info@boraq-porsche.com.qa">info@boraq-porsche.com.qa</a><br /><br />
+            <strong>Opening Hours</strong>
+            Saturday<br />
+            8:00 am to 6:30 pm<br />
+            Sunday to Wednesday<br />
+            8:00 am to 6:00 pm<br />
+            Thursday<br />
+            8:00 am to 6:30 pm<br />
+        </address>
+        <hr />
+        <address id="st27">
+            <strong>Porsche Service Centre - <abbr title="Street">St.</abbr> 27</strong><br />
+            Industrial Area Street No 27<br />
+            PO Box 23619<br />
+            Doha, Qatar<br />
+            Phone: +974 44599 777<br />
+            Fax: +974 44503 366<br />
+            Email: <a href="mailto:info@boraq-porsche.com.qa">info@boraq-porsche.com.qa</a><br /><br />
+            <strong>Opening Hours</strong>
+            Saturday to Wednesday<br />
+            8:00 am to 5:00 pm<br />
+            Thursday<br />
+            7:00 am to 12:30 pm<br />
+        </address>
+        <hr />
+        <address id="qsc">
+            <strong>Porsche Quick Service Centre</strong><br />
+            City Petrol Station, Al Gharaffa<br />
+            PO Box 23619<br />
+            Doha, Qatar<br />
+            Phone: +974 44599 733<br />
+            Phone: +974 44599 734<br />
+            Fax: +974 44863 388<br />
+            Email: <a href="mailto:info@boraq-porsche.com.qa">info@boraq-porsche.com.qa</a><br /><br />
+            <strong>Opening Hours</strong>
+            Saturday to Wednesday<br />
+            8:00 am to 5:00 pm<br />
+            11:00 am to 8:00 pm<br />
+            Thursday<br />
+            8:00 am to 1:30 pm<br />
+        </address>
+    }
+
+</div>

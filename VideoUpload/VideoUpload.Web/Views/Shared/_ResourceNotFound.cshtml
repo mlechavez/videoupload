@@ -25,6 +25,6 @@
 @if (!User.Identity.IsAuthenticated)
 {
     <div class="col-md-4">
-        @Html.Partial("_ContactUsWidget")
+        @Html.Action("GetBranches", "home")
     </div>    
 }

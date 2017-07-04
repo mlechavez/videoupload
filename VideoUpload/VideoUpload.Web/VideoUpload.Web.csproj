@@ -217,6 +217,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\cust-layout.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\favicon.ico" />
@@ -224,6 +225,7 @@
     <Content Include="Content\Images\porsche-logo-header.jpg" />
     <Content Include="Content\Images\porsche-logo.png" />
     <Content Include="Content\Images\Porsche-MZ-30mm.jpg" />
+    <Content Include="Content\Images\subtle_white_feathers.png" />
     <Content Include="Content\main.css" />
     <Content Include="Content\modified\bootstrap.css" />
     <Content Include="Content\modified\bootstrap.min.css" />
@@ -491,7 +493,7 @@
     <Content Include="Views\Videos\_Watch.cshtml" />
     <Content Include="Views\Videos\Send.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_ErrorWatch.cshtml" />
+    <Content Include="Views\Videos\_ErrorWatch.cshtml" />
     <Content Include="scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Shared\_Modal.cshtml" />
@@ -560,7 +562,7 @@
     <Content Include="Views\Videos\_ApprovedVideos.cshtml" />
     <Content Include="Views\Videos\_PlayedVideos.cshtml" />
     <Content Include="Views\Videos\_PostActions.cshtml" />
-    <Content Include="Views\Videos\_SocialSidebar.cshtml" />
+    <Content Include="Views\Shared\_SocialSidebar.cshtml" />
     <Content Include="Views\Shared\_Search.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Users\_UserAccountSettingsWidget.cshtml" />
@@ -570,6 +572,8 @@
     <Content Include="Views\Users\ChangeEmailPassword.cshtml" />
     <Content Include="Views\Shared\_ContactUsWidget.cshtml" />
     <Content Include="Views\Videos\Watch.cshtml" />
+    <Content Include="Views\Shared\_CustomerHeader.cshtml" />
+    <Content Include="Views\Home\_Contact.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

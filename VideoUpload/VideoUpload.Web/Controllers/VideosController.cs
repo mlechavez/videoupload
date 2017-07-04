@@ -491,7 +491,7 @@ namespace VideoUpload.Web.Controllers
             if (post == null)
             {
                 ViewBag.Message = $"You're supposed to watch a video for your car. Please try the link again and if the problem occurs you can contact us using the below links";
-                return View("_ResourceNotFound");
+                return View("_ErrorWatch");
             }            
 
             ViewBag.Header = "Your Porsche";

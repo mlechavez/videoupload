@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="~/Content/Images/favicon.ico" />
+    <title>PCD - After Sales | Your Porsche</title>
+
+    @Styles.Render("~/bootstrap", "~/united", "~/fontawesome", "~/gfont", "~/cust-layout")
+
+</head>
+<body>
+    @Html.Partial("_CustomerHeader")
+    <div id="main-content" class="container">
+        <div class="row">
+            @Html.Partial("_ResourceNotFound")
+            
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <hr />
+            <p class="text-center">Copyright &copy; @DateTime.Today.Year. Al Boraq Automobiles Co. w.l.l.</p>
+        </div>
+    </footer>
+    @Scripts.Render("~/jquery", "~/jbootstrap", "~/jcookies", "~/tinymce", "~/js")
+
+    <script>
+        $('.dropdown-contact-menu .divider:last-child').remove();
+    </script>
+</body>
+</html>

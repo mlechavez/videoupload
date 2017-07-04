@@ -1,6 +1,6 @@
 ﻿@model VideoUpload.Core.Entities.Post
 
-<article>
+<article class="posted-article">
 
     <h3><small>Car plate no. </small> @Html.PostActionLink(Model)</h3>
 
@@ -28,7 +28,5 @@
     <br />
 
     <div>@Html.Raw(Model.Description)</div>
-    
-    <hr />
-
+        
 </article>

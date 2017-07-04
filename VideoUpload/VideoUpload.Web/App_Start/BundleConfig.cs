@@ -32,7 +32,12 @@ namespace VideoUpload.Web
                             "~/Content/PagedList.css",
                             "~/Content/main.css",
                             "~/Content/print.css"));
-            
+
+            bundles.Add(
+                new StyleBundle("~/cust-layout")
+                        .Include(
+                            "~/Content/cust-layout.css"));
+
             bundles.Add(
                 new ScriptBundle("~/jquery", "https://code.jquery.com/jquery-3.2.1.min.js")
                         .Include("~/scripts/jquery-{version}.js"));
@@ -75,7 +80,7 @@ namespace VideoUpload.Web
             bundles.Add(
                 new ScriptBundle("~/contactus")
                     .Include("~/scripts/videos/contactus.js"));
-
+            
             BundleTable.EnableOptimizations = true;
         }
     }

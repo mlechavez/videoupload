@@ -1,9 +1,8 @@
 ﻿@model VideoUpload.Core.Entities.Post
 
 <div class="col-md-8 col-sm-8">
-    <article>
-
-        <h3>@ViewBag.Header</h3>
+    <h3 id="watch-yp-heading">@ViewBag.Header</h3>
+    <article class="watch-posted-article">
 
         <div class="row">
 
@@ -11,12 +10,10 @@
                 <strong>Your Service Advisor:</strong> @(Model.User.FirstName + " " + Model.User.LastName)
             </div>
 
-            <div class="col-md-12 col-sm-6 col-xs-6">
+            <div class="col-md-12 col-sm-6 col-xs-6 watch-group-contact">
                 <strong>Should you have any queries, please contact us; @Model.Branch.PhoneNumber</strong>
             </div>
-        </div>
-
-        <hr />
+        </div>        
 
         <div class="embed-responsive embed-responsive-16by9">
             <video id="vPlayer" class="embed-responsive-item" controls preload="auto" controlsList="nodownload">

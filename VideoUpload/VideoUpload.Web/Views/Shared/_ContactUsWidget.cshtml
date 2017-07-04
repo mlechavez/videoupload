@@ -12,7 +12,7 @@
             @foreach (var branch in branches)
             {
                 <li>
-                    <a href="@Url.Action("contact", "home", new { branchName = branch.BranchName })#pcd">
+                    <a href="@Url.Action("contact", "home", new { branchName = branch.BranchName })#@branch.BranchName.ToLower()">
                         <i class="fa fa-angle-down fa-lg fa-angle-down-padright"></i> @branch.Name
                     </a>
                 </li>

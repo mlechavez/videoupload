@@ -9,14 +9,11 @@
 
     <title>PCD - After Sales | @ViewBag.Title</title>
     
-    @Styles.Render("~/bootstrap", "~/united", "~/fontawesome", "~/gfont", "~/css")    
-    <!-- for in-page anchor -->    
-    
+    @Styles.Render("~/bootstrap", "~/united", "~/fontawesome", "~/gfont", "~/css")            
 </head>
 <body>
-
+    
     @Html.Partial("_MainHeader")
-
     <div id="main-content" class="container">
         <div class="row">
 
@@ -26,7 +23,7 @@
         </div>
     </div>
 
-    <footer>
+    <footer id="main-footer">
         <div class="container">
             <hr />
             <p class="text-center">Copyright &copy; @DateTime.Today.Year. Al Boraq Automobiles Co. W.l.l.</p>

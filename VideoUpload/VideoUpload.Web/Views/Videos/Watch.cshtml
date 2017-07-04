@@ -1,6 +1,6 @@
 ﻿@model VideoUpload.Core.Entities.Post
 
-@{ 
+@{
     Layout = null;
 }
 
@@ -11,35 +11,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="~/Content/Images/favicon.ico" />
     <title>PCD - After Sales | Your Porsche</title>
-
-    @Styles.Render("~/bootstrap", "~/united", "~/fontawesome", "~/gfont", "~/css")    
+    @Styles.Render("~/bootstrap", "~/fontawesome", "~/gfont", "~/cust-layout")
+    <style>
+        
+    </style>
 
 </head>
 <body>
-    <div id="cust-header">
-        <div class="container">
-            <a href="http://www.porsche.com/middle-east/_qatar_/">
-                <img src="~/Content/Images/Porsche-MZ-30mm.jpg" />
-            </a>
-            <hr />
-        </div>
-    </div>
-    <div id="main-content" class="container">
-        <div class="row">
-            @Html.Partial("_Watch", Model)
-            <div class="col-md-4 col-sm-4">
-                @Html.Partial("_SocialSidebar")
+    <div id="main-container">
+        @Html.Partial("_CustomerHeader")
+        <div id="main-content" class="container">
+            <div class="row">
+                @Html.Partial("_Watch", Model)
+                <div class="col-md-4 col-sm-4">
+                    @Html.Action("GetBranches", "home")
+                    @Html.Partial("_SocialSidebar")
+                </div>
             </div>
         </div>
+        <footer id="main-footer">
+            <div class="container">
+                <p class="text-center">Copyright &copy; @DateTime.Today.Year. Al Boraq Automobiles Co. w.l.l.</p>
+            </div>
+        </footer>
     </div>
-    <footer>
-        <div class="container">
-            <hr />
-            <p class="text-center">Copyright &copy; @DateTime.Today.Year. Al Boraq Automobiles Co. W.l.l.</p>
-        </div>
-    </footer>
-    @Scripts.Render("~/jquery", "~/jbootstrap", "~/jcookies", "~/tinymce", "~/js", "~/watch")
-    
+
+    @Scripts.Render("~/jquery", "~/jbootstrap", "~/tinymce", "~/js", "~/watch")
+
     <script>
         $('.dropdown-contact-menu .divider:last-child').remove();
     </script>
