@@ -3,59 +3,65 @@
 @{
     ViewBag.Title = "Contact Us";
 }
-<div class="col-md-12 col-sm-12">
-    <h2>@ViewBag.Header</h2>
-    <div class="well text-center">
-        <p class="lead">Do you have any questions? Please feel free to contact us or to arrange an appointment</p>
-    </div>
+<div class="col-md-12 col-sm-12">    
 
     @if (Model != null)
     {
-        <address id="@Model.BranchName.ToLower()">
-            <strong>@Model.Name</strong><br />
-            @Model.Address<br />
-            Phone: @Model.PhoneNumber<br />
-            Fax: @Model.FaxNumber<br />
-            Email: <a href="mailto:info@boraq-porsche.com.qa">@Model.Email</a><br /><br />
-            <strong>Opening Hours</strong><br />
-            @switch (Model.BranchName)
-            {
-                case "st16":
-                    <text>
-                        Saturday<br />
-                        8:00 am to 6:30 pm<br />
-                        Sunday to Wednesday<br />
-                        8:00 am to 6:00 pm<br />
-                        Thursday<br />
-                        8:00 am to 6:30 pm<br />
-                    </text>
-                    break;
-                case "st27":
-                    <text>
-                        Saturday to Wednesday<br />
-                        8:00 am to 5:00 pm<br />
-                        Thursday<br />
-                        7:00 am to 12:30 pm<br />
-                    </text>
-                    break;
-                case "qsc":
-                    <text>
-                        Saturday to Wednesday<br />
-                        8:00 am to 5:00 pm<br />
-                        11:00 am to 8:00 pm<br />
-                        Thursday<br />
-                        8:00 am to 1:30 pm<br />
-                    </text>
-                    break;
-                default:
-                    <text>
-                        Saturday to Thursday<br />
-                        8:00 am to 12:00 noon<br />
-                        4:00 pm to 8:00 pm<br />
-                    </text>
-                    break;
-            }
-        </address>
+        <div class="row">
+            <div class="col-md-5">
+                <h2>@ViewBag.Header</h2>
+
+                <p>Do you have any questions? Please feel free to contact us or to arrange an appointment</p>
+                <div class="well">
+                    <address id="@Model.BranchName.ToLower()">
+                        <strong>@Model.Name</strong><br />
+                        @Model.Address<br />
+                        Phone: @Model.PhoneNumber<br />
+                        Fax: @Model.FaxNumber<br />
+                        Email: <a href="mailto:info@boraq-porsche.com.qa">@Model.Email</a><br /><br />
+                        <strong>Opening Hours</strong><br />
+                        @switch (Model.BranchName)
+                    {
+                        case "st16":
+                                <text>
+                                    Saturday<br />
+                                    8:00 am to 6:30 pm<br />
+                                    Sunday to Wednesday<br />
+                                    8:00 am to 6:00 pm<br />
+                                    Thursday<br />
+                                    8:00 am to 6:30 pm<br />
+                                </text>
+                            break;
+                        case "st27":
+                                <text>
+                                    Saturday to Wednesday<br />
+                                    8:00 am to 5:00 pm<br />
+                                    Thursday<br />
+                                    7:00 am to 12:30 pm<br />
+                                </text>
+                            break;
+                        case "qsc":
+                                <text>
+                                    Saturday to Wednesday<br />
+                                    8:00 am to 5:00 pm<br />
+                                    11:00 am to 8:00 pm<br />
+                                    Thursday<br />
+                                    8:00 am to 1:30 pm<br />
+                                </text>
+                            break;
+                        default:
+                                <text>
+                                    Saturday to Thursday<br />
+                                    8:00 am to 12:00 noon<br />
+                                    4:00 pm to 8:00 pm<br />
+                                </text>
+                            break;
+                    }
+                    </address>
+                </div>
+            </div>
+        </div>
+        
     }
     else
     {

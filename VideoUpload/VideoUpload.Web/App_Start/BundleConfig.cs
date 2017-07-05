@@ -79,7 +79,7 @@ namespace VideoUpload.Web
             //Contact page
             bundles.Add(
                 new ScriptBundle("~/contactus")
-                    .Include("~/scripts/videos/contactus.js"));
+                    .Include("~/scripts/home/contactus.js"));
             
             BundleTable.EnableOptimizations = true;
         }
