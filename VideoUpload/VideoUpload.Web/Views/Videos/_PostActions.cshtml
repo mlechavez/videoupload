@@ -27,28 +27,31 @@
         </div>
     }
 }
-<div class="well text-center">
+
     @if (Model.IsApproved)
     {
         if (User.Identity.Name == Model.User.UserName)
         {
-            <p>Send via:</p>
+            <div class="well text-center">
+                <p>Send via:</p>
 
-            <p>
-                @Html.ActionLink("Email", "send", new { postID = Model.PostID, sendingType = "email" }, new { @class = "btn btn-info" })
-                @Html.ActionLink("Sms", "send", new { postID = Model.PostID, sendingType = "sms" }, new { @class = "btn btn-info " })
-            </p>
-        }        
+                <p>
+                    @Html.ActionLink("Email", "send", new { postID = Model.PostID, sendingType = "email" }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Sms", "send", new { postID = Model.PostID, sendingType = "sms" }, new { @class = "btn btn-info " })
+                </p>
+            </div>
+        }
     }
     else
     {
-        if (!Model.HasApproval)
-        {
-            <p>This video has not yet been approved.</p>
-        }
-        else
-        {           
-            <p>This video has been disappoved. You can't send this to customer.</p>
-        }
+        <div class="well text-center">
+            @if (!Model.HasApproval)
+            {
+                <p>This video has not yet been approved.</p>
+            }
+            else
+            {
+                <p>This video has been disappoved. You can't send this to customer.</p>
+            }
+        </div>
     }
-</div>
