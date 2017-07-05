@@ -245,7 +245,7 @@ namespace VideoUpload.Web.Controllers
                             EmailTemplate.GetTemplate(
                                 CurrentUser,
                                 "Supervisors",
-                                "I have posted a new video. Please see the details for approval",
+                                "I have posted a new video. Please see the details for approval.",
                                 url),
                             recipients.ToString());
                         }
