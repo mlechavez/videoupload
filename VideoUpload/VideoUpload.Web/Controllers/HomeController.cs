@@ -26,15 +26,14 @@ namespace VideoUpload.Web.Controllers
                 var branch = _uow.Branches.GetByName(branchName);
                 return View(branch);
             }
-            
+                       
             ViewBag.Header = "Contact us";
 
             return View();
         }
 
         public PartialViewResult GetBranches(string videoUrl)
-        {
-            ViewBag.VideoUrl = videoUrl;
+        {                       
             ViewBag.BranchList = ContactWidgetViewModel.Create(_uow, 1, 100);
             return PartialView("_ContactUsWidget");
         }

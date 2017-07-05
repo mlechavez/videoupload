@@ -20,7 +20,7 @@
             <div class="row">
                 @Html.Partial("_Watch", Model)
                 <div class="col-md-4 col-sm-4">
-                    @Html.Action("GetBranches", "home", new { videoUrl = ViewBag.VideoUrl })
+                    @Html.Action("GetBranches", "home")
                     @Html.Partial("_SocialSidebar")
                 </div>
             </div>
@@ -36,6 +36,7 @@
 
     <script>
         $('.dropdown-contact-menu .divider:last-child').remove();
+        
     </script>
 </body>
 </html>

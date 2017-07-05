@@ -495,8 +495,6 @@ namespace VideoUpload.Web.Controllers
             }            
 
             ViewBag.Header = "Your Porsche";
-            ViewBag.VideoUrl = Url.Action("watch", "videos", new { year = year, month = month, postID = postID, plateNo = plateNo });
-
             return View(post);            
         }
 
