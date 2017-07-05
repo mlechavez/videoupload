@@ -38,11 +38,7 @@
                 @Html.ActionLink("Email", "send", new { postID = Model.PostID, sendingType = "email" }, new { @class = "btn btn-info" })
                 @Html.ActionLink("Sms", "send", new { postID = Model.PostID, sendingType = "sms" }, new { @class = "btn btn-info " })
             </p>
-        }
-        else
-        {
-            <p>Only the owner of this posted video can send via email or sms to customer.</p>
-        }
+        }        
     }
     else
     {
