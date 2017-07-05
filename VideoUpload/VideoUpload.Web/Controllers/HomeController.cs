@@ -32,8 +32,9 @@ namespace VideoUpload.Web.Controllers
             return View();
         }
 
-        public PartialViewResult GetBranches()
+        public PartialViewResult GetBranches(string videoUrl)
         {
+            ViewBag.VideoUrl = videoUrl;
             ViewBag.BranchList = ContactWidgetViewModel.Create(_uow, 1, 100);
             return PartialView("_ContactUsWidget");
         }

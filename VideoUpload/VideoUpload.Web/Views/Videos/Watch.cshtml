@@ -20,7 +20,7 @@
             <div class="row">
                 @Html.Partial("_Watch", Model)
                 <div class="col-md-4 col-sm-4">
-                    @Html.Action("GetBranches", "home")
+                    @Html.Action("GetBranches", "home", new { videoUrl = ViewBag.VideoUrl })
                     @Html.Partial("_SocialSidebar")
                 </div>
             </div>
