@@ -20,7 +20,7 @@
                         Fax: @Model.FaxNumber<br />
                         Email: <a href="mailto:info@boraq-porsche.com.qa">@Model.Email</a><br /><br />
                         <strong>Opening Hours</strong><br />
-                        @switch (Model.BranchName)
+                        @switch (Model.BranchName.ToLower())
                     {
                         case "st16":
                                 <text>
