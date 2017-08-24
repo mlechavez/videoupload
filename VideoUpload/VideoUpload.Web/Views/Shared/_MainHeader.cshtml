@@ -1,60 +1,46 @@
-﻿<header id="main-header" class="hidden-print navbar navbar-default navbar-fixed-top" role="banner">
-    <div class="container">
-        <div class="navbar-header">
-
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-            <a href="https://www.remoteyourporsche.com" class="navbar-brand">
-                <img src="~/Content/Images/porsche-crest.png" alt="Porsche" class="navbar-left" />
-                <div id="title-header" class="navbar-text">
-                    <h4>Porsche Centre Doha <br /> <small>Al Boraq Automobiles Co. w.l.l.</small></h4>
-                </div>
-            </a>
-        </div>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <nav class="collapse navbar-collapse" role="navigation">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="@Url.Action("posts","videos")">Videos</a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            @User.Identity.Name <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            @if (CurrentUser.ManageUser.Any(x => x.Value == "CanRead"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("list","users", new { Area = "" })">
-                                        <i class="fa fa-cog fa-fw"></i> Manage users
-                                    </a>
-                                </li>
-                            }
-                            <li>
-                                <a href="@Url.Action("myposts", "videos", new { Area = "", userName = User.Identity.Name })">
-                                    <i class="fa fa-file-video-o fa-fw"></i> My videos
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("signout","account", new { Area = "" })">
-                                    <i class="fa fa-sign-out fa-fw"></i> Sign out
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                @Html.Partial("_Search")
-            </nav>
-        }
+﻿<header id="main-header" class="container hidden-print navbar navbar-default navbar-fixed-top" role="banner">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">Menu</button>
     </div>
+
+    <nav class="collapse navbar-collapse" role="navigation">
+        <ul class="nav navbar-nav">
+            <li class="active">
+                <a href="@Url.Action("posts","videos")">Videos</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    @User.Identity.Name <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    @if (CurrentUser.ManageUser.Any(x => x.Value == "CanRead"))
+                    {
+                        <li>
+                            <a href="@Url.Action("list","users", new { Area = "" })">
+                                <i class="fa fa-cog fa-fw"></i> Manage users
+                            </a>
+                        </li>
+                    }
+                    <li>
+                        <a href="@Url.Action("myposts", "videos", new { Area = "", userName = User.Identity.Name })">
+                            <i class="fa fa-file-video-o fa-fw"></i> My videos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("signout","account", new { Area = "" })">
+                            <i class="fa fa-sign-out fa-fw"></i> Sign out
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        @Html.Partial("_Search")
+    </nav>
 </header>
+
+
 
 
 

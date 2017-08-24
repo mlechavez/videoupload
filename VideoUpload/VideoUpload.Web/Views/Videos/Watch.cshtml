@@ -11,11 +11,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="~/Content/Images/favicon.ico" />
     <title>PCD - After Sales | Your Porsche</title>
-    @Styles.Render("~/bootstrap", "~/fontawesome", "~/cust-layout")   
+    @Styles.Render("~/bootstrap", "~/css")   
 </head>
 <body>
-    <div id="main-container">
-        @Html.Partial("_CustomerHeader")
+    <h3 class="header-crest">
+        <span class="wrapper-crest">
+            <a class="link-crest" href="@Url.Action("posts","videos")">Home</a>
+        </span>
+    </h3>
+    <hr />
+    <div id="main-container">        
         <div id="main-content" class="container">
             <div class="row">
                 @Html.Partial("_Watch", Model)
@@ -35,8 +40,11 @@
     @Scripts.Render("~/jquery", "~/jbootstrap", "~/tinymce", "~/watch")
 
     <script>
-        $('.dropdown-contact-menu .divider:last-child').remove();
-        
+        $('.dropdown-contact-menu .divider:last-child').remove();        
     </script>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <script>document.body.style.padding = '0px';</script>
+    }
 </body>
 </html>

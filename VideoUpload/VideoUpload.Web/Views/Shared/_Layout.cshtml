@@ -9,29 +9,39 @@
 
     <title>PCD - After Sales | @ViewBag.Title</title>
     
-    @Styles.Render("~/bootstrap", "~/united", "~/fontawesome", "~/gfont", "~/css")            
+    @Styles.Render("~/bootstrap", "~/css")            
 </head>
 <body>
-    
-    @Html.Partial("_MainHeader")
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Html.Partial("_MainHeader")
+    }
+
+    <h3 class="header-crest">
+        <span class="wrapper-crest">
+            <a class="link-crest" href="@Url.Action("posts","videos")">Home</a>
+        </span>
+    </h3>
+    <hr />
     <div id="main-content" class="container">
         <div class="row">
-
             @RenderBody()
             @RenderSection("Sidebar", required: false)
-
         </div>
     </div>
-
     <footer id="main-footer">
         <div class="container">
             <hr />
-            <p class="text-center">Copyright &copy; @DateTime.Today.Year. Al Boraq Automobiles Co. W.l.l.</p>
+            <p class="text-center">&copy; @DateTime.Today.Year. Porsche Centre Doha. Al Boraq Automobiles Co. W.l.l. Qatar</p>
         </div>
     </footer>
-
     @Scripts.Render("~/jquery", "~/jbootstrap", "~/jcookies", "~/tinymce", "~/js")
-    @RenderSection("Script", required: false)        
+    @RenderSection("Script", required: false)
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <script>document.body.style.padding = '0px';</script>
+    }    
 </body>
 
 </html>

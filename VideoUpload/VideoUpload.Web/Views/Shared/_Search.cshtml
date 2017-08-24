@@ -1,10 +1,10 @@
-﻿@using (Html.BeginForm("search", "videos", FormMethod.Get, new { @class = "navbar-form navbar-right", id = "search-form" }))
+﻿@using (Html.BeginForm("search", "videos", FormMethod.Get, new { @class = "navbar-form navbar-right form-group-sm", id = "search-form" }))
 {
     <div class="form-group">
         <input  id="v" type="text" name="s" class="form-control" placeholder="Search" />
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" class="btn btn-secondary btn-sm btn-block">
             <span class="glyphicon glyphicon-search"></span>
         </button>
     </div>    

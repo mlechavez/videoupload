@@ -11,10 +11,10 @@
 {
     <ul class="pager">
         <li class="previous @prevDisabled">
-            <a href="@Url.Action(actionRoute, new { s = search, page = Model.PageIndex - 1 })">Previous</a>
+            <a href="@Url.Action(actionRoute, new { s = search, page = Model.PageIndex - 1 })" role="button">Previous</a>
         </li>
         <li class="next @nextDisabled">
-            <a href="@Url.Action(actionRoute, new { s = search , page = Model.PageIndex + 1 })">Next</a>
+            <a href="@Url.Action(actionRoute, new { s = search , page = Model.PageIndex + 1 })" role="button">Next</a>
         </li>
     </ul>
 }

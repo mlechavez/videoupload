@@ -1,0 +1,275 @@
+﻿body {
+    color: #000;
+    padding-top: 55px;
+    background: #fff;
+    font-family: 'Porsche Next Regular';
+    font-size: 14px;    
+    font-weight: lighter;
+    line-height: 1.5;
+}
+h1,h2,h3 {
+    font-family: 'Porsche Next Thin';
+}
+h3 > a {
+    color: #d5001e;
+    background-color: #fff;
+}
+h3 > a:hover,
+h3 > a:focus {
+    color: #d5001e;
+    background-color: #fff;
+    text-decoration: none;
+}
+/*a {
+    color: #15577e;
+    text-decoration: none;
+}
+a:hover,
+a:active {
+    color: #d5001e;
+    text-decoration: none;
+}*/
+
+#main-header {
+    padding-left: 1px;    
+    padding-right: 15px;    
+    border-left: 1px solid #e7e7e7;
+    border-right: 1px solid #e7e7e7;
+    border-radius: 0px;
+}
+.container {
+    padding-left: 0;    
+    padding-right: 0;
+}
+.navbar-nav .open {
+    background-color:#fff;
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #d5001e;
+  background-color: #fff;
+}
+.navbar-default .navbar-nav > li > a,
+.navbar-default .navbar-nav > .active > a {
+  color: #777;
+  background-color: transparent;
+}
+.navbar-default .navbar-nav>.active>a:active, 
+.navbar-default .navbar-nav>.active>a:hover,
+.navbar-default .navbar-nav>.active>a:focus {
+    color: #d5001e;
+    background-color: #fff;
+}
+.navbar-default .navbar-text {
+  color: #777;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #d5001e;
+  background-color: #fff;
+}
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #d5001e;
+  background-color: #fff;
+}
+.navbar-default .navbar-nav > .disabled > a,
+.navbar-default .navbar-nav > .disabled > a:hover,
+.navbar-default .navbar-nav > .disabled > a:focus {
+  color: #ccc;
+  background-color: transparent;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #d5001e;
+  background-color: #fff;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #d5001e;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #d5001e;
+  outline: 0;
+}
+.header-crest {    
+    box-sizing: border-box;
+    margin: 0;
+    text-align: center;    
+}
+.header-crest a:hover,
+.header-crest a:focus,
+.header-crest a:active {
+    font-size:0px;
+    color: transparent;
+}
+.header-crest + hr {
+    margin-top: -10px;        
+}
+.wrapper-crest {
+    background-color: #fff;
+    display: inline-block;
+    height: 100%;    
+    padding-left: 16px;
+    padding-right: 16px;
+}
+.link-crest {
+    color: transparent;
+    display: inline-block;
+    background-image: url(../../Content/Images/PorscheMZDigital/porsche-marque-rgb-digital_S_R.jpg);
+    background-repeat: no-repeat;
+    width: 98px;
+    height: 62px;
+    margin: 12.25px;
+}
+.link-crest:hover, .link-crest:active {
+    color: transparent;
+}
+.btn {
+    border-radius: 0px;
+}
+.btn-default {
+    background-color: darkgray;
+    color: #fff;
+}
+.btn-default:hover, 
+.btn-default:active {
+    background-color: #d5001e;
+    color: #fff;
+    border: 1px solid #d5001e;
+}
+.btn-default:focus,
+.btn-default.focus {
+  color: #fff;
+  background-color: #4d4d4d;
+  border-color: #4d4d4d;
+}
+.btn-primary {
+    background-color: #d5001e;
+    color: #fff;
+    border: 1px solid #d5001e
+}
+.btn-primary:hover, 
+.btn-primary:active {
+    background-color: #fff;
+    color: #d5001e;
+    border: 1px solid #d5001e;
+}
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #fff;
+  background-color: #d5001e;
+  border-color: #d5001e;
+}
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  color: #fff;
+  background-color: #d5001e;
+  border-color: #d5001e;
+}
+.btn-primary:active:hover,
+.btn-primary.active:hover,
+.open > .dropdown-toggle.btn-primary:hover,
+.btn-primary:active:focus,
+.btn-primary.active:focus,
+.open > .dropdown-toggle.btn-primary:focus,
+.btn-primary:active.focus,
+.btn-primary.active.focus,
+.open > .dropdown-toggle.btn-primary.focus {
+  color: #fff;
+  background-color: #d5001e;
+  border-color: #d5001e;
+}
+.btn-secondary {
+    background-color: #15577e;
+    color: #fff;
+    border: 1px solid #15577e;
+}
+.btn-secondary:hover, 
+.btn-secondary:active {
+    background-color: #d5001e;
+    color: #fff;
+    border: 1px solid #d5001e;
+}
+.btn-secondary:focus,
+.btn-secondary.focus {
+  color: #fff;
+  background-color: #15577e;
+  border-color: #15577e;
+}
+.btn-secondary:active,
+.btn-secondary.active,
+.open > .dropdown-toggle.btn-primary {
+  color: #fff;
+  background-color: #d5001e;
+  border-color: #d5001e;
+}
+.btn-secondary:active:hover,
+.btn-secondary.active:hover,
+.open > .dropdown-toggle.btn-secondary:hover,
+.btn-secondary:active:focus,
+.btn-secondary.active:focus,
+.open > .dropdown-toggle.btn-secondary:focus,
+.btn-secondary:active.focus,
+.btn-secondary.active.focus,
+.open > .dropdown-toggle.btn-secondary.focus {
+  color: #fff;
+  background-color: #d5001e;
+  border-color: #d5001e;
+}
+.lead {
+    font-family: 'Porsche Next Thin';
+}
+.pager li > a,
+.pager li > span {
+  display: inline-block;
+  padding: 5px 14px;
+  background-color: darkgray;
+  border: 1px solid darkgray;
+  border-radius: 2px;
+  color: #fff;
+}
+
+.pager li > a:hover,
+.pager li > a:focus {
+  text-decoration: none;
+  background-color: #d5001e;
+  border: 1px solid #d5001e;
+  color: #fff;
+}
+
+.pager .next > a,
+.pager .next > span {
+  float: right;
+}
+
+.pager .previous > a,
+.pager .previous > span {
+  float: left;
+}
+
+.pager .disabled > a,
+.pager .disabled > a:hover,
+.pager .disabled > a:focus,
+.pager .disabled > span {
+  color: #999999;
+  cursor: not-allowed;
+  background-color: #ffffff;
+}
+.table {
+    font-size: 16px;
+    line-height: 1.5;    
+}
+.m-01-search-submit-button:before {
+    font-family: 'pag-iconfont'
+}

@@ -62,42 +62,46 @@
                     <td>
                         <!-- desktop view-->
                         <p class="hidden-sm hidden-xs">
-                            <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })"
-                               class="btn btn-default btn-xs"><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;Edit</a> <span class="hidden-sm hidden-xs">|</span>
+                            <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })">
+                                <i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;Edit
+                            </a> <span class="hidden-sm hidden-xs">|</span>
 
                             @if (item.Attachments == null)
-                                {
+                            {
                                 <span class="label label-danger">No video attached.</span>
-                                }
-                                else
-                                {
-                                <a href="@Url.Action("post", new { year = item.DateUploaded.Year, month = item.DateUploaded.Month, postID = item.PostID, plateNo = item.PlateNumber})"
-                                   class="btn btn-info btn-xs"><i class="fa fa-info"></i>&nbsp;&nbsp;Details</a>
-                                }
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("post", new { year = item.DateUploaded.Year, month = item.DateUploaded.Month, postID = item.PostID, plateNo = item.PlateNumber})">
+                                    <i class="fa fa-info"></i>&nbsp;&nbsp;Details
+                                </a>
+                            }
                         </p>
 
                         <!-- mobile devices-->
                         <div class="row hidden-md hidden-lg">
 
                             <div class="col-sm-4 mypost-action">
-                                <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })"
-                                   class="btn btn-default btn-xs"><i class="fa fa-pencil-square-o"></i>Edit</a>
+                                <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })"><i class="fa fa-pencil-square-o"></i>Edit</a>
                             </div>
 
                             <div class="col-sm-4 mypost-action">
                                 @if (item.Attachments == null)
-                                    {
+                                {
                                     <span class="label label-danger">No video attached.</span>
-                                    }
-                                    else
-                                    {
-                                    <a href="@Url.Action("post", new { year = item.DateUploaded.Year, month =item.DateUploaded.Month, postID = item.PostID, plateNo = item.PlateNumber})"
-                                       class="btn btn-info btn-xs"><i class="fa fa-info"></i>Details</a>
-                                    }
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("post", new { year = item.DateUploaded.Year, month =item.DateUploaded.Month, postID = item.PostID, plateNo = item.PlateNumber})">
+                                        <i class="fa fa-info"></i>Details
+                                    </a>
+                                }
                             </div>
 
                         </div>
                     </td>
+
+
 
                     <td style="vertical-align:middle;"><span class="label @lblClass">@lblText</span></td>
                     <td style="vertical-align:middle;">@item.PlateNumber</td>

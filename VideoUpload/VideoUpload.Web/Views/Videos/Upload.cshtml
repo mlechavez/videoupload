@@ -7,6 +7,13 @@
 @Html.Partial("_Modal")
 
 <div class="col-md-8">
+    <ul class="pager">
+        <li class="previous">
+            <a href="@Url.Action("posts")" id="anchorBackToList">
+                <span class="glyphicon glyphicon-arrow-left"></span> Back to post
+            </a>
+        </li>
+    </ul>
 
     <h2>Upload a video</h2>
 
@@ -28,17 +35,11 @@
             @Html.ValidationMessageFor(x => x.Attachments, "", new { @class = "text-danger" })
         </div>
         <div class="form-group text-right">
-            <button id="btnSubmit" type="submit" class="btn btn-primary btn-sm">Upload</button>
+            <button id="btnSubmit" type="submit" class="btn btn-primary btn-lg">Upload</button>
         </div>
     </form>
     
-    <ul class="pager">
-        <li class="previous">
-            <a href="@Url.Action("posts")" id="anchorBackToList">
-                <span class="glyphicon glyphicon-arrow-left"></span> Back to post
-            </a>            
-        </li>
-    </ul>
+    
 </div>
 
 @section Script {

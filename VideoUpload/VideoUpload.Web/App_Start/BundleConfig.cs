@@ -16,21 +16,22 @@ namespace VideoUpload.Web
             bundles.Add(
                 new StyleBundle("~/bootstrap", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
                         .Include("~/Content/bootstrap.css"));
-            bundles.Add(
-                new StyleBundle("~/united", "https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/united/bootstrap.min.css")
-                        .Include("~/Content/modified/bootstrap.css"));
+            //bundles.Add(
+            //    new StyleBundle("~/united", "https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/united/bootstrap.min.css")
+            //            .Include("~/Content/modified/bootstrap.css"));
 
-            bundles.Add(
-                new StyleBundle("~/fontawesome", "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
-                        .Include("~/Content/font-awesome.css"));
+            //will be removed later
+            //bundles.Add(
+            //    new StyleBundle("~/fontawesome", "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+            //            .Include("~/Content/font-awesome.css"));
 
-            bundles.Add(new StyleBundle("~/gfont", "https://fonts.googleapis.com/css?family=Raleway:200,300,500"));
+            //bundles.Add(new StyleBundle("~/gfont", "https://fonts.googleapis.com/css?family=Raleway:200,300,500"));
             
             bundles.Add(
                 new StyleBundle("~/css")
                         .Include(                    
                             "~/Content/PagedList.css",
-                            "~/Content/main.css",
+                            "~/Content/main1.css",
                             "~/Content/print.css"));
 
             bundles.Add(
