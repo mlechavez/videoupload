@@ -1,0 +1,24 @@
+{
+  "name": "videoupload.web",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Mark Lester Echavez <lester.echavez@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/mlechavez/videoupload",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "bootstrap-sass": "^3.3.7",
+    "jquery.cookie": "1.4.1",
+    "tinymce-dist": "4.6.6"
+  }
+}

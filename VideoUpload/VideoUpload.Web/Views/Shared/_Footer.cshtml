@@ -1,0 +1,24 @@
+﻿<footer id="main-footer">
+  <div class="container">
+    <div class="row">      
+      <div class="col-md-6">
+        <ul id="footer-nav" class="list-unstyled">
+          <li><a href="https://www.porsche.com/middle-east/_qatar_/aboutporsche/importers/">Porsche Centre Doha</a></li>
+          <li><a href="@Url.Action("about","home")">About PCD - Aftersales</a></li>
+          <li><a href="@Url.Action("contact","home")">Contact</a></li>
+          @if (User.Identity.IsAuthenticated)
+          {
+            <li><a href="@Url.Action("posts","videos")">Videos</a></li>
+          }
+        </ul>
+      </div>
+      <div class="col-md-6">
+         <p>Connect with Porsche</p>
+         
+      </div>
+      <div class="col-md-12">
+        &copy; @DateTime.Today.Year. Porsche Centre Doha. Al Boraq Automobiles Co. W.l.l. Qatar
+      </div>
+    </div>
+  </div>
+</footer>

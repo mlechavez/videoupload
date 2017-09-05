@@ -1,0 +1,7 @@
+﻿@function toggle-text-color($color){
+  @if(lightness($color) > 53){
+    @return #000;
+  } @else {
+      @return #fff;
+    }
+}

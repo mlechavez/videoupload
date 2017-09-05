@@ -1,0 +1,42 @@
+﻿@import "fonts";
+@import "variables";
+@import "bootstrap";
+@import "functions";
+
+body{
+  margin-bottom:250px;
+}
+input, select, textarea {
+  font-family: $font-family-base;
+}
+
+#marquee{
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 12.25px;  
+}
+
+#form-signin{
+  form{
+    width: 300px;
+    margin: 0 auto;
+  }
+}
+/*
+  Footer
+*/
+#main-footer {
+  position: absolute;
+  bottom: 0;  
+  width: 100%;
+  height: 250px;
+  background: $gray-darker;  
+  color: toggle-text-color($gray-darker) !important;
+  .container{
+    padding-top: 30px;
+    padding-bottom: 30px;    
+  }
+  #footer-nav{
+    color:#fff;
+  }
+}

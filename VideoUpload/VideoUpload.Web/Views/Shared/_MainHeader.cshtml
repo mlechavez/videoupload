@@ -1,47 +1,60 @@
-﻿<header id="main-header" class="container hidden-print navbar navbar-default navbar-fixed-top" role="banner">
+﻿<header id="main-header" class="navbar navbar-default" role="banner">
+  <div class="container">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">Menu</button>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="@Url.Action("index","home")" class="navbar-brand">PCD - Aftersales</a>
     </div>
 
     <nav class="collapse navbar-collapse" role="navigation">
-        <ul class="nav navbar-nav">
-            <li class="active">
-                <a href="@Url.Action("posts","videos")">Videos</a>
-            </li>
-        </ul>
+      <ul class="nav navbar-nav">
+        <li><a href="https://www.porsche.com/middle-east/_qatar_/aboutporsche/importers/">Porsche Centre Doha</a></li>
+        <li><a href="@Url.Action("about","home")">About</a></li>
+        <li><a href="@Url.Action("contact","home")">Contact</a></li>
+        @if (User.Identity.IsAuthenticated)
+        {
+          <li><a href="@Url.Action("posts","videos")">Videos</a></li>
+        }
+      </ul>
+
+      @if (User.Identity.IsAuthenticated)
+      {
         <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    @User.Identity.Name <span class="caret"></span>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              @User.Identity.Name <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              @if (CurrentUser.ManageUser.Any(x => x.Value == "CanRead"))
+              {
+                <li>
+                  <a href="@Url.Action("list","users", new { Area = "" })">
+                    <i class="fa fa-cog fa-fw"></i> Manage users
+                  </a>
+                </li>
+              }
+              <li>
+                <a href="@Url.Action("myposts", "videos", new { Area = "", userName = User.Identity.Name })">
+                  <i class="fa fa-file-video-o fa-fw"></i> My videos
                 </a>
-                <ul class="dropdown-menu">
-                    @if (CurrentUser.ManageUser.Any(x => x.Value == "CanRead"))
-                    {
-                        <li>
-                            <a href="@Url.Action("list","users", new { Area = "" })">
-                                <i class="fa fa-cog fa-fw"></i> Manage users
-                            </a>
-                        </li>
-                    }
-                    <li>
-                        <a href="@Url.Action("myposts", "videos", new { Area = "", userName = User.Identity.Name })">
-                            <i class="fa fa-file-video-o fa-fw"></i> My videos
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("signout","account", new { Area = "" })">
-                            <i class="fa fa-sign-out fa-fw"></i> Sign out
-                        </a>
-                    </li>
-                </ul>
-            </li>
+              </li>
+              <li>
+                <a href="@Url.Action("signout","account", new { Area = "" })">
+                  <i class="fa fa-sign-out fa-fw"></i> Sign out
+                </a>
+              </li>
+            </ul>
+          </li>
         </ul>
         @Html.Partial("_Search")
+      }
+      <p class="navbar-text navbar-right"><a class="navbar-link" href="@Url.Action("signin", "account")">Sign in</a></p>
     </nav>
+  </div>
 </header>
-
-
-
 
 
 

@@ -1,47 +1,36 @@
 ﻿<!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel="shortcut icon" href="~/dist/images/favicon.ico" />
+  <title>PCD - After Sales | @ViewBag.Title</title>
 
-    <link rel="shortcut icon" href="~/Content/Images/favicon.ico" />
 
-    <title>PCD - After Sales | @ViewBag.Title</title>
-    
-    @Styles.Render("~/bootstrap", "~/css")            
+  <link href="~/assets/css/app.css" rel="stylesheet" />
+  <link href="~/assets/css/PagedList.css" rel="stylesheet" />
 </head>
 <body>
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        @Html.Partial("_MainHeader")
-    }
+  @Html.Partial("_MainHeader")
 
-    <h3 class="header-crest">
-        <span class="wrapper-crest">
-            <a class="link-crest" href="@Url.Action("posts","videos")">Home</a>
-        </span>
-    </h3>
-    <hr />
-    <div id="main-content" class="container">
-        <div class="row">
-            @RenderBody()
-            @RenderSection("Sidebar", required: false)
-        </div>
+  <div id="marquee">
+    <div class="container">
+      <img src="~/dist/images/porsche-marque-rgb-digital_S_R.jpg" alt="Porsche" />
     </div>
-    <footer id="main-footer">
-        <div class="container">
-            <hr />
-            <p class="text-center">&copy; @DateTime.Today.Year. Porsche Centre Doha. Al Boraq Automobiles Co. W.l.l. Qatar</p>
-        </div>
-    </footer>
-    @Scripts.Render("~/jquery", "~/jbootstrap", "~/jcookies", "~/tinymce", "~/js")
-    @RenderSection("Script", required: false)
-    @if (!User.Identity.IsAuthenticated)
-    {
-        <script>document.body.style.padding = '0px';</script>
-    }    
-</body>
+  </div>
 
+  @RenderBody()
+  
+  @Html.Partial("_Footer")
+
+  <script src="~/dist/js/jquery.min.js"></script>
+  <script src="~/dist/js/bootstrap.min.js"></script>
+  <script src="~/dist/js/jquery.cookie.js"></script>
+  <script src="~/dist/js/tinymce.min.js"></script>
+  @RenderSection("Script", required: false)
+
+</body>
 </html>
