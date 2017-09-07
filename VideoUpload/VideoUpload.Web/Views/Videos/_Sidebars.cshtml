@@ -2,22 +2,22 @@
 
 
 <div class="well text-center">
-    <p class="lead">Start uploading your videos and show it to our valuable customers</p>
-    @Html.ActionLink("Upload a video", "upload", null, new { @class = "btn btn-primary btn-lg" })
+  <p class="lead">Start uploading your videos and show it to our valuable customers</p>
+  @Html.ActionLink("Upload a video", "upload", null, new { @class = "btn btn-default" })
 </div>
 
 @if (ViewBag.ApprovedVideos.Count > 0)
 {
-    //I didn't pass the ViewBag.ApprovedVideos in the argument of Html.Partial()
-    //the _ApprovedVideos partial view will still get the value of ViewBag.ApprovedVideos
+  //I didn't pass the ViewBag.ApprovedVideos in the argument of Html.Partial()
+  //the _ApprovedVideos partial view will still get the value of ViewBag.ApprovedVideos
 
-    @Html.Partial("_ApprovedVideos")
+  @Html.Partial("_ApprovedVideos")
 }
 
 @if (ViewBag.HasPlayedVideos.Count > 0)
 {
-    //I didn't pass the ViewBag.HasPlayedVideos in the argument of Html.Partial()
-    //the _PlayedVideos partial view will still get the value of ViewBag.HasPlayedVideos
-    
-    @Html.Partial("_PlayedVideos")
+  //I didn't pass the ViewBag.HasPlayedVideos in the argument of Html.Partial()
+  //the _PlayedVideos partial view will still get the value of ViewBag.HasPlayedVideos
+
+  @Html.Partial("_PlayedVideos")
 }

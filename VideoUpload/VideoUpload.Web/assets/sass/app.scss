@@ -1,20 +1,70 @@
-﻿@import "fonts";
-@import "variables";
+﻿@import "variables";
 @import "bootstrap";
+@import "fonts";
 @import "functions";
 
+/*
+================
+  General
+================
+*/
+html{
+  position: relative;
+  min-height: 100%;
+}
 body{
-  margin-bottom:250px;
+  margin-bottom:200px;
+}
+h1,h2,h3{
+  font-family: "Porsche Next Thin";
 }
 input, select, textarea {
   font-family: $font-family-base;
 }
+.btn-default{
+  &:hover{
+    background:$brand-primary;
+    color: #fff;
+    border-color: darken($brand-primary, 6.5%);
+  }
+}
+.pager {
+  li > a {
+    color:#fff;
+    
+    &:focus,
+    &:hover{
+      color:#fff;
+    }    
+  }
+}
 
+/*
+================
+  Header
+================
+*/
+.navbar-default{
+  .navbar-nav{
+    .dropdown-menu > li > a {
+      &:focus,
+      &:hover {
+        background-color: $brand-primary;
+        color: #fff;
+      }
+    }
+  }
+}
 #marquee{
   text-align: center;
   border-bottom: 1px solid #ccc;
   padding-bottom: 12.25px;  
 }
+/*
+================
+  Sign in
+================
+*/
 
 #form-signin{
   form{
@@ -22,21 +72,45 @@ input, select, textarea {
     margin: 0 auto;
   }
 }
+
+#post-list,
+#upload-section,
+#single-post,
+#edit-post,
+#send-link-section {
+  .container{
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+}
+
+
 /*
+================
   Footer
+================
 */
 #main-footer {
   position: absolute;
   bottom: 0;  
   width: 100%;
-  height: 250px;
+  height: 200px;
   background: $gray-darker;  
   color: toggle-text-color($gray-darker) !important;
   .container{
     padding-top: 30px;
     padding-bottom: 30px;    
   }
-  #footer-nav{
-    color:#fff;
+  
+}
+#footer-nav {
+  li{
+    a{
+      color:#fff;
+      &:hover{
+        color: $brand-primary;
+      }
+    }
+    
   }
 }

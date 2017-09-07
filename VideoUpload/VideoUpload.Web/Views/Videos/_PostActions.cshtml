@@ -3,55 +3,55 @@
 @if (CurrentUser.Approval.Any(x => x.Value == "CanApproveVideo"))
 {
 
-    if (!Model.HasApproval)
+  if (!Model.HasApproval)
+  {
+    var url = Url.Action("post", new
     {
-        var url = Url.Action("post", new
-        {
-            year = Model.DateUploaded.Year,
-            month = Model.DateUploaded.Month,
-            postID = Model.PostID,
-            plateNo = Model.PlateNumber
-        });
+      year = Model.DateUploaded.Year,
+      month = Model.DateUploaded.Month,
+      postID = Model.PostID,
+      plateNo = Model.PlateNumber
+    });
 
-        <div class="well text-center">
-            <p>Review the video before letting the end-user send to the customer</p>
+    <div class="well text-center">
+      <p>Review the video before letting the end-user send to the customer</p>
 
-            <div class="btn-group">
-                <button class="btn btn-default btn-block btn-lg dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")" data-details="@url">Approve</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")" data-details="@url">Disapprove</a></li>
-                </ul>
-            </div>
-            
-        </div>
-    }
+      <div class="btn-group">
+        <button class="btn btn-default btn-block btn-lg dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")" data-details="@url">Approve</a></li>
+          <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")" data-details="@url">Disapprove</a></li>
+        </ul>
+      </div>
+
+    </div>
+  }
 }
 
-    @if (Model.IsApproved)
-    {
-        if (User.Identity.Name == Model.User.UserName)
-        {
-            <div class="well text-center">
-                <p>Send via:</p>
+@if (Model.IsApproved)
+{
+  if (User.Identity.Name == Model.User.UserName)
+  {
+    <div class="well text-center">
+      <p>Send via:</p>
 
-                <p>
-                    @Html.ActionLink("Email", "send", new { postID = Model.PostID, sendingType = "email" }, new { @class = "btn btn-default" })
-                    @Html.ActionLink("Sms", "send", new { postID = Model.PostID, sendingType = "sms" }, new { @class = "btn btn-default" })
-                </p>
-            </div>
-        }
+      <p>
+        @Html.ActionLink("Email", "send", new { postID = Model.PostID, sendingType = "email" }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Sms", "send", new { postID = Model.PostID, sendingType = "sms" }, new { @class = "btn btn-default" })
+      </p>
+    </div>
+  }
+}
+else
+{
+  <div class="well text-center">
+    @if (!Model.HasApproval)
+    {
+      <p>This video has not yet been approved.</p>
     }
     else
     {
-        <div class="well text-center">
-            @if (!Model.HasApproval)
-            {
-                <p>This video has not yet been approved.</p>
-            }
-            else
-            {
-                <p>This video has been disappoved. You can't send this to customer.</p>
-            }
-        </div>
+      <p>This video has been disappoved. You can't send this to customer.</p>
     }
+  </div>
+}

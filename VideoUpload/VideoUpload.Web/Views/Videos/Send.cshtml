@@ -55,18 +55,13 @@
           </div>
         }
 
-        <ul class="pager">
-          <li class="previous">
-            <a href="@Url.Action("post",  new {
-                        year = Model.DateUploaded.Year,
-                        month = Model.DateUploaded.Month,
-                        postID = Model.PostID,
-                        plateNo = Model.PlateNumber })">              
-                <span class="glyphicon glyphicon-arrow-left"></span> Back to details
-              </a>            
-          </li>
-        </ul>
-
+        <a href="@Url.Action(
+            "post",  new {
+            year = Model.DateUploaded.Year,
+            month = Model.DateUploaded.Month,
+            postID = Model.PostID,
+            plateNo = Model.PlateNumber })" class="btn btn-default"> Back to details
+        </a>
       </div>
     </div>
   </div>

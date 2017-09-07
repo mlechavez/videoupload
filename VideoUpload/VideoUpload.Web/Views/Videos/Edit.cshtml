@@ -27,16 +27,10 @@
             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
           </div>
           <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary" />
+            <input type="submit" value="Save" class="btn btn-default" />
           </div>
-        }
-        <ul class="pager">
-          <li class="previous">
-            <a href="@Url.Action("myposts", new { userName = User.Identity.Name })">
-              <span class="glyphicon glyphicon-arrow-left"></span> Back to your videos
-            </a>
-          </li>
-        </ul>
+        }        
+        <a href="@Url.Action("myposts", new { userName = User.Identity.Name })" class="btn btn-default">Back to your videos</a>
       </div>
     </div>
   </div>

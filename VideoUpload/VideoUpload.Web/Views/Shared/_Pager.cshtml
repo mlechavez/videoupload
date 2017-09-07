@@ -2,8 +2,8 @@
 
 @{
     var search = Context.Request.QueryString["s"];
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var prevDisabled = !Model.HasPreviousPage ? "hidden" : "";
+    var nextDisabled = !Model.HasNextPage ? "hidden" : "";
     var actionRoute = ViewContext.RouteData.Values["action"].ToString();
 }
 
