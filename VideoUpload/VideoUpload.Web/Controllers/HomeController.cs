@@ -9,6 +9,7 @@ using VideoUpload.Web.Models.Home;
 namespace VideoUpload.Web.Controllers
 {
   [AllowAnonymous]
+  
   public class HomeController : Controller
   {
     private readonly IUnitOfWork _uow;
@@ -18,6 +19,12 @@ namespace VideoUpload.Web.Controllers
     }
 
     public ActionResult Index()
+    {
+      return View();
+    }
+
+    [Route("about")]
+    public ActionResult About()
     {
       return View();
     }
