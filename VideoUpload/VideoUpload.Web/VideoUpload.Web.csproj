@@ -210,7 +210,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\app.css" />
-    <Content Include="assets\css\PagedList.css" />
     <Content Include="assets\js\home\contactus.js" />
     <Content Include="assets\js\videos\details.js" />
     <Content Include="assets\js\videos\edit.js" />
@@ -537,6 +536,7 @@
     <Content Include="Content\main1.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\print.css" />
+    <Content Include="dist\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="dist\fonts\porsche-marque-rgb-digital_S-L.svg" />
     <Content Include="dist\fonts\porsche-marque-rgb-digital_S-L_R.svg" />
     <Content Include="dist\images\favicon.ico" />
@@ -680,6 +680,10 @@
     <Content Include="bower_components\tinymce-dist\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="assets\sass\_fonts.scss" />
     <Content Include="assets\sass\_functions.scss" />
+    <Content Include="dist\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="dist\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="dist\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="dist\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\ProdSmarterAspProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterAspDevProfile.pubxml" />
@@ -984,7 +988,7 @@
     <Content Include="Views\Videos\_PostActions.cshtml" />
     <Content Include="Views\Shared\_SocialSidebar.cshtml" />
     <Content Include="Views\Shared\_Search.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Contact1.cshtml" />
     <Content Include="Views\Users\_UserAccountSettingsWidget.cshtml" />
     <Content Include="Views\Shared\Change-Password.cshtml" />
     <Content Include="Views\Videos\Edit.cshtml" />
@@ -996,6 +1000,7 @@
     <Content Include="Views\Home\_Contact.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
