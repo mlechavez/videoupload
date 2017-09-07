@@ -17,7 +17,7 @@
             <p>Review the video before letting the end-user send to the customer</p>
 
             <div class="btn-group">
-                <button class="btn btn-primary btn-block btn-lg dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
+                <button class="btn btn-default btn-block btn-lg dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")" data-details="@url">Approve</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")" data-details="@url">Disapprove</a></li>
@@ -36,8 +36,8 @@
                 <p>Send via:</p>
 
                 <p>
-                    @Html.ActionLink("Email", "send", new { postID = Model.PostID, sendingType = "email" }, new { @class = "btn btn-info" })
-                    @Html.ActionLink("Sms", "send", new { postID = Model.PostID, sendingType = "sms" }, new { @class = "btn btn-info " })
+                    @Html.ActionLink("Email", "send", new { postID = Model.PostID, sendingType = "email" }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Sms", "send", new { postID = Model.PostID, sendingType = "sms" }, new { @class = "btn btn-default" })
                 </p>
             </div>
         }

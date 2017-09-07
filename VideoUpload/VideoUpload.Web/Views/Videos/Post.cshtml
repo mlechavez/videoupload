@@ -5,75 +5,77 @@
 
 @Html.Partial("_Modal")
 
-<div class="col-md-8 col-sm-8">
-    <article>
+<div id="single-post">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-sm-8">
+        <article>
 
-        <h3>@ViewBag.Header</h3>
+          <h3>@ViewBag.Header</h3>
 
-        <div class="row">
+          <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-6">
-                <span class="glyphicon glyphicon-upload"></span> Uploaded by: @Model.User.UserName
+              <span class="glyphicon glyphicon-upload"></span> Uploaded by: @Model.User.UserName
             </div>
             <div class="text-right col-md-6 col-sm-6 col-xs-6">
-                <span class="glyphicon glyphicon-time"></span> @Model.DateUploaded.ToClientTime()
+              <span class="glyphicon glyphicon-time"></span> @Model.DateUploaded.ToClientTime()
             </div>
-        </div>
+          </div>
 
-        <hr />
+          <hr />
 
-        <div class="embed-responsive embed-responsive-16by9">
+          <div class="embed-responsive embed-responsive-16by9">
             <video id="vPlayer" class="embed-responsive-item" controls preload="auto" controlsList="nodownload">
-                <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />
-                Your browser does not support playing this video. Please upgrade your browser.
+              <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />
+              Your browser does not support playing this video. Please upgrade your browser.
             </video>
-        </div>
+          </div>
 
-        <br />        
-        <div>
+          <br />
+          <div>
             @Html.Raw(Model.Description)
-        </div>
-        
+          </div>
 
-        <br />
+          <br />
 
-        @if (Model.Histories.Count() > 0)
-        {
+          @if (Model.Histories.Count() > 0)
+          {
             <article class="well">
-                <p class="lead">Email and Sms logs</p>
+              <p class="lead">Email and Sms logs</p>
 
-                <ul class="list-unstyled">
+              <ul class="list-unstyled">
                 @foreach (var history in Model.Histories)
                 {
-                    <li>
-                        For <b>@history.Name:</b><br />
-                        <b><span class="text-info">@history.Recipient</span></b> on <b>@history.DateSent.ToClientTime()</b>
-                    </li>
+                  <li>
+                    For <b>@history.Name:</b><br />
+                    <b><span class="text-info">@history.Recipient</span></b> on <b>@history.DateSent.ToClientTime()</b>
+                  </li>
                 }
-                </ul>
+              </ul>
             </article>
-        }
+          }
 
-    </article>
+        </article>
 
-    <ul class="pager">
-        <li class="previous">
+        <ul class="pager">
+          <li class="previous">
             <a href="@Url.Action("posts")">
-                <span class="glyphicon glyphicon-arrow-left"></span> Back to list
+              <span class="glyphicon glyphicon-arrow-left"></span> Back to list
             </a>
-        </li>
-    </ul>
+          </li>
+        </ul>
 
-</div>
-
-@section SideBar {
-    <div class="col-md-4 col-sm-4">
+      </div>
+      <div class="col-md-4 col-sm-4">
         <!--for email, sms and approval sections-->
         @Html.Partial("_PostActions", Model)
         @Html.Action("Sidebars")
+      </div>
     </div>
-}
+  </div>
+</div>
 
 
 @section Script {
-    @Scripts.Render("~/details")   
+  <script src="~/assets/js/videos/details.js"></script>
 }

@@ -1,68 +1,76 @@
 ﻿@model VideoUpload.Core.Entities.Post
 
 @{
-    ViewBag.Title = "Send a link";
+  ViewBag.Title = "Send a link";
 }
 
 
 @{
-    var sendingType = ViewBag.SendingType;
-    var url = Url.Action("watch", new {
-        year = Model.DateUploaded.Year,
-        month = Model.DateUploaded.Month,
-        postID = Model.PostID,
-        plateNo = Model.PlateNumber });
-    var hasError = ViewBag.HasError;
+  var sendingType = ViewBag.SendingType;
+  var url = Url.Action("watch", new
+  {
+    year = Model.DateUploaded.Year,
+    month = Model.DateUploaded.Month,
+    postID = Model.PostID,
+    plateNo = Model.PlateNumber
+  });
+  var hasError = ViewBag.HasError;
 }
 
-<div class="col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2">
+<section id="send-link-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-sm-8">
 
-    <h2 class="text-center">@ViewBag.Header</h2>
+        <h2 class="text-center">@ViewBag.Header</h2>
 
-    <div class="well text-center">
-        <p class="lead">Plate number: @Model.PlateNumber</p>
-        <p><b>Description:</b> @Html.Raw(Model.Description)</p>
-    </div>
-
-    @using (Html.BeginForm("send", "videos", FormMethod.Post))
-    {
-        @Html.HiddenFor(x => x.PostID)
-        <input type="hidden" name="sendingType" value="@sendingType" />
-        <input type="hidden" name="url" value="@url" />
-        <div class="form-group">
-        @if (ViewBag.SendingType == "email")
-        {
-            <label for="email">Enter email address:</label>
-            <input type="email" name="email" class="form-control @hasError" autofocus required />
-        }
-        else
-        {        
-            <label for="mobile">Phone number: (include the country code e.g +974)</label>
-            <input type="text" name="mobile" class="form-control @hasError" autofocus required />        
-        }
+        <div class="well text-center">
+          <p class="lead">Plate number: @Model.PlateNumber</p>
+          <p><b>Description:</b> @Html.Raw(Model.Description)</p>
         </div>
-        <div class="form-group">
+
+        @using (Html.BeginForm("send", "videos", FormMethod.Post))
+        {
+          @Html.HiddenFor(x => x.PostID)
+          <input type="hidden" name="sendingType" value="@sendingType" />
+          <input type="hidden" name="url" value="@url" />
+          <div class="form-group">
+            @if (ViewBag.SendingType == "email")
+        {
+              <label for="email">Enter email address:</label>
+              <input type="email" name="email" class="form-control @hasError" autofocus required />
+            }
+            else
+            {
+              <label for="mobile">Phone number: (include the country code e.g +974)</label>
+              <input type="text" name="mobile" class="form-control @hasError" autofocus required />
+            }
+          </div>
+          <div class="form-group">
             <label for="customerName">Customer name: (with title)</label>
             <input type="text" name="customerName" class="form-control" required />
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <input type="submit" class="btn btn-primary" value="Send" />
-        </div>
-    }
+          </div>
+        }
 
-    <ul class="pager">
-        <li class="previous">
+        <ul class="pager">
+          <li class="previous">
             <a href="@Url.Action("post",  new {
                         year = Model.DateUploaded.Year,
                         month = Model.DateUploaded.Month,
                         postID = Model.PostID,
-                        plateNo = Model.PlateNumber })">
+                        plateNo = Model.PlateNumber })">              
                 <span class="glyphicon glyphicon-arrow-left"></span> Back to details
-            </a>
-        </li>
-    </ul>
+              </a>            
+          </li>
+        </ul>
 
-</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 

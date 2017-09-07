@@ -6,42 +6,40 @@
 
 @Html.Partial("_Modal")
 
-<div class="col-md-8">
-    <ul class="pager">
-        <li class="previous">
-            <a href="@Url.Action("posts")" id="anchorBackToList">
-                <span class="glyphicon glyphicon-arrow-left"></span> Back to post
-            </a>
-        </li>
-    </ul>
+<section id="upload-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <a href="@Url.Action("posts")" id="anchorBackToList" class="btn btn-default"> Back to post</a>
 
-    <h2>Upload a video</h2>
+        <h2>Upload a video</h2>
 
-    <form id="frmUpload" method="post" enctype="multipart/form-data" action="@Url.Action("Upload", "Videos")" class="form-defaults">
-        
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
+        <form id="frmUpload" method="post" enctype="multipart/form-data" action="@Url.Action("upload", "videos")">
+
+          @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+          <div class="form-group">
             <label for="Title">Plate number</label>
             @Html.TextBoxFor(x => x.PlateNumber, new { @class = "form-control", required = "required", autofocus = "autofocus" })
             @Html.ValidationMessageFor(x => x.PlateNumber, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             @Html.LabelFor(x => x.Description)
             @Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = 8 })
             @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             @Html.TextBoxFor(x => x.Attachments, new { type = "file", @class = "btn btn-default btn-sm", required = "required" })
             @Html.ValidationMessageFor(x => x.Attachments, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group text-right">
-            <button id="btnSubmit" type="submit" class="btn btn-primary btn-lg">Upload</button>
-        </div>
-    </form>
-    
-    
-</div>
+          </div>
+          <div class="form-group">
+            <button id="btnSubmit" type="submit" class="btn btn-primary">Upload</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
-@section Script {
-    @Scripts.Render("~/upload", "~/post-edit")    
+@section Script {    
+  <script src="~/assets/js/videos/upload.js"></script>
 }
