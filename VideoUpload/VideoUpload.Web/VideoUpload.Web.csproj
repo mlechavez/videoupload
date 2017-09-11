@@ -536,18 +536,10 @@
     <Content Include="Content\main1.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\print.css" />
-    <Content Include="dist\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="dist\fonts\porsche-marque-rgb-digital_S-L.svg" />
     <Content Include="dist\fonts\porsche-marque-rgb-digital_S-L_R.svg" />
     <Content Include="dist\images\favicon.ico" />
-    <Content Include="dist\images\porsche-marque-rgb-digital_L.jpg" />
-    <Content Include="dist\images\porsche-marque-rgb-digital_L_R.jpg" />
-    <Content Include="dist\images\porsche-marque-rgb-digital_M.jpg" />
     <Content Include="dist\images\porsche-marque-rgb-digital_M_R.jpg" />
-    <Content Include="dist\images\porsche-marque-rgb-digital_S.jpg" />
-    <Content Include="dist\images\porsche-marque-rgb-digital_S_R.jpg" />
-    <Content Include="dist\images\porsche-marque-rgb-digital_XS.jpg" />
-    <Content Include="dist\images\porsche-marque-rgb-digital_XS_R.jpg" />
     <Content Include="dist\js\bootstrap.min.js" />
     <Content Include="dist\js\core.js" />
     <Content Include="dist\js\jquery.cookie.js" />
@@ -661,12 +653,6 @@
     <Content Include="assets\sass\_bootstrap.scss" />
     <Content Include="assets\sass\_variables.scss" />
     <Content Include="assets\sass\_theme.scss" />
-    <Content Include="dist\fonts\PorscheNext-Bold.otf" />
-    <Content Include="dist\fonts\PorscheNext-BoldItalic.otf" />
-    <Content Include="dist\fonts\PorscheNext-Italic.otf" />
-    <Content Include="dist\fonts\PorscheNext-Regular.otf" />
-    <Content Include="dist\fonts\PorscheNext-Thin.otf" />
-    <Content Include="dist\fonts\PorscheNext-ThinItalic.otf" />
     <Content Include="bower_components\jquery.cookie\.bower.json" />
     <Content Include="bower_components\jquery.cookie\bower.json" />
     <Content Include="bower_components\tinymce-dist\.bower.json" />
@@ -680,10 +666,8 @@
     <Content Include="bower_components\tinymce-dist\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="assets\sass\_fonts.scss" />
     <Content Include="assets\sass\_functions.scss" />
-    <Content Include="dist\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="dist\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="dist\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="dist\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="dist\fonts\PorscheNextTT-Regular.ttf" />
+    <Content Include="dist\fonts\PorscheNextTT-Thin.ttf" />
     <None Include="Properties\PublishProfiles\ProdSmarterAspProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterAspDevProfile.pubxml" />
@@ -988,19 +972,18 @@
     <Content Include="Views\Videos\_PostActions.cshtml" />
     <Content Include="Views\Shared\_SocialSidebar.cshtml" />
     <Content Include="Views\Shared\_Search.cshtml" />
-    <Content Include="Views\Home\Contact1.cshtml" />
     <Content Include="Views\Users\_UserAccountSettingsWidget.cshtml" />
     <Content Include="Views\Shared\Change-Password.cshtml" />
     <Content Include="Views\Videos\Edit.cshtml" />
     <Content Include="Views\Shared\_Pager.cshtml" />
     <Content Include="Views\Users\ChangeEmailPassword.cshtml" />
     <Content Include="Views\Shared\_ContactUsWidget.cshtml" />
-    <Content Include="Views\Videos\Watch.cshtml" />
     <Content Include="Views\Shared\_CustomerHeader.cshtml" />
-    <Content Include="Views\Home\_Contact.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Videos\Watch.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
