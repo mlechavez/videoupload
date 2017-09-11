@@ -3,21 +3,6 @@
 var vUrl = $('#videoSourceUrl').data('url');
 var vPlayer = document.getElementById("vPlayer"); //$('#vPlayer').get(0);
 
-//console.log(vUrl);
-//var req = new XMLHttpRequest();
-//req.open('GET', vUrl, true);
-//req.responseType = 'blob';
-
-//req.onload = function () {
-//    if (this.status === 200) {
-//        console.log('ok');
-//        var videoBlob = this.response;
-//        var vid = URL.createObjectURL(videoBlob);
-//        vPlayer.src = vid;
-//    } else {
-//        console.log('not ok');
-//    }
-//}
 
 //I use onplay event to handle IE browser
 //Tested in IE 11 only not below
