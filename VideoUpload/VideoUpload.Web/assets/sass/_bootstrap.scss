@@ -12,7 +12,8 @@
 // Reset and dependencies
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/print";
-@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons";
+// I don't need this
+/*@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons";*/
 
 // Core CSS
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";

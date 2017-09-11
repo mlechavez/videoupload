@@ -43,7 +43,7 @@ $link-hover-decoration: none !default;
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-$font-family-sans-serif:  "Porsche Next Regular", Helvetica, Arial, sans-serif !default;
+$font-family-sans-serif:  "Porsche Next TT" !default;
 $font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 $font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default;
@@ -80,7 +80,7 @@ $headings-color:          inherit !default;
 
 // [converter] If $bootstrap-sass-asset-helper if used, provide path relative to the assets load path.
 // [converter] This is because some asset helpers, such as Sprockets, do not work with file-relative paths.
-$icon-font-path: if($bootstrap-sass-asset-helper, "../../dist/fonts/bootstrap/", "../../dist/fonts/") !default;
+$icon-font-path: if($bootstrap-sass-asset-helper, "/bootstrap/", "/fonts/") !default;
 
 //** File name for all font files.
 $icon-font-name:          "glyphicons-halflings-regular" !default;
@@ -198,11 +198,11 @@ $input-border:                   #ccc !default;
 // TODO: Rename `$input-border-radius` to `$input-border-radius-base` in v4
 //** Default `.form-control` border radius
 // This has no effect on `<select>`s in some browsers, due to the limited stylability of `<select>`s in CSS.
-$input-border-radius:            $border-radius-base !default;
+$input-border-radius:            0 !default;
 //** Large `.form-control` border radius
-$input-border-radius-large:      $border-radius-large !default;
+$input-border-radius-large:      0 !default;
 //** Small `.form-control` border radius
-$input-border-radius-small:      $border-radius-small !default;
+$input-border-radius-small:      0 !default;
 
 //** Border color for inputs on focus
 $input-border-focus:             #66afe9 !default;

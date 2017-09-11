@@ -10,10 +10,10 @@
 */
 html{
   position: relative;
-  min-height: 100%;
+  min-height: 100%;  
 }
 body{
-  margin-bottom:200px;
+  margin-bottom:200px;  
 }
 h1,h2,h3{
   font-family: "Porsche Next Thin";
@@ -21,7 +21,9 @@ h1,h2,h3{
 input, select, textarea {
   font-family: $font-family-base;
 }
-.btn-default{
+.btn-default,
+.btn-primary {
+  &:focus,
   &:hover{
     background:$brand-primary;
     color: #fff;
@@ -45,6 +47,7 @@ input, select, textarea {
 ================
 */
 .navbar-default{
+  margin-bottom: 0;
   .navbar-nav{
     .dropdown-menu > li > a {
       &:focus,
@@ -55,11 +58,19 @@ input, select, textarea {
     }
   }
 }
-#marquee{
-  text-align: center;
+
+#marquee-holder{
+  position:relative;  
   border-bottom: 1px solid #ccc;
-  padding-bottom: 12.25px;  
+    >img{
+    position:relative;
+    top: 20px;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;         
+  }
 }
+
 /*
 ================
   Sign in
@@ -69,7 +80,9 @@ input, select, textarea {
 #form-signin{
   form{
     width: 300px;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
   }
 }
 
@@ -77,7 +90,15 @@ input, select, textarea {
 #upload-section,
 #single-post,
 #edit-post,
-#send-link-section {
+#send-link-section,
+#watch-section,
+#users-table-section,
+#new-user-section,
+#edit-user-section,
+.change-password-section,
+.change-email-password-section,
+#manage-claims-section,
+#contact-us-section {
   .container{
     padding-top: 30px;
     padding-bottom: 30px;
