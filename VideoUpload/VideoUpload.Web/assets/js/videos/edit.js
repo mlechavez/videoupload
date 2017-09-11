@@ -2,11 +2,8 @@
 
 
 tinymce.init({
-    selector: '#Description',    
-    setup: function (ed) {
-        
-        //ed.onSaveContent.add(function (i, o) {
-        //    o.content = o.content.replace(/&#39/g, "&apos");
-        //});        
-    }
+  selector: "#Description",
+  menubar: false,
+  toolbar: false,
+  content_css: '../../assets/css/app.css'
 });
