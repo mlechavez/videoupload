@@ -8,7 +8,8 @@ using VideoUpload.Web.Models.Home;
 
 namespace VideoUpload.Web.Controllers
 {
-  [AllowAnonymous]  
+  [AllowAnonymous]
+  
   public class HomeController : Controller
   {
     private readonly IUnitOfWork _uow;

@@ -29,7 +29,7 @@ namespace VideoUpload.Web.Controllers
     }
 
     [AccessActionFilter(Type = "Video", Value = "CanRead")]
-    [Route("")]
+    [Route("posts")]
     public async Task<ActionResult> Posts(string s, int? page)
     {
       var viewModel =
