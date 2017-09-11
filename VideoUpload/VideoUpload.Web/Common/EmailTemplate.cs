@@ -9,19 +9,18 @@ namespace VideoUpload.Web.Common
         {
 
             var template = new StringBuilder();
-            template.Append("<p style='font:15px Porsche News Gothic'>Dear " + recipientName + ",<br/>");
-            template.Append("<p style='font:15px Porsche News Gothic'>" + message + "<br/>");
-            template.Append("<p style='font:15px Porsche News Gothic'>" + hyperLink + "<br/>");
-            template.Append("<div><p style='font:15px Porsche News Gothic'>Best Regards,</p>");
-            template.Append("<span style='font:15px Porsche News Gothic'><b>" + currentUser.FullName + "</b></span><br/>");
-            template.Append("<span style='font:15px Porsche News Gothic'>" + currentUser.JobTitle + "<span><br/><br/>");
-            template.Append("<span style='font:15px Porsche News Gothic'>Porsche Center Doha</span><br/>");
-            template.Append("<span style='font:15px Porsche News Gothic'>Alboraq Automobiles Co. w.l.l<span><br/>");
-            template.Append("<span style='font:15px Porsche News Gothic'>" + currentUser.WorkAddress + "</span><br/><br/>");
+            template.Append("<p style='font:15px Porsche Next TT'>Dear " + recipientName + ",<br/>");
+            template.Append("<p style='font:15px Porsche Next TT'>" + message + "<br/>");
+            template.Append("<p style='font:15px Porsche Next TT' >" + hyperLink + "<br/>");
+            template.Append("<div><p style='font:15px Porsche Next TT'>Best Regards,</p>");
+            template.Append("<span style='font:15px Porsche Next TT'><b>" + currentUser.FullName + "</b></span><br/>");
+            template.Append("<span style='font:15px Porsche Next TT'>" + currentUser.JobTitle + "<span><br/><br/>");
+            template.Append("<span style='font:15px Porsche Next TT'>Porsche Center Doha</span><br/>");
+            template.Append("<span style='font:15px Porsche Next TT'>Alboraq Automobiles Co. w.l.l<span><br/>");
+            template.Append("<span style='font:15px Porsche Next TT'>" + currentUser.WorkAddress + "</span><br/><br/>");
             template.Append("<b>Phone:</b> " + currentUser.PhoneNumber + "<br/>");
             template.Append("<b>Direct Line:</b> " + currentUser.DirectLine + "<br/>");
-            template.Append("<b>Fax:</b> " + currentUser.FaxNumber + "<br/>");
-            template.Append("<b>Email:</b> " + currentUser.Email + "<br/></div>");
+            template.Append("<b>Fax:</b> " + currentUser.FaxNumber + "<br/>");            
             return template.ToString();
         }
 
@@ -29,9 +28,9 @@ namespace VideoUpload.Web.Common
         {
 
             var template = new StringBuilder();
-            template.Append("<p style='font:15px Porsche News Gothic'>Dear " + recipientName + ",<br/>");
-            template.Append("<p style='font:15px Porsche News Gothic'>" + message + "<br/>");
-            template.Append("<p style='font:15px Porsche News Gothic'>" + url + "<br/>");
+            template.Append("<p style='font:15px Porsche Next TT'>Dear " + recipientName + ",<br/>");
+            template.Append("<p style='font:15px Porsche Next TT'>" + message + "<br/>");
+            template.Append("<p style='font:15px Porsche Next TT'>" + url + "<br/>");
             //template.Append("<div><p style='font:15px Porsche News Gothic'>Best Regards,</p>");
             //template.Append("<span style='font:15px Porsche News Gothic'><b>" + $"{user.FirstName} {user.LastName}" + "</b></span><br/>");
             //template.Append("<span style='font:15px Porsche News Gothic'>" + user.JobTitle + "<span><br/><br/>");
