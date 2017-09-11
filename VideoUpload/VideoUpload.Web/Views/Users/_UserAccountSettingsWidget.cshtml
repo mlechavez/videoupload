@@ -1,6 +1,6 @@
 ﻿@model VideoUpload.Web.Models.UserViewModels.UserViewModel
 
-<div class="col-md-4 col-sm-4 useraccount-settings-widget">
+<div class="useraccount-settings-widget">
     <ul class="list-unstyled">
         <li><a href="@Url.Action("changepassword", new { userName = Model.UserName  })">Change password</a></li>
         <li><a href="@Url.Action("passwordreset", new { userName = Model.UserName })">Reset password</a></li>

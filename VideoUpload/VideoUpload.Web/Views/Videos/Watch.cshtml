@@ -1,50 +1,51 @@
 ﻿@model VideoUpload.Core.Entities.Post
 
 @{
-    Layout = null;
+    ViewBag.Title = "Watch";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="~/Content/Images/favicon.ico" />
-    <title>PCD - After Sales | Your Porsche</title>
-    @Styles.Render("~/bootstrap", "~/css")   
-</head>
-<body>
-    <h3 class="header-crest">
-        <span class="wrapper-crest">
-            <a class="link-crest" href="@Url.Action("posts","videos")">Home</a>
-        </span>
-    </h3>
-    <hr />
-    <div id="main-container">        
-        <div id="main-content" class="container">
-            <div class="row">
-                @Html.Partial("_Watch", Model)
-                <div class="col-md-4 col-sm-4">
-                    @Html.Action("GetBranches", "home")
-                    @Html.Partial("_SocialSidebar")
-                </div>
+<section id="watch-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-sm-8">
+        <article class="watch-posted-article">
+          <h3>@ViewBag.Header</h3>
+          <div class="row">
+
+            <div class="col-md-12 col-sm-6 col-xs-6 watch-group-sa">
+              <span>Your Service Advisor:</span> @(Model.User.FirstName + " " + Model.User.LastName)
             </div>
-        </div>
-        <footer id="main-footer">
-            <div class="container">
-                <p class="text-center">Copyright &copy; @DateTime.Today.Year. Al Boraq Automobiles Co. w.l.l.</p>
+
+            <div class="col-md-12 col-sm-6 col-xs-6 watch-group-contact">
+              <span>Should you have any queries, please contact us; @Model.Branch.PhoneNumber</span>
             </div>
-        </footer>
+          </div>
+
+          <div class="embed-responsive embed-responsive-16by9">
+            <video id="vPlayer" class="embed-responsive-item" controls preload="auto" controlsList="nodownload">
+              <source src="@Url.Action("VideoResult", new { fileName = Model.Attachments.First().FileName })" type="@Model.Attachments.First().MIMEType" />
+              Your browser does not support playing this video. Please upgrade your browser.
+            </video>
+          </div>
+
+          <br />
+          <div>
+            <p>Description:</p>
+            @Html.Raw(Model.Description)
+          </div>
+
+        </article>
+
+        <div id="postUrl" class="hidden" data-url="@Url.Action("VideoHasPlayed")" data-id="@Model.PostID"
+             data-uploader="@Model.User.UserName" data-hasplayed="@Model.HasPlayedVideo" data-datePlayedVideo="@Model.DatePlayedVideo"></div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        @Html.Action("GetBranches", "home")
+      </div>
     </div>
+  </div>
+</section>
 
-    @Scripts.Render("~/jquery", "~/jbootstrap", "~/tinymce", "~/watch")
-
-    <script>
-        $('.dropdown-contact-menu .divider:last-child').remove();        
-    </script>
-    @if (!User.Identity.IsAuthenticated)
-    {
-        <script>document.body.style.padding = '0px';</script>
-    }
-</body>
-</html>
+@section Script{    
+  <script src="~/assets/js/videos/watch.js"></script>
+}

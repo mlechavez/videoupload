@@ -1,97 +1,103 @@
 ﻿@model VideoUpload.Web.Models.UserViewModels.UserActivityViewModel
-
 @{
-    ViewBag.Title = "Add user to claim";
+  ViewBag.Title = "Add user to claim";
 }
-<div class="col-md-12">
 
-    <h1>@Model.UserName<text>&acute;s</text> activities</h1>
-    
-    <hr />
+<section id="manage-claims-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
 
-    @using (Html.BeginForm("manage-claims", "users", FormMethod.Post))
-    {
-        <h3>Manage User</h3>
+        <h1>@Model.UserName<text>&acute;s</text> activities</h1>
 
-        @Html.HiddenFor(x => x.UserID)
+        <hr />
 
-        foreach (var activity in Model.Activities)
+        @using (Html.BeginForm("manage-claims", "users", FormMethod.Post))
         {
+          <h3>Manage User</h3>
+
+          @Html.HiddenFor(x => x.UserID)
+
+          foreach (var activity in Model.Activities)
+          {
             if (activity.Type == "ManageUser")
             {
-                <div class="form-group">
-                    <label class="checkbox-inline">
-                        @if (Model.UserClaims.Any(x => x.Type == activity.Type && x.Value == activity.Value))
-                        {
-                            <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Description
-                        }
-                        else
-                        {
-                            <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Description
-                        }
-                        @*<input type="hidden" name="@activity.Type" value="@activity.Value" /> @activity.Value*@
-                    </label>
-                </div>
+              <div class="form-group">
+                <label class="checkbox-inline">
+                  @if (Model.UserClaims.Any(x => x.Type == activity.Type && x.Value == activity.Value))
+            {
+                    <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Description
+                  }
+                  else
+                  {
+                    <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Description
+                  }
+                  @*<input type="hidden" name="@activity.Type" value="@activity.Value" /> @activity.Value*@
+                </label>
+              </div>
             }
-        }
+          }
 
-        <h3>Video Section</h3>
+          <h3>Video Section</h3>
 
-        foreach (var activity in Model.Activities)
-        {
+          foreach (var activity in Model.Activities)
+          {
             if (activity.Type == "Video")
             {
-                <div class="form-group">
-                    <label class="checkbox-inline">
-                        @if (Model.UserClaims.Any(x => x.Type == activity.Type && x.Value == activity.Value))
-                        {
-                            <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Description
-                        }
-                        else
-                        {
-                            <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Description
-                        }
-                        @*<input type="hidden" name="@activity.Type" value="@activity.Value" /> @activity.Value*@
-                    </label>
-                </div>
+              <div class="form-group">
+                <label class="checkbox-inline">
+                  @if (Model.UserClaims.Any(x => x.Type == activity.Type && x.Value == activity.Value))
+            {
+                    <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Description
+                  }
+                  else
+                  {
+                    <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Description
+                  }
+                  @*<input type="hidden" name="@activity.Type" value="@activity.Value" /> @activity.Value*@
+                </label>
+              </div>
             }
-        }
+          }
 
-        <h3>Approval</h3>
+          <h3>Approval</h3>
 
-        foreach (var activity in Model.Activities)
-        {
+          foreach (var activity in Model.Activities)
+          {
             if (activity.Type == "Approval")
             {
-                <div class="form-group">
-                    <label class="checkbox-inline">
-                        @if (Model.UserClaims.Any(x => x.Type == activity.Type && x.Value == activity.Value))
-                        {
-                            <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Description
-                        }
-                        else
-                        {
-                            <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Description
-                        }
-                        @*<input type="hidden" name="@activity.Type" value="@activity.Value" /> @activity.Value*@
-                    </label>
-                </div>
-                
-            }
-        }
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg">
-                <span class="glyphicon glyphicon-save"></span> Save
-            </button>
-        </div>
-        
-    }
+              <div class="form-group">
+                <label class="checkbox-inline">
+                  @if (Model.UserClaims.Any(x => x.Type == activity.Type && x.Value == activity.Value))
+            {
+                    <input type="checkbox" name="@activity.Type" value="@activity.Value" checked="checked" /> @activity.Description
+                  }
+                  else
+                  {
+                    <input type="checkbox" name="@activity.Type" value="@activity.Value" /> @activity.Description
+                  }
+                  @*<input type="hidden" name="@activity.Type" value="@activity.Value" /> @activity.Value*@
+                </label>
+              </div>
 
-    <ul class="pager">
-        <li class="previous">
+            }
+          }
+          <div class="form-group">
+            <button type="submit" class="btn btn-default">
+              <span class="glyphicon glyphicon-save"></span> Save
+            </button>
+          </div>
+
+        }
+
+        <ul class="pager">
+          <li class="previous">
             <a href="@Url.Action("list")">
-                <span class="glyphicon glyphicon-arrow-left"></span> Back to user list
+              <span class="glyphicon glyphicon-arrow-left"></span> Back to user list
             </a>
-        </li>
-    </ul>
-</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
