@@ -2,7 +2,7 @@
 @import "bootstrap";
 @import "fonts";
 @import "functions";
-
+@import "mixins";
 /*
 ================
   General
@@ -86,19 +86,7 @@ input, select, textarea {
   }
 }
 
-#post-list,
-#upload-section,
-#single-post,
-#edit-post,
-#send-link-section,
-#watch-section,
-#users-table-section,
-#new-user-section,
-#edit-user-section,
-.change-password-section,
-.change-email-password-section,
-#manage-claims-section,
-#contact-us-section {
+.container-wrapper {
   .container{
     padding-top: 30px;
     padding-bottom: 30px;
@@ -118,7 +106,7 @@ input, select, textarea {
   height: 200px;
   background: $gray-darker;  
   color: toggle-text-color($gray-darker) !important;
-  .container{
+  .container {
     padding-top: 30px;
     padding-bottom: 30px;    
   }
@@ -134,4 +122,16 @@ input, select, textarea {
     }
     
   }
+}
+/*
+================
+  Media queries
+================
+*/
+@media (max-width: 480px){  
+  @include media-variant;
+}
+
+@media (max-width: 768px) {
+  @include media-variant;
 }

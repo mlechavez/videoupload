@@ -5083,19 +5083,7 @@ input, select, textarea {
   margin-right: auto;
   margin-top: 50px; }
 
-#post-list .container,
-#upload-section .container,
-#single-post .container,
-#edit-post .container,
-#send-link-section .container,
-#watch-section .container,
-#users-table-section .container,
-#new-user-section .container,
-#edit-user-section .container,
-.change-password-section .container,
-.change-email-password-section .container,
-#manage-claims-section .container,
-#contact-us-section .container {
+.container-wrapper .container {
   padding-top: 30px;
   padding-bottom: 30px; }
 
@@ -5119,3 +5107,22 @@ input, select, textarea {
   color: #fff; }
   #footer-nav li a:hover {
     color: #d5001c; }
+
+/*
+================
+  Media queries
+================
+*/
+@media (max-width: 480px) {
+  body {
+    margin-bottom: 0; }
+  #main-footer {
+    position: static;
+    height: auto; } }
+
+@media (max-width: 768px) {
+  body {
+    margin-bottom: 0; }
+  #main-footer {
+    position: static;
+    height: auto; } }
