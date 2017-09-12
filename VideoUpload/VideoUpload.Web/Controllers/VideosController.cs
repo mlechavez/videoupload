@@ -290,7 +290,7 @@ namespace VideoUpload.Web.Controllers
               filterType: "user",
               param: User.Identity.GetUserId());
 
-      ViewBag.Header = "List of your videos";
+      ViewBag.Header = "List of your posts";
 
       return View(viewModel);
     }

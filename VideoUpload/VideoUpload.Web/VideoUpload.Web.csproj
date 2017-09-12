@@ -668,6 +668,7 @@
     <Content Include="assets\sass\_functions.scss" />
     <Content Include="dist\fonts\PorscheNextTT-Regular.ttf" />
     <Content Include="dist\fonts\PorscheNextTT-Thin.ttf" />
+    <Content Include="assets\sass\_mixins.scss" />
     <None Include="Properties\PublishProfiles\ProdSmarterAspProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterAspDevProfile.pubxml" />
