@@ -34,7 +34,8 @@
 
               @foreach (var item in Model)
               {
-                var rowClass = string.Empty;
+                //TODO: uncomment if we need colored row in the list
+                //var rowClass = string.Empty;
                 var lblClass = string.Empty;
                 var lblText = string.Empty;
 
@@ -42,13 +43,13 @@
                 {
                   if (item.IsApproved)
                   {
-                    rowClass = "success";
+                    //rowClass = "success";
                     lblClass = "label-success";
                     lblText = "Approved";
                   }
                   else
                   {
-                    rowClass = "danger";
+                    //rowClass = "danger";
                     lblClass = "label-danger";
                     lblText = "Disapproved";
                   }
@@ -59,7 +60,8 @@
                   lblText = "For approval";
                 }
 
-                <tr class="@rowClass">
+                <!-- Add class=@@rowClass in the tr if rowClass in uncommented -->
+                <tr>
                   <td>
                     <!-- desktop view-->
                     <p class="hidden-sm hidden-xs">
