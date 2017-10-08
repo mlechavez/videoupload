@@ -8241,10 +8241,8 @@ input, select, textarea {
   #footer-nav li a:hover {
     color: #d5001c; }
 
-a.social-media {
-  color: #021bb1; }
-  a.social-media:hover {
-    color: #d5001c; }
+#smedia-icons {
+  background-color: #fff; }
 
 /*
 ================

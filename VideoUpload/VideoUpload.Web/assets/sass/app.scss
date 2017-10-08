@@ -109,9 +109,8 @@ input, select, textarea {
   color: toggle-text-color($gray-darker) !important;
   .container {
     padding-top: 30px;
-    padding-bottom: 30px;    
-  }
-  
+    padding-bottom: 30px;       
+  }    
 }
 #footer-nav {
   li{
@@ -120,16 +119,13 @@ input, select, textarea {
       &:hover{
         color: $brand-primary;
       }
-    }
-    
+    }    
   }
 }
-a.social-media{
-  color: #021bb1;
-  &:hover{
-    color: $brand-primary;
-  }
+#smedia-icons{
+  background-color: #fff;
 }
+
 /*
 ================
   Media queries
