@@ -19,6 +19,7 @@
   "devDependencies": {
     "bootstrap-sass": "^3.3.7",
     "jquery.cookie": "1.4.1",
-    "tinymce-dist": "4.6.6"
+    "tinymce-dist": "4.6.6",
+    "font-awesome": "4.7.0"
   }
 }

@@ -12,8 +12,7 @@
 // Reset and dependencies
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/print";
-// I don't need this
-/*@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons";*/
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons";
 
 // Core CSS
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
@@ -56,3 +55,7 @@
 // Utility classes
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/utilities";
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
+
+
+/*@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap-sprockets.scss";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap-compass.scss";*/

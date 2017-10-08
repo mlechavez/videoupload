@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <ul id="footer-nav" class="list-unstyled">
           <li><a href="https://www.porsche.com/middle-east/_qatar_/aboutporsche/importers/">Porsche Centre Doha</a></li>
-          <li><a href="@Url.Action("about","home")">About PCD - Aftersales</a></li>
+          <li><a href="@Url.Action("about","home")">About PCD</a></li>
           <li><a href="@Url.Action("contact","home")">Contact</a></li>
           @if (User.Identity.IsAuthenticated)
           {
@@ -13,10 +13,21 @@
         </ul>
       </div>
       <div class="col-md-6">
-         <p>Connect with Porsche Centre Doha</p>         
+         <p>Connect with Porsche Centre Doha</p>
+          <div class="row">
+              <div class="col-md-12 social-media">
+                  <a href="#">
+                      <i class="fa fa-facebook fa-2x"></i>
+                  </a>
+                  <a href="#">
+                      <i class="fa fa-instagram fa-2x"></i>
+                  </a>
+                 
+              </div>
+          </div>
       </div>
       <div class="col-md-12">
-        &copy; @DateTime.Today.Year. Remote Your Porsche. Al Boraq Automobiles Co. W.l.l. Qatar
+        &copy; @DateTime.Today.Year. Porsche Virtual Reception. Al Boraq Automobiles Co. w.l.l. Qatar
       </div>
     </div>
   </div>

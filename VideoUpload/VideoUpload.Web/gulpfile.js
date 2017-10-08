@@ -21,6 +21,10 @@ gulp.task('watch-sass', function () {
   gulp.watch('assets/sass/**/*.scss', ['compile-sass']);
 });
 
+gulp.task('fonts', function () {
+    return gulp.src('assets/fonts/**/*')
+        .pipe(gulp.dest('dist/fonts'));
+});
 gulp.task('default', function () {
     // place code for your default task here
 });

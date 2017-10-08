@@ -3,6 +3,7 @@
 @import "fonts";
 @import "functions";
 @import "mixins";
+@import "../../bower_components/font-awesome/scss/font-awesome.scss";
 /*
 ================
   General
@@ -123,6 +124,12 @@ input, select, textarea {
     
   }
 }
+a.social-media{
+  color: #021bb1;
+  &:hover{
+    color: $brand-primary;
+  }
+}
 /*
 ================
   Media queries
@@ -135,3 +142,5 @@ input, select, textarea {
 @media (max-width: 768px) {
   @include media-variant;
 }
+
+ 
