@@ -2,7 +2,18 @@
 
 <article class="posted-article">
 
-    <h3>Car plate no. @Html.PostActionLink(Model)</h3>
+    <h3>
+        <a href="@Url.Action("post", "videos",
+                new
+                {
+                    year = Model.DateUploaded.Year,
+                    month = Model.DateUploaded.Month,
+                    postID = Model.PostID,
+                    plateNo = Model.PlateNumber
+                })">
+        <i class="fa fa-angle-right"></i> &nbsp;&nbsp; Car plate no. @Model.PlateNumber
+        </a>
+    </h3>
 
     <div class="row">
         <div class="col-md-6 col-sm-6 col-xs-6">

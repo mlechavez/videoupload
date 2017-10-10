@@ -85,7 +85,7 @@
                     <div class="row hidden-md hidden-lg">
 
                       <div class="col-sm-4 mypost-action">
-                        <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })"><i class="fa fa-pencil-square-o"></i>Edit</a>
+                        <a href="@Url.Action("edit", new { userName = User.Identity.Name, postID = item.PostID })">Edit</a>
                       </div>
 
                       <div class="col-sm-4 mypost-action">
@@ -95,9 +95,7 @@
                         }
                         else
                         {
-                          <a href="@Url.Action("post", new { year = item.DateUploaded.Year, month =item.DateUploaded.Month, postID = item.PostID, plateNo = item.PlateNumber})">
-                            <i class="fa fa-info"></i>Details
-                          </a>
+                          <a href="@Url.Action("post", new { year = item.DateUploaded.Year, month =item.DateUploaded.Month, postID = item.PostID, plateNo = item.PlateNumber})">Details</a>
                         }
                       </div>
 

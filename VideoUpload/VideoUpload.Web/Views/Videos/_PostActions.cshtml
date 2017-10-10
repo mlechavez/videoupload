@@ -17,11 +17,19 @@
       <p>Review the video before letting the end-user send to the customer</p>
 
       <div class="btn-group">
-        <button class="btn btn-default btn-block btn-lg dropdown-toggle" data-toggle="dropdown">Approval <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")" data-details="@url">Approve</a></li>
-          <li><a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")" data-details="@url">Disapprove</a></li>
-        </ul>
+        <button class="btn btn-default btn-block btn-lg dropdown-toggle" data-toggle="dropdown">Approval &nbsp;&nbsp;<i class="fa fa-angle-down"></i></button>
+          <ul class="dropdown-menu">
+              <li>
+                  <a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="true" data-postid="@Model.PostID" data-url="@Url.Action("approval")" data-details="@url">
+                      <i class="fa fa-angle-right"></i> &nbsp; &nbsp; Approve
+                  </a>
+              </li>
+              <li>
+                  <a href="#" data-toggle="modal" data-target="#appModal" data-isapproved="false" data-postid="@Model.PostID" data-url="@Url.Action("approval")" data-details="@url">
+                      <i class="fa fa-angle-right"></i> &nbsp; &nbsp; Disapprove
+                  </a>
+              </li>
+          </ul>
       </div>
 
     </div>

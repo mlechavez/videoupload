@@ -13,6 +13,7 @@ namespace VideoUpload.Web.Common
         {
             get { return new AppUser(User as ClaimsPrincipal); }
         }
+
     }
 
     public abstract class AppViewPage : AppViewPage<dynamic>

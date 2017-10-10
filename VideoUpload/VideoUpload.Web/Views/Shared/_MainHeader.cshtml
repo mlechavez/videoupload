@@ -32,18 +32,18 @@
                 {
                   <li>
                     <a href="@Url.Action("list","users", new { Area = "" })">
-                      <i class="fa fa-cog fa-fw"></i> Manage users
+                      <i class="fa fa-cog fa-fw"></i> &nbsp;&nbsp; Manage users
                     </a>
                   </li>
                 }
                 <li>
                   <a href="@Url.Action("myposts", "videos", new { Area = "", userName = User.Identity.Name })">
-                    <i class="fa fa-file-video-o fa-fw"></i> My posts
+                    <i class="fa fa-file-video-o fa-fw"></i> &nbsp;&nbsp; My posts
                   </a>
                 </li>
                 <li>
                   <a href="@Url.Action("signout","account", new { Area = "" })">
-                    <i class="fa fa-sign-out fa-fw"></i> Sign out
+                    <i class="fa fa-sign-out fa-fw"></i> &nbsp;&nbsp; Sign out
                   </a>
                 </li>
               </ul>

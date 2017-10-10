@@ -1,39 +1,46 @@
-﻿/// <reference path="../jquery-3.1.1.js" />
+﻿(function ($, myObject) {
+    var controls = {
+        videoUrl: $('#videoSourceUrl'),
+        videoPlayer: document.getElementById("vPlayer"),
+        postedVideo: $('#postUrl'),
+    };
 
-var vUrl = $('#videoSourceUrl').data('url');
-var vPlayer = document.getElementById("vPlayer"); //$('#vPlayer').get(0);
+    myObject.init = function () {
+        bindUIActions();
+    };
 
+    var bindUIActions = function () {
+        controls.videoPlayer.onplay = function () {
+            var hasPlayed = controls.postedVideo.data('hasplayed');
 
-//I use onplay event to handle IE browser
-//Tested in IE 11 only not below
-//since html 5 video won't play in browser below IE 11
-vPlayer.onplay = function () {
-    var hasPlayed = $('#postUrl').data('hasplayed');
-    
-    if (hasPlayed === "False") {
-       
-        var postID = $('#postUrl').data('id');
-        var url = $('#postUrl').data('url');
-        var uploader = $('#postUrl').data('uploader');
-        var currentLink = window.location.href;
-        currentLink = currentLink.replace("watch", "archive");
+            if (hasPlayed === "False") {
 
-        $.ajax({
-            type: 'post',
-            url: url,
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify({ 
-                postID: postID,
-                userName: uploader,
-                details: currentLink
-            }),
-            success: function (data) {
-                if (data.success) {
-                    $('#postUrl').data('hasplayed', data.success);
-                    var value = $('#postUrl').data('hasplayed');                    
-                }                
+                var postID = controls.postedVideo.data('id');
+                var url = controls.postedVideo.data('url');
+                var uploader = controls.postedVideo.data('uploader');
+                var currentLink = window.location.href;
+                currentLink = currentLink.replace("watch", "archive");
+
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({
+                        postID: postID,
+                        userName: uploader,
+                        details: currentLink
+                    }),
+                    success: function (data) {
+                        if (data.success) {
+                            controls.postedVideo.data('hasplayed', data.success);
+                            var value = controls.postedVideo.data('hasplayed');
+                        }
+                    }
+                });
             }
-        });
-    } 
-};
+        };
+    };
+}(jQuery, window.WatchVideoWidget = window.WatchVideoWidget || {}));
+
+WatchVideoWidget.init();

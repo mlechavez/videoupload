@@ -6,14 +6,14 @@
 
     <div class="dropdown dropdown-contact">
         <button class="dropdown-toggle btn btn-default" data-toggle="dropdown">
-            <i class="fa fa-list fa-lg"></i> Contact Us
+            <i class="fa fa-list fa-lg"></i> &nbsp;&nbsp; Contact Us
         </button>
         <ul class="dropdown-menu dropdown-contact-menu">
             @foreach (var branch in branches)
             {
                 <li>
                     <a href="@Url.Action("contact", "home", new { branchName = branch.BranchName })">
-                        <i class="fa fa-angle-down fa-lg fa-angle-down-padright"></i> @branch.Name
+                        <i class="fa fa-angle-right fa-lg"></i> &nbsp;&nbsp; @branch.Name
                     </a>
                 </li>
                 <li role="separator" class="divider"></li>

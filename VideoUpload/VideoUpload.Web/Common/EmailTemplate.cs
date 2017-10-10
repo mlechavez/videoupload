@@ -19,7 +19,7 @@ namespace VideoUpload.Web.Common
       var template = new StringBuilder();
       template.Append($"<p style='font:15px { defaultFontName }'>Dear { recipientName },<br/>");
       template.Append($"<p style='font:15px { defaultFontName }'>{ message }<br/>");
-      template.Append($"<p style='font:15px { defaultFontName }'>{ hyperLink }<br/>");
+      template.Append($"<p style='font:15px { defaultFontName }'><a href=\"{ hyperLink }\">Porsche Visual Reception</a><br/>");
       template.Append($"<div><p style='font:15px { defaultFontName }'>Best Regards,</p>");
       template.Append($"<span style='font:15px { defaultFontName }'><b>{ currentUser.FullName }</b></span><br/>");
       template.Append($"<span style='font:15px { defaultFontName }'>{ currentUser.JobTitle }<span><br/><br/>");

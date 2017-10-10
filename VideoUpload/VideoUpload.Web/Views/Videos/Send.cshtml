@@ -6,15 +6,16 @@
 
 
 @{
-  var sendingType = ViewBag.SendingType;
-  var url = Url.Action("watch", new
-  {
-    year = Model.DateUploaded.Year,
-    month = Model.DateUploaded.Month,
-    postID = Model.PostID,
-    plateNo = Model.PlateNumber
-  });
-  var hasError = ViewBag.HasError;
+    var sendingType = ViewBag.SendingType;
+    var url = Url.Action("watch", new
+    {
+        year = Model.DateUploaded.Year,
+        month = Model.DateUploaded.Month,
+        postID = Model.PostID,
+        plateNo = Model.PlateNumber
+    });    
+
+    var hasError = ViewBag.HasError;
 }
 
 <section class="container-wrapper">

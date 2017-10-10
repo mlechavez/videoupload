@@ -11,7 +11,7 @@
 */
 html{
   position: relative;
-  min-height: 100%;  
+  min-height: 100%;    
 }
 body{
   margin-bottom:200px;  
@@ -94,6 +94,17 @@ input, select, textarea {
   }
 }
 
+.posted-article{
+  h3{
+    a{
+      color:#333;
+      &:hover{
+        color: $brand-primary;
+      }
+    }
+  }
+}
+
 
 /*
 ================
@@ -123,7 +134,24 @@ input, select, textarea {
   }
 }
 #smedia-icons{
-  background-color: #fff;
+  .icon-fb, .icon-ig {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 10px 15px;
+    border: 1px solid #333;
+    background: #333;
+    color:#fff;
+  }
+  .icon-fb{
+    &:hover{
+      background-color: darken(#428bca, 6.5%);
+    }
+  }
+  .icon-ig{
+    &:hover {
+      background-color: #428bca;
+    }
+  }
 }
 
 /*
