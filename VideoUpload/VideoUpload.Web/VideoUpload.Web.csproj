@@ -570,6 +570,7 @@
     <Content Include="dist\js\videos\timeZoneCookie.js" />
     <Content Include="dist\js\videos\upload.js" />
     <Content Include="dist\js\videos\watch.js" />
+    <Content Include="dist\main.min.js" />
     <Content Include="Global.asax" />
     <Content Include="gulpfile.js" />
     <Content Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
