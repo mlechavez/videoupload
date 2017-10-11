@@ -4,7 +4,9 @@ Click here to learn more. http://go.microsoft.com/fwlink/?LinkId=518007
 */
 
 var gulp = require('gulp'),
-    plugins = require('gulp-load-plugins')();
+    plugins = require('gulp-load-plugins')(),
+    gulpIf = require('gulp-if'),
+    runSequence = require('run-sequence');
 
 gulp.task('sass', function () {
     gulp.src('assets/sass/**/*.scss')
@@ -21,105 +23,58 @@ gulp.task('watch', function () {
     gulp.watch('assets/sass/**/*.scss', ['sass']);
 });
 
+gulp.task('images', function () {
+    return gulp.src('assets/images/**/*.+(png|jpg|jpeg|gif|svg')
+        .pipe(gulp.dest('dist/images'));
+});
 
-gulp.task('default', ['watch']);
+gulp.task('fonts', function () {
+    return gulp.src('assets/fonts/**/*')
+        .pipe(gulp.dest('dist/fonts'));
+});
+
+gulp.task('build', function (callBack) {
+    runSequence(['sass', 'images', 'fonts', 'css', 'js' ], callBack);
+});
+
+gulp.task('css', function () {
+    return gulp.src('assets/css/**/*.css')
+        .pipe(gulp.dest('dist/css'));
+});
+
+gulp.task('js', function () {
+    return gulp.src('assets/js/**/*.js')
+        .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('default', function (callBack) {
+    runSequence(['sass', 'watch', 'build'], callBack);
+});
 
 gulp.task('minifyFilesForRelease', function () {
     var cssFilter = plugins.filter('**/*.css', { restore: true });
     var jsFilter = plugins.filter('**/*.js', { restore: true });
 
-    var assets = plugins.useref.assets();
-
     gulp.src('./**/*.cshtml')
-        .pipe(assets)
 
-    //Process JavaScript
+
         .pipe(jsFilter)
-        .pipe(plugins.uglify())
+        //minifies the javascript
+        .pipe(gulpIf('*.js',plugins.uglify()))
         .pipe(plugins.rev())
-        .pipe(assets.restore())
         .pipe(jsFilter.restore)
-    //Process CSS
+
         .pipe(cssFilter)
-        .pipe(plugins.minifyCss({
-            keepSpecialComments: 0
-        }))
+        //minifies the css
+        .pipe(gulpIf('*.css', plugins.cssnano()))
         .pipe(plugins.rev())
-        .pipe(assets.restore())
         .pipe(cssFilter.restore)
 
         .pipe(plugins.useref())
-        .pipe(plugins.revReplace({
-            replaceInExtensions: ['.js', '.css', '.html', '.cshtml']
-        }))
+        //.pipe(plugins.revReplace({
+        //    replaceInExtensions: ['.js', '.css', '.html', '.cshtml']
+        //}))
         .pipe(gulp.dest(function (data) {
             return data.base;
         }));
 });
-
-//gulp.task('sass', function () {
-//  return gulp.src('assets/sass/**/*.scss')
-//    .pipe(sass())
-//    .pipe(gulp.dest('assets/css'));
-//});
-
-//gulp.task('watch', ['sass'], function () {
-//  gulp.watch('assets/sass/**/*.scss', ['sass']);
-//});
-
-//gulp.task('jquery', function () {
-//    return gulp.src('bower_components/jquery/dist/**/*.js')
-//      .pipe(gulp.dest('dist/js'));
-//});
-
-//gulp.task('bootstrapjs', function () {
-//    return gulp.src('bower_components/bootstrap-sass/javascripts/bootstrap.min.js');
-//});
-
-
-//gulp.task('minifyForRelease', function () {
-//    var cssFilter = plugins.filter('**/*.css', { restore: true });
-//    var jsFilter = plugins.filter('**/*.js', { restore: true });
-
-//    var assets = plugins.useref.assets();
-//    gulp.src('./**/*.cshtml')
-//        .pipe(assets)
-
-//        //Process JavaScript
-//        .pipe(jsFilter)
-//        .pipe(plugins.uglify())
-//        .pipe(plugins.rev())
-//        .pipe(assets.restore())
-//        .pipe(jsFilter.restore)
-
-//        //Process CSS
-//        .pipe(cssFilter)
-//        .pipe(plugins.minifyCss({
-//            keepSpecialComments: 0
-//        }))
-//        .pipe(plugins.rev())
-//        .pipe(assets.restore())
-//        .pipe(cssFilter.restore)
-
-//        .pipe(plugins.useref())
-//        .pipe(plugins.revReplace({
-//            replaceInExtensions: ['.js', '.css', '.html', '.cshtml']
-//        }))
-//        .pipe(gulp.dest(function (data) {
-//            return data.base;
-//        }
-//        ));           
-//});
-
-//gulp.task('images', function () {
-//    return gulp.src('assets/images/**/*.+(png|jpg|jpeg|gif|svg')
-//        .pipe(gulp.dest('dist/images'));
-//});
-
-//gulp.task('fonts', function () {
-//    return gulp.src('assets/fonts/**/*')
-//        .pipe(gulp.dest('dist/fonts'));
-//});
-//gulp.task('default', function () {
-//    // place code for your default task here
-//});
