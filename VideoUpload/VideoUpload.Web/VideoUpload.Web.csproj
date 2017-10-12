@@ -546,7 +546,6 @@
     <Content Include="bower_components\tinymce-dist\tinymce.jquery.min.js" />
     <Content Include="bower_components\tinymce-dist\tinymce.js" />
     <Content Include="bower_components\tinymce-dist\tinymce.min.js" />
-    <Content Include="dist\css\app.css" />
     <Content Include="dist\css\styles.min.css" />
     <Content Include="dist\fonts\fontawesome-webfont.svg" />
     <Content Include="dist\fonts\glyphicons-halflings-regular.svg" />
@@ -555,22 +554,12 @@
     <Content Include="dist\images\favicon.ico" />
     <Content Include="dist\images\porsche-marque-rgb-digital_M_R.jpg" />
     <Content Include="dist\js\home\contactus.js" />
-    <Content Include="dist\js\lib\bootstrap.min.js" />
-    <Content Include="dist\js\lib\core.js" />
-    <Content Include="dist\js\lib\jquery.cookie.js" />
-    <Content Include="dist\js\lib\jquery.cookie.min.js" />
-    <Content Include="dist\js\lib\jquery.js" />
-    <Content Include="dist\js\lib\jquery.min.js" />
-    <Content Include="dist\js\lib\jquery.slim.js" />
-    <Content Include="dist\js\lib\jquery.slim.min.js" />
-    <Content Include="dist\js\lib\tinymce.min.js" />
-    <Content Include="dist\js\main.min.js" />
+    <Content Include="dist\js\lib.min.js" />
     <Content Include="dist\js\videos\details.js" />
     <Content Include="dist\js\videos\edit.js" />
     <Content Include="dist\js\videos\timeZoneCookie.js" />
     <Content Include="dist\js\videos\upload.js" />
     <Content Include="dist\js\videos\watch.js" />
-    <Content Include="dist\main.min.js" />
     <Content Include="Global.asax" />
     <Content Include="gulpfile.js" />
     <Content Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
@@ -970,11 +959,8 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>if $(ConfigurationName) == Release (
-   cd $(ProjectDir)
-   npm install
-   gulp minifyFilesForRelease
-)</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
