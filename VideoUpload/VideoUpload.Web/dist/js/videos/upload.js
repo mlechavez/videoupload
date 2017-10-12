@@ -62,7 +62,8 @@
             };
 
             xhr.upload.addEventListener("progress", function (event) {
-                var percent = Math.floor((event.loaded / event.total) * 100);
+                var quotient = event.loaded / event.total;
+                var percent = Math.floor(quotient * 100);
                 var widthSize = percent.toString() + "%";
                 
 
