@@ -3,7 +3,7 @@
         selector: "#Description",
         menubar: false,
         toolbar: false,
-        content_css: '../../assets/css/app.css'
+        content_css: '../../dist/css/styles.min.css'
     });
 
     var controls = {

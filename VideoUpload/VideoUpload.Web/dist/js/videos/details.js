@@ -2,7 +2,7 @@
     var controls = {
         appModal: $('#appModal'),
         modalContent: $('#appModal .modal-content'),
-        videoPlayer: $('#vPlayer')
+        videoPlayer: document.querySelector("#vPlayer")
     };
 
     myObject.init = function () {
@@ -10,13 +10,11 @@
     };
 
     var bindUIActions = function () {
-        controls.appModal.on('show.bs.modal', function (event) {
+        controls.appModal.on('show.bs.modal', function (event) {                        
 
-            var vPlayer = controls.videoPlayer.get(0);
+            controls.videoPlayer.addEventListener('playing', function () {
 
-            if (vPlayer.play()) {
-                vPlayer.pause();
-            }
+            });
 
             var button = $(event.relatedTarget);
             var isapproved = button.data('isapproved');
@@ -57,6 +55,17 @@
             var modal = $(this);
             modal.find('.modal-body').empty();
             modal.find('.modal-footer').remove();
+
+            //get the promise
+            var playPromise = controls.videoPlayer.play();
+
+            //check to see if it returns a promise
+            if (playPromise !== undefined) {
+                playPromise.then(function () {
+                    console.log('yes it returns promise and we will hit the pause method!!!!!');
+                    controls.videoPlayer.pause();
+                });
+            }
         });
 
         controls.modalContent.on('click', '#btnClose', function () {
