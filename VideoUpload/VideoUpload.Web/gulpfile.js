@@ -21,6 +21,12 @@ gulp.task('sass', function () {
 gulp.task('watch', function () {
     plugins.livereload.listen();
     gulp.watch('assets/sass/**/*.scss', ['sass']);
+    gulp.watch('assets/js/**/*.js', ['js']);
+});
+
+gulp.task('js', function () {
+    return gulp.src(['assets/js/**/*.js', '!assets/js/lib/**/*.js'])
+        .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('images', function () {
@@ -33,48 +39,20 @@ gulp.task('fonts', function () {
         .pipe(gulp.dest('dist/fonts'));
 });
 
-gulp.task('build', function (callBack) {
-    runSequence(['sass', 'images', 'fonts', 'css', 'js' ], callBack);
-});
-
-gulp.task('css', function () {
-    return gulp.src('assets/css/**/*.css')
-        .pipe(gulp.dest('dist/css'));
-});
-
-gulp.task('js', function () {
-    return gulp.src('assets/js/**/*.js')
-        .pipe(gulp.dest('dist/js'));
-});
 
 gulp.task('default', function (callBack) {
-    runSequence(['sass', 'watch', 'build'], callBack);
+    runSequence(['sass', 'watch', 'js', 'images', 'fonts'], callBack);
 });
 
-gulp.task('minifyFilesForRelease', function () {
-    var cssFilter = plugins.filter('**/*.css', { restore: true });
-    var jsFilter = plugins.filter('**/*.js', { restore: true });
+gulp.task('optimize', function () {
+    //when this runs, don't forget 
+    //to change the '../..' path to '~' in _layout.cshtml
 
     gulp.src('./**/*.cshtml')
-
-
-        .pipe(jsFilter)
-        //minifies the javascript
-        .pipe(gulpIf('*.js',plugins.uglify()))
-        .pipe(plugins.rev())
-        .pipe(jsFilter.restore)
-
-        .pipe(cssFilter)
-        //minifies the css
-        .pipe(gulpIf('*.css', plugins.cssnano()))
-        .pipe(plugins.rev())
-        .pipe(cssFilter.restore)
-
         .pipe(plugins.useref())
-        //.pipe(plugins.revReplace({
-        //    replaceInExtensions: ['.js', '.css', '.html', '.cshtml']
-        //}))
+        .pipe(gulpIf('*.js', plugins.uglify()))
+        .pipe(gulpIf('*.css', plugins.cssnano()))
         .pipe(gulp.dest(function (data) {
             return data.base;
-        }));
+    }));
 });

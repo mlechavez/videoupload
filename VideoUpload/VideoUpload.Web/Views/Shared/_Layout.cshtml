@@ -1,31 +1,32 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <link rel="shortcut icon" href="~/dist/images/favicon.ico" />
-  <title>PCD - After Sales | @ViewBag.Title</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="/dist/css/styles.min.css">
+    <link rel="shortcut icon" href="~/dist/images/favicon.ico" />
+    <title>PCD - After Sales | @ViewBag.Title</title>
+
+    <link rel="stylesheet" href="~/dist/css/styles.min.css">
 </head>
 <body>
 
-  @Html.Partial("_MainHeader")
+    @Html.Partial("_MainHeader")
 
-  <div class="container">
-    <div id="marquee-holder">      
-      <img src="~/dist/images/porsche-marque-rgb-digital_M_R.jpg" alt="Porsche" />
+    <div class="container">
+        <div id="marquee-holder">
+            <img src="~/dist/images/porsche-marque-rgb-digital_M_R.jpg" alt="Porsche" />
+        </div>
     </div>
-  </div>
 
-  @RenderBody()
-  
-  @Html.Partial("_Footer")
+    @RenderBody()
 
-    
-  <script src="/dist/js/main.min.js"></script>
-  @RenderSection("Script", required: false)
+    @Html.Partial("_Footer")
+
+
+    <script src="~/dist/js/lib.min.js"></script>
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=5p70a8d0ew9m48r9xmcngtz3t0itd0czyhvrsiimy476qizj" type="text/javascript"></script>
+    @RenderSection("Script", required: false)
 </body>
 </html>
