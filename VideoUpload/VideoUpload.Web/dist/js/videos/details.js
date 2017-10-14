@@ -12,9 +12,7 @@
     var bindUIActions = function () {
         controls.appModal.on('show.bs.modal', function (event) {                        
 
-            controls.videoPlayer.addEventListener('playing', function () {
-
-            });
+            controls.videoPlayer.pause();
 
             var button = $(event.relatedTarget);
             var isapproved = button.data('isapproved');
