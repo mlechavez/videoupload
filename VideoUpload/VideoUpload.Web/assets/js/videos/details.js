@@ -10,16 +10,16 @@
     };
 
     var bindUIActions = function () {
+        controls.appModal.on('show.bs.modal', function (event) {                        
 
-        controls.appModal.on('show.bs.modal', function (event) {
+            controls.videoPlayer.addEventListener('playing', function () {
 
-            controls.videoPlayer.pause();
+            });
 
             var button = $(event.relatedTarget);
             var isapproved = button.data('isapproved');
             var url = button.data('url');
             var postID = button.data('postid');
-
 
             var body = controls.appModal.find('.modal-body');
 
@@ -39,27 +39,39 @@
 
             controls.appModal.find('.modal-content').append(footer);
             var btnApproval = $("<button></button>")
-                .attr({
-                    'id': 'btnApproved',
-                    'data-postid': postID,
-                    'data-value': isapproved,
-                    'data-url': url
-                }).text('OK').addClass('btn btn-default text-right');
+                                .attr({
+                                    'id': 'btnApproved',
+                                    'data-postid': postID,
+                                    'data-value': isapproved,
+                                    'data-url': url
+                                }).text('OK').addClass('btn btn-default text-right');
 
-            var btnClose = $("<button></button>").attr('id', 'btnClose').text('Close').addClass('btn btn-default text-right');
+            var btnClose = $("<button></button>")
+                .attr('id', 'btnClose').text('Close')
+                .addClass('btn btn-default text-right');
             footer.append(btnApproval).append(btnClose);
         });
 
         controls.appModal.on('hidden.bs.modal', function () {
+
             var modal = $(this);
             modal.find('.modal-body').empty();
             modal.find('.modal-footer').remove();
-            
+
+            //get the promise
+            var playPromise = controls.videoPlayer.play();
+
+            //check to see if it returns a promise
+            if (playPromise !== undefined) {
+                playPromise.then(function () {
+                    console.log('yes it returns promise and we will hit the pause method!!!!!');
+                    controls.videoPlayer.pause();
+                });
+            }
         });
 
-        controls.modalContent.on('click', '#btnClose', function () {
             var appModal = $('#appModal');
-            appModal.modal('hide');
+            appModal.modal('hide');            
         });
 
         controls.modalContent.on('click', '#btnApproved', function () {
