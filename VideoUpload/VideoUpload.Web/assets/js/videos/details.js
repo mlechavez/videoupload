@@ -10,11 +10,10 @@
     };
 
     var bindUIActions = function () {
+
         controls.appModal.on('show.bs.modal', function (event) {                        
 
-            controls.videoPlayer.addEventListener('playing', function () {
-
-            });
+            controls.videoPlayer.pause();
 
             var button = $(event.relatedTarget);
             var isapproved = button.data('isapproved');
@@ -56,18 +55,7 @@
 
             var modal = $(this);
             modal.find('.modal-body').empty();
-            modal.find('.modal-footer').remove();
-
-            //get the promise
-            var playPromise = controls.videoPlayer.play();
-
-            //check to see if it returns a promise
-            if (playPromise !== undefined) {
-                playPromise.then(function () {
-                    console.log('yes it returns promise and we will hit the pause method!!!!!');
-                    controls.videoPlayer.pause();
-                });
-            }
+            modal.find('.modal-footer').remove();            
         });
 
             var appModal = $('#appModal');
