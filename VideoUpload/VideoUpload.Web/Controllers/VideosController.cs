@@ -384,15 +384,15 @@ namespace VideoUpload.Web.Controllers
                 var url = $"{Request.Url.Scheme}://{Request.Url.Authority}{formCollection["url"]}";
 
                 //send request to shorten the URL
-                var response = await GoogleUrlShortener.GetUrlShortenerAsync(url);
+                //var response = await GoogleUrlShortener.GetUrlShortenerAsync(url);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    return View(post);
-                }
+                //if (!response.IsSuccessStatusCode)
+                //{
+                //    return View(post);
+                //}
 
-                var content = await response.Content.ReadAsStringAsync();
-                var shortenedUrlInfo = JsonConvert.DeserializeObject<ShortenedUrlInfo>(content);
+                //var content = await response.Content.ReadAsStringAsync();
+                //var shortenedUrlInfo = JsonConvert.DeserializeObject<ShortenedUrlInfo>(content);
                 
 
                 var history = new History
@@ -427,7 +427,7 @@ namespace VideoUpload.Web.Controllers
                                 CurrentUser,
                                 recipient,
                                 message,
-                                shortenedUrlInfo.ID),
+                                url),
                             formCollection["email"].Trim().ToString());
                     }
                     catch (SmtpException ex)
@@ -461,7 +461,7 @@ namespace VideoUpload.Web.Controllers
                         StringBuilder msg = new StringBuilder();
                         msg.AppendLine($"Dear { recipient },")
                            .AppendLine("Please find the video for your Porsche.")
-                           .AppendLine(shortenedUrlInfo.ID)
+                           .AppendLine(url)
                            .AppendLine("I will call you shortly to discuss further.");
 
                         await _mgr.OoredooSendSmsAsync(formCollection["mobile"], msg.ToString());
