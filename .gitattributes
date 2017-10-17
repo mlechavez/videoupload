@@ -6,6 +6,6 @@
 
 *.cs diff=csharp
 
-bower_components linguist-vendored
-node_modules linguist-vendored
+bower_components/* linguist-vendored
+node_modules/* linguist-vendored
 asset/* linguist-vendored
