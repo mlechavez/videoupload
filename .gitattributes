@@ -1,0 +1,11 @@
+* text=auto
+
+*.gitattributes text
+.gitignore text
+*.md text
+
+*.cs diff=csharp
+
+bower_components linguist-vendored
+node_modules linguist-vendored
+asset/* linguist-vendored
