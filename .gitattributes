@@ -1,3 +1,4 @@
 * text=auto
 
 VideoUpload/VideoUpload.Web/bower_components/* linguist-vendored
+VideoUpload/VideoUpload.Web/assets/* linguist-vendored
