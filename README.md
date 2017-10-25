@@ -1,3 +1,3 @@
-# Customer Porsche View
+# Porsche Visual Reception
 
-This is an internal web application owned by Alboraq Automobiles Co. W.L.L - Porsche Centre Doha and used by our service advisors for them to upload a video which then needs to be approved before sending a link to our valuable customers. This provides our customers a view related to the status of their cars over the web.
+Is a service that provides the customers a view related to the status of their cars over the web. Alboraq Automobiles Co. w.l.l owns this web application.
