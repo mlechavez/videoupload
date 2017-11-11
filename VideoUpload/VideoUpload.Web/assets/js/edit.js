@@ -3,9 +3,10 @@
     widgetObject.init = function () {
         tinymce.init({
             selector: "#Description",
+            branding: false,
             menubar: false,
-            toolbar: false,
-            branding: false,            
+            toolbar: false, 
+            statusbar: false,
             content_css: '../../dist/css/app.min.css'
         });
     };

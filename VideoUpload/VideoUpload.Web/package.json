@@ -11,11 +11,13 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
+    "gulp-bower": "0.0.13",
     "gulp-cssnano": "2.1.2",
     "gulp-filter": "^5.0.1",
     "gulp-livereload": "^3.8.1",
     "gulp-load-plugins": "^1.5.0",
     "gulp-minify-css": "^1.2.4",
+    "gulp-notify": "^3.0.0",
     "gulp-rev": "^8.0.0",
     "gulp-rev-replace": "^0.4.3",
     "gulp-sass": "^3.1.0",

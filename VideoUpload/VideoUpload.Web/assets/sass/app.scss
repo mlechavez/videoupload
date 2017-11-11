@@ -22,6 +22,9 @@ h1,h2,h3{
 input, select, textarea {
   font-family: $font-family-base;
 }
+.btn {
+    padding: 13px 21px;
+}
 .btn-default,
 .btn-primary {
   &:focus,
@@ -34,15 +37,16 @@ input, select, textarea {
 .pager {
   li > a {
     color:#fff;
-    
+    padding: 13px 21px; // added double check
     &:focus,
     &:hover{
       color:#fff;
     }    
   }
 }
-#Description, .mce-container-custom {
-  padding: 6px 12px;
+
+.mce-content-body {
+  padding: 6px 12px;  
 }
 .resource-not-found {  
   margin-top: 20px;
