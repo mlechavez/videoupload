@@ -1,0 +1,1 @@
+!function(t,n){var e=function(t){for(var n=1e3,e=50;e<=100;e+=.2)!function(n,e){setTimeout(function(){document.getElementById(t).style.backgroundColor="hsl(57,100%,"+n+"%)"},e)}(e,n+=10)},o=window.location.href,c=o.indexOf("#"),s=o.substr(c+1);switch(s){case"pcd":case"st16":case"st27":case"qsc":e(s)}}(jQuery,window.ContactUsWidget=window.ContactUsWidget||{});

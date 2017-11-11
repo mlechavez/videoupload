@@ -3,24 +3,31 @@
     ViewBag.Title = "Resource cannot be found";
 }
 
-<div class="col-md-12 col-sm-12">
+<div class="container-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
 
-    <div class="well">
-        <p class="lead">Oh, Snap!</p>
+                <div class="well ">
+                    <p class="lead">Oh, Snap!</p>
 
-        <p class="text-danger">Resource cannot be found.</p>
-        <p>The page you are trying to access is either moved or doesn't exist.</p>
+                    <p class="text-danger">Resource cannot be found.</p>
+                    <p>The page you are trying to access is either moved or doesn't exist.</p>
 
-        @if (User.Identity.IsAuthenticated)
-        {
-            <p>@Html.ActionLink("Back to home page.", "posts", "videos")</p>
-        }
-        else
-        {
-            <p>@ViewBag.Message</p>
-        }
+                    @if (User.Identity.IsAuthenticated)
+            {
+                        <p>@Html.ActionLink("Back to home page.", "posts", "videos")</p>
+                    }
+                    else
+                    {
+                        <p>@ViewBag.Message</p>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 
 @if (!User.Identity.IsAuthenticated)
 {

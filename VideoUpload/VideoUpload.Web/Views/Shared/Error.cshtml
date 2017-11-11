@@ -2,22 +2,27 @@
 @{
     ViewBag.Title = "Something went wrong";
 }
-<div class="col-md-12 col-sm-12">
 
-    <div class="well">
+<div class="container-wrapper">
+    <div class="container">
+        <div class="col-md-12 col-sm-12">
 
-        <p class="lead">Sorry!</p>
+            <div class="well">
 
-        <p class="text-danger">An error has occured while processing your request.</p>
+                <p class="lead">Sorry!</p>
 
-        <p>@ViewBag.Message</p>
-        
-    </div>        
+                <p class="text-danger">An error has occured while processing your request.</p>
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        <p>@Model.Exception</p>
-    }
+                <p>@ViewBag.Message</p>
+
+            </div>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <p>@Model.Exception</p>
+            }
+        </div>
+    </div>
 </div>
 
 

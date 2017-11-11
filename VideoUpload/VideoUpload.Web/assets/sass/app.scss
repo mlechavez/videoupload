@@ -41,7 +41,12 @@ input, select, textarea {
     }    
   }
 }
-
+#Description, .mce-container-custom {
+  padding: 6px 12px;
+}
+.resource-not-found {  
+  margin-top: 20px;
+}
 /*
 ================
   Header

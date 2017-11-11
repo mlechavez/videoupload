@@ -17,7 +17,7 @@
     <AssemblyName>VideoUpload.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44390</IISExpressSSLPort>
+    <IISExpressSSLPort>44318</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -222,25 +222,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\css\app.css" />
-    <Content Include="assets\fonts\fontawesome-webfont.svg" />
-    <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\css\skin.min.css" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\porsche-marque-rgb-digital_M_R.jpg" />
-    <Content Include="assets\js\home\contactus.js" />
-    <Content Include="assets\js\lib\bootstrap.min.js" />
-    <Content Include="assets\js\lib\core.js" />
-    <Content Include="assets\js\lib\jquery.cookie.js" />
-    <Content Include="assets\js\lib\jquery.js" />
-    <Content Include="assets\js\lib\jquery.min.js" />
-    <Content Include="assets\js\lib\jquery.slim.js" />
-    <Content Include="assets\js\lib\jquery.slim.min.js" />
-    <Content Include="assets\js\lib\tinymce.min.js" />
-    <Content Include="assets\js\videos\details.js" />
-    <Content Include="assets\js\videos\edit.js" />
-    <Content Include="assets\js\videos\timeZoneCookie.js" />
-    <Content Include="assets\js\videos\upload.js" />
-    <Content Include="assets\js\videos\watch.js" />
+    <Content Include="assets\js\contactus.js" />
+    <Content Include="assets\js\details.js" />
+    <Content Include="assets\js\edit.js" />
+    <Content Include="assets\js\timeZoneCookie.js" />
+    <Content Include="assets\js\upload.js" />
+    <Content Include="assets\js\watch.js" />
     <Content Include="bower_components\bootstrap-sass\assets\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="bower_components\bootstrap-sass\assets\javascripts\bootstrap-sprockets.js" />
     <Content Include="bower_components\bootstrap-sass\assets\javascripts\bootstrap.js" />
@@ -537,6 +527,16 @@
     <Content Include="bower_components\tinymce-dist\skins\lightgray\img\trans.gif" />
     <Content Include="bower_components\tinymce-dist\skins\lightgray\skin.ie7.min.css" />
     <Content Include="bower_components\tinymce-dist\skins\lightgray\skin.min.css" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\content.inline.min.css" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\content.min.css" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce-small.svg" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce.svg" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\img\anchor.gif" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\img\loader.gif" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\img\object.gif" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\img\trans.gif" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\skin.ie7.min.css" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\skin.min.css" />
     <Content Include="bower_components\tinymce-dist\themes\inlite\index.js" />
     <Content Include="bower_components\tinymce-dist\themes\inlite\theme.js" />
     <Content Include="bower_components\tinymce-dist\themes\inlite\theme.min.js" />
@@ -547,20 +547,22 @@
     <Content Include="bower_components\tinymce-dist\tinymce.jquery.min.js" />
     <Content Include="bower_components\tinymce-dist\tinymce.js" />
     <Content Include="bower_components\tinymce-dist\tinymce.min.js" />
-    <Content Include="dist\css\styles.min.css" />
+    <Content Include="dist\css\app.min.css" />
+    <Content Include="dist\css\skin.min.css" />
     <Content Include="dist\fonts\fontawesome-webfont.svg" />
     <Content Include="dist\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="dist\fonts\porsche-marque-rgb-digital_S-L.svg" />
     <Content Include="dist\fonts\porsche-marque-rgb-digital_S-L_R.svg" />
     <Content Include="dist\images\favicon.ico" />
     <Content Include="dist\images\porsche-marque-rgb-digital_M_R.jpg" />
-    <Content Include="dist\js\home\contactus.js" />
+    <Content Include="dist\images\porsche_marquee_l.jpg" />
+    <Content Include="dist\js\contactus.js" />
+    <Content Include="dist\js\details.js" />
+    <Content Include="dist\js\edit.js" />
     <Content Include="dist\js\lib.min.js" />
-    <Content Include="dist\js\videos\details.js" />
-    <Content Include="dist\js\videos\edit.js" />
-    <Content Include="dist\js\videos\timeZoneCookie.js" />
-    <Content Include="dist\js\videos\upload.js" />
-    <Content Include="dist\js\videos\watch.js" />
+    <Content Include="dist\js\timeZoneCookie.js" />
+    <Content Include="dist\js\upload.js" />
+    <Content Include="dist\js\watch.js" />
     <Content Include="Global.asax" />
     <Content Include="gulpfile.js" />
     <Content Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
@@ -680,10 +682,6 @@
     <Content Include="dist\fonts\PorscheNextTT-Regular.ttf" />
     <Content Include="dist\fonts\PorscheNextTT-Thin.ttf" />
     <Content Include="assets\sass\_mixins.scss" />
-    <Content Include="assets\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="assets\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="dist\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="dist\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="dist\fonts\glyphicons-halflings-regular.woff" />
@@ -725,16 +723,24 @@
     <Content Include="bower_components\font-awesome\scss\_screen-reader.scss" />
     <Content Include="bower_components\font-awesome\scss\_stacked.scss" />
     <Content Include="bower_components\font-awesome\scss\_variables.scss" />
-    <Content Include="assets\fonts\fontawesome-webfont.eot" />
-    <Content Include="assets\fonts\fontawesome-webfont.ttf" />
-    <Content Include="assets\fonts\fontawesome-webfont.woff" />
-    <Content Include="assets\fonts\fontawesome-webfont.woff2" />
-    <Content Include="assets\fonts\FontAwesome.otf" />
     <Content Include="dist\fonts\fontawesome-webfont.eot" />
     <Content Include="dist\fonts\fontawesome-webfont.ttf" />
     <Content Include="dist\fonts\fontawesome-webfont.woff" />
     <Content Include="dist\fonts\fontawesome-webfont.woff2" />
     <Content Include="dist\fonts\FontAwesome.otf" />
+    <Content Include="assets\fonts\PorscheNextTT-Regular.ttf" />
+    <Content Include="assets\fonts\PorscheNextTT-Thin.ttf" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\readme.md" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce-small.eot" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce-small.json" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce-small.ttf" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce-small.woff" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce.eot" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce.json" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce.ttf" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce.woff" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\skin.json" />
+    <Content Include="bower_components\tinymce-dist\skins\pcd\Variables.less" />
     <None Include="Properties\PublishProfiles\ProdSmarterAspProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterAspDevProfile.pubxml" />
@@ -893,7 +899,6 @@
     <Content Include="Views\Shared\_Pager.cshtml" />
     <Content Include="Views\Users\ChangeEmailPassword.cshtml" />
     <Content Include="Views\Shared\_ContactUsWidget.cshtml" />
-    <Content Include="Views\Shared\_CustomerHeader.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
@@ -907,6 +912,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="assets\test\" />
     <Folder Include="bower_components\bootstrap-sass\assets\images\" />
     <Folder Include="Uploads\Thumbnails\" />
     <Folder Include="Uploads\Videos\" />

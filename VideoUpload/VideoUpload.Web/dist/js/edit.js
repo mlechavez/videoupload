@@ -1,0 +1,1 @@
+!function(i,t,n){(window.EditVideoWidget=window.EditVideoWidget||{}).init=function(){n.init({selector:"#Description",menubar:!1,toolbar:!1,branding:!1,content_css:"../../dist/css/app.min.css"})}}(jQuery,0,tinymce),EditVideoWidget.init();
