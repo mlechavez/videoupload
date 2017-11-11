@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using VideoUpload.Core;
 using VideoUpload.Web.Models;
 using VideoUpload.Web.Models.Identity;
 
