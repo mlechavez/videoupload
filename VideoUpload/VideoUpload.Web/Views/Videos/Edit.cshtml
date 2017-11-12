@@ -27,7 +27,9 @@
             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
           </div>
           <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-default" />
+            <button type="submit" class="btn btn-default">
+                <i class="fa fa-angle-right"></i> &nbsp;Save
+            </button>            
           </div>
         }        
         <a href="@Url.Action("myposts", new { userName = User.Identity.Name })" class="btn btn-default">Back to your videos</a>

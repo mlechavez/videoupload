@@ -22,9 +22,14 @@ h1,h2,h3{
 input, select, textarea {
   font-family: $font-family-base;
 }
-.btn {
+.form-control {
+  padding: $padding-base-vertical 21px !important;
+}
+
+.btn.btn-default {
     padding: 13px 21px;
 }
+
 .btn-default,
 .btn-primary {
   &:focus,
@@ -46,7 +51,7 @@ input, select, textarea {
 }
 
 .mce-content-body {
-  padding: 6px 12px;  
+  padding: $padding-base-vertical 21px;
 }
 .resource-not-found {  
   margin-top: 20px;
@@ -80,14 +85,15 @@ input, select, textarea {
     margin-left: auto;         
   }
 }
-
+#accountDropdownMenu li > a {
+  padding: 13px 21px;
+}
 /*
 ================
   Sign in
 ================
 */
-
-#form-signin{
+#form-signin {
   form {
     width: 300px;
     margin-left: auto;
@@ -113,7 +119,9 @@ input, select, textarea {
     }
   }
 }
-
+.table tr td .btn.btn-default {
+  padding: $padding-base-vertical $padding-base-horizontal;
+}
 /*
 ================
   Footer
@@ -141,21 +149,23 @@ input, select, textarea {
     }    
   }
 }
-#smedia-icons{
-  .icon-fb, .icon-ig {
+#smedia-icons {
+  .btn-sm-fb, .btn-sm-ig {
     display: inline-block;
-    margin-right: 5px;
+    margin-right: 4px;
     padding: 10px 15px;
     border: 1px solid #333;
-    background: #333;
-    color:#fff;
+    background: #313639;
+    color: #fff;
   }
-  .icon-fb{
-    &:hover{
+
+  .btn-sm-fb {
+    &:hover {
       background-color: darken(#428bca, 6.5%);
     }
   }
-  .icon-ig{
+
+  .btn-sm-ig {
     &:hover {
       background-color: #428bca;
     }
@@ -177,4 +187,14 @@ input, select, textarea {
   @include media-variant;
 }
 
- 
+/*
+================
+  Watch
+================
+*/
+#listBranches .divider {
+  margin: 0 0 !important;
+}
+#listBranches li > a {
+  padding: 13px 21px;
+}

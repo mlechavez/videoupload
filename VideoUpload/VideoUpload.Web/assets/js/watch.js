@@ -2,7 +2,8 @@
     var controls = {
         videoUrl: $('#videoSourceUrl'),
         videoPlayer: document.getElementById("vPlayer"),
-        postedVideo: $('#postUrl')
+        postedVideo: $('#postUrl'),
+        listBranches : $('#listBranches')
     };
 
     myObject.init = function () {
@@ -44,7 +45,7 @@
             };
         }
 
-
+        controls.listBranches.find('li.divider:last-child').remove();
     };
 }(jQuery, window.WatchVideoWidget = window.WatchVideoWidget || {}));
 

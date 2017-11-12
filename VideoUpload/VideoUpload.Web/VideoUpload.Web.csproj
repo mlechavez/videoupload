@@ -222,9 +222,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\css\skin.min.css" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\porsche-marque-rgb-digital_M_R.jpg" />
+    <Content Include="assets\images\porsche-marque-rgb-digital_S-L.svg" />
     <Content Include="assets\js\contactus.js" />
     <Content Include="assets\js\details.js" />
     <Content Include="assets\js\edit.js" />
@@ -527,16 +527,6 @@
     <Content Include="bower_components\tinymce-dist\skins\lightgray\img\trans.gif" />
     <Content Include="bower_components\tinymce-dist\skins\lightgray\skin.ie7.min.css" />
     <Content Include="bower_components\tinymce-dist\skins\lightgray\skin.min.css" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\content.inline.min.css" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\content.min.css" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce-small.svg" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce.svg" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\img\anchor.gif" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\img\loader.gif" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\img\object.gif" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\img\trans.gif" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\skin.ie7.min.css" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\skin.min.css" />
     <Content Include="bower_components\tinymce-dist\themes\inlite\index.js" />
     <Content Include="bower_components\tinymce-dist\themes\inlite\theme.js" />
     <Content Include="bower_components\tinymce-dist\themes\inlite\theme.min.js" />
@@ -548,13 +538,13 @@
     <Content Include="bower_components\tinymce-dist\tinymce.js" />
     <Content Include="bower_components\tinymce-dist\tinymce.min.js" />
     <Content Include="dist\css\app.min.css" />
-    <Content Include="dist\css\skin.min.css" />
     <Content Include="dist\fonts\fontawesome-webfont.svg" />
     <Content Include="dist\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="dist\fonts\porsche-marque-rgb-digital_S-L.svg" />
     <Content Include="dist\fonts\porsche-marque-rgb-digital_S-L_R.svg" />
     <Content Include="dist\images\favicon.ico" />
     <Content Include="dist\images\porsche-marque-rgb-digital_M_R.jpg" />
+    <Content Include="dist\images\porsche-marque-rgb-digital_S-L.svg" />
     <Content Include="dist\images\porsche_marquee_l.jpg" />
     <Content Include="dist\js\contactus.js" />
     <Content Include="dist\js\details.js" />
@@ -730,17 +720,6 @@
     <Content Include="dist\fonts\FontAwesome.otf" />
     <Content Include="assets\fonts\PorscheNextTT-Regular.ttf" />
     <Content Include="assets\fonts\PorscheNextTT-Thin.ttf" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\readme.md" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce-small.eot" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce-small.json" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce-small.ttf" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce-small.woff" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce.eot" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce.json" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce.ttf" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\fonts\tinymce.woff" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\skin.json" />
-    <Content Include="bower_components\tinymce-dist\skins\pcd\Variables.less" />
     <None Include="Properties\PublishProfiles\ProdSmarterAspProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterAspDevProfile.pubxml" />
@@ -912,7 +891,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="assets\test\" />
+    <Folder Include="assets\css\" />
     <Folder Include="bower_components\bootstrap-sass\assets\images\" />
     <Folder Include="Uploads\Thumbnails\" />
     <Folder Include="Uploads\Videos\" />

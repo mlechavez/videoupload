@@ -3,7 +3,8 @@
 
 <div class="well text-center">
   <p class="lead">Start uploading your videos and show it to our valuable customers</p>
-  @Html.ActionLink("Upload a video", "upload", null, new { @class = "btn btn-default" })
+  
+  <a href="@Url.Action("upload")" class="btn btn-default"><i class="fa fa-angle-right"></i> &nbsp;Upload</a>
 </div>
 
 @if (ViewBag.ApprovedVideos.Count > 0)

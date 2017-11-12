@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using Newtonsoft.Json;
 using NReco.VideoConverter;
 using System;
 using System.IO;

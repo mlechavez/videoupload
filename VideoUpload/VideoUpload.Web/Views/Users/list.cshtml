@@ -13,7 +13,8 @@
         <h2>Manage your users</h2>
 
         <p>
-          <a href="@Url.Action("new")" class="btn btn-default">Add new user</a>
+          <a href="@Url.Action("new")" class="btn btn-default">
+            <i class="fa fa-angle-right"></i> &nbsp;Add new user</a>
         </p>
 
         <div class="table-responsive">
@@ -32,11 +33,11 @@
               {
                 <tr>
                   <td>
-                    <a href="@Url.Action("edit", new { userName = user.UserName })" class="btn btn-default">
-                      Edit 
+                    <a href="@Url.Action("edit", new { userName = user.UserName })" class="btn btn-default btn-xs">
+                      <i class="fa fa-angle-right"></i> &nbsp;Edit 
                     </a>
-                    <a href="@Url.Action("manage-claims", new { userID = user.UserID, userName = user.UserName })" class="btn btn-default">
-                      Manage Activities 
+                    <a href="@Url.Action("manage-claims", new { userID = user.UserID, userName = user.UserName })" class="btn btn-default btn-xs">
+                        <i class="fa fa-angle-right"></i> &nbsp;Manage Activities 
                     </a>
                   </td>
                   <td>@user.UserName</td>
