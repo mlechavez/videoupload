@@ -720,6 +720,7 @@
     <Content Include="dist\fonts\FontAwesome.otf" />
     <Content Include="assets\fonts\PorscheNextTT-Regular.ttf" />
     <Content Include="assets\fonts\PorscheNextTT-Thin.ttf" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\ProdSmarterAspProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterAspDevProfile.pubxml" />
