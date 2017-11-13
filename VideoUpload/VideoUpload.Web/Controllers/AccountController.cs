@@ -83,7 +83,7 @@ namespace VideoUpload.Web.Controllers
             if (user == null)
             {
                 ViewBag.Message = "We cannot find your email to our records. Please try again";
-                return View();
+                return View("Password-Reset");
             }
 
             var key = await _mgr.GeneratePasswordResetTokenAsync(user.Id);
