@@ -166,34 +166,34 @@ input, select, textarea {
   }
 }
 #smedia-icons {
+
   .btn-sm-fb, .btn-sm-ig {
+    line-height: 3.14286em;
     display: inline-block;
-    border: 1px solid #333;
+    text-decoration: none;
     background: #313639;
     color: #fff;
-
-    .fa-2x {
-      font-size: 1.6em;
-    }
+    width: 50px;
+    height: 50px;
+    margin-right: 4px;
   }
 
-  .btn-sm-fb {
-    padding-top: 9.1px;
-    padding-bottom: 7.1px;
-    padding-left: 15px;
-    padding-right: 15px;
+  .btn-sm-fb::before, .btn-sm-ig::before {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 28px;
+  }
 
+  .btn-sm-fb {    
     &:hover {
       background-color: darken(#428bca, 6.5%);
     }
   }
 
-  .btn-sm-ig {
-    padding-top: 9.1px;
-    padding-bottom: 7.1px;
-    padding-left: 11px;
-    padding-right: 11px;
-
+  .btn-sm-ig {    
     &:hover {
       background-color: #428bca;
     }
