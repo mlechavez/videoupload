@@ -9,3 +9,17 @@
     font-family: 'Porsche Next Thin';
     src: url('../../dist/fonts/PorscheNextTT-Thin.ttf') format('truetype');    
 }
+
+@font-face {
+  font-family: 'icomoon';
+  src: url('../fonts/icomoon.eot?s2vx5t');
+  src: url('../fonts/icomoon.eot?s2vx5t#iefix') format('embedded-opentype'), url('../fonts/icomoon.ttf?s2vx5t') format('truetype'), url('../fonts/icomoon.woff?s2vx5t') format('woff'), url('../fonts/icomoon.svg?s2vx5t#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+.icon-instagram:before {
+  position: relative;
+  top: -5px;
+}

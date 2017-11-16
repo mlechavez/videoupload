@@ -222,6 +222,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\fonts\icomoon.svg" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\porsche-marque-rgb-digital_M_R.jpg" />
     <Content Include="assets\images\porsche-marque-rgb-digital_S-L.svg" />
@@ -540,6 +541,7 @@
     <Content Include="dist\css\app.min.css" />
     <Content Include="dist\fonts\fontawesome-webfont.svg" />
     <Content Include="dist\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="dist\fonts\icomoon.svg" />
     <Content Include="dist\fonts\porsche-marque-rgb-digital_S-L.svg" />
     <Content Include="dist\fonts\porsche-marque-rgb-digital_S-L_R.svg" />
     <Content Include="dist\images\favicon.ico" />
@@ -720,6 +722,12 @@
     <Content Include="dist\fonts\FontAwesome.otf" />
     <Content Include="assets\fonts\PorscheNextTT-Regular.ttf" />
     <Content Include="assets\fonts\PorscheNextTT-Thin.ttf" />
+    <Content Include="assets\fonts\icomoon.eot" />
+    <Content Include="assets\fonts\icomoon.ttf" />
+    <Content Include="assets\fonts\icomoon.woff" />
+    <Content Include="dist\fonts\icomoon.eot" />
+    <Content Include="dist\fonts\icomoon.ttf" />
+    <Content Include="dist\fonts\icomoon.woff" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\ProdSmarterAspProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
