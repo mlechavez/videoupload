@@ -158,7 +158,7 @@ input, select, textarea {
 #footer-nav {
   li{
     a{
-      color:#fff;
+      color: #fff;
       &:hover{
         color: $brand-primary;
       }
@@ -253,20 +253,31 @@ input, select, textarea {
   content: "\e901";
 }
 
-.icon {  
+.icon {
+  position:relative;
   display: inline-block;
   text-decoration: none;
-  
-  color: #000;
-  width: 50px;
-  height: 50px;
-  margin-right: 4px;
+  width: 33px;
+  height: 33px;
+  font-size: 33px;      
+  //border: 1px solid yellow;  
 }
 
 .icon-facebook:before, .icon-instagram:before {
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
-  font-size: 50px;
-  color: #000;
+  position: relative;
+  top: -10px;  
+  display: inline-block;
+  width: 33px;
+  height: 33px;
+  vertical-align: middle;
+  color: #fff;
+  //border: 1px solid red;
 }
+
+.icon-instagram:before {  
+  margin-left: 2px;
+  top: -13px;
+  
+}
+
+
