@@ -4,24 +4,40 @@
     ViewBag.Title = "New activity";
 }
 
-<h2>New System Access</h2>
-@using (Html.BeginForm("new", "activities", FormMethod.Post))
-{
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model=>model.Type)
-        @Html.TextBoxFor(model => model.Type, new { @class = "form-control input-sm", autofocus = "autofocus", required = "required" })
-        @Html.ValidationMessageFor(model=>model.Type, "", new { @class = "text-danger" })
+<div class="container-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-4">
+                <h2>New System Access</h2>
+                @using (Html.BeginForm("new", "activities", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Type)
+                        @Html.TextBoxFor(model => model.Type, new { @class = "form-control input-sm", autofocus = "autofocus", required = "required" })
+                        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Value)
+                        @Html.TextBoxFor(model => model.Value, new { @class = "form-control input-sm", required = "required" })
+                        @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description)
+                        @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-sm", required = "required" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-default">
+                            <i class="fa fa-angle-right"></i> &nbsp;Add
+                        </button>
+                    </div>
+                    
+                }
+                <p>
+                    <a href="@Url.Action("list", "activities")" class="btn btn-default"> <i class="fa fa-angle-right"></i> &nbsp;Back to list of activities</a>
+                </p>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Value)
-        @Html.TextBoxFor(model => model.Value, new { @class = "form-control input-sm", required = "required" })
-        @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Description)
-        @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-sm", required = "required" })
-        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-    </div>
-    <button type="submit" class="btn btn-warning">Add</button>
-}
+</div>
