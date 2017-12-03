@@ -164,8 +164,8 @@ namespace VideoUpload.Web.Controllers
                     //for conversion
                     var ffMpeg = new FFMpegConverter();
 
-
-                    //I saved the exe file of the converter in this path.
+                    
+                    //Set the path of the exe of FFMpeg
                     ffMpeg.FFMpegToolPath = videoPath;
 
                     //create a file instance 
