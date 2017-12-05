@@ -38,17 +38,15 @@
 
 @if (Model.IsApproved)
 {
-  if (User.Identity.Name == Model.User.UserName)
+    //only the owner of the posts and CanSend video claim can send Email and SMS
+  if (User.Identity.Name == Model.User.UserName || CurrentUser.HasClaim("Video", "CanSend"))
   {
     <div class="well text-center">
       <p>Send via:</p>
 
       <p>
         <a href="@Url.Action("send", new { postID = Model.PostID, sendingType = "email" })" class="btn btn-default"><i class="fa fa-angle-right"></i> &nbsp;Email</a>
-          <a href="@Url.Action("send", new { postID = Model.PostID, sendingType = "sms" })" class="btn btn-default"><i class="fa fa-angle-right"></i> &nbsp;Sms</a>
-
-        @*@Html.ActionLink("Email", "send", new { postID = Model.PostID, sendingType = "email" }, new { @class = "btn btn-default" })
-        @Html.ActionLink("Sms", "send", new { postID = Model.PostID, sendingType = "sms" }, new { @class = "btn btn-default" })*@
+          <a href="@Url.Action("send", new { postID = Model.PostID, sendingType = "sms" })" class="btn btn-default"><i class="fa fa-angle-right"></i> &nbsp;Sms</a>       
       </p>
     </div>
   }
