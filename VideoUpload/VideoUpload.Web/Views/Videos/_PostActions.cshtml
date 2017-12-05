@@ -39,7 +39,7 @@
 @if (Model.IsApproved)
 {
     //only the owner of the posts and CanSend video claim can send Email and SMS
-  if (User.Identity.Name == Model.User.UserName || CurrentUser.HasClaim("Video", "CanSend"))
+  if (User.Identity.Name == Model.User.UserName || CurrentUser.HasClaim("Approval", "CanApproveVideo"))
   {
     <div class="well text-center">
       <p>Send via:</p>
