@@ -18,7 +18,9 @@ namespace VideoUpload.Web.Factories.FactoryMethods
                 case "disapproved-videos":
                     _videoArchive = new DisapprovedVideosManager(UnitOfWork);
                     break;
-
+                case "pending-approvals":
+                    _videoArchive = new PendingApprovalsManager(UnitOfWork);
+                    break;
                 default:                
                     _videoArchive = new ApprovedVideosManager(UnitOfWork);
                     break;

@@ -9,6 +9,7 @@
           @if (User.Identity.IsAuthenticated)
           {
             <li><a href="@Url.Action("posts","videos")">Videos</a></li>
+            <li><a href="@Url.Action("archives","videos")">Archives</a></li>
           }
         </ul>
       </div>

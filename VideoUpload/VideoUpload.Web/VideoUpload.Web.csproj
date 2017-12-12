@@ -17,7 +17,7 @@
     <AssemblyName>VideoUpload.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44318</IISExpressSSLPort>
+    <IISExpressSSLPort>44390</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -810,6 +810,7 @@
     <Compile Include="Factories\FactoryMethods\ConcreteVideoArchiveFactory.cs" />
     <Compile Include="Factories\FactoryMethods\DisapprovedVideosManager.cs" />
     <Compile Include="Factories\FactoryMethods\IVideoArchive.cs" />
+    <Compile Include="Factories\FactoryMethods\PendingApprovalsManager.cs" />
     <Compile Include="Factories\FactoryMethods\VideoArchiveFactoryBase.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
