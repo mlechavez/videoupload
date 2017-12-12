@@ -1,6 +1,9 @@
 @model VideoUpload.Core.Entities.Post
+
 @{
-  ViewBag.Title = "Details";
+    ViewBag.Title = "Details";
+    string urlFrom = Request.QueryString["urlFrom"];
+    string section = Request.QueryString["section"];
 }
 
 @Html.Partial("_Modal")
@@ -39,6 +42,14 @@
 
           <br />
 
+         @if (Model.HasPlayedVideo && Model.DatePlayedVideo.HasValue)
+         {
+             <div class="alert alert-info">
+                 <p class="text-center">This has already been viewed by the customer</p>
+             </div>
+         }
+
+
           @if (Model.Histories.Count() > 0)
           {
             <article class="well">
@@ -61,10 +72,18 @@
         <ul class="pager">
           <li class="previous">
             <a href="@Url.Action("posts")">
-              <i class="fa fa-angle-left"></i> &nbsp;&nbsp; Back to list
+              <i class="fa fa-angle-right"></i> &nbsp;&nbsp; Back to Home Page
             </a>
           </li>
         </ul>
+
+        @if (!string.IsNullOrWhiteSpace(urlFrom) && !string.IsNullOrWhiteSpace(section))
+        {
+            <a href="@Url.Action("archiveBy", "videos", new { archiveBy = section})" class="btn btn-default">
+                <i class="fa fa-angle-right"></i> &nbsp; &nbsp; Back to Archive List
+            </a>
+        }
+        
 
       </div>
       <div class="col-md-4 col-sm-4">

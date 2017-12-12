@@ -1,0 +1,54 @@
+﻿@using VideoUpload.Web.Models.Videos
+@model ArchiveByViewModel
+
+@{
+    ViewBag.Title = "Archive";
+
+    string archiveType = ViewData["archiveBy"].ToString().Replace('-', ' ');
+}
+
+<div class="container-wrapper">
+    <div class="container">
+
+        <h2>Archives: @archiveType</h2>
+
+        @foreach (var group in Model)
+        {
+            <p class="lead">@group.Key.Value.ToLongDateString()</p>
+
+            <div class="row">
+                
+                @foreach (var post in group)
+                {
+                    <div class="col-md-3 hidden-xs hidden-sm">
+                        <div class="thumbnail">
+                            <a href="@Url.Action("post", new {
+            year = post.DateUploaded.Year,
+            month = post.DateUploaded.Month,
+            postID = post.PostID,
+            plateNo = post.PlateNumber, urlFrom = "archives", section = ViewData["archiveBy"] })">
+                                <img src="@Url.Content($"~/uploads/thumbnails/{post.Attachments.First().ThumbnailFileName}")" />
+                            </a>
+                            <div class="caption">
+                                <h3>@post.PlateNumber</h3>
+                                <p><i class="fa fa-pencil-square-o"></i>&nbsp; @post.User.UserName</p>
+                                <p>@Html.Raw(post.Description)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="visible-xs visible-sm col-xs-12">
+                        <a href="@Url.Action("post", new {
+            year = post.DateUploaded.Year,
+            month = post.DateUploaded.Month,
+            postID = post.PostID,
+            plateNo = post.PlateNumber, urlFrom = "archives", section = ViewData["archiveBy"]})">@post.PlateNumber - @post.User.UserName</a>
+                    </div>                                        
+                }                
+            </div>
+            <br/><br/>
+        }
+        @Html.Partial("_Pager2", Model)
+    </div>
+</div>
+

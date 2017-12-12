@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using VideoUpload.Core;
 using VideoUpload.Core.Entities;
 using VideoUpload.Web.Common;
+using VideoUpload.Web.Factories.FactoryMethods;
 using VideoUpload.Web.Models;
 using VideoUpload.Web.Models.Identity;
 using VideoUpload.Web.Models.Videos;
@@ -654,5 +655,27 @@ namespace VideoUpload.Web.Controllers
             return Json(new { success = success });
         }
 
+        [Route("archives/list")]
+        public ActionResult Archives()
+        {
+            return View();
+        }
+
+        [Route("archives/{archiveBy}")]
+        public async Task<ActionResult> ArchiveBy(string archiveBy, int? page)
+        {
+            if (string.IsNullOrEmpty(archiveBy)) return View("ResourceNotFound");
+            
+            ConcreteVideoArchiveFactory factory = new ConcreteVideoArchiveFactory(_uow);
+            IVideoArchive videoArchive = factory.GetVideoArchive(archiveBy);
+
+            var videoArchiveList = await videoArchive.GetArchiveAsync(page??1, 30);
+            
+            ViewData["archiveBy"] = archiveBy;
+
+            ArchiveByViewModel viewModel = new ArchiveByViewModel(videoArchiveList, videoArchiveList.Count, page ?? 1, 30);
+
+            return View(viewModel);
+        }
     }
 }

@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Archives";
+}
+
+<div class="container-wrapper">
+    <div class="container">
+        <h2>Archives</h2>
+
+        <ul>
+            <li><a href="@Url.Action("archiveby", "videos", new { archiveBy = "approved-videos" })">Approved videos</a></li>
+            <li><a href="@Url.Action("archiveby", "videos", new { archiveBy = "disapproved-videos" })">Disapproved videos</a></li>
+            <li><a href="@Url.Action("archiveby", "videos", new { archiveBy = "pending-approvals" })">Pending Approvals</a></li>
+        </ul>
+    </div>
+</div>
+

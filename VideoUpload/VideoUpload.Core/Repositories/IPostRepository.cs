@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using VideoUpload.Core.Entities;
@@ -45,5 +47,14 @@ namespace VideoUpload.Core.Repositories
         List<Post> GetAllForApprovalsByBranchID(int branchID);
         Task<List<Post>> GetAllForApprovalsByBranchIDAsync(int branchID);
         Task<List<Post>> GetAllForApprovalsByBranchIDAsync(int branchID, CancellationToken cancellationToken);
+
+        List<IGrouping<DateTime?, Post>> PageByApprovedVideosGroupedByDay(int pageNo, int pageSize);
+        Task<List<IGrouping<DateTime?, Post>>> PageByApprovedVideosGroupedByDayAsync(int pageNo, int pageSize);
+
+        List<IGrouping<DateTime?, Post>> PageByDisapprovedVideosGroupedByDay(int pageNo, int pageSize);
+        Task<List<IGrouping<DateTime?, Post>>> PageByDisapprovedVideosGroupedByDayAsync(int pageNo, int pageSize);
+
+        List<IGrouping<DateTime?, Post>> PageByPendingApprovalsGroupedByDay(int pageNo, int pageSize);
+        Task<List<IGrouping<DateTime?, Post>>> PageByPendingApprovalsGroupedByDayAsync(int pageNo, int pageSize);
     }
 }

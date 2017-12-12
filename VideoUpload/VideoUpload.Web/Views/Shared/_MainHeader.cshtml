@@ -17,7 +17,7 @@
           <li class="@Html.IsActive("about","home")"><a href="@Url.Action("about","home")">About</a></li>
           <li class="@Html.IsActive("contact","home")"><a href="@Url.Action("contact","home")">Contact</a></li>*@
           <li class="@Html.IsActive("posts","videos")"><a href="@Url.Action("posts","videos")">Posts</a></li>
-          
+          <li class="@Html.IsActive("archives","videos")"><a href="@Url.Action("archives","videos")">Archives</a></li>          
         </ul>
 
         @if (User.Identity.IsAuthenticated)

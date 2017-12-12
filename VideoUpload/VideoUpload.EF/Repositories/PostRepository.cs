@@ -54,8 +54,8 @@ namespace VideoUpload.EF.Repositories
         
         public List<Post> PageAllByApprovedVideos(int pageNo, int pageSize)
         {
-            return Set.Where(x => x.IsApproved)
-                       .OrderByDescending(x => x.DateUploaded)
+            return Set.Where(x => x.IsApproved && x.HasApproval)
+                       .OrderByDescending(x => x.DateApproved)                       
                        .Take(pageSize)
                        .ToList();
         }
@@ -63,28 +63,29 @@ namespace VideoUpload.EF.Repositories
         public int GetTotalPostsByApprovedVideos()
         {
             return Set
-                    .Where(approved => approved.IsApproved)
+                    .Where(approved => approved.IsApproved && approved.HasApproval)
                     .Count();
         }
 
         public Task<int> GetTotalPostsByApprovedVideosAsync()
         {
             return Set
-                    .Where(approved => approved.IsApproved)
+                    .Where(approved => approved.IsApproved && approved.HasApproval)
                     .CountAsync();
         }
 
         public Task<List<Post>> PageAllByApprovedVideosAsync(int pageNo, int pageSize)
         {
-            return Set.Where(x => x.IsApproved)
-                      .OrderByDescending(x => x.DateUploaded)
+            return Set.Where(x => x.IsApproved && x.HasApproval)                      
+                      .OrderByDescending(x => x.DateApproved)   //This must be called first before calling skip method
                       .Skip(pageNo * pageSize)
                       .Take(pageSize)
                       .ToListAsync();
         }
+
         public List<Post> PageAllByPlayedVideos(int pageNo, int pageSize)
         {
-            return Set.Where(x => x.IsApproved && x.HasPlayedVideo)
+            return Set.Where(x => x.IsApproved && x.HasPlayedVideo)                      
                       .OrderByDescending(x => x.DatePlayedVideo)
                       .Skip(pageNo * pageSize)
                       .Take(pageSize)
@@ -98,16 +99,18 @@ namespace VideoUpload.EF.Repositories
                       .Take(pageSize)
                       .ToListAsync();
         }
+
         public int GetTotalPostsByPlayedVideos()
         {
             return Set
-                    .Where(video => video.HasPlayedVideo)
+                    .Where(video => video.HasPlayedVideo && video.HasApproval && video.IsApproved)
                     .Count();
         }
+
         public Task<int> GetTotalPostsByPlayedVideosAsync()
         {
             return Set
-                    .Where(video => video.HasPlayedVideo)
+                    .Where(video => video.HasPlayedVideo && video.HasApproval && video.IsApproved)
                     .CountAsync();
         }
 
@@ -128,7 +131,6 @@ namespace VideoUpload.EF.Repositories
                     .Skip(pageNo * pageSize)
                     .Take(pageSize)                    
                     .ToList();
-
         }
 
         public Task<List<Post>> PageAllByPostedOnAsync(int pageNo, int pageSize)
@@ -180,6 +182,7 @@ namespace VideoUpload.EF.Repositories
                     .Take(pageSize)                    
                     .ToList();
         }
+
         public Task<List<Post>> PageAllByUserIDAsync(string userID, int pageNo, int pageSize)
         {
             return Set
@@ -302,6 +305,90 @@ namespace VideoUpload.EF.Repositories
             return Set
                     .Where(post => !post.HasApproval && post.BranchID.Equals(branchID))
                     .ToListAsync(cancellationToken);
+        }
+
+        public List<IGrouping<DateTime?, Post>> PageByApprovedVideosGroupedByDay(int pageNo, int pageSize)
+        {
+            return Set
+                    .Include(u => u.User)
+                    .Include(a => a.Attachments)
+                    .Where(post => post.IsApproved && post.HasApproval)
+                    .OrderByDescending(o=>o.DateApproved)
+                    .Skip((pageNo - 1) * pageSize)
+                    .Take(pageSize)
+                    .GroupBy(post => DbFunctions.TruncateTime(post.DateApproved))
+                    .OrderByDescending(post => post.Key)
+                    .ToList();
+        }
+
+        public Task<List<IGrouping<DateTime?, Post>>> PageByApprovedVideosGroupedByDayAsync(int pageNo, int pageSize)
+        {
+            return Set
+                    .Include(u=>u.User)
+                    .Include(a => a.Attachments)
+                    .Where(post => post.IsApproved && post.HasApproval)
+                    .OrderByDescending(o => o.DateApproved)
+                    .Skip((pageNo - 1) * pageSize)
+                    .Take(pageSize)
+                    .GroupBy(post => DbFunctions.TruncateTime(post.DateApproved))
+                    .OrderByDescending(post => post.Key)
+                    .ToListAsync();
+        }
+
+        public List<IGrouping<DateTime?, Post>> PageByDisapprovedVideosGroupedByDay(int pageNo, int pageSize)
+        {
+            return Set
+                    .Include(u => u.User)
+                    .Include(a => a.Attachments)
+                    .Where(post => !post.IsApproved && post.HasApproval)
+                    .OrderByDescending(o => o.DateUploaded)
+                    .Skip((pageNo - 1) * pageSize)
+                    .Take(pageSize)
+                    .GroupBy(post => DbFunctions.TruncateTime(post.DateUploaded))
+                    .OrderByDescending(post => post.Key)
+                    .ToList();
+        }
+
+        public Task<List<IGrouping<DateTime?, Post>>> PageByDisapprovedVideosGroupedByDayAsync(int pageNo, int pageSize)
+        {
+            return Set
+                    .Include(u => u.User)
+                    .Include(a => a.Attachments)
+                    .Where(post => !post.IsApproved && post.HasApproval)
+                    .OrderByDescending(o => o.DateUploaded)
+                    .Skip((pageNo - 1) * pageSize)
+                    .Take(pageSize)
+                    .GroupBy(post => DbFunctions.TruncateTime(post.DateUploaded))
+                    .OrderByDescending(post => post.Key)
+                    .ToListAsync();
+        }
+
+        public List<IGrouping<DateTime?, Post>> PageByPendingApprovalsGroupedByDay(int pageNo, int pageSize)
+        {
+            return Set
+                    .Include(u => u.User)
+                    .Include(a => a.Attachments)
+                    .Where(post => !post.IsApproved && !post.HasApproval)
+                    .OrderByDescending(o => o.DateUploaded)
+                    .Skip((pageNo - 1) * pageSize)
+                    .Take(pageSize)
+                    .GroupBy(post => DbFunctions.TruncateTime(post.DateUploaded))
+                    .OrderByDescending(post => post.Key)
+                    .ToList();
+        }
+
+        public Task<List<IGrouping<DateTime?, Post>>> PageByPendingApprovalsGroupedByDayAsync(int pageNo, int pageSize)
+        {
+            return Set
+                    .Include(u => u.User)
+                    .Include(a => a.Attachments)
+                    .Where(post => !post.IsApproved && !post.HasApproval)
+                    .OrderByDescending(o => o.DateUploaded)
+                    .Skip((pageNo - 1) * pageSize)
+                    .Take(pageSize)
+                    .GroupBy(post => DbFunctions.TruncateTime(post.DateUploaded))
+                    .OrderByDescending(post => post.Key)
+                    .ToListAsync();
         }
     }
 }
