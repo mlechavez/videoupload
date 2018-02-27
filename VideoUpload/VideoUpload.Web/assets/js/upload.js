@@ -89,6 +89,7 @@
             });
 
             xhr.open("post", form.attr('action'), true);
+
             xhr.send(formData);
 
             function completeHandler(message) {

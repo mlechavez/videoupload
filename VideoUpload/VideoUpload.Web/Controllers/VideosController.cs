@@ -21,7 +21,14 @@ namespace VideoUpload.Web.Controllers
     public class VideosController : AppController
     {
         private readonly IUnitOfWork _uow;
-        private readonly UserManager _mgr;
+        private readonly UserManager _mgr;        
+
+        private FFMpegConverter _ffmpeg;
+
+        public FFMpegConverter FFMpeg {
+            get { return _ffmpeg ?? (_ffmpeg = new FFMpegConverter()); }            
+        }
+
 
         public VideosController(IUnitOfWork unitOfWork, UserManager mgr)
         {
@@ -160,50 +167,73 @@ namespace VideoUpload.Web.Controllers
                     {
                         var stream = item.InputStream;
                         stream.CopyTo(fileStream);
-                    }
-
-                    //for conversion
-                    var ffMpeg = new FFMpegConverter();
-
-                    
-                    //Set the path of the exe of FFMpeg
-                    ffMpeg.FFMpegToolPath = videoPath;
+                    }                                                          
 
                     //create a file instance 
                     var file = new FileInfo(videoToSaveBeforeConvertingPath);
 
                     //check if the file exists after saving the video                    
                     if (file.Exists)
-                    {
-                        //codec for mp4
-                        var convertSettings = new ConvertSettings
-                        {
-                            AudioCodec = "aac",
-                            VideoCodec = "h264"
-                        };
-                        //set the resolution
-                        convertSettings.SetVideoFrameSize(1280, 720);
+                    {                        
+                        try {
 
-                        //convert the saved file
-                        //attachment.FileUrl is the new output filename 
-                        ffMpeg.ConvertMedia(videoToSaveBeforeConvertingPath, Format.mp4, attachment.FileUrl, Format.mp4, convertSettings);
+                            //Set the path of the exe of FFMpeg
+                            FFMpeg.FFMpegToolPath = videoPath;
 
-                        //get the thumbnail of the video for 
-                        ffMpeg.GetVideoThumbnail(attachment.FileUrl, attachment.ThumbnailUrl);
+                            //codec for mp4
+                            var convertSettings = new ConvertSettings {
+                                AudioCodec = "aac",
+                                VideoCodec = "h264"
+                            };
 
-                        //Once the conversion is successful delete the original file
-                        file.Delete();
+                            //set the resolution
+                            convertSettings.SetVideoFrameSize(1280, 720);
 
-                        //add the attachment to post entity
-                        post.Attachments.Add(attachment);
+                            //convert the saved file
+                            //attachment.FileUrl is the new output filename 
+                            FFMpeg.ConvertMedia(videoToSaveBeforeConvertingPath, Format.mp4, attachment.FileUrl, Format.mp4, convertSettings);
+                            
+                            //get the thumbnail of the video for 
+                            FFMpeg.GetVideoThumbnail(attachment.FileUrl, attachment.ThumbnailUrl);
+
+                            //Once the conversion is successful delete the original file
+                            file.Delete();
+
+                            //add the attachment to post entity
+                            post.Attachments.Add(attachment);
+
+                        } catch (Exception ex) {
+
+                            if (!FFMpeg.Stop()) {
+                                FFMpeg.Abort();
+                            }
+
+                            //delete the file even the conversion is not success
+                            //they are going to upload again the same file
+                            file.Delete();
+
+                            _uow.AppLogs.Add(new AppLog {
+                                Message = ex.Message,
+                                Type = ex.GetType().Name,
+                                Url = Request.Url.ToString(),
+                                Source = (ex.InnerException != null) ? ex.InnerException.Message : string.Empty,
+                                UserName = User.Identity.Name,
+                                LogDate = DateTime.UtcNow
+                            });
+                            await _uow.SaveChangesAsync();
+
+                            return Json(new {
+                                success = success,
+                                message = "There's an error converting your video. Please try to upload later."
+                            });
+                        }                        
                     }
-                }
-
+                }                
 
                 //find the first attachment                
                 var attached = post.Attachments.FirstOrDefault();
 
-                //if the attachment is not null save it else throw an error
+                //if the attachment is not null save it else throw an error message
                 if (attached != null)
                 {
                     //add the post entity and save
@@ -265,13 +295,21 @@ namespace VideoUpload.Web.Controllers
 
                             success = true;
 
-                            return Json(new { success = success, message = "Uploaded successfully" });
+                            return Json(new { success = success,
+                                message = "Uploaded successfully but there's an issue sending email." });
                         }
                     }
+
+                    //make sure to abort any process
+                    if (!FFMpeg.Stop()) {
+                        FFMpeg.Abort();
+                    }
+
                     success = true;
 
-                    return Json(new { success = success, message = "Uploaded successfully" });
+                    return Json(new { success = success, message = "Uploaded successfully"});
                 }
+
                 ModelState.AddModelError("", "Attached has not been succesfully uploaded");
             }
             return Json(new { success = success, message = "Something went wrong. Please try again" });
