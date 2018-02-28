@@ -17,7 +17,7 @@
     <AssemblyName>VideoUpload.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44390</IISExpressSSLPort>
+    <IISExpressSSLPort>44318</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -740,49 +740,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="Uploads\Thumbnails\00d801db-7c3a-4016-b5ac-44163a352054.jpeg" />
-    <Content Include="Uploads\Thumbnails\014f87f0-8547-48bf-a3b6-91cd468bfe2d.jpeg" />
-    <Content Include="Uploads\Thumbnails\0308258a-f828-4df0-b4ee-ee800424885a.jpeg" />
-    <Content Include="Uploads\Thumbnails\0676c048-08ac-45b2-b342-6c4d324ca5e6.jpeg" />
-    <Content Include="Uploads\Thumbnails\107ec2de-a558-4476-acc0-5eee5b5e64ab.jpeg" />
-    <Content Include="Uploads\Thumbnails\16022cdb-043a-4550-9d3f-2123834908f9.jpeg" />
-    <Content Include="Uploads\Thumbnails\2a3fad0a-6aea-41f0-8ae6-09a0d9c20c53.jpeg" />
-    <Content Include="Uploads\Thumbnails\2a9f3151-e934-402e-ae22-f08f78a5bb73.jpeg" />
-    <Content Include="Uploads\Thumbnails\2f751386-f1ed-491f-a7c1-ecc767cc845a.jpeg" />
-    <Content Include="Uploads\Thumbnails\343368f0-5b93-42fe-b927-065be2c1c41b.jpeg" />
-    <Content Include="Uploads\Thumbnails\3a69b43c-b29c-40e0-957f-16a76fa92005.jpeg" />
-    <Content Include="Uploads\Thumbnails\4952da68-a47e-44df-919d-9346141da957.jpeg" />
-    <Content Include="Uploads\Thumbnails\4a0282f3-741b-4b1c-9be0-b42440e76d1f.jpeg" />
-    <Content Include="Uploads\Thumbnails\4a70d647-6f61-41a0-b035-1430eae04bbf.jpeg" />
-    <Content Include="Uploads\Thumbnails\4f67bef7-7c78-457d-9392-469edbe2466f.jpeg" />
-    <Content Include="Uploads\Thumbnails\5320954c-07c4-4cfb-9645-79b6102aa864.jpeg" />
-    <Content Include="Uploads\Thumbnails\53bd7ebb-2949-4d32-b698-39e838a0c59d.jpeg" />
-    <Content Include="Uploads\Thumbnails\569d695c-0dec-4a61-a564-fda7b0787df5.jpeg" />
-    <Content Include="Uploads\Thumbnails\577e53e4-5d4d-413f-bdf2-40d85f282d4a.jpeg" />
-    <Content Include="Uploads\Thumbnails\6e66622d-ac8f-43dd-8534-dca958f0f97e.jpeg" />
-    <Content Include="Uploads\Thumbnails\997d56b0-f51b-4117-969c-a27b87205f63.jpeg" />
-    <Content Include="Uploads\Thumbnails\99d29a9c-6720-4aac-a126-577a1fd803c1.jpeg" />
-    <Content Include="Uploads\Thumbnails\9a135962-f141-43c7-809e-666858a07420.jpeg" />
-    <Content Include="Uploads\Thumbnails\9a4d7f21-bbee-43c6-bb49-75e6ce92cc4f.jpeg" />
-    <Content Include="Uploads\Thumbnails\9b32b731-e54b-4533-8d05-241915577e89.jpeg" />
-    <Content Include="Uploads\Thumbnails\a8dfbd18-2f83-417e-b70a-a6367e293185.jpeg" />
-    <Content Include="Uploads\Thumbnails\a94ddc76-2f64-4d33-9a94-14c96ccdefcc.jpeg" />
-    <Content Include="Uploads\Thumbnails\ac313b73-4708-46cb-b6db-28504516f463.jpeg" />
-    <Content Include="Uploads\Thumbnails\bf800abc-e934-4333-8a58-f728644b8a55.jpeg" />
-    <Content Include="Uploads\Thumbnails\c4966d6b-13d9-4015-9f3f-9c88bfebe200.jpeg" />
-    <Content Include="Uploads\Thumbnails\c5dabb79-c08c-4e90-8f97-e8b1ee0e2c6d.jpeg" />
-    <Content Include="Uploads\Thumbnails\cbad4192-828b-4926-9616-2a4bdb7525fb.jpeg" />
-    <Content Include="Uploads\Thumbnails\d0660571-c181-4a1a-a7fe-ea6c3efc7f73.jpeg" />
-    <Content Include="Uploads\Thumbnails\d0c0009c-a5d7-4eae-b3a5-ede79f741c5e.jpeg" />
-    <Content Include="Uploads\Thumbnails\d2a1685e-58f6-40d6-8ca0-60b89cfe42cf.jpeg" />
-    <Content Include="Uploads\Thumbnails\d4dbf779-7b6a-4026-95f8-c81445daa88a.jpeg" />
-    <Content Include="Uploads\Thumbnails\d73147a0-e843-4c14-89ee-834e85eb31b0.jpeg" />
-    <Content Include="Uploads\Thumbnails\d9fe5808-e644-467a-af25-2e6311ef58ae.jpeg" />
-    <Content Include="Uploads\Thumbnails\dfe5992b-9047-4e40-a92c-7f9b3ca27dec.jpeg" />
-    <Content Include="Uploads\Thumbnails\e4fcf127-c58d-4846-8a73-443e55dfdab5.jpeg" />
-    <Content Include="Uploads\Thumbnails\ec558dbc-6962-4ee3-af72-00af6f7a536d.jpeg" />
-    <Content Include="Uploads\Thumbnails\f49f8501-b017-4310-aad2-5874f1a8eb73.jpeg" />
-    <Content Include="Uploads\Thumbnails\f6e8f4a4-66f1-4c01-8de7-9fefc73d00a9.jpeg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -955,6 +912,7 @@
   <ItemGroup>
     <Folder Include="assets\css\" />
     <Folder Include="bower_components\bootstrap-sass\assets\images\" />
+    <Folder Include="Uploads\Thumbnails\" />
     <Folder Include="Uploads\Videos\" />
   </ItemGroup>
   <ItemGroup>

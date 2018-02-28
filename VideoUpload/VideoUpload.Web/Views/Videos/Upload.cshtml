@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(x => x.VideoImage)
-                        @Html.TextBoxFor(x => x.VideoImage, new { type = "file", @class = "btn btn-default btn-sm", required = "required" })
+                        @Html.TextBoxFor(x => x.VideoImage, new { type = "file", @class = "btn btn-default btn-sm", required = "required", accept = "image/*" })
                         @Html.ValidationMessageFor(x => x.VideoImage, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
