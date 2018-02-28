@@ -7,40 +7,47 @@
 @Html.Partial("_Modal")
 
 <section class="container-wrapper">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <a href="@Url.Action("posts")" id="anchorBackToList" class="btn btn-default"> Back to post</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <a href="@Url.Action("posts")" id="anchorBackToList" class="btn btn-default"> Back to post</a>
 
-        <h2>Upload a video</h2>
+                <h2>Upload a video</h2>
 
-        <form id="frmUpload" method="post" enctype="multipart/form-data" action="@Url.Action("upload", "videos")">
+                <form id="frmUpload" method="post" enctype="multipart/form-data" action="@Url.Action("upload", "videos")">
 
-          @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-          <div class="form-group">
-            <label for="Title">Plate number</label>
-            @Html.TextBoxFor(x => x.PlateNumber, new { @class = "form-control", required = "required", autofocus = "autofocus" })
-            @Html.ValidationMessageFor(x => x.PlateNumber, "", new { @class = "text-danger" })
-          </div>
-          <div class="form-group">
-            @Html.LabelFor(x => x.Description)
-            @Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = 8 })
-            @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
-          </div>
-          <div class="form-group">
-            @Html.TextBoxFor(x => x.Attachments, new { type = "file", @class = "btn btn-default btn-sm", required = "required" })
-            @Html.ValidationMessageFor(x => x.Attachments, "", new { @class = "text-danger" })
-          </div>
-          <div class="form-group">
-            <button id="btnSubmit" type="submit" class="btn btn-default">
-              <i class="fa fa-angle-right"></i> &nbsp;&nbsp;Upload</button>
-          </div>
-        </form>
-      </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="Title">Plate number</label>
+                        @Html.TextBoxFor(x => x.PlateNumber, new { @class = "form-control", required = "required", autofocus = "autofocus" })
+                        @Html.ValidationMessageFor(x => x.PlateNumber, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Description)
+                        @Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = 8 })
+                        @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">                        
+                        @Html.LabelFor(x => x.Attachment)
+                        @Html.TextBoxFor(x => x.Attachment, new { type = "file", @class = "btn btn-default btn-sm", required = "required" })
+                        @Html.ValidationMessageFor(x => x.Attachment, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.VideoImage)
+                        @Html.TextBoxFor(x => x.VideoImage, new { type = "file", @class = "btn btn-default btn-sm", required = "required" })
+                        @Html.ValidationMessageFor(x => x.VideoImage, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <button id="btnSubmit" type="submit" class="btn btn-default">
+                            <i class="fa fa-angle-right"></i> &nbsp;&nbsp;Upload
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 
-@section Script {    
+@section Script {
     <script src="~/dist/js/upload.js"></script>
 }

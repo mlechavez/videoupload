@@ -3,7 +3,8 @@
     var controls = {
         frmUpload: $('#frmUpload'),
         appModal: $('#appModal'),
-        txtFile: $('#Attachments'),
+        videoFile: $('#Attachment'),
+        videoImage: $('#VideoImage'),
         btnSubmit: $('#btnSubmit'),
         modalContent: $('#appModal .modal-content'),
         mceContainer: $('.mce-container')
@@ -27,15 +28,14 @@
 
         controls.frmUpload.on('submit', function (e) {
             e.preventDefault();
-            var form = $(this);
+            var form = $(this),
+                videoFile = controls.videoFile.get(0).files[0],
+                videoImage = controls.videoImage.get(0).files[0],
+                formData = new FormData();
+            
 
-            var files = controls.txtFile.get(0).files;
-
-            var formData = new FormData();
-
-            for (var i = 0; i < files.length; i++) {
-                formData.append("Attachments", files[i]);
-            }
+            formData.append("Attachment", videoFile);
+            formData.append("VideoImage", videoImage);
 
             $("input[type='text'").each(function (index, value) {
                 formData.append($(value).attr('name'), $(value).val());
@@ -80,7 +80,7 @@
                     .html(widthSize);
 
                 if (widthSize === "100%") {
-                    controls.appModal.find('.modal-title').html('Your video is now being converted. Please do not interrupt');
+                    controls.appModal.find('.modal-title').html('Please wait for a few moment to complete. Please do not interrupt');
                 }
 
                 $('#btnSubmit').html(

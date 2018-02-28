@@ -94,21 +94,46 @@ namespace VideoUpload.Web.Controllers
             {
                 var countOfAttachments = 0;
 
-                var contentTypeArray = new string[]
+                var videoFileContentTypeArray = new string[] { "video/mp4" };
+
+                var videoImageContentTypeArray = new string[]
                 {
-                    "video/mp4"
-                    //"video/avi",
-                    //"application/x-mpegURL",
-                    //"video/MP2T",
-                    //"video/3gpp",
-                    //"video/quicktime",
-                    //"video/x-msvideo",
-                    //"video/x-ms-wmv"
-                };
+                    "image/jpg",
+                    "image/jpeg",
+                    "image/png"                    
+                };                
+
+                if (viewModel.Attachment == null || viewModel.Attachment.ContentLength == 0) {                   
+
+                    return Json(new { success = success, message = "Video file is required" });
+                }
+
+                if (viewModel.VideoImage == null || viewModel.VideoImage.ContentLength == 0) {
+
+                    return Json(new { success = success, message = "Video image is required" });
+                }
+                
+                if (!videoFileContentTypeArray.Contains(viewModel.Attachment.ContentType)) {
+
+                    //ModelState.AddModelError("", "video file must be an mp4 format");
+
+                    return Json(new { success = success, message = "Video file must be an mp4 format" });
+                }
+                
+                if (!videoImageContentTypeArray.Contains(viewModel.VideoImage.ContentType)) {
+
+                    //ModelState.AddModelError("", "video image format must be jpg, jpeg and png");
+
+                    return Json(new { success = success, message = "video image format must be jpg, jpeg and png" });
+                }
+
+                if (viewModel.Attachment.ContentLength > 200000000) {
+
+                    return Json(new { success = success, message = "video file size should be below 200MB" });
+                }
 
                 //create new post entity
-                var post = new Post
-                {
+                var post = new Post {
                     PlateNumber = viewModel.PlateNumber,
                     Description = HttpUtility.HtmlDecode(viewModel.Description),
                     UserID = User.Identity.GetUserId(),
@@ -116,201 +141,101 @@ namespace VideoUpload.Web.Controllers
                     BranchID = CurrentUser.BranchID
                 };
 
-                // I removed the foreach loop
-                // and use this instead since the posted file will always be one
-                // and for performance reason
-                var item = viewModel.Attachments.FirstOrDefault();
+                //increment the count of attachment                    
+                countOfAttachments++;
 
-                //check if the item is null
-                //or else throw an error
-                if (item != null)
-                {
-                    //check if the content type is an MP4                        
-                    if (!contentTypeArray.Contains(item.ContentType))
+                //get the fileName extension 
+                var videoExt = Path.GetExtension(viewModel.Attachment.FileName);
+                //get the fileName
+                var videoFileName = Path.GetFileName(viewModel.Attachment.FileName);
+
+                //set the video path
+                var videoPath = Server.MapPath("~/Uploads/Videos");
+                //set the thumbnail path
+                var thumbnailPath = Server.MapPath("~/Uploads/Thumbnails");
+
+                //create new entity for each attachment
+                var attachment = new PostAttachment();
+
+                attachment.PostAttachmentID = Guid.NewGuid().ToString();
+                attachment.FileName = attachment.PostAttachmentID + videoExt;
+                attachment.MIMEType = viewModel.Attachment.ContentType;
+                attachment.FileSize = viewModel.Attachment.ContentLength;
+                attachment.FileUrl = Path.Combine(videoPath, attachment.FileName);
+                attachment.DateCreated = viewModel.DateUploaded;
+                attachment.AttachmentNo = $"Attachment {countOfAttachments.ToString()}";
+                attachment.ThumbnailFileName = attachment.PostAttachmentID + ".jpeg";
+                attachment.ThumbnailUrl = Path.Combine(thumbnailPath, attachment.ThumbnailFileName);
+
+                viewModel.Attachment.SaveAs(attachment.FileUrl);
+
+                viewModel.VideoImage.SaveAs(attachment.ThumbnailUrl);
+
+                post.Attachments.Add(attachment);
+
+                //add the post entity and save
+                _uow.Posts.Add(post);
+                await _uow.SaveChangesAsync();
+
+
+                //fetch the end-users who have approval access                    
+                var claims = await _uow.UserClaims.GetAllByClaimTypeAndValueAsync("Approval", "CanApproveVideo");
+
+                if (claims.Count > 0) {
+                    StringBuilder recipients = new StringBuilder();
+
+                    //loop through and create a semicolon separated values
+                    //to be used in sending email notification to the supervisors
+                    claims.ForEach(claim =>
                     {
-                        ModelState.AddModelError("", "video file must be an mp4 format");
+                        recipients.Append(claim.User.Email)
+                          .Append(";");
+                    });
 
-                        return Json(new { success = success, message = "Video file must be an mp4 format" });
-                    }
-
-                    //increment the count of attachment                    
-                    countOfAttachments++;
-
-                    //get the fileName extension 
-                    var videoExt = Path.GetExtension(item.FileName);
-                    //get the fileName
-                    var videoFileName = Path.GetFileName(item.FileName);
-
-                    //set the video path
-                    var videoPath = Server.MapPath("~/Uploads/Videos");
-                    //set the thumbnail path
-                    var thumbnailPath = Server.MapPath("~/Uploads/Thumbnails");
-
-                    //create new entity for each attachment
-                    var attachment = new PostAttachment();
-
-                    attachment.PostAttachmentID = Guid.NewGuid().ToString();
-                    attachment.FileName = attachment.PostAttachmentID + videoExt;
-                    attachment.MIMEType = item.ContentType;
-                    attachment.FileSize = item.ContentLength;
-                    attachment.FileUrl = Path.Combine(videoPath, attachment.FileName);
-                    attachment.DateCreated = viewModel.DateUploaded;
-                    attachment.AttachmentNo = $"Attachment {countOfAttachments.ToString()}";
-                    attachment.ThumbnailFileName = attachment.PostAttachmentID + ".jpeg";
-                    attachment.ThumbnailUrl = Path.Combine(thumbnailPath, attachment.ThumbnailFileName);
-
-                    //concatenate the path and the filename
-                    var videoToSaveBeforeConvertingPath = Path.Combine(videoPath, videoFileName);
-
-                    //save the video
-                    using (var fileStream = System.IO.File.Create(videoToSaveBeforeConvertingPath))
-                    {
-                        var stream = item.InputStream;
-                        stream.CopyTo(fileStream);
-                    }                                                          
-
-                    //create a file instance 
-                    var file = new FileInfo(videoToSaveBeforeConvertingPath);
-
-                    //check if the file exists after saving the video                    
-                    if (file.Exists)
-                    {                        
-                        try {
-
-                            //Set the path of the exe of FFMpeg
-                            FFMpeg.FFMpegToolPath = videoPath;
-
-                            //codec for mp4
-                            var convertSettings = new ConvertSettings {
-                                AudioCodec = "aac",
-                                VideoCodec = "h264"
-                            };
-
-                            //set the resolution
-                            convertSettings.SetVideoFrameSize(1280, 720);
-
-                            //convert the saved file
-                            //attachment.FileUrl is the new output filename 
-                            FFMpeg.ConvertMedia(videoToSaveBeforeConvertingPath, Format.mp4, attachment.FileUrl, Format.mp4, convertSettings);
-                            
-                            //get the thumbnail of the video for 
-                            FFMpeg.GetVideoThumbnail(attachment.FileUrl, attachment.ThumbnailUrl);
-
-                            //Once the conversion is successful delete the original file
-                            file.Delete();
-
-                            //add the attachment to post entity
-                            post.Attachments.Add(attachment);
-
-                        } catch (Exception ex) {
-
-                            if (!FFMpeg.Stop()) {
-                                FFMpeg.Abort();
-                            }
-
-                            //delete the file even the conversion is not success
-                            //they are going to upload again the same file
-                            file.Delete();
-
-                            _uow.AppLogs.Add(new AppLog {
-                                Message = ex.Message,
-                                Type = ex.GetType().Name,
-                                Url = Request.Url.ToString(),
-                                Source = (ex.InnerException != null) ? ex.InnerException.Message : string.Empty,
-                                UserName = User.Identity.Name,
-                                LogDate = DateTime.UtcNow
-                            });
-                            await _uow.SaveChangesAsync();
-
-                            return Json(new {
-                                success = success,
-                                message = "There's an error converting your video. Please try to upload later."
-                            });
-                        }                        
-                    }
-                }                
-
-                //find the first attachment                
-                var attached = post.Attachments.FirstOrDefault();
-
-                //if the attachment is not null save it else throw an error message
-                if (attached != null)
-                {
-                    //add the post entity and save
-                    _uow.Posts.Add(post);
-                    await _uow.SaveChangesAsync();
-
-
-                    //fetch the end-users who have approval access                    
-                    var claims = await _uow.UserClaims.GetAllByClaimTypeAndValueAsync("Approval", "CanApproveVideo");
-
-                    if (claims.Count > 0)
-                    {
-                        StringBuilder recipients = new StringBuilder();
-
-                        //loop through and create a semicolon separated values
-                        //to be used in sending email notification to the supervisors
-                        claims.ForEach(claim =>
-                        {
-                            recipients.Append(claim.User.Email)
-                              .Append(";");
+                    //get the url of the posted video 
+                    //to be included in the email
+                    var url = Request.Url.Scheme + "://" + Request.Url.Authority +
+                        Url.Action("post", new {
+                            year = post.DateUploaded.Year,
+                            month = post.DateUploaded.Month,
+                            postID = post.PostID,
+                            plateNo = post.PlateNumber
                         });
 
-                        //get the url of the posted video 
-                        //to be included in the email
-                        var url = Request.Url.Scheme + "://" + Request.Url.Authority +
-                            Url.Action("post", new
-                            {
-                                year = post.DateUploaded.Year,
-                                month = post.DateUploaded.Month,
-                                postID = post.PostID,
-                                plateNo = post.PlateNumber
-                            });
+                    //send email
+                    try {
+                        await _mgr.CustomSendEmailAsync(
+                        User.Identity.GetUserId(),
+                        "New posted video",
+                        EmailTemplate.GetTemplate(
+                            CurrentUser,
+                            "Supervisors",
+                            "I have posted a new video. Please see the details for approval.",
+                            url),
+                        recipients.ToString());
+                    } catch (SmtpException ex) {
+                        _uow.AppLogs.Add(new AppLog {
+                            Message = ex.Message,
+                            Type = ex.GetType().Name,
+                            Url = Request.Url.ToString(),
+                            Source = (ex.InnerException != null) ? ex.InnerException.Message : string.Empty,
+                            UserName = User.Identity.Name,
+                            LogDate = DateTime.UtcNow
+                        });
+                        await _uow.SaveChangesAsync();
 
-                        //send email
-                        try
-                        {
-                            await _mgr.CustomSendEmailAsync(
-                            User.Identity.GetUserId(),
-                            "New posted video",
-                            EmailTemplate.GetTemplate(
-                                CurrentUser,
-                                "Supervisors",
-                                "I have posted a new video. Please see the details for approval.",
-                                url),
-                            recipients.ToString());
-                        }
-                        catch (SmtpException ex)
-                        {
-                            _uow.AppLogs.Add(new AppLog
-                            {
-                                Message = ex.Message,
-                                Type = ex.GetType().Name,
-                                Url = Request.Url.ToString(),
-                                Source = (ex.InnerException != null) ? ex.InnerException.Message : string.Empty,
-                                UserName = User.Identity.Name,
-                                LogDate = DateTime.UtcNow
-                            });
-                            await _uow.SaveChangesAsync();
+                        success = true;
 
-                            success = true;
-
-                            return Json(new { success = success,
-                                message = "Uploaded successfully but there's an issue sending email." });
-                        }
+                        return Json(new {
+                            success = success,
+                            message = "Uploaded successfully but there's an issue sending email."
+                        });
                     }
-
-                    //make sure to abort any process
-                    if (!FFMpeg.Stop()) {
-                        FFMpeg.Abort();
-                    }
-
-                    success = true;
-
-                    return Json(new { success = success, message = "Uploaded successfully"});
                 }
 
-                ModelState.AddModelError("", "Attached has not been succesfully uploaded");
+                success = true;
+
+                return Json(new { success = success, message = "Uploaded successfully"});                                
             }
             return Json(new { success = success, message = "Something went wrong. Please try again" });
         }
